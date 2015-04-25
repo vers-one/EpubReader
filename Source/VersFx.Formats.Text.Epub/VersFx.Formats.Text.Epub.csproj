@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{313E44F0-4BC2-4A4F-B24B-C29D8FFB7C4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VersFx.Formats.Text.Epub</RootNamespace>
+    <AssemblyName>VersFx.Formats.Text.Epub</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EpubBook.cs" />
+    <Compile Include="EpubContentFile.cs" />
+    <Compile Include="EpubReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Readers\ContentFilesReader.cs" />
+    <Compile Include="Readers\NavigationReader.cs" />
+    <Compile Include="Readers\PackageReader.cs" />
+    <Compile Include="Readers\RootFilePathReader.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigation.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationContent.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationDocAuthor.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationDocTitle.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationHead.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationHeadMeta.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationLabel.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationList.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationMap.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationPageList.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationPageTarget.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationPageTargetType.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationPoint.cs" />
+    <Compile Include="Schema\Navigation\EpubNavigationTarget.cs" />
+    <Compile Include="Schema\Opf\EpubGuide.cs" />
+    <Compile Include="Schema\Opf\EpubGuideReference.cs" />
+    <Compile Include="Schema\Opf\EpubManifest.cs" />
+    <Compile Include="Schema\Opf\EpubManifestItem.cs" />
+    <Compile Include="Schema\Opf\EpubMetadata.cs" />
+    <Compile Include="Schema\Opf\EpubPackage.cs" />
+    <Compile Include="Schema\Opf\EpubSpine.cs" />
+    <Compile Include="Schema\Opf\EpubSpineItemRef.cs" />
+    <Compile Include="Schema\Opf\EpubVersion.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
