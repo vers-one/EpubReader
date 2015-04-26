@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Xml;
@@ -57,58 +58,146 @@ namespace VersFx.Formats.Text.Epub.Readers
         private static EpubMetadata ReadMetadata(XmlNode metadataNode)
         {
             EpubMetadata result = new EpubMetadata();
+            result.Titles = new List<string>();
+            result.Creators = new List<EpubMetadataCreator>();
+            result.Subjects = new List<string>();
+            result.Publishers = new List<string>();
+            result.Contributors = new List<EpubMetadataContributor>();
+            result.Dates = new List<EpubMetadataDate>();
+            result.Types = new List<string>();
+            result.Formats = new List<string>();
+            result.Identifiers = new List<EpubMetadataIdentifier>();
+            result.Sources = new List<string>();
+            result.Languages = new List<string>();
+            result.Relations = new List<string>();
+            result.Coverages = new List<string>();
+            result.Rights = new List<string>();
             foreach (XmlNode metadataItemNode in metadataNode.ChildNodes)
             {
                 string innerText = metadataItemNode.InnerText;
                 switch (metadataItemNode.LocalName.ToLowerInvariant())
                 {
-                    case "identifier":
-                        result.Identifier = innerText;
-                        break;
                     case "title":
-                        result.Title = innerText;
-                        break;
-                    case "language":
-                        result.Language = innerText;
-                        break;
-                    case "contributor":
-                        result.Contributor = innerText;
-                        break;
-                    case "coverage":
-                        result.Coverage = innerText;
+                        result.Titles.Add(innerText);
                         break;
                     case "creator":
-                        result.Creator = innerText;
+                        EpubMetadataCreator creator = ReadMetadataCreator(metadataItemNode);
+                        result.Creators.Add(creator);
                         break;
-                    case "date":
-                        result.Date = innerText;
+                    case "subject":
+                        result.Subjects.Add(innerText);
                         break;
                     case "description":
                         result.Description = innerText;
                         break;
-                    case "format":
-                        result.Format = innerText;
-                        break;
                     case "publisher":
-                        result.Publisher = innerText;
+                        result.Publishers.Add(innerText);
                         break;
-                    case "relation":
-                        result.Relation = innerText;
+                    case "contributor":
+                        EpubMetadataContributor contributor = ReadMetadataContributor(metadataItemNode);
+                        result.Contributors.Add(contributor);
                         break;
-                    case "rights":
-                        result.Rights = innerText;
-                        break;
-                    case "source":
-                        result.Source = innerText;
-                        break;
-                    case "subject":
-                        result.Subject = innerText;
+                    case "date":
+                        EpubMetadataDate date = ReadMetadataDate(metadataItemNode);
+                        result.Dates.Add(date);
                         break;
                     case "type":
-                        result.Type = innerText;
+                        result.Types.Add(innerText);
+                        break;
+                    case "format":
+                        result.Formats.Add(innerText);
+                        break;
+                    case "identifier":
+                        EpubMetadataIdentifier identifier = ReadMetadataIdentifier(metadataItemNode);
+                        result.Identifiers.Add(identifier);
+                        break;
+                    case "source":
+                        result.Sources.Add(innerText);
+                        break;
+                    case "language":
+                        result.Languages.Add(innerText);
+                        break;
+                    case "relation":
+                        result.Relations.Add(innerText);
+                        break;
+                    case "coverage":
+                        result.Coverages.Add(innerText);
+                        break;
+                    case "rights":
+                        result.Rights.Add(innerText);
                         break;
                 }
             }
+            return result;
+        }
+
+        private static EpubMetadataCreator ReadMetadataCreator(XmlNode metadataCreatorNode)
+        {
+            EpubMetadataCreator result = new EpubMetadataCreator();
+            foreach (XmlAttribute metadataCreatorNodeAttribute in metadataCreatorNode.Attributes)
+            {
+                string attributeValue = metadataCreatorNodeAttribute.Value;
+                switch (metadataCreatorNodeAttribute.Name.ToLowerInvariant())
+                {
+                    case "opf:role":
+                        result.Role = attributeValue;
+                        break;
+                    case "opf:file-as":
+                        result.FileAs = attributeValue;
+                        break;
+                }
+            }
+            result.Creator = metadataCreatorNode.InnerText;
+            return result;
+        }
+
+        private static EpubMetadataContributor ReadMetadataContributor(XmlNode metadataContributorNode)
+        {
+            EpubMetadataContributor result = new EpubMetadataContributor();
+            foreach (XmlAttribute metadataContributorNodeAttribute in metadataContributorNode.Attributes)
+            {
+                string attributeValue = metadataContributorNodeAttribute.Value;
+                switch (metadataContributorNodeAttribute.Name.ToLowerInvariant())
+                {
+                    case "opf:role":
+                        result.Role = attributeValue;
+                        break;
+                    case "opf:file-as":
+                        result.FileAs = attributeValue;
+                        break;
+                }
+            }
+            result.Contributor = metadataContributorNode.InnerText;
+            return result;
+        }
+
+        private static EpubMetadataDate ReadMetadataDate(XmlNode metadataDateNode)
+        {
+            EpubMetadataDate result = new EpubMetadataDate();
+            XmlAttribute eventAttribute = metadataDateNode.Attributes["opf:event"];
+            if (eventAttribute != null)
+                result.Event = eventAttribute.Value;
+            result.Date = metadataDateNode.InnerText;
+            return result;
+        }
+
+        private static EpubMetadataIdentifier ReadMetadataIdentifier(XmlNode metadataIdentifierNode)
+        {
+            EpubMetadataIdentifier result = new EpubMetadataIdentifier();
+            foreach (XmlAttribute metadataIdentifierNodeAttribute in metadataIdentifierNode.Attributes)
+            {
+                string attributeValue = metadataIdentifierNodeAttribute.Value;
+                switch (metadataIdentifierNodeAttribute.Name.ToLowerInvariant())
+                {
+                    case "id":
+                        result.Id = attributeValue;
+                        break;
+                    case "opf:scheme":
+                        result.Scheme = attributeValue;
+                        break;
+                }
+            }
+            result.Identifier = metadataIdentifierNode.InnerText;
             return result;
         }
 
