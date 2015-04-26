@@ -66,6 +66,10 @@
     <Compile Include="Schema\Opf\EpubManifest.cs" />
     <Compile Include="Schema\Opf\EpubManifestItem.cs" />
     <Compile Include="Schema\Opf\EpubMetadata.cs" />
+    <Compile Include="Schema\Opf\EpubMetadataContributor.cs" />
+    <Compile Include="Schema\Opf\EpubMetadataCreator.cs" />
+    <Compile Include="Schema\Opf\EpubMetadataDate.cs" />
+    <Compile Include="Schema\Opf\EpubMetadataIdentifier.cs" />
     <Compile Include="Schema\Opf\EpubPackage.cs" />
     <Compile Include="Schema\Opf\EpubSpine.cs" />
     <Compile Include="Schema\Opf\EpubSpineItemRef.cs" />
