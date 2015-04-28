@@ -11,7 +11,7 @@ namespace VersFx.Formats.Text.Epub.Readers
 {
     internal static class NavigationReader
     {
-        public static EpubNavigation ReadNavigation(ZipArchive epubArchive, string baseDirectoryEntryPath, EpubPackage package)
+        public static EpubNavigation ReadNavigation(ZipArchive epubArchive, string contentDirectoryPath, EpubPackage package)
         {
             EpubNavigation result = new EpubNavigation();
             string tocId = package.Spine.Toc;
@@ -20,7 +20,7 @@ namespace VersFx.Formats.Text.Epub.Readers
             EpubManifestItem tocManifestItem = package.Manifest.FirstOrDefault(item => String.Compare(item.Id, tocId, StringComparison.OrdinalIgnoreCase) == 0);
             if (tocManifestItem == null)
                 throw new Exception(String.Format("EPUB parsing error: TOC item {0} not found in EPUB manifest.", tocId));
-            string tocFileEntryPath = String.Concat(baseDirectoryEntryPath, "/", tocManifestItem.Href);
+            string tocFileEntryPath = String.Concat(contentDirectoryPath, "/", tocManifestItem.Href);
             ZipArchiveEntry tocFileEntry = epubArchive.GetEntry(tocFileEntryPath);
             if (tocFileEntry == null)
                 throw new Exception(String.Format("EPUB parsing error: TOC file {0} not found in archive.", tocFileEntryPath));

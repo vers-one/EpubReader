@@ -33,7 +33,7 @@ namespace VersFx.Formats.Text.Epub.Readers
                 XmlNode metadataNode = packageNode.SelectSingleNode("opf:metadata", xmlNamespaceManager);
                 if (metadataNode == null)
                     throw new Exception("EPUB parsing error: metadata not found in the package.");
-                EpubMetadata metadata = ReadMetadata(metadataNode);
+                EpubMetadata metadata = ReadMetadata(metadataNode, result.EpubVersion);
                 result.Metadata = metadata;
                 XmlNode manifestNode = packageNode.SelectSingleNode("opf:manifest", xmlNamespaceManager);
                 if (manifestNode == null)
@@ -55,7 +55,7 @@ namespace VersFx.Formats.Text.Epub.Readers
             }
         }
 
-        private static EpubMetadata ReadMetadata(XmlNode metadataNode)
+        private static EpubMetadata ReadMetadata(XmlNode metadataNode, EpubVersion epubVersion)
         {
             EpubMetadata result = new EpubMetadata();
             result.Titles = new List<string>();
@@ -72,6 +72,7 @@ namespace VersFx.Formats.Text.Epub.Readers
             result.Relations = new List<string>();
             result.Coverages = new List<string>();
             result.Rights = new List<string>();
+            result.Metas = new List<EpubMetadataMeta>();
             foreach (XmlNode metadataItemNode in metadataNode.ChildNodes)
             {
                 string innerText = metadataItemNode.InnerText;
@@ -125,6 +126,19 @@ namespace VersFx.Formats.Text.Epub.Readers
                         break;
                     case "rights":
                         result.Rights.Add(innerText);
+                        break;
+                    case "meta":
+                        if (epubVersion == EpubVersion.EPUB_2)
+                        {
+                            EpubMetadataMeta meta = ReadMetadataMetaVersion2(metadataItemNode);
+                            result.Metas.Add(meta);
+                        }
+                        else
+                            if (epubVersion == EpubVersion.EPUB_3)
+                            {
+                                EpubMetadataMeta meta = ReadMetadataMetaVersion3(metadataItemNode);
+                                result.Metas.Add(meta);
+                            }
                         break;
                 }
             }
@@ -198,6 +212,51 @@ namespace VersFx.Formats.Text.Epub.Readers
                 }
             }
             result.Identifier = metadataIdentifierNode.InnerText;
+            return result;
+        }
+
+        private static EpubMetadataMeta ReadMetadataMetaVersion2(XmlNode metadataMetaNode)
+        {
+            EpubMetadataMeta result = new EpubMetadataMeta();
+            foreach (XmlAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes)
+            {
+                string attributeValue = metadataMetaNodeAttribute.Value;
+                switch (metadataMetaNodeAttribute.Name.ToLowerInvariant())
+                {
+                    case "name":
+                        result.Name = attributeValue;
+                        break;
+                    case "content":
+                        result.Content = attributeValue;
+                        break;
+                }
+            }
+            return result;
+        }
+
+        private static EpubMetadataMeta ReadMetadataMetaVersion3(XmlNode metadataMetaNode)
+        {
+            EpubMetadataMeta result = new EpubMetadataMeta();
+            foreach (XmlAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes)
+            {
+                string attributeValue = metadataMetaNodeAttribute.Value;
+                switch (metadataMetaNodeAttribute.Name.ToLowerInvariant())
+                {
+                    case "id":
+                        result.Id = attributeValue;
+                        break;
+                    case "refines":
+                        result.Refines = attributeValue;
+                        break;
+                    case "property":
+                        result.Property = attributeValue;
+                        break;
+                    case "scheme":
+                        result.Scheme = attributeValue;
+                        break;
+                }
+            }
+            result.Content = metadataMetaNode.InnerText;
             return result;
         }
 

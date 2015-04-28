@@ -40,13 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EpubBook.cs" />
-    <Compile Include="EpubContentFile.cs" />
+    <Compile Include="Entities\EpubContentFile.cs" />
+    <Compile Include="Entities\EpubSchema.cs" />
     <Compile Include="EpubReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Readers\ContentFilesReader.cs" />
     <Compile Include="Readers\NavigationReader.cs" />
     <Compile Include="Readers\PackageReader.cs" />
     <Compile Include="Readers\RootFilePathReader.cs" />
+    <Compile Include="Readers\SchemaReader.cs" />
     <Compile Include="Schema\Navigation\EpubNavigation.cs" />
     <Compile Include="Schema\Navigation\EpubNavigationContent.cs" />
     <Compile Include="Schema\Navigation\EpubNavigationDocAuthor.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Schema\Opf\EpubManifestItem.cs" />
     <Compile Include="Schema\Opf\EpubMetadata.cs" />
     <Compile Include="Schema\Opf\EpubMetadataContributor.cs" />
+    <Compile Include="Schema\Opf\EpubMetadataMeta.cs" />
     <Compile Include="Schema\Opf\EpubMetadataCreator.cs" />
     <Compile Include="Schema\Opf\EpubMetadataDate.cs" />
     <Compile Include="Schema\Opf\EpubMetadataIdentifier.cs" />

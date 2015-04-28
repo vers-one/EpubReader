@@ -23,5 +23,6 @@ namespace VersFx.Formats.Text.Epub.Schema.Opf
         public List<string> Relations { get; set; }
         public List<string> Coverages { get; set; }
         public List<string> Rights { get; set; }
+        public List<EpubMetadataMeta> Metas { get; set; }
     }
 }
