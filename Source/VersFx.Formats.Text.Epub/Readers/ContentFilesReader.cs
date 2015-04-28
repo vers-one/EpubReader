@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using VersFx.Formats.Text.Epub.Entities;
 using VersFx.Formats.Text.Epub.Schema.Opf;
 
 namespace VersFx.Formats.Text.Epub.Readers
