@@ -72,7 +72,7 @@ namespace VersFx.Formats.Text.Epub.Readers
             result.Relations = new List<string>();
             result.Coverages = new List<string>();
             result.Rights = new List<string>();
-            result.Metas = new List<EpubMetadataMeta>();
+            result.MetaItems = new List<EpubMetadataMeta>();
             foreach (XmlNode metadataItemNode in metadataNode.ChildNodes)
             {
                 string innerText = metadataItemNode.InnerText;
@@ -131,13 +131,13 @@ namespace VersFx.Formats.Text.Epub.Readers
                         if (epubVersion == EpubVersion.EPUB_2)
                         {
                             EpubMetadataMeta meta = ReadMetadataMetaVersion2(metadataItemNode);
-                            result.Metas.Add(meta);
+                            result.MetaItems.Add(meta);
                         }
                         else
                             if (epubVersion == EpubVersion.EPUB_3)
                             {
                                 EpubMetadataMeta meta = ReadMetadataMetaVersion3(metadataItemNode);
-                                result.Metas.Add(meta);
+                                result.MetaItems.Add(meta);
                             }
                         break;
                 }
