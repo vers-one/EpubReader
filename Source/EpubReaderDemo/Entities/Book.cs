@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EpubReaderDemo.Entities
 {
-    internal class Book
+    public class Book
     {
         public int Id { get; set; }
         public string FilePath { get; set; }

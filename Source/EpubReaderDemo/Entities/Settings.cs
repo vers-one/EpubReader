@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EpubReaderDemo.Entities
 {
-    internal class Settings
+    public class Settings
     {
         public List<Book> Books { get; set; }
 

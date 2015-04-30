@@ -22,6 +22,7 @@ namespace VersFx.Formats.Text.Epub
             {
                 EpubSchema schema = SchemaReader.ReadSchema(epubArchive);
                 book.Schema = schema;
+                book.Title = book.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
                 List<EpubContentFile> contentFiles = ContentFileReader.ReadContentFiles(epubArchive, book.Schema.ContentDirectoryPath, book.Schema.Package.Manifest);
                 book.ContentFiles = contentFiles;
             }
