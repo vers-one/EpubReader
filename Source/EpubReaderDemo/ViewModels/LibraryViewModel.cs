@@ -1,16 +1,12 @@
-﻿using EpubReaderDemo.Models;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
+using EpubReaderDemo.Models;
 using EpubReaderDemo.Utils;
 using EpubReaderDemo.WpfEnvironment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace EpubReaderDemo.ViewModels
 {
-    public class LibraryViewModel
+    public class LibraryViewModel : ViewModel
     {
         private readonly IWindowManager windowManager;
         private readonly LibraryModel libraryModel;
@@ -22,7 +18,10 @@ namespace EpubReaderDemo.ViewModels
             windowManager = WindowManager.Instance;
             libraryModel = new LibraryModel();
             addBookCommand = null;
+            RefreshLibrary();
         }
+
+        public ObservableCollection<LibraryItemViewModel> Books { get; private set; }
 
         public ICommand AddBookCommand
         {
@@ -32,6 +31,12 @@ namespace EpubReaderDemo.ViewModels
                     addBookCommand = new Command(AddBook);
                 return addBookCommand;
             }
+        }
+
+        private void RefreshLibrary()
+        {
+            Books = new ObservableCollection<LibraryItemViewModel>(libraryModel.GetLibraryItems());
+            OnPropertyChanged(() => Books);
         }
 
         private void AddBook()
@@ -44,7 +49,11 @@ namespace EpubReaderDemo.ViewModels
             OpenFileDialogResult openDialogResult = windowManager.ShowOpenFileDialog(openFileDialogParameters);
             if (openDialogResult.DialogResult)
             {
+                foreach (string selectedFilePath in openDialogResult.SelectedFilePaths)
+                    libraryModel.AddBookToLibrary(selectedFilePath);
+                RefreshLibrary();
             }
         }
+
     }
 }

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,9 +56,13 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\Constants.cs" />
     <Compile Include="Entities\Settings.cs" />
     <Compile Include="Models\LibraryModel.cs" />
     <Compile Include="Utils\Command.cs" />
+    <Compile Include="Utils\ExpressionUtils.cs" />
+    <Compile Include="Utils\IntToDoubleConverter.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="WpfEnvironment\IWindowContext.cs" />
     <Compile Include="WpfEnvironment\IWindowManager.cs" />
     <Compile Include="WpfEnvironment\OpenFileDialogParameters.cs" />
@@ -106,7 +111,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VersFx.Formats.Text.Epub\VersFx.Formats.Text.Epub.csproj">
+      <Project>{313e44f0-4bc2-4a4f-b24b-c29d8ffb7c4e}</Project>
+      <Name>VersFx.Formats.Text.Epub</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Book.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

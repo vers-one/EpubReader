@@ -14,6 +14,7 @@ namespace EpubReaderDemo
         private const string SETTINGS_FILE_NAME = "settings.xml";
 
         private static readonly ApplicationContext instance;
+        private string currentDirectory;
         private Settings settings;
 
         static ApplicationContext()
@@ -23,6 +24,7 @@ namespace EpubReaderDemo
 
         private ApplicationContext()
         {
+            currentDirectory = Directory.GetCurrentDirectory();
             settings = LoadSettings();
         }
 
@@ -31,6 +33,14 @@ namespace EpubReaderDemo
             get
             {
                 return instance;
+            }
+        }
+
+        public string CurrentDirectory
+        {
+            get
+            {
+                return currentDirectory;
             }
         }
 
