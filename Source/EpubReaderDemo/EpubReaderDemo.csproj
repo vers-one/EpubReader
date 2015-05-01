@@ -55,6 +55,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
+    <Compile Include="Controls\BookButton.xaml.cs">
+      <DependentUpon>BookButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Constants.cs" />
     <Compile Include="Entities\Settings.cs" />
@@ -79,6 +82,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Controls\BookButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LibraryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
