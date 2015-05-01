@@ -78,6 +78,8 @@
     <Compile Include="Schema\Opf\EpubSpine.cs" />
     <Compile Include="Schema\Opf\EpubSpineItemRef.cs" />
     <Compile Include="Schema\Opf\EpubVersion.cs" />
+    <Compile Include="Utils\ZipPathUtils.cs" />
+    <Compile Include="Utils\XmlUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

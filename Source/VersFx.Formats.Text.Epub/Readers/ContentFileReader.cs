@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using VersFx.Formats.Text.Epub.Entities;
 using VersFx.Formats.Text.Epub.Schema.Opf;
+using VersFx.Formats.Text.Epub.Utils;
 
 namespace VersFx.Formats.Text.Epub.Readers
 {
@@ -14,7 +15,7 @@ namespace VersFx.Formats.Text.Epub.Readers
             List<EpubContentFile> result = new List<EpubContentFile>();
             foreach (EpubManifestItem manifestItem in manifest)
             {
-                string contentFilePath = String.Concat(contentDirectoryPath, "/", manifestItem.Href);
+                string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, manifestItem.Href);
                 ZipArchiveEntry contentFileEntry = epubArchive.GetEntry(contentFilePath);
                 if (contentFileEntry == null)
                     throw new Exception(String.Format("EPUB parsing error: file {0} not found in archive.", contentFilePath));
