@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml;
 using VersFx.Formats.Text.Epub.Schema.Navigation;
 using VersFx.Formats.Text.Epub.Schema.Opf;
+using VersFx.Formats.Text.Epub.Utils;
 
 namespace VersFx.Formats.Text.Epub.Readers
 {
@@ -20,51 +21,49 @@ namespace VersFx.Formats.Text.Epub.Readers
             EpubManifestItem tocManifestItem = package.Manifest.FirstOrDefault(item => String.Compare(item.Id, tocId, StringComparison.OrdinalIgnoreCase) == 0);
             if (tocManifestItem == null)
                 throw new Exception(String.Format("EPUB parsing error: TOC item {0} not found in EPUB manifest.", tocId));
-            string tocFileEntryPath = String.Concat(contentDirectoryPath, "/", tocManifestItem.Href);
+            string tocFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
             ZipArchiveEntry tocFileEntry = epubArchive.GetEntry(tocFileEntryPath);
             if (tocFileEntry == null)
                 throw new Exception(String.Format("EPUB parsing error: TOC file {0} not found in archive.", tocFileEntryPath));
             if (tocFileEntry.Length > Int32.MaxValue)
                 throw new Exception(String.Format("EPUB parsing error: TOC file {0} is bigger than 2 Gb.", tocFileEntryPath));
+            XmlDocument containerDocument;
             using (Stream containerStream = tocFileEntry.Open())
+                containerDocument = XmlUtils.LoadDocument(containerStream);
+            XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(containerDocument.NameTable);
+            xmlNamespaceManager.AddNamespace("ncx", "http://www.daisy.org/z3986/2005/ncx/");
+            XmlNode headNode = containerDocument.DocumentElement.SelectSingleNode("ncx:head", xmlNamespaceManager);
+            if (headNode == null)
+                throw new Exception("EPUB parsing error: TOC file does not contain head element");
+            EpubNavigationHead navigationHead = ReadNavigationHead(headNode);
+            result.Head = navigationHead;
+            XmlNode docTitleNode = containerDocument.DocumentElement.SelectSingleNode("ncx:docTitle", xmlNamespaceManager);
+            if (docTitleNode == null)
+                throw new Exception("EPUB parsing error: TOC file does not contain docTitle element");
+            EpubNavigationDocTitle navigationDocTitle = ReadNavigationDocTitle(docTitleNode);
+            result.DocTitle = navigationDocTitle;
+            result.DocAuthors = new List<EpubNavigationDocAuthor>();
+            foreach (XmlNode docAuthorNode in containerDocument.DocumentElement.SelectNodes("ncx:docAuthor", xmlNamespaceManager))
             {
-                XmlDocument containerDocument = new XmlDocument();
-                containerDocument.Load(containerStream);
-                XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(containerDocument.NameTable);
-                xmlNamespaceManager.AddNamespace("ncx", "http://www.daisy.org/z3986/2005/ncx/");
-                XmlNode headNode = containerDocument.DocumentElement.SelectSingleNode("ncx:head", xmlNamespaceManager);
-                if (headNode == null)
-                    throw new Exception("EPUB parsing error: TOC file does not contain head element");
-                EpubNavigationHead navigationHead = ReadNavigationHead(headNode);
-                result.Head = navigationHead;
-                XmlNode docTitleNode = containerDocument.DocumentElement.SelectSingleNode("ncx:docTitle", xmlNamespaceManager);
-                if (docTitleNode == null)
-                    throw new Exception("EPUB parsing error: TOC file does not contain docTitle element");
-                EpubNavigationDocTitle navigationDocTitle = ReadNavigationDocTitle(docTitleNode);
-                result.DocTitle = navigationDocTitle;
-                result.DocAuthors = new List<EpubNavigationDocAuthor>();
-                foreach (XmlNode docAuthorNode in containerDocument.DocumentElement.SelectNodes("ncx:docAuthor", xmlNamespaceManager))
-                {
-                    EpubNavigationDocAuthor navigationDocAuthor = ReadNavigationDocAuthor(docAuthorNode);
-                    result.DocAuthors.Add(navigationDocAuthor);
-                }
-                XmlNode navMapNode = containerDocument.DocumentElement.SelectSingleNode("ncx:navMap", xmlNamespaceManager);
-                if (navMapNode == null)
-                    throw new Exception("EPUB parsing error: TOC file does not contain navMap element");
-                EpubNavigationMap navMap = ReadNavigationMap(navMapNode);
-                result.NavMap = navMap;
-                XmlNode pageListNode = containerDocument.DocumentElement.SelectSingleNode("ncx:pageList", xmlNamespaceManager);
-                if (pageListNode != null)
-                {
-                    EpubNavigationPageList pageList = ReadNavigationPageList(pageListNode);
-                    result.PageList = pageList;
-                }
-                result.NavLists = new List<EpubNavigationList>();
-                foreach (XmlNode navigationListNode in containerDocument.DocumentElement.SelectNodes("ncx:navList", xmlNamespaceManager))
-                {
-                    EpubNavigationList navigationList = ReadNavigationList(navigationListNode);
-                    result.NavLists.Add(navigationList);
-                }
+                EpubNavigationDocAuthor navigationDocAuthor = ReadNavigationDocAuthor(docAuthorNode);
+                result.DocAuthors.Add(navigationDocAuthor);
+            }
+            XmlNode navMapNode = containerDocument.DocumentElement.SelectSingleNode("ncx:navMap", xmlNamespaceManager);
+            if (navMapNode == null)
+                throw new Exception("EPUB parsing error: TOC file does not contain navMap element");
+            EpubNavigationMap navMap = ReadNavigationMap(navMapNode);
+            result.NavMap = navMap;
+            XmlNode pageListNode = containerDocument.DocumentElement.SelectSingleNode("ncx:pageList", xmlNamespaceManager);
+            if (pageListNode != null)
+            {
+                EpubNavigationPageList pageList = ReadNavigationPageList(pageListNode);
+                result.PageList = pageList;
+            }
+            result.NavLists = new List<EpubNavigationList>();
+            foreach (XmlNode navigationListNode in containerDocument.DocumentElement.SelectNodes("ncx:navList", xmlNamespaceManager))
+            {
+                EpubNavigationList navigationList = ReadNavigationList(navigationListNode);
+                result.NavLists.Add(navigationList);
             }
             return result;
         }
@@ -94,7 +93,7 @@ namespace VersFx.Formats.Text.Epub.Readers
                     }
                     if (String.IsNullOrWhiteSpace(meta.Name))
                         throw new Exception("Incorrect EPUB navigation meta: meta name is missing");
-                    if (String.IsNullOrWhiteSpace(meta.Content))
+                    if (meta.Content == null)
                         throw new Exception("Incorrect EPUB navigation meta: meta content is missing");
                     result.Add(meta);
                 }

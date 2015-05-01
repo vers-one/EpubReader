@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using VersFx.Formats.Text.Epub.Entities;
 using VersFx.Formats.Text.Epub.Schema.Navigation;
 using VersFx.Formats.Text.Epub.Schema.Opf;
+using VersFx.Formats.Text.Epub.Utils;
 
 namespace VersFx.Formats.Text.Epub.Readers
 {
@@ -17,7 +18,7 @@ namespace VersFx.Formats.Text.Epub.Readers
         {
             EpubSchema result = new EpubSchema();
             string rootFilePath = RootFilePathReader.GetRootFilePath(epubArchive);
-            string contentDirectoryPath = Path.GetDirectoryName(rootFilePath);
+            string contentDirectoryPath = ZipPathUtils.GetDirectoryPath(rootFilePath);
             result.ContentDirectoryPath = contentDirectoryPath;
             EpubPackage package = PackageReader.ReadPackage(epubArchive, rootFilePath);
             result.Package = package;

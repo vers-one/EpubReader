@@ -7,6 +7,7 @@ using System.Linq;
 using VersFx.Formats.Text.Epub.Entities;
 using VersFx.Formats.Text.Epub.Readers;
 using VersFx.Formats.Text.Epub.Schema.Opf;
+using VersFx.Formats.Text.Epub.Utils;
 
 namespace VersFx.Formats.Text.Epub
 {
@@ -39,10 +40,10 @@ namespace VersFx.Formats.Text.Epub
                 return null;
             if (String.IsNullOrEmpty(coverMetaItem.Content))
                 throw new Exception("Incorrect EPUB metadata: cover item content is missing");
-            EpubManifestItem coverManifestItem = book.Schema.Package.Manifest.FirstOrDefault(manifestItem => String.CompareOrdinal(manifestItem.Id, coverMetaItem.Content) == 0);
+            EpubManifestItem coverManifestItem = book.Schema.Package.Manifest.FirstOrDefault(manifestItem => String.Compare(manifestItem.Id, coverMetaItem.Content, StringComparison.OrdinalIgnoreCase) == 0);
             if (coverManifestItem == null)
                 throw new Exception(String.Format("Incorrect EPUB manifest: item with ID = \"{0}\" is missing", coverMetaItem.Content));
-            string contentFilePath = String.Concat(book.Schema.ContentDirectoryPath, "/", coverManifestItem.Href);
+            string contentFilePath = ZipPathUtils.Combine(book.Schema.ContentDirectoryPath, coverManifestItem.Href);
             using (ZipArchive epubArchive = ZipFile.OpenRead(book.FilePath))
             {
                 Stream coverImageStream = ContentFileReader.OpenContentFile(epubArchive, contentFilePath);
