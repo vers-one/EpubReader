@@ -27,7 +27,7 @@ namespace EpubReaderDemo.Models
             return applicationContext.Settings.Books.Select(book => new LibraryItemViewModel
             {
                 Title = book.Title,
-                CoverImageSource = GetBookCoverImageFilePath(book.Id)
+                CoverImageSource = book.HasCover ? GetBookCoverImageFilePath(book.Id) : Constants.GENERIC_COVER_IMAGE_SOURCE
             }).ToList();
         }
 
@@ -53,7 +53,8 @@ namespace EpubReaderDemo.Models
             {
                 Id = bookId,
                 FilePath = bookFilePath,
-                Title = epubBook.Title
+                Title = epubBook.Title,
+                HasCover = bookCoverImage != null
             };
             applicationContext.Settings.Books.Add(book);
             applicationContext.SaveSettings();
