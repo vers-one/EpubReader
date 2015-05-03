@@ -65,6 +65,7 @@
     <Compile Include="Entities\Constants.cs" />
     <Compile Include="Entities\Settings.cs" />
     <Compile Include="Models\LibraryModel.cs" />
+    <Compile Include="Utils\BindingProxy.cs" />
     <Compile Include="Utils\Command.cs" />
     <Compile Include="Utils\ExpressionUtils.cs" />
     <Compile Include="Utils\IntToDoubleConverter.cs" />

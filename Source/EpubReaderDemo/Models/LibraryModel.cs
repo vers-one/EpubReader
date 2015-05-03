@@ -1,14 +1,13 @@
-﻿using EpubReaderDemo.Entities;
-using EpubReaderDemo.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using EpubReaderDemo.Entities;
+using EpubReaderDemo.ViewModels;
 using VersFx.Formats.Text.Epub;
 
 namespace EpubReaderDemo.Models
@@ -26,8 +25,9 @@ namespace EpubReaderDemo.Models
         {
             return applicationContext.Settings.Books.Select(book => new LibraryItemViewModel
             {
+                Id = book.Id,
                 Title = book.Title,
-                CoverImageSource = book.HasCover ? GetBookCoverImageFilePath(book.Id) : Constants.GENERIC_COVER_IMAGE_SOURCE
+                CoverImage = book.HasCover ? ReadFile(GetBookCoverImageFilePath(book.Id)) : ReadResource(Constants.GENERIC_COVER_IMAGE_SOURCE)
             }).ToList();
         }
 
@@ -40,7 +40,7 @@ namespace EpubReaderDemo.Models
                 bookId = 1;
             EpubReader epubReader = new EpubReader();
             EpubBook epubBook = epubReader.OpenBook(bookFilePath);
-            Image bookCoverImage = epubReader.GetCoverImage(epubBook);
+            Image bookCoverImage = epubReader.LoadCoverImage(epubBook);
             if (bookCoverImage != null)
             {
                 if (!Directory.Exists(Constants.COVER_IMAGES_FOLDER))
@@ -57,6 +57,15 @@ namespace EpubReaderDemo.Models
                 HasCover = bookCoverImage != null
             };
             applicationContext.Settings.Books.Add(book);
+            applicationContext.SaveSettings();
+        }
+
+        public void RemoveBookFromLibrary(LibraryItemViewModel libraryItemViewModel)
+        {
+            string bookCoverImageFilePath = GetBookCoverImageFilePath(libraryItemViewModel.Id);
+            if (File.Exists(bookCoverImageFilePath))
+                File.Delete(bookCoverImageFilePath);
+            applicationContext.Settings.Books.Remove(applicationContext.Settings.Books.First(book => book.Id == libraryItemViewModel.Id));
             applicationContext.SaveSettings();
         }
 
@@ -93,6 +102,26 @@ namespace EpubReaderDemo.Models
                 graphics.DrawImage(image, resultRectangle, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
             }
             return result;
+        }
+
+        private byte[] ReadFile(string filePath)
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                fileStream.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+
+        private byte[] ReadResource(string resourceName)
+        {
+            using (Stream resourceStream = Application.GetResourceStream(new Uri(resourceName, UriKind.Relative)).Stream)
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                resourceStream.CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

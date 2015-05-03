@@ -34,8 +34,9 @@ namespace VersFx.Formats.Text.Epub.Readers
             return result;
         }
 
-        public static Stream OpenContentFile(ZipArchive epubArchive, string contentFilePath)
+        public static Stream OpenContentFile(ZipArchive epubArchive, string contentDirectoryPath, string contentFileName)
         {
+            string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, contentFileName);
             ZipArchiveEntry contentFileEntry = epubArchive.GetEntry(contentFilePath);
             if (contentFileEntry == null)
                 return null;
