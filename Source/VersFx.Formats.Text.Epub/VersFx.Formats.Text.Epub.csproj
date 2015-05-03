@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\EpubChapter.cs" />
+    <Compile Include="Entities\EpubContentType.cs" />
     <Compile Include="EpubBook.cs" />
     <Compile Include="Entities\EpubContentFile.cs" />
     <Compile Include="Entities\EpubSchema.cs" />

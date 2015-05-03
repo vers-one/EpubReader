@@ -8,6 +8,7 @@ namespace VersFx.Formats.Text.Epub
         public string FilePath { get; set; }
         public string Title { get; set; }
         public EpubSchema Schema { get; set; }
+        public List<EpubChapter> Chapters { get; set; }
         public List<EpubContentFile> ContentFiles { get; set; }
     }
 }

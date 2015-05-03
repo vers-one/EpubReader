@@ -169,6 +169,10 @@ namespace VersFx.Formats.Text.Epub.Readers
                         result.ChildNavigationPoints.Add(childNavigationPoint);
                         break;
                 }
+            if (!result.NavigationLabels.Any())
+                throw new Exception(String.Format("EPUB parsing error: navigation point {0} should contain at least one navigation label", result.Id));
+            if (result.Content == null)
+                throw new Exception(String.Format("EPUB parsing error: navigation point {0} should contain content", result.Id));
             return result;
         }
 

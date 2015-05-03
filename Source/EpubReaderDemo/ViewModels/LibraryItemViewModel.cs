@@ -8,7 +8,8 @@ namespace EpubReaderDemo.ViewModels
 {
     public class LibraryItemViewModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
-        public string CoverImageSource { get; set; }
+        public byte[] CoverImage { get; set; }
     }
 }
