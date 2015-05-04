@@ -41,13 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\EpubChapter.cs" />
+    <Compile Include="Entities\EpubContent.cs" />
     <Compile Include="Entities\EpubContentType.cs" />
+    <Compile Include="Entities\EpubTextContentFile.cs" />
+    <Compile Include="Entities\EpubByteContentFile.cs" />
     <Compile Include="EpubBook.cs" />
     <Compile Include="Entities\EpubContentFile.cs" />
     <Compile Include="Entities\EpubSchema.cs" />
     <Compile Include="EpubReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Readers\ContentFileReader.cs" />
+    <Compile Include="Readers\ContentReader.cs" />
     <Compile Include="Readers\NavigationReader.cs" />
     <Compile Include="Readers\PackageReader.cs" />
     <Compile Include="Readers\RootFilePathReader.cs" />

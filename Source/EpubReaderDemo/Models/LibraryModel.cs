@@ -15,15 +15,17 @@ namespace EpubReaderDemo.Models
     internal class LibraryModel
     {
         private readonly ApplicationContext applicationContext;
+        private readonly Settings settings;
 
         public LibraryModel()
         {
             applicationContext = ApplicationContext.Instance;
+            settings = applicationContext.Settings;
         }
 
         public List<LibraryItemViewModel> GetLibraryItems()
         {
-            return applicationContext.Settings.Books.Select(book => new LibraryItemViewModel
+            return settings.Books.Select(book => new LibraryItemViewModel
             {
                 Id = book.Id,
                 Title = book.Title,
@@ -34,29 +36,26 @@ namespace EpubReaderDemo.Models
         public void AddBookToLibrary(string bookFilePath)
         {
             int bookId;
-            if (applicationContext.Settings.Books.Any())
-                bookId = applicationContext.Settings.Books.Max(bookItem => bookItem.Id) + 1;
+            if (settings.Books.Any())
+                bookId = settings.Books.Max(bookItem => bookItem.Id) + 1;
             else
                 bookId = 1;
-            EpubReader epubReader = new EpubReader();
-            EpubBook epubBook = epubReader.OpenBook(bookFilePath);
-            Image bookCoverImage = epubReader.LoadCoverImage(epubBook);
-            if (bookCoverImage != null)
+            EpubBook epubBook = EpubReader.OpenBook(bookFilePath);
+            if (epubBook.CoverImage != null)
             {
                 if (!Directory.Exists(Constants.COVER_IMAGES_FOLDER))
                     Directory.CreateDirectory(Constants.COVER_IMAGES_FOLDER);
-                using (Image resizedCoverImage = ResizeCover(bookCoverImage))
+                using (Image resizedCoverImage = ResizeCover(epubBook.CoverImage))
                     resizedCoverImage.Save(GetBookCoverImageFilePath(bookId), ImageFormat.Png);
-                bookCoverImage.Dispose();
             }
             Book book = new Book
             {
                 Id = bookId,
                 FilePath = bookFilePath,
                 Title = epubBook.Title,
-                HasCover = bookCoverImage != null
+                HasCover = epubBook.CoverImage != null
             };
-            applicationContext.Settings.Books.Add(book);
+            settings.Books.Add(book);
             applicationContext.SaveSettings();
         }
 
@@ -65,7 +64,7 @@ namespace EpubReaderDemo.Models
             string bookCoverImageFilePath = GetBookCoverImageFilePath(libraryItemViewModel.Id);
             if (File.Exists(bookCoverImageFilePath))
                 File.Delete(bookCoverImageFilePath);
-            applicationContext.Settings.Books.Remove(applicationContext.Settings.Books.First(book => book.Id == libraryItemViewModel.Id));
+            settings.Books.Remove(settings.Books.First(book => book.Id == libraryItemViewModel.Id));
             applicationContext.SaveSettings();
         }
 

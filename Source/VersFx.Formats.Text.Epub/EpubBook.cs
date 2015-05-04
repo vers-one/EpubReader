@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using VersFx.Formats.Text.Epub.Entities;
 
 namespace VersFx.Formats.Text.Epub
@@ -7,8 +8,10 @@ namespace VersFx.Formats.Text.Epub
     {
         public string FilePath { get; set; }
         public string Title { get; set; }
+        public string Authors { get; set; }
         public EpubSchema Schema { get; set; }
+        public EpubContent Content { get; set; }
+        public Image CoverImage { get; set; }
         public List<EpubChapter> Chapters { get; set; }
-        public List<EpubContentFile> ContentFiles { get; set; }
     }
 }

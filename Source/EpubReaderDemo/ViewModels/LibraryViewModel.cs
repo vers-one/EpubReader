@@ -13,6 +13,7 @@ namespace EpubReaderDemo.ViewModels
 
         private Command addBookCommand;
         private Command removeFromLibraryCommand;
+        private Command openBookCommand;
 
         public LibraryViewModel()
         {
@@ -20,6 +21,7 @@ namespace EpubReaderDemo.ViewModels
             libraryModel = new LibraryModel();
             addBookCommand = null;
             removeFromLibraryCommand = null;
+            openBookCommand = null;
             RefreshLibrary();
         }
 
@@ -44,7 +46,17 @@ namespace EpubReaderDemo.ViewModels
                 return removeFromLibraryCommand;
             }
         }
-        
+
+        public ICommand OpenBookCommand
+        {
+            get
+            {
+                if (openBookCommand == null)
+                    openBookCommand = new Command(param => OpenBook(param as LibraryItemViewModel));
+                return openBookCommand;
+            }
+        }
+
         private void RefreshLibrary()
         {
             Books = new ObservableCollection<LibraryItemViewModel>(libraryModel.GetLibraryItems());
@@ -71,6 +83,13 @@ namespace EpubReaderDemo.ViewModels
         {
             libraryModel.RemoveBookFromLibrary(book);
             RefreshLibrary();
+        }
+
+        private void OpenBook(LibraryItemViewModel book)
+        {
+            BookViewModel bookViewModel = new BookViewModel(book.Id);
+            IWindowContext bookWindowContext = windowManager.CreateWindow(bookViewModel);
+            bookWindowContext.ShowDialog();
         }
     }
 }
