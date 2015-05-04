@@ -5,8 +5,7 @@
         xmlns:utils="clr-namespace:EpubReaderDemo.Utils"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        mc:Ignorable="d" 
-        d:DesignHeight="300" d:DesignWidth="300">
+        mc:Ignorable="d">
     <Button.Resources>
         <utils:IntToDoubleConverter x:Key="intToDoubleConverter" />
         <utils:BindingProxy x:Key="libraryViewModelContext" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
@@ -71,14 +70,15 @@
                 <StackPanel>
                     <Image Source="{Binding CoverImage}" Width="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_WIDTH}, Converter={StaticResource intToDoubleConverter}}"
                        Height="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_HEIGHT}, Converter={StaticResource intToDoubleConverter}}" Margin="8" />
-                    <TextBlock Text="{Binding Title}" TextAlignment="Center" TextTrimming="CharacterEllipsis" Margin="8,0,8,8" Width="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_WIDTH}, Converter={StaticResource intToDoubleConverter}}" />
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource ptSansTextBlockStyle}" TextAlignment="Center" TextTrimming="CharacterEllipsis" Margin="8,0,8,8"
+                               Width="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_WIDTH}, Converter={StaticResource intToDoubleConverter}}" />
                 </StackPanel>
             </Border>
         </ControlTemplate>
     </Button.Template>
     <Button.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Remove from library" Command="{Binding DataContext.RemoveFromLibraryCommand, Source={StaticResource libraryViewModelContext}}" CommandParameter="{Binding}" />
+            <MenuItem Header="Remove from library" Style="{StaticResource ptSansTextStyle}" Command="{Binding DataContext.RemoveFromLibraryCommand, Source={StaticResource libraryViewModelContext}}" CommandParameter="{Binding}" />
         </ContextMenu>
     </Button.ContextMenu>
 </Button>

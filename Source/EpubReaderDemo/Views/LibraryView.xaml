@@ -3,15 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:EpubReaderDemo.Controls"
         Title="EpubReader demo — Library" Height="768" Width="867"
-        Icon="/Resources/Book_icon.ico">
+        Style="{StaticResource windowStyle}">
     <Grid Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Padding="8" Command="{Binding AddBookCommand}">Add book</Button>
-        </StackPanel>
+        <Border Grid.Row="0" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                <Button Padding="8" Command="{Binding AddBookCommand}" Style="{StaticResource whiteButtonStyle}">Add book</Button>
+            </StackPanel>
+        </Border>
         <ScrollViewer Grid.Row="1" Margin="0,8,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Books}">
                 <ItemsControl.ItemsPanel>
@@ -21,7 +23,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:BookButton />
+                        <controls:BookButton Command="{Binding DataContext.OpenBookCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

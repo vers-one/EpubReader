@@ -37,9 +37,16 @@
     <ApplicationIcon>Resources\Book_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlRenderer">
+      <HintPath>..\packages\HtmlRenderer.Core.1.5.0.5\lib\net45\HtmlRenderer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlRenderer.WPF">
+      <HintPath>..\packages\HtmlRenderer.WPF.1.5.0.5\lib\net45\HtmlRenderer.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,15 +68,30 @@
     <Compile Include="Controls\BookButton.xaml.cs">
       <DependentUpon>BookButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BookHtmlContent.cs" />
+    <Compile Include="Controls\ContentsButton.xaml.cs">
+      <DependentUpon>ContentsButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContentsTreeView.xaml.cs">
+      <DependentUpon>ContentsTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextBlockWithTooltip.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Constants.cs" />
     <Compile Include="Entities\Settings.cs" />
+    <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\LibraryModel.cs" />
     <Compile Include="Utils\BindingProxy.cs" />
     <Compile Include="Utils\Command.cs" />
     <Compile Include="Utils\ExpressionUtils.cs" />
     <Compile Include="Utils\IntToDoubleConverter.cs" />
+    <Compile Include="ViewModels\BookViewModel.cs" />
+    <Compile Include="ViewModels\ChapterContentViewModel.cs" />
+    <Compile Include="ViewModels\ChapterViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\BookView.xaml.cs">
+      <DependentUpon>BookView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfEnvironment\IWindowContext.cs" />
     <Compile Include="WpfEnvironment\IWindowManager.cs" />
     <Compile Include="WpfEnvironment\OpenFileDialogParameters.cs" />
@@ -87,6 +109,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Controls\BookButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ContentsButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ContentsTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Common.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BookView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,11 +151,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\PTSans.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -133,6 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Book_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Licenses\PTSans\PT Free Font License_eng_1.2.txt" />
+    <None Include="Licenses\PTSans\PT Free Font License_rus_1.2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
