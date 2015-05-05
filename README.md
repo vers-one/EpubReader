@@ -43,7 +43,7 @@ EpubContent bookContent = epubBook.Content;
             
 // IMAGES
 
-// All images in the book (key is file name)
+// All images in the book (file name is the key)
 Dictionary<string, EpubByteContentFile> images = bookContent.Images;
 
 EpubByteContentFile firstImage = images.Values.First();
@@ -63,10 +63,10 @@ using (MemoryStream imageStream = new MemoryStream(firstImage.Content))
 
 // HTML & CSS
 
-// All XHTML files in the book (key is file name)
+// All XHTML files in the book (file name is the key)
 Dictionary<string, EpubTextContentFile> htmlFiles = bookContent.Html;
 
-// All CSS files in the book (key is file name)
+// All CSS files in the book (file name is the key)
 Dictionary<string, EpubTextContentFile> cssFiles = bookContent.Css;
 
 // Entire HTML content of the book
@@ -84,7 +84,7 @@ foreach (EpubTextContentFile cssFile in cssFiles.Values)
 
 // OTHER CONTENT
 
-// All fonts in the book (key is file name)
+// All fonts in the book (file name is the key)
 Dictionary<string, EpubByteContentFile> fonts = bookContent.Fonts;
 
 // All files in the book (including HTML, CSS, images, fonts, and other types of files)
