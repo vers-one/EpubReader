@@ -1,11 +1,6 @@
 # EpubReader
 .NET library for reading EPUB files
 
-## Demo app
-[Download (EpubReaderDemo.zip, 399 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0/EpubReaderDemo.zip)
-
-Warning: HTML renderer used in this demo app may be a little bit slow for some books.
-
 ## Example
 ```csharp
 // Opening a book
@@ -118,3 +113,13 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
     string metadataItemContent = meta.Content;
 }
 ```
+
+## Download latest stable release
+[Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
+
+[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 45 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0/VersFx.Formats.Text.Epub.dll)
+
+## Demo app
+[Download (EpubReaderDemo.zip, 399 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0/EpubReaderDemo.zip)
+
+Warning: HTML renderer used in this demo app may be a little bit slow for some books.
