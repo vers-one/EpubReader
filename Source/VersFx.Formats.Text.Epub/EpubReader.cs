@@ -24,7 +24,8 @@ namespace VersFx.Formats.Text.Epub
             {
                 book.Schema = SchemaReader.ReadSchema(epubArchive);
                 book.Title = book.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
-                book.Authors = book.Schema.Package.Metadata.Creators.Any() ? String.Join(", ", book.Schema.Package.Metadata.Creators) : String.Empty;
+                book.AuthorList = book.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
+                book.Author = String.Join(", ", book.AuthorList);
                 book.Content = ContentReader.ReadContentFiles(epubArchive, book);
                 book.CoverImage = LoadCoverImage(book);
                 book.Chapters = LoadChapters(book, epubArchive);
