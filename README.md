@@ -13,7 +13,10 @@ EpubBook epubBook = EpubReader.OpenBook("alice_in_wonderland.epub");
 string title = epubBook.Title;
 
 // Book's authors (comma separated list)
-string authors = epubBook.Authors;
+string author = epubBook.Author;
+
+// Book's authors (list of authors names)
+List<string> authors = epubBook.AuthorList;
 
 // Book's cover image (null if there are no cover)
 Image coverImage = epubBook.CoverImage;
@@ -117,9 +120,11 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
 
-[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 45 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0/VersFx.Formats.Text.Epub.dll)
+[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 45.5 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.1/VersFx.Formats.Text.Epub.dll)
 
 ## Demo app
-[Download (EpubReaderDemo.zip, 399 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0/EpubReaderDemo.zip)
+[Download (EpubReaderDemo.zip, 400 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.1/EpubReaderDemo.zip)
 
-Warning: HTML renderer used in this demo app may be a little bit slow for some books.
+This application demonstrates how can you open EPUB books and extract their content using this library.
+
+HTML renderer used in this demo app may be a little bit slow for some books.
