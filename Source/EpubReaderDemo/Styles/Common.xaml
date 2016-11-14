@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:u="clr-namespace:EpubReaderDemo.Utils">
+    <u:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    <u:BooleanToInverseVisibilityConverter x:Key="booleanToInverseVisibilityConverter" />
     <Style x:Key="windowStyle" TargetType="Window">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Icon" Value="/Resources/Book_icon.ico" />

@@ -3,8 +3,8 @@
 
 ## Example
 ```csharp
-// Opening a book
-EpubBook epubBook = EpubReader.OpenBook("alice_in_wonderland.epub");
+// Opens a book and reads all of its content into the memory
+EpubBook epubBook = EpubReader.ReadBook("alice_in_wonderland.epub");
 
             
 // COMMON PROPERTIES
@@ -18,7 +18,7 @@ string author = epubBook.Author;
 // Book's authors (list of authors names)
 List<string> authors = epubBook.AuthorList;
 
-// Book's cover image (null if there are no cover)
+// Book's cover image (null if there is no cover)
 Image coverImage = epubBook.CoverImage;
 
             
@@ -57,7 +57,7 @@ EpubContentType contentType = firstImage.ContentType;
 // MIME type (e.g. "image/jpeg", "image/png")
 string mimeContentType = firstImage.ContentMimeType;
 
-// Creating Image class instance from content
+// Creating Image class instance from the content
 using (MemoryStream imageStream = new MemoryStream(firstImage.Content))
 {
     Image image = Image.FromStream(imageStream);
@@ -120,11 +120,11 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
 
-[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 45.5 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.1/VersFx.Formats.Text.Epub.dll)
+[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 71.5 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/VersFx.Formats.Text.Epub.dll)
 
 ## Demo app
-[Download (EpubReaderDemo.zip, 400 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.1/EpubReaderDemo.zip)
+[Download (EpubReaderDemo.zip, 413 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/EpubReaderDemo.zip)
 
-This application demonstrates how can you open EPUB books and extract their content using this library.
+This application demonstrates the opening EPUB books and extracting their content using this library.
 
 HTML renderer used in this demo app may be a little bit slow for some books.

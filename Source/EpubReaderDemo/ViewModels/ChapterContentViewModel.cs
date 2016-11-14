@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EpubReaderDemo.ViewModels
 {
     public class ChapterContentViewModel : ViewModel
     {
-        public ChapterContentViewModel(string htmlContent, Dictionary<string, byte[]> images, Dictionary<string, string> styleSheets, Dictionary<string, byte[]> fonts)
+        public ChapterContentViewModel(string htmlFilePath, string htmlContent, Dictionary<string, byte[]> images, Dictionary<string, string> styleSheets, Dictionary<string, byte[]> fonts)
         {
+            HtmlFilePath = htmlFilePath;
             HtmlContent = htmlContent;
             Images = images;
             StyleSheets = styleSheets;
             Fonts = fonts;
         }
 
+        public string HtmlFilePath { get; private set; }
         public string HtmlContent { get; private set; }
         public Dictionary<string, byte[]> Images { get; private set; }
         public Dictionary<string, string> StyleSheets { get; private set; }

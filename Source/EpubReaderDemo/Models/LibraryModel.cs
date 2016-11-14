@@ -40,20 +40,21 @@ namespace EpubReaderDemo.Models
                 bookId = settings.Books.Max(bookItem => bookItem.Id) + 1;
             else
                 bookId = 1;
-            EpubBook epubBook = EpubReader.OpenBook(bookFilePath);
-            if (epubBook.CoverImage != null)
+            EpubBookRef epubBookRef = EpubReader.OpenBook(bookFilePath);
+            Image coverImage = epubBookRef.ReadCover();
+            if (coverImage != null)
             {
                 if (!Directory.Exists(Constants.COVER_IMAGES_FOLDER))
                     Directory.CreateDirectory(Constants.COVER_IMAGES_FOLDER);
-                using (Image resizedCoverImage = ResizeCover(epubBook.CoverImage))
+                using (Image resizedCoverImage = ResizeCover(coverImage))
                     resizedCoverImage.Save(GetBookCoverImageFilePath(bookId), ImageFormat.Png);
             }
             Book book = new Book
             {
                 Id = bookId,
                 FilePath = bookFilePath,
-                Title = epubBook.Title,
-                HasCover = epubBook.CoverImage != null
+                Title = epubBookRef.Title,
+                HasCover = coverImage != null
             };
             settings.Books.Add(book);
             applicationContext.SaveSettings();

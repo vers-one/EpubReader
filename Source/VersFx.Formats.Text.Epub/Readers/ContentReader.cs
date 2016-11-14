@@ -1,33 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using VersFx.Formats.Text.Epub.Entities;
+﻿using System.Collections.Generic;
 using VersFx.Formats.Text.Epub.Schema.Opf;
-using VersFx.Formats.Text.Epub.Utils;
 
 namespace VersFx.Formats.Text.Epub.Readers
 {
     internal static class ContentReader
     {
-        public static EpubContent ReadContentFiles(ZipArchive epubArchive, EpubBook book)
+        public static EpubContentRef ParseContentMap(EpubBookRef bookRef)
         {
-            EpubContent result = new EpubContent
+            EpubContentRef result = new EpubContentRef
             {
-                Html = new Dictionary<string, EpubTextContentFile>(),
-                Css = new Dictionary<string, EpubTextContentFile>(),
-                Images = new Dictionary<string, EpubByteContentFile>(),
-                Fonts = new Dictionary<string, EpubByteContentFile>(),
-                AllFiles = new Dictionary<string, EpubContentFile>()
+                Html = new Dictionary<string, EpubTextContentFileRef>(),
+                Css = new Dictionary<string, EpubTextContentFileRef>(),
+                Images = new Dictionary<string, EpubByteContentFileRef>(),
+                Fonts = new Dictionary<string, EpubByteContentFileRef>(),
+                AllFiles = new Dictionary<string, EpubContentFileRef>()
             };
-            foreach (EpubManifestItem manifestItem in book.Schema.Package.Manifest)
+            foreach (EpubManifestItem manifestItem in bookRef.Schema.Package.Manifest)
             {
-                string contentFilePath = ZipPathUtils.Combine(book.Schema.ContentDirectoryPath, manifestItem.Href);
-                ZipArchiveEntry contentFileEntry = epubArchive.GetEntry(contentFilePath);
-                if (contentFileEntry == null)
-                    throw new Exception(String.Format("EPUB parsing error: file {0} not found in archive.", contentFilePath));
-                if (contentFileEntry.Length > Int32.MaxValue)
-                    throw new Exception(String.Format("EPUB parsing error: file {0} is bigger than 2 Gb.", contentFilePath));
                 string fileName = manifestItem.Href;
                 string contentMimeType = manifestItem.MediaType;
                 EpubContentType contentType = GetContentTypeByContentMimeType(contentMimeType);
@@ -40,19 +29,12 @@ namespace VersFx.Formats.Text.Epub.Readers
                     case EpubContentType.XML:
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
-                        EpubTextContentFile epubTextContentFile = new EpubTextContentFile
+                        EpubTextContentFileRef epubTextContentFile = new EpubTextContentFileRef(bookRef)
                         {
                             FileName = fileName,
                             ContentMimeType = contentMimeType,
                             ContentType = contentType
                         };
-                        using (Stream contentStream = contentFileEntry.Open())
-                        {
-                            if (contentStream == null)
-                                throw new Exception(String.Format("Incorrect EPUB file: content file \"{0}\" specified in manifest is not found", fileName));
-                            using (StreamReader streamReader = new StreamReader(contentStream))
-                                epubTextContentFile.Content = streamReader.ReadToEnd();
-                        }
                         switch (contentType)
                         {
                             case EpubContentType.XHTML_1_1:
@@ -65,22 +47,12 @@ namespace VersFx.Formats.Text.Epub.Readers
                         result.AllFiles.Add(fileName, epubTextContentFile);
                         break;
                     default:
-                        EpubByteContentFile epubByteContentFile = new EpubByteContentFile
+                        EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef)
                         {
                             FileName = fileName,
                             ContentMimeType = contentMimeType,
                             ContentType = contentType
                         };
-                        using (Stream contentStream = contentFileEntry.Open())
-                        {
-                            if (contentStream == null)
-                                throw new Exception(String.Format("Incorrect EPUB file: content file \"{0}\" specified in manifest is not found", fileName));
-                            using (MemoryStream memoryStream = new MemoryStream((int)contentFileEntry.Length))
-                            {
-                                contentStream.CopyTo(memoryStream);
-                                epubByteContentFile.Content = memoryStream.ToArray();
-                            }
-                        }
                         switch (contentType)
                         {
                             case EpubContentType.IMAGE_GIF:

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using VersFx.Formats.Text.Epub.Entities;
 
 namespace VersFx.Formats.Text.Epub
 {

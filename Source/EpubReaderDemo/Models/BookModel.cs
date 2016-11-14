@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EpubReaderDemo.Entities;
 using EpubReaderDemo.ViewModels;
 using VersFx.Formats.Text.Epub;
-using VersFx.Formats.Text.Epub.Entities;
 
 namespace EpubReaderDemo.Models
 {
@@ -21,9 +18,9 @@ namespace EpubReaderDemo.Models
             settings = applicationContext.Settings;
         }
 
-        public EpubBook OpenBook(int bookId)
+        public async Task<EpubBook> OpenBookAsync(int bookId)
         {
-            EpubBook epubBook = EpubReader.OpenBook(settings.Books.First(book => book.Id == bookId).FilePath);
+            EpubBook epubBook = await EpubReader.ReadBookAsync(settings.Books.First(book => book.Id == bookId).FilePath);
             return epubBook;
         }
 
@@ -38,7 +35,7 @@ namespace EpubReaderDemo.Models
             foreach (EpubChapter epubChapter in epubChapters)
             {
                 List<ChapterViewModel> subChapters = GetChapters(epubChapter.SubChapters);
-                ChapterViewModel chapterViewModel = new ChapterViewModel(epubChapter.Title, subChapters, epubChapter.HtmlContent);
+                ChapterViewModel chapterViewModel = new ChapterViewModel(epubChapter.ContentFileName, epubChapter.Title, subChapters, epubChapter.HtmlContent);
                 result.Add(chapterViewModel);
             }
             return result;

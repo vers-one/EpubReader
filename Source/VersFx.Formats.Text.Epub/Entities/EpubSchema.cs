@@ -1,7 +1,7 @@
 ﻿using VersFx.Formats.Text.Epub.Schema.Navigation;
 using VersFx.Formats.Text.Epub.Schema.Opf;
 
-namespace VersFx.Formats.Text.Epub.Entities
+namespace VersFx.Formats.Text.Epub
 {
     public class EpubSchema
     {

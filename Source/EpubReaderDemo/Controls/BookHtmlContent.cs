@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Packaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -39,8 +36,9 @@ namespace EpubReaderDemo.Controls
 
         protected override void OnImageLoad(HtmlImageLoadEventArgs e)
         {
+            string imageFilePath = GetFullPath(ChapterContent.HtmlFilePath, e.Src);
             byte[] imageContent;
-            if (ChapterContent.Images.TryGetValue(e.Src, out imageContent))
+            if (ChapterContent.Images.TryGetValue(imageFilePath, out imageContent))
             {
                 using (MemoryStream imageStream = new MemoryStream(imageContent))
                 {
@@ -59,8 +57,9 @@ namespace EpubReaderDemo.Controls
 
         protected override void OnStylesheetLoad(HtmlStylesheetLoadEventArgs e)
         {
+            string styleSheetFilePath = GetFullPath(ChapterContent.HtmlFilePath, e.Src);
             string styleSheetContent;
-            if (ChapterContent.StyleSheets.TryGetValue(e.Src, out styleSheetContent))
+            if (ChapterContent.StyleSheets.TryGetValue(styleSheetFilePath, out styleSheetContent))
                 e.SetStyleSheet = styleSheetContent;
             base.OnStylesheetLoad(e);
         }
@@ -73,6 +72,20 @@ namespace EpubReaderDemo.Controls
             if (!bookHtmlContent.areFontsRegistered)
                 bookHtmlContent.RegisterFonts();
             bookHtmlContent.Text = bookHtmlContent.ChapterContent.HtmlContent;
+        }
+
+        private string GetFullPath(string htmlFilePath, string relativePath)
+        {
+            if (relativePath.StartsWith("/"))
+                return relativePath.Length > 1 ? relativePath.Substring(1) : String.Empty;
+            string basePath = Path.GetDirectoryName(htmlFilePath);
+            while (relativePath.StartsWith("../"))
+            {
+                relativePath = relativePath.Length > 3 ? relativePath.Substring(3) : String.Empty;
+                basePath = Path.GetDirectoryName(basePath);
+            }
+            string fullPath = String.Concat(basePath.Replace('\\', '/'), '/', relativePath);
+            return fullPath.Length > 1 ? fullPath.Substring(1) : String.Empty;
         }
 
         private void RegisterFonts()
