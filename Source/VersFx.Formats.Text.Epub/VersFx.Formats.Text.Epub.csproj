@@ -40,12 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Readers\BookCoverReader.cs" />
+    <Compile Include="Readers\ChapterReader.cs" />
+    <Compile Include="RefEntities\EpubBookRef.cs" />
     <Compile Include="Entities\EpubChapter.cs" />
     <Compile Include="Entities\EpubContent.cs" />
     <Compile Include="Entities\EpubContentType.cs" />
     <Compile Include="Entities\EpubTextContentFile.cs" />
     <Compile Include="Entities\EpubByteContentFile.cs" />
-    <Compile Include="EpubBook.cs" />
+    <Compile Include="Entities\EpubBook.cs" />
     <Compile Include="Entities\EpubContentFile.cs" />
     <Compile Include="Entities\EpubSchema.cs" />
     <Compile Include="EpubReader.cs" />
@@ -55,6 +58,11 @@
     <Compile Include="Readers\PackageReader.cs" />
     <Compile Include="Readers\RootFilePathReader.cs" />
     <Compile Include="Readers\SchemaReader.cs" />
+    <Compile Include="RefEntities\EpubByteContentFileRef.cs" />
+    <Compile Include="RefEntities\EpubChapterRef.cs" />
+    <Compile Include="RefEntities\EpubContentFileRef.cs" />
+    <Compile Include="RefEntities\EpubContentRef.cs" />
+    <Compile Include="RefEntities\EpubTextContentFileRef.cs" />
     <Compile Include="Schema\Navigation\EpubNavigation.cs" />
     <Compile Include="Schema\Navigation\EpubNavigationContent.cs" />
     <Compile Include="Schema\Navigation\EpubNavigationDocAuthor.cs" />

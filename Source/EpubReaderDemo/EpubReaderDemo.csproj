@@ -82,6 +82,8 @@
     <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\LibraryModel.cs" />
     <Compile Include="Utils\BindingProxy.cs" />
+    <Compile Include="Utils\BooleanToInverseVisibilityConverter.cs" />
+    <Compile Include="Utils\BooleanToVisibilityConverter.cs" />
     <Compile Include="Utils\Command.cs" />
     <Compile Include="Utils\ExpressionUtils.cs" />
     <Compile Include="Utils\IntToDoubleConverter.cs" />
