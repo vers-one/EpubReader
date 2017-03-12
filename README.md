@@ -117,6 +117,9 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 }
 ```
 
+## More examples
+[How to extract plain text from all chapters.](https://github.com/versfx/EpubReader/tree/master/Source/EpubReaderExamples/ExtractPlainText.cs)
+
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
 
