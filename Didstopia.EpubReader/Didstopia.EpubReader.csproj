@@ -19,7 +19,7 @@
     <Description>A .NET Standard library for reading ePub files.
 
 NOTE: This is an extensively modified fork of Didstopia.EpubReader (https://github.com/versfx/EpubReader). This fork aims to be a cross-platform and modern library, using latest technologies and techniques, such as .NET Standard.</Description>
-    <ReleaseVersion>1.0.0</ReleaseVersion>
+    <ReleaseVersion>1.0.0-beta1</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

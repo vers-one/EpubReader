@@ -27,6 +27,6 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		description = A .NET Standard library for reading ePub files.
-		version = 1.0.0
+		version = 1.0.0-beta1
 	EndGlobalSection
 EndGlobal

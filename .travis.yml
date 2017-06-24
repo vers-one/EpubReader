@@ -11,6 +11,9 @@ mono:
 sudo:
   - false
 
+# Install .NET Core
+dotnet: 1.0.4
+
 # Default linux distro (Ubuntu 14.04)
 dist:
   - trusty
