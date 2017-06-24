@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didstopia.EpubReader", "Didstopia.EpubReader\Didstopia.EpubReader.csproj", "{A24EE538-B6A2-487E-95F8-C1AAB7FFCEA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Didstopia.EpubReader.Tests", "Didstopia.EpubReader.Tests\Didstopia.EpubReader.Tests.csproj", "{3DD068A9-91E2-411E-818B-0CA85C81E185}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A24EE538-B6A2-487E-95F8-C1AAB7FFCEA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A24EE538-B6A2-487E-95F8-C1AAB7FFCEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A24EE538-B6A2-487E-95F8-C1AAB7FFCEA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A24EE538-B6A2-487E-95F8-C1AAB7FFCEA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DD068A9-91E2-411E-818B-0CA85C81E185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DD068A9-91E2-411E-818B-0CA85C81E185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DD068A9-91E2-411E-818B-0CA85C81E185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DD068A9-91E2-411E-818B-0CA85C81E185}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		description = A .NET Standard library for reading ePub files.
+		version = 1.0.0
+	EndGlobalSection
+EndGlobal

@@ -1,7 +1,14 @@
-# EpubReader
-.NET library for reading EPUB files
+# ePub Reader
+
+A .NET Standard library for reading ePub files.
+
+**NOTE:** This is an extensively modified fork of [versfx's EpubReader](https://github.com/versfx/EpubReader).
+This fork aims to be a cross-platform and modern library, using latest technologies such as .NET Standard.
 
 ## Example
+
+**NOTE:** The examples below may not be up to date, but will be fixed as this fork matures and is deemed stable for production use.
+
 ```csharp
 // Opens a book and reads all of its content into the memory
 EpubBook epubBook = EpubReader.ReadBook("alice_in_wonderland.epub");
@@ -116,18 +123,3 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
     string metadataItemContent = meta.Content;
 }
 ```
-
-## More examples
-[How to extract plain text from all chapters.](https://github.com/versfx/EpubReader/tree/master/Source/EpubReaderExamples/ExtractPlainText.cs)
-
-## Download latest stable release
-[Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
-
-[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 71.5 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/VersFx.Formats.Text.Epub.dll)
-
-## Demo app
-[Download (EpubReaderDemo.zip, 413 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/EpubReaderDemo.zip)
-
-This application demonstrates the opening EPUB books and extracting their content using this library.
-
-HTML renderer used in this demo app may be a little bit slow for some books.

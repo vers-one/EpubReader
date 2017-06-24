@@ -1,0 +1,38 @@
+ # Main language/toolchain
+language:
+  - csharp
+
+# Mono versions to test against
+mono:
+  - latest
+  - 5.0.1
+
+# Enable running inside a container (container-based infrastructure)
+sudo:
+  - false
+
+# Default linux distro (Ubuntu 14.04)
+dist:
+  - trusty
+
+# Global environment variables
+env:
+- MSBUILD_CONFIG="Debug" CACHE_NAME="Debug Build Cache"
+- MSBUILD_CONFIG="Release" CACHE_NAME="Release Build Cache"
+
+# Build script
+script:
+  - nuget restore
+  - msbuild /p:Configuration=${MSBUILD_CONFIG} /t:Restore,Rebuild
+  - dotnet test Didstopia.EpubReader.Tests
+  - dotnet pack
+
+# Only build the master branch
+branches:
+  only:
+    - master
+
+# Caching
+cache:
+  directories:
+  - $HOME/.nuget/packages
