@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <RootNamespace>Didstopia.EpubReader</RootNamespace>
+    <AssemblyName>Didstopia.EpubReader</AssemblyName>
+    <PackageId>Didstopia.EpubReader</PackageId>
+    <PackageVersion>1.0.0-beta1</PackageVersion>
+    <Authors>Didstopia</Authors>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageLicenseUrl>https://github.com/Didstopia/EpubReader/blob/master/LICENSE.md</PackageLicenseUrl>
+    <Owners>Didstopia</Owners>
+    <PackageProjectUrl>https://github.com/Didstopia/EpubReader</PackageProjectUrl>
+    <PackageReleaseNotes>Migrated to a .NET Standard library.</PackageReleaseNotes>
+    <Summary>A .NET Standard library for reading ePub files.</Summary>
+    <PackageTags>epub reader .net standard library</PackageTags>
+    <Title>ePub Reader</Title>
+    <Description>A .NET Standard library for reading ePub files.
+
+NOTE: This is an extensively modified fork of Didstopia.EpubReader (https://github.com/versfx/EpubReader). This fork aims to be a cross-platform and modern library, using latest technologies and techniques, such as .NET Standard.</Description>
+    <ReleaseVersion>1.0.0-beta1</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.1.248" />
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="System.Xml.XPath" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XPath.XDocument" Version="4.3.0" />
+    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+  </ItemGroup>
+</Project>
