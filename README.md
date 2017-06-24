@@ -1,5 +1,7 @@
 # ePub Reader
 
+[![Build Status](https://travis-ci.org/Didstopia/EpubReader.svg?branch=master)](https://travis-ci.org/Didstopia/EpubReader)
+
 A .NET Standard library for reading ePub files.
 
 **NOTE:** This is an extensively modified fork of [versfx's EpubReader](https://github.com/versfx/EpubReader).
