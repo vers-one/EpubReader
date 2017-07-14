@@ -275,7 +275,7 @@ namespace VersFx.Formats.Text.Epub.Readers
                                 manifestItem.Id = attributeValue;
                                 break;
                             case "href":
-                                manifestItem.Href = attributeValue;
+                                manifestItem.Href = Uri.UnescapeDataString(attributeValue);
                                 break;
                             case "media-type":
                                 manifestItem.MediaType = attributeValue;
@@ -346,7 +346,7 @@ namespace VersFx.Formats.Text.Epub.Readers
                                 guideReference.Title = attributeValue;
                                 break;
                             case "href":
-                                guideReference.Href = attributeValue;
+                                guideReference.Href = Uri.UnescapeDataString(attributeValue);
                                 break;
                         }
                     }
