@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersFx.Formats.Text.Epub", "VersFx.Formats.Text.Epub\VersFx.Formats.Text.Epub.csproj", "{313E44F0-4BC2-4A4F-B24B-C29D8FFB7C4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubReaderDemo", "EpubReaderDemo\EpubReaderDemo.csproj", "{2C48D6FB-EC93-4B79-8E52-79B579B3C324}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubReaderDemo", "EpubReaderDemo.Wpf\EpubReaderDemo.Wpf.csproj", "{2C48D6FB-EC93-4B79-8E52-79B579B3C324}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpubReaderExamples", "EpubReaderExamples\EpubReaderExamples.csproj", "{D458977B-A247-44BC-A7B2-CD5B62C897B6}"
 EndProject
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EEE6FCA-0A83-4845-805D-537EBCA647E1}
 	EndGlobalSection
 EndGlobal

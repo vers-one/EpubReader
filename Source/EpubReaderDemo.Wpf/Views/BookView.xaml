@@ -1,0 +1,31 @@
+﻿<Window x:Class="EpubReaderDemo.Wpf.Views.BookView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:EpubReaderDemo.Wpf.Controls"
+        Title="EpubReader demo — Book" Width="1024" Height="768"
+        Style="{StaticResource windowStyle}">
+    <Grid>
+        <Grid Visibility="{Binding IsLoading, Converter={StaticResource booleanToInverseVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <controls:ContentsTreeView Grid.Column="0" ItemsSource="{Binding Contents}">
+                <controls:ContentsTreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                        <Setter Property="IsExpanded" Value="{Binding Path=IsTreeItemExpanded, Mode=TwoWay}" />
+                    </Style>
+                </controls:ContentsTreeView.ItemContainerStyle>
+                <controls:ContentsTreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding SubChapters}">
+                        <controls:ContentsButton Command="{Binding DataContext.SelectChapterCommand, RelativeSource={RelativeSource AncestorType=controls:ContentsTreeView}}" CommandParameter="{Binding}" />
+                    </HierarchicalDataTemplate>
+                </controls:ContentsTreeView.ItemTemplate>
+            </controls:ContentsTreeView>
+            <GridSplitter Grid.Column="1" Width="4" Height="Auto" HorizontalAlignment="Stretch" Background="White" />
+            <controls:BookHtmlContent Grid.Column="2" ChapterContent="{Binding SelectedChapterContent}" />
+        </Grid>
+        <TextBlock Text="Loading book..." HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource booleanToVisibilityConverter}}" />
+    </Grid>
+</Window>
