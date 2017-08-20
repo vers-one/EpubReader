@@ -1,0 +1,84 @@
+﻿<Button x:Class="VersOne.Epub.WpfDemo.Controls.BookButton"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:const="clr-namespace:VersOne.Epub.WpfDemo.Entities"
+        xmlns:utils="clr-namespace:VersOne.Epub.WpfDemo.Utils"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        mc:Ignorable="d">
+    <Button.Resources>
+        <utils:IntToDoubleConverter x:Key="intToDoubleConverter" />
+        <utils:BindingProxy x:Key="libraryViewModelContext" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+    </Button.Resources>
+    <Button.Template>
+        <ControlTemplate TargetType="Button">
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="bookBorder">
+                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="AliceBlue" Duration="0:0:0.2" />
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#63B4FB" Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="bookBorder" FillBehavior="Stop">
+                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="Transparent" Duration="0:0:0.2" />
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="Transparent" Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="bookBorder">
+                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#D8EDFF" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="bookBorder" FillBehavior="Stop">
+                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="AliceBlue" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+                <DataTrigger Binding="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="bookBorder">
+                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#D8EDFF" Duration="0:0:0.1" />
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#63B4FB" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard Storyboard.TargetName="bookBorder" FillBehavior="Stop">
+                                <ColorAnimation Storyboard.TargetProperty="Background.Color" To="AliceBlue" Duration="0:0:0.1" />
+                                <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#63B4FB" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </ControlTemplate.Triggers>
+            <Border x:Name="bookBorder" BorderBrush="Transparent" BorderThickness="1" Background="Transparent" CornerRadius="4">
+                <StackPanel>
+                    <Image Source="{Binding CoverImage}" Width="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_WIDTH}, Converter={StaticResource intToDoubleConverter}}"
+                       Height="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_HEIGHT}, Converter={StaticResource intToDoubleConverter}}" Margin="8" />
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource ptSansTextBlockStyle}" TextAlignment="Center" TextTrimming="CharacterEllipsis" Margin="8,0,8,8"
+                               Width="{Binding Source={x:Static const:Constants.COVER_IMAGE_MAX_WIDTH}, Converter={StaticResource intToDoubleConverter}}" />
+                </StackPanel>
+            </Border>
+        </ControlTemplate>
+    </Button.Template>
+    <Button.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Remove from library" Style="{StaticResource ptSansTextStyle}" Command="{Binding DataContext.RemoveFromLibraryCommand, Source={StaticResource libraryViewModelContext}}" CommandParameter="{Binding}" />
+        </ContextMenu>
+    </Button.ContextMenu>
+</Button>
