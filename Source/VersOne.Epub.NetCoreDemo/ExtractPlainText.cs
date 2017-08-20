@@ -2,7 +2,7 @@
 using System.Text;
 using HtmlAgilityPack;
 
-namespace VersOne.Epub.Examples
+namespace VersOne.Epub.NetCoreDemo
 {
     internal static class ExtractPlainText
     {

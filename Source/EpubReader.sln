@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VersOne.Epub", "VersOne.Epu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersOne.Epub.WpfDemo", "VersOne.Epub.WpfDemo\VersOne.Epub.WpfDemo.csproj", "{2C48D6FB-EC93-4B79-8E52-79B579B3C324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersOne.Epub.Examples", "VersOne.Epub.Examples\VersOne.Epub.Examples.csproj", "{D458977B-A247-44BC-A7B2-CD5B62C897B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersOne.Epub.NetCoreDemo", "VersOne.Epub.NetCoreDemo\VersOne.Epub.NetCoreDemo.csproj", "{A6ED4735-3D37-4E44-BEE4-218C6BBAC1BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{2C48D6FB-EC93-4B79-8E52-79B579B3C324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C48D6FB-EC93-4B79-8E52-79B579B3C324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C48D6FB-EC93-4B79-8E52-79B579B3C324}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D458977B-A247-44BC-A7B2-CD5B62C897B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D458977B-A247-44BC-A7B2-CD5B62C897B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D458977B-A247-44BC-A7B2-CD5B62C897B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D458977B-A247-44BC-A7B2-CD5B62C897B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6ED4735-3D37-4E44-BEE4-218C6BBAC1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6ED4735-3D37-4E44-BEE4-218C6BBAC1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6ED4735-3D37-4E44-BEE4-218C6BBAC1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6ED4735-3D37-4E44-BEE4-218C6BBAC1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

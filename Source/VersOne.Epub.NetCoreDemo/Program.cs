@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace VersOne.Epub.Examples
+namespace VersOne.Epub.NetCoreDemo
 {
     internal static class Program
     {
@@ -50,4 +50,5 @@ namespace VersOne.Epub.Examples
             }
         }
     }
+
 }
