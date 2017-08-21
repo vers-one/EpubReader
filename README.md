@@ -131,13 +131,17 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 [How to extract plain text from all chapters.](https://github.com/versfx/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
 
 ## Download latest stable release
-[Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
+[Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
 
-[DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 71.5 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/VersFx.Formats.Text.Epub.dll)
+[DLL file from GitHub](https://github.com/vers-one/EpubReader/releases/download/v2.0/VersOne.Epub.dll) (VersOne.Epub.dll, 65.5 KB)
 
 ## Demo apps
-[Download (EpubReaderDemo.zip, 413 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/EpubReaderDemo.zip)
+[Download WPF demo app ](https://github.com/vers-one/EpubReader/releases/download/v2.0/WpfDemo.zip) (WpfDemo.zip, 442 KB)
 
-This application demonstrates the opening EPUB books and extracting their content using this library.
+This .NET Framework application demonstrates how to open EPUB books and extract their content in using the library.
 
 HTML renderer used in this demo app may be a little bit slow for some books.
+
+[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/download/v2.0/NetCoreDemo.zip) (NetCoreDemo.zip, 26.7 MB)
+
+This .NET Core application demonstrates how to open EPUB books and retrieve their text content.
