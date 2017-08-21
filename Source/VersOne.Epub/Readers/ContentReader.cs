@@ -59,14 +59,18 @@ namespace VersOne.Epub.Internal
                             case EpubContentType.IMAGE_JPEG:
                             case EpubContentType.IMAGE_PNG:
                             case EpubContentType.IMAGE_SVG:
-                                result.Images.Add(fileName, epubByteContentFile);
+                                // ensure the image key is unique
+                                if (!result.Images.ContainsKey(fileName))
+                                    result.Images.Add(fileName, epubByteContentFile);
                                 break;
                             case EpubContentType.FONT_TRUETYPE:
                             case EpubContentType.FONT_OPENTYPE:
                                 result.Fonts.Add(fileName, epubByteContentFile);
                                 break;
                         }
-                        result.AllFiles.Add(fileName, epubByteContentFile);
+                        // ensure the image key is unique
+                        if (!result.Images.ContainsKey(fileName))
+                            result.AllFiles.Add(fileName, epubByteContentFile);
                         break;
                 }
             }
