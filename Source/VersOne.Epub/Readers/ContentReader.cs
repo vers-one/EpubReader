@@ -38,13 +38,13 @@ namespace VersOne.Epub.Internal
                         switch (contentType)
                         {
                             case EpubContentType.XHTML_1_1:
-                                result.Html.Add(fileName, epubTextContentFile);
+                                result.Html[fileName] = epubTextContentFile;
                                 break;
                             case EpubContentType.CSS:
-                                result.Css.Add(fileName, epubTextContentFile);
+                                result.Css[fileName] = epubTextContentFile;
                                 break;
                         }
-                        result.AllFiles.Add(fileName, epubTextContentFile);
+                        result.AllFiles[fileName] = epubTextContentFile;
                         break;
                     default:
                         EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef)
@@ -59,18 +59,14 @@ namespace VersOne.Epub.Internal
                             case EpubContentType.IMAGE_JPEG:
                             case EpubContentType.IMAGE_PNG:
                             case EpubContentType.IMAGE_SVG:
-                                // ensure the image key is unique
-                                if (!result.Images.ContainsKey(fileName))
-                                    result.Images.Add(fileName, epubByteContentFile);
+                                result.Images[fileName] = epubByteContentFile;
                                 break;
                             case EpubContentType.FONT_TRUETYPE:
                             case EpubContentType.FONT_OPENTYPE:
-                                result.Fonts.Add(fileName, epubByteContentFile);
+                                result.Fonts[fileName] = epubByteContentFile;
                                 break;
                         }
-                        // ensure the image key is unique
-                        if (!result.Images.ContainsKey(fileName))
-                            result.AllFiles.Add(fileName, epubByteContentFile);
+                        result.AllFiles[fileName] = epubByteContentFile;
                         break;
                 }
             }
