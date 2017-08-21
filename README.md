@@ -1,9 +1,13 @@
 # EpubReader
-.NET library for reading EPUB files
+.NET library for reading EPUB files.
+
+Supports .NET Standard 2.0 (.NET Framework >= 4.6.1 and .NET Core >= 2.0).
+
+[Download](#download-latest-stable-release) | [WPF & .NET Core demo apps](#demo-apps)
 
 ## Example
 ```csharp
-// Opens a book and reads all of its content into the memory
+// Opens a book and reads all of its content into memory
 EpubBook epubBook = EpubReader.ReadBook("alice_in_wonderland.epub");
 
             
@@ -19,8 +23,14 @@ string author = epubBook.Author;
 List<string> authors = epubBook.AuthorList;
 
 // Book's cover image (null if there is no cover)
-Image coverImage = epubBook.CoverImage;
-
+byte[] coverImageContent = epubBook.CoverImage;
+if (coverImageContent != null)
+{
+    using (MemoryStream coverImageStream = new MemoryStream(coverImageContent))
+    {
+        Image coverImage = Image.FromStream(coverImageStream);
+    }
+}
             
 // CHAPTERS
 
@@ -118,14 +128,14 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 ```
 
 ## More examples
-[How to extract plain text from all chapters.](https://github.com/versfx/EpubReader/tree/master/Source/EpubReaderExamples/ExtractPlainText.cs)
+[How to extract plain text from all chapters.](https://github.com/versfx/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
 
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersFx.Formats.Text.Epub)
 
 [DLL file from GitHub (VersFx.Formats.Text.Epub.dll, 71.5 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/VersFx.Formats.Text.Epub.dll)
 
-## Demo app
+## Demo apps
 [Download (EpubReaderDemo.zip, 413 KB)](https://github.com/versfx/EpubReader/releases/download/v1.0.2/EpubReaderDemo.zip)
 
 This application demonstrates the opening EPUB books and extracting their content using this library.
