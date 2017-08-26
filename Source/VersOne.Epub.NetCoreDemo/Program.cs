@@ -11,12 +11,16 @@ namespace VersOne.Epub.NetCoreDemo
             while (input != 'Q')
             {
                 Console.WriteLine("Select example:");
-                Console.WriteLine("1. Extract plain text from all chapters");
+                Console.WriteLine("1. List all chapters");
+                Console.WriteLine("2. Extract plain text from all chapters");
                 Console.WriteLine("Q. Exit");
                 input = Char.ToUpper(Console.ReadKey(true).KeyChar);
                 switch (input)
                 {
                     case '1':
+                        RunExample(ListChapters.Run);
+                        break;
+                    case '2':
                         RunExample(ExtractPlainText.Run);
                         break;
                     case 'Q':
@@ -37,6 +41,7 @@ namespace VersOne.Epub.NetCoreDemo
                 try
                 {
                     example(filePath);
+                    Console.WriteLine();
                 }
                 catch (Exception ex)
                 {
