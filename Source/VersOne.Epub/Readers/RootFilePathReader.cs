@@ -2,10 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
-using System.Xml.XPath;
-using VersOne.Epub.Internal;
 
 namespace VersOne.Epub.Internal
 {
@@ -24,10 +21,13 @@ namespace VersOne.Epub.Internal
             {
                 containerDocument = await XmlUtils.LoadDocumentAsync(containerStream).ConfigureAwait(false);
             }
-            XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(new NameTable());
-            xmlNamespaceManager.AddNamespace("cns", "urn:oasis:names:tc:opendocument:xmlns:container");
-            XElement rootFileNode = containerDocument.XPathSelectElement("/cns:container/cns:rootfiles/cns:rootfile", xmlNamespaceManager);
-            return rootFileNode.Attribute("full-path").Value;
+            XNamespace cnsNamespace = "urn:oasis:names:tc:opendocument:xmlns:container";
+            XAttribute fullPathAttribute = containerDocument.Element(cnsNamespace + "container")?.Element(cnsNamespace + "rootfiles")?.Element(cnsNamespace + "rootfile")?.Attribute("full-path");
+            if (fullPathAttribute == null)
+            {
+                throw new Exception("EPUB parsing error: root file path not found in the EPUB container.");
+            }
+            return fullPathAttribute.Value;
         }
     }
 }

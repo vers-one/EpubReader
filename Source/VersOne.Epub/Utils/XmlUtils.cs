@@ -15,7 +15,6 @@ namespace VersOne.Epub.Internal
                 memoryStream.Position = 0;
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
                 {
-                    XmlResolver = null,
                     DtdProcessing = DtdProcessing.Ignore,
                     Async = true
                 };
