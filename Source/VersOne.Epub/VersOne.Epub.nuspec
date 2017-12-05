@@ -9,11 +9,15 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <licenseUrl>https://github.com/vers-one/EpubReader/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/vers-one/EpubReader</projectUrl>
-        <releaseNotes>Handling duplicates in EPUB content files.</releaseNotes>
+        <releaseNotes>Lowering required .NET Framework version.</releaseNotes>
         <copyright>Unlicense &lt;http://unlicense.org&gt;</copyright>
         <tags>epub</tags>
         <dependencies>
-            <group targetFramework=".NETStandard2.0" />
+            <group targetFramework="net45">
+            </group>
+            <group targetFramework="netcoreapp1.0">
+                <dependency id="System.IO.Compression" version="4.3.0" exclude="Build,Analyzers" />
+            </group>
         </dependencies>
     </metadata>
     <files>
