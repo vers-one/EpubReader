@@ -133,7 +133,7 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
 
-DLL file from GitHub: [for .NET Framework (26.2 KB)](https://github.com/vers-one/EpubReader/releases/download/v2.0.2/VersOne.Epub.Net45.zip) [for .NET Core (26.3 KB)](https://github.com/vers-one/EpubReader/releases/download/v2.0.2/VersOne.Epub.NetCore.zip)
+DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v2.0.2/VersOne.Epub.Net45.zip) (26.2 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v2.0.2/VersOne.Epub.NetCore.zip) (26.3 KB)
 
 ## Demo apps
 [Download WPF demo app ](https://github.com/vers-one/EpubReader/releases/download/v2.0.2/WpfDemo.zip) (WpfDemo.zip, 389 KB)
