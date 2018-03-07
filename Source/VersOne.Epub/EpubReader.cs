@@ -31,15 +31,26 @@ namespace VersOne.Epub
             {
                 throw new FileNotFoundException("Specified epub file not found.", filePath);
             }
-            ZipArchive epubArchive = ZipFile.OpenRead(filePath);
-            EpubBookRef bookRef = new EpubBookRef(epubArchive);
-            bookRef.FilePath = filePath;
-            bookRef.Schema = await SchemaReader.ReadSchemaAsync(epubArchive).ConfigureAwait(false);
-            bookRef.Title = bookRef.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
-            bookRef.AuthorList = bookRef.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
-            bookRef.Author = String.Join(", ", bookRef.AuthorList);
-            bookRef.Content = await Task.Run(() => ContentReader.ParseContentMap(bookRef)).ConfigureAwait(false);
-            return bookRef;
+
+            ZipArchive epubArchive = null;
+
+            try
+            {
+                epubArchive = ZipFile.OpenRead(filePath);
+                EpubBookRef bookRef = new EpubBookRef(epubArchive);
+                bookRef.FilePath = filePath;
+                bookRef.Schema = await SchemaReader.ReadSchemaAsync(epubArchive).ConfigureAwait(false);
+                bookRef.Title = bookRef.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
+                bookRef.AuthorList = bookRef.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
+                bookRef.Author = String.Join(", ", bookRef.AuthorList);
+                bookRef.Content = await Task.Run(() => ContentReader.ParseContentMap(bookRef)).ConfigureAwait(false);
+                return bookRef;
+            }
+            catch
+            {
+                epubArchive?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
