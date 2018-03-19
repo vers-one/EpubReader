@@ -5,8 +5,8 @@
         <Company />
         <Product />
         <Description />
-        <Copyright>vers, 2015-2017</Copyright>
-        <Version>2.0.2</Version>
+        <Copyright>vers, 2015-2018</Copyright>
+        <Version>2.0.3</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
     <ItemGroup>

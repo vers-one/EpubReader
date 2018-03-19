@@ -8,12 +8,11 @@ namespace VersOne.Epub
 {
     public class EpubBookRef : IDisposable
     {
-        private readonly ZipArchive epubArchive;
         private bool isDisposed;
 
         public EpubBookRef(ZipArchive epubArchive)
         {
-            this.epubArchive = epubArchive;
+            EpubArchive = epubArchive;
             isDisposed = false;
         }
 
@@ -29,13 +28,7 @@ namespace VersOne.Epub
         public EpubSchema Schema { get; set; }
         public EpubContentRef Content { get; set; }
 
-        internal ZipArchive EpubArchive
-        {
-            get
-            {
-                return epubArchive;
-            }
-        }
+        internal ZipArchive EpubArchive { get; private set; }
 
         public byte[] ReadCover()
         {
@@ -69,7 +62,7 @@ namespace VersOne.Epub
             {
                 if (disposing)
                 {
-                    epubArchive.Dispose();
+                    EpubArchive?.Dispose();
                 }
                 isDisposed = true;
             }

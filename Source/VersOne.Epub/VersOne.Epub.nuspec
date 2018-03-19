@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>VersOne.Epub</id>
-        <version>2.0.2</version>
+        <version>2.0.3</version>
         <title>EPUB reader</title>
         <description>.NET library for reading EPUB files</description>
         <authors>vers</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <licenseUrl>https://github.com/vers-one/EpubReader/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/vers-one/EpubReader</projectUrl>
-        <releaseNotes>Lowering required .NET Framework version.</releaseNotes>
+        <releaseNotes>Support to open a EPUB book from a stream.</releaseNotes>
         <copyright>Unlicense &lt;http://unlicense.org&gt;</copyright>
         <tags>epub</tags>
         <dependencies>
