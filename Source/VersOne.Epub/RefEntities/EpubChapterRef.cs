@@ -6,7 +6,7 @@ namespace VersOne.Epub
 {
     public class EpubChapterRef
     {
-        private readonly EpubTextContentFileRef epubTextContentFileRef;
+        private readonly EpubTextContentFileRef epubTextContentFileRef;        
 
         public EpubChapterRef(EpubTextContentFileRef epubTextContentFileRef)
         {
@@ -17,6 +17,7 @@ namespace VersOne.Epub
         public string ContentFileName { get; set; }
         public string Anchor { get; set; }
         public List<EpubChapterRef> SubChapters { get; set; }
+        public EpubChapterRef Parent { get; set; }
 
         public string ReadHtmlContent()
         {
