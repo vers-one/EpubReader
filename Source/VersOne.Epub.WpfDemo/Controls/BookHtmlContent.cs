@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using VersOne.Epub.WpfDemo.ViewModels;
 using TheArtOfDev.HtmlRenderer.Core.Entities;
 using TheArtOfDev.HtmlRenderer.WPF;
+using System.Diagnostics;
 
 namespace VersOne.Epub.WpfDemo.Controls
 {
@@ -91,24 +92,31 @@ namespace VersOne.Epub.WpfDemo.Controls
                 basePath = Path.GetDirectoryName(basePath);
             }
             string fullPath = String.Concat(basePath.Replace('\\', '/'), '/', relativePath);
-            return fullPath.Length > 1 ? fullPath.Substring(1) : String.Empty;
+            return fullPath.Length > 1 ? fullPath.StartsWith("/") ? fullPath.Substring(1) : fullPath : String.Empty;
         }
 
         private void RegisterFonts()
         {
             foreach (KeyValuePair<string, byte[]> fontFile in ChapterContent.Fonts)
             {
-                MemoryStream packageStream = new MemoryStream();
-                Package package = Package.Open(packageStream, FileMode.Create, FileAccess.ReadWrite);
-                Uri packageUri = new Uri(fontFile.Key + ":");
-                PackageStore.AddPackage(packageUri, package);
-                Uri packPartUri = new Uri("/content", UriKind.Relative);
-                PackagePart packPart = package.CreatePart(packPartUri, "font/content");
-                packPart.GetStream().Write(fontFile.Value, 0, fontFile.Value.Length);
-                Uri fontUri = PackUriHelper.Create(packageUri, packPart.Uri);
-                foreach (FontFamily fontFamilty in Fonts.GetFontFamilies(fontUri))
+                try
                 {
-                    HtmlRender.AddFontFamily(fontFamilty);
+                    MemoryStream packageStream = new MemoryStream();
+                    Package package = Package.Open(packageStream, FileMode.Create, FileAccess.ReadWrite);
+                    Uri packageUri = new Uri(fontFile.Key + ":");
+                    PackageStore.AddPackage(packageUri, package);
+                    Uri packPartUri = new Uri("/content", UriKind.Relative);
+                    PackagePart packPart = package.CreatePart(packPartUri, "font/content");
+                    packPart.GetStream().Write(fontFile.Value, 0, fontFile.Value.Length);
+                    Uri fontUri = PackUriHelper.Create(packageUri, packPart.Uri);
+                    foreach (FontFamily fontFamilty in Fonts.GetFontFamilies(fontUri))
+                    {
+                        HtmlRender.AddFontFamily(fontFamilty);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
                 }
             }
             areFontsRegistered = true;
