@@ -4,6 +4,7 @@
     {
         FRONT = 1,
         NORMAL,
-        SPECIAL
+        SPECIAL,
+        UNKNOWN
     }
 }

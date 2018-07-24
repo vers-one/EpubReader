@@ -284,11 +284,14 @@ namespace VersOne.Epub.Internal
                         break;
                     case "type":
                         EpubNavigationPageTargetType type;
-                        if (!Enum.TryParse(attributeValue, out type))
+                        if (Enum.TryParse(attributeValue, out type))
                         {
-                            throw new Exception(String.Format("Incorrect EPUB navigation page target: {0} is incorrect value for page target type.", attributeValue));
+                            result.Type = type;
                         }
-                        result.Type = type;
+                        else
+                        {
+                            result.Type = EpubNavigationPageTargetType.UNKNOWN;
+                        }
                         break;
                     case "class":
                         result.Class = attributeValue;
@@ -302,6 +305,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("Incorrect EPUB navigation page target: page target type is missing.");
             }
+            result.NavigationLabels = new List<EpubNavigationLabel>();
             foreach (XElement navigationPageTargetChildNode in navigationPageTargetNode.Elements())
                 switch (navigationPageTargetChildNode.Name.LocalName.ToLowerInvariant())
                 {
