@@ -11,7 +11,7 @@
         <Version>2.0.4</Version>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.5.1" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.8.5" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\VersOne.Epub\VersOne.Epub.csproj" />
