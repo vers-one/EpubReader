@@ -2,7 +2,7 @@
 
 namespace VersOne.Epub.Schema
 {
-    public class EpubNavigationContent
+    public class Epub2NcxContent
     {
         public string Id { get; set; }
         public string Source { get; set; }

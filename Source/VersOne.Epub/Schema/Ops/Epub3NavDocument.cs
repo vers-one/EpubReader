@@ -2,7 +2,8 @@
 
 namespace VersOne.Epub.Schema
 {
-    public class EpubNavigationMap : List<EpubNavigationPoint>
+    public class Epub3NavDocument
     {
+        public List<Epub3Nav> Navs { get; set; }
     }
 }

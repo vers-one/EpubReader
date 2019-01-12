@@ -14,8 +14,15 @@ namespace VersOne.Epub.Internal
             result.ContentDirectoryPath = contentDirectoryPath;
             EpubPackage package = await PackageReader.ReadPackageAsync(epubArchive, rootFilePath).ConfigureAwait(false);
             result.Package = package;
-            EpubNavigation navigation = await NavigationReader.ReadNavigationAsync(epubArchive, contentDirectoryPath, package).ConfigureAwait(false);
-            result.Navigation = navigation;
+            if (package.EpubVersion == EpubVersion.EPUB_2)
+            {
+                Epub2Ncx epub2Ncx = await Epub2NcxReader.ReadEpub2NcxAsync(epubArchive, contentDirectoryPath, package).ConfigureAwait(false);
+                result.Navigation = epub2Ncx;
+            }
+            else
+            {
+                Epub3NavDocument epub3NavDocumentepub3Nav = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(epubArchive, contentDirectoryPath, package).ConfigureAwait(false);
+            }
             return result;
         }
     }

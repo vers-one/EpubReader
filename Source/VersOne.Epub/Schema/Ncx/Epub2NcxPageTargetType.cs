@@ -1,6 +1,6 @@
 ﻿namespace VersOne.Epub.Schema
 {
-    public enum EpubNavigationPageTargetType
+    public enum Epub2NcxPageTargetType
     {
         FRONT = 1,
         NORMAL,

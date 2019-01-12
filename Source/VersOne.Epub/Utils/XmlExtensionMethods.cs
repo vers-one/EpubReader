@@ -1,0 +1,17 @@
+﻿using System.Xml.Linq;
+
+namespace VersOne.Epub.Utils
+{
+    internal static class XmlExtensionMethods
+    {
+        public static bool CompareNameTo(this XElement xElement, string value)
+        {
+            return xElement.Name.LocalName.CompareOrdinalIgnoreCase(value);
+        }
+
+        public static bool CompareValueTo(this XAttribute xAttribute, string value)
+        {
+            return xAttribute.Value.CompareOrdinalIgnoreCase(value);
+        }
+    }
+}

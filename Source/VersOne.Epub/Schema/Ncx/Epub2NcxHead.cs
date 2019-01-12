@@ -2,7 +2,7 @@
 
 namespace VersOne.Epub.Schema
 {
-    public class EpubNavigationDocAuthor : List<string>
+    public class Epub2NcxHead : List<Epub2NcxHeadMeta>
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace VersOne.Epub.Schema
 {
-    public class EpubNavigationPageList : List<EpubNavigationPageTarget>
+    public class Epub2NcxPageList : List<Epub2NcxPageTarget>
     {
     }
 }

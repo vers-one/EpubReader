@@ -12,10 +12,10 @@ namespace VersOne.Epub.Internal
             return GetChapters(bookRef, bookRef.Schema.Navigation.NavMap);
         }
 
-        public static List<EpubChapterRef> GetChapters(EpubBookRef bookRef, List<EpubNavigationPoint> navigationPoints)
+        public static List<EpubChapterRef> GetChapters(EpubBookRef bookRef, List<Epub2NcxNavigationPoint> navigationPoints)
         {
             List<EpubChapterRef> result = new List<EpubChapterRef>();
-            foreach (EpubNavigationPoint navigationPoint in navigationPoints)
+            foreach (Epub2NcxNavigationPoint navigationPoint in navigationPoints)
             {
                 string contentFileName;
                 string anchor;

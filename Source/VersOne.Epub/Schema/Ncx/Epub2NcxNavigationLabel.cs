@@ -1,6 +1,6 @@
 ﻿namespace VersOne.Epub.Schema
 {
-    public class EpubNavigationLabel
+    public class Epub2NcxNavigationLabel
     {
         public string Text { get; set; }
 

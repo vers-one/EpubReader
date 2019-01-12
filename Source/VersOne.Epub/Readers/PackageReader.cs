@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Schema;
+using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
@@ -26,18 +27,22 @@ namespace VersOne.Epub.Internal
             XElement packageNode = containerDocument.Element(opfNamespace + "package");
             EpubPackage result = new EpubPackage();
             string epubVersionValue = packageNode.Attribute("version").Value;
-            if (epubVersionValue == "2.0")
+            EpubVersion epubVersion;
+            switch (epubVersionValue)
             {
-                result.EpubVersion = EpubVersion.EPUB_2;
+                case "2.0":
+                    epubVersion = EpubVersion.EPUB_2;
+                    break;
+                case "3.0":
+                    epubVersion = EpubVersion.EPUB_3_0;
+                    break;
+                case "3.1":
+                    epubVersion = EpubVersion.EPUB_3_1;
+                    break;
+                default:
+                    throw new Exception($"Unsupported EPUB version: {epubVersionValue}.");
             }
-            else if (epubVersionValue == "3.0")
-            {
-                result.EpubVersion = EpubVersion.EPUB_3;
-            }
-            else
-            {
-                throw new Exception(String.Format("Unsupported EPUB version: {0}.", epubVersionValue));
-            }
+            result.EpubVersion = epubVersion;
             XElement metadataNode = packageNode.Element(opfNamespace + "metadata");
             if (metadataNode == null)
             {
@@ -57,7 +62,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: spine not found in the package.");
             }
-            EpubSpine spine = ReadSpine(spineNode);
+            EpubSpine spine = ReadSpine(spineNode, epubVersion);
             result.Spine = spine;
             XElement guideNode = packageNode.Element(opfNamespace + "guide");
             if (guideNode != null)
@@ -148,7 +153,7 @@ namespace VersOne.Epub.Internal
                             EpubMetadataMeta meta = ReadMetadataMetaVersion2(metadataItemNode);
                             result.MetaItems.Add(meta);
                         }
-                        else if (epubVersion == EpubVersion.EPUB_3)
+                        else if (epubVersion == EpubVersion.EPUB_3_0 || epubVersion == EpubVersion.EPUB_3_1)
                         {
                             EpubMetadataMeta meta = ReadMetadataMetaVersion3(metadataItemNode);
                             result.MetaItems.Add(meta);
@@ -310,6 +315,9 @@ namespace VersOne.Epub.Internal
                             case "fallback-style":
                                 manifestItem.FallbackStyle = attributeValue;
                                 break;
+                            case "properties":
+                                manifestItem.Properties = ReadManifestProperties(attributeValue);
+                                break;
                         }
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.Id))
@@ -330,18 +338,31 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubSpine ReadSpine(XElement spineNode)
+        private static List<ManifestProperty> ReadManifestProperties(string propertiesAttributeValue)
+        {
+            List<ManifestProperty> result = new List<ManifestProperty>();
+            foreach (string propertyStringValue in propertiesAttributeValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                result.Add(ManifestPropertyParser.Parse(propertyStringValue));
+            }
+            return result;
+        }
+
+        private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion)
         {
             EpubSpine result = new EpubSpine();
             XAttribute tocAttribute = spineNode.Attribute("toc");
-            if (tocAttribute == null || String.IsNullOrWhiteSpace(tocAttribute.Value))
+            if (tocAttribute != null && !String.IsNullOrWhiteSpace(tocAttribute.Value))
+            {
+                result.Toc = tocAttribute.Value;
+            }
+            else if (epubVersion == EpubVersion.EPUB_2)
             {
                 throw new Exception("Incorrect EPUB spine: TOC is missing");
             }
-            result.Toc = tocAttribute.Value;
             foreach (XElement spineItemNode in spineNode.Elements())
             {
-                if (String.Compare(spineItemNode.Name.LocalName, "itemref", StringComparison.OrdinalIgnoreCase) == 0)
+                if (spineItemNode.CompareNameTo("itemref"))
                 {
                     EpubSpineItemRef spineItemRef = new EpubSpineItemRef();
                     XAttribute idRefAttribute = spineItemNode.Attribute("idref");
@@ -351,7 +372,7 @@ namespace VersOne.Epub.Internal
                     }
                     spineItemRef.IdRef = idRefAttribute.Value;
                     XAttribute linearAttribute = spineItemNode.Attribute("linear");
-                    spineItemRef.IsLinear = linearAttribute == null || String.Compare(linearAttribute.Value, "no", StringComparison.OrdinalIgnoreCase) != 0;
+                    spineItemRef.IsLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
                     result.Add(spineItemRef);
                 }
             }
