@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Schema;
@@ -19,7 +18,14 @@ namespace VersOne.Epub.Internal
                 package.Manifest.FirstOrDefault(item => item.Properties != null && item.Properties.Contains(ManifestProperty.NAV));
             if (navManifestItem == null)
             {
-                throw new Exception("EPUB parsing error: NAV item not found in EPUB manifest.");
+                if (package.EpubVersion == EpubVersion.EPUB_2)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new Exception("EPUB parsing error: NAV item not found in EPUB manifest.");
+                }
             }
             string navFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, navManifestItem.Href);
             ZipArchiveEntry navFileEntry = epubArchive.GetEntry(navFileEntryPath);

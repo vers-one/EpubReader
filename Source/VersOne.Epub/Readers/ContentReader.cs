@@ -100,9 +100,9 @@ namespace VersOne.Epub.Internal
                 case "image/svg+xml":
                     return EpubContentType.IMAGE_SVG;
                 case "font/truetype":
+                case "application/x-font-truetype":
                     return EpubContentType.FONT_TRUETYPE;
                 case "font/opentype":
-                    return EpubContentType.FONT_OPENTYPE;
                 case "application/vnd.ms-opentype":
                     return EpubContentType.FONT_OPENTYPE;
                 default:

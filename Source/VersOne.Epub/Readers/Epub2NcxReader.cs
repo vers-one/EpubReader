@@ -18,7 +18,7 @@ namespace VersOne.Epub.Internal
             string tocId = package.Spine.Toc;
             if (String.IsNullOrEmpty(tocId))
             {
-                throw new Exception("EPUB parsing error: TOC ID is empty.");
+                return null;
             }
             EpubManifestItem tocManifestItem = package.Manifest.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId));
             if (tocManifestItem == null)

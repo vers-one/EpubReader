@@ -9,30 +9,24 @@ namespace VersOne.Epub.NetCoreDemo
         public static void Run(string filePath)
         {
             EpubBook book = EpubReader.ReadBook(filePath);
-            foreach (EpubChapter chapter in book.Chapters)
+            foreach (EpubTextContentFile textContentFile in book.ReadingOrder)
             {
-                PrintChapter(chapter);
+                PrintTextContentFile(textContentFile);
             }
         }
 
-        private static void PrintChapter(EpubChapter chapter)
+        private static void PrintTextContentFile(EpubTextContentFile textContentFile)
         {
             HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(chapter.HtmlContent);
+            htmlDocument.LoadHtml(textContentFile.Content);
             StringBuilder sb = new StringBuilder();
             foreach (HtmlNode node in htmlDocument.DocumentNode.SelectNodes("//text()"))
             {
                 sb.AppendLine(node.InnerText.Trim());
             }
-            string chapterTitle = chapter.Title;
-            string chapterText = sb.ToString();
-            Console.WriteLine("------------ ", chapterTitle, "------------ ");
-            Console.WriteLine(chapterText);
+            string contentText = sb.ToString();
+            Console.WriteLine(contentText);
             Console.WriteLine();
-            foreach (EpubChapter subChapter in chapter.SubChapters)
-            {
-                PrintChapter(subChapter);
-            }
         }
     }
 }

@@ -4,6 +4,11 @@ namespace VersOne.Epub.Utils
 {
     internal static class XmlExtensionMethods
     {
+        public static string GetLowerCaseLocalName(this XAttribute xAttribute)
+        {
+            return xAttribute.Name.LocalName.ToLowerInvariant();
+        }
+
         public static bool CompareNameTo(this XElement xElement, string value)
         {
             return xElement.Name.LocalName.CompareOrdinalIgnoreCase(value);

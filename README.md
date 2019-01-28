@@ -136,7 +136,7 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.Net45.zip) (26.9 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.NetCore.zip) (27.0 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.NetStandard.zip) (27.0 KB)
 
 ## Demo apps
-[Download WPF demo app ](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/WpfDemo.zip) (WpfDemo.zip, 409 KB)
+[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/WpfDemo.zip) (WpfDemo.zip, 409 KB)
 
 This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
 
