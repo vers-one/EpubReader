@@ -5,39 +5,56 @@ using System.IO.Packaging;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using VersOne.Epub.WpfDemo.ViewModels;
 using TheArtOfDev.HtmlRenderer.Core.Entities;
 using TheArtOfDev.HtmlRenderer.WPF;
+using VersOne.Epub.WpfDemo.ViewModels;
 
 namespace VersOne.Epub.WpfDemo.Controls
 {
     public class BookHtmlContent : HtmlPanel
     {
-        public static readonly DependencyProperty ChapterContentProperty = DependencyProperty.Register("ChapterContent", typeof(ChapterContentViewModel), typeof(BookHtmlContent), new PropertyMetadata(OnChapterContentChanged));
+        public static readonly DependencyProperty HtmlContentFileProperty = DependencyProperty.Register("HtmlContentFile", typeof(HtmlContentFileViewModel), typeof(BookHtmlContent), new PropertyMetadata(OnHtmlContentFileChanged));
+        public static readonly DependencyProperty AnchorProperty = DependencyProperty.Register("Anchor", typeof(string), typeof(BookHtmlContent), new PropertyMetadata(OnAnchorChanged));
 
         private bool areFontsRegistered;
+        private bool isContentLoaded;
+        private string queuedScrollToAnchor;
 
         public BookHtmlContent()
         {
             areFontsRegistered = false;
+            isContentLoaded = false;
+            queuedScrollToAnchor = null;
         }
 
-        public ChapterContentViewModel ChapterContent
+        public HtmlContentFileViewModel HtmlContentFile
         {
             get
             {
-                return (ChapterContentViewModel)GetValue(ChapterContentProperty);
+                return (HtmlContentFileViewModel)GetValue(HtmlContentFileProperty);
             }
             set
             {
-                SetValue(ChapterContentProperty, value);
+                SetValue(HtmlContentFileProperty, value);
+            }
+        }
+
+        public string Anchor
+        {
+            get
+            {
+                return (string)GetValue(AnchorProperty);
+            }
+            set
+            {
+                SetValue(AnchorProperty, value);
             }
         }
 
         protected override void OnImageLoad(HtmlImageLoadEventArgs e)
         {
-            string imageFilePath = GetFullPath(ChapterContent.HtmlFilePath, e.Src);
-            if (ChapterContent.Images.TryGetValue(imageFilePath, out byte[] imageContent))
+            string imageFilePath = GetFullPath(HtmlContentFile.HtmlFilePath, e.Src);
+            if (HtmlContentFile.Images.TryGetValue(imageFilePath, out byte[] imageContent))
             {
                 using (MemoryStream imageStream = new MemoryStream(imageContent))
                 {
@@ -56,18 +73,17 @@ namespace VersOne.Epub.WpfDemo.Controls
 
         protected override void OnStylesheetLoad(HtmlStylesheetLoadEventArgs e)
         {
-            string styleSheetFilePath = GetFullPath(ChapterContent.HtmlFilePath, e.Src);
-            if (ChapterContent.StyleSheets.TryGetValue(styleSheetFilePath, out string styleSheetContent))
+            string styleSheetFilePath = GetFullPath(HtmlContentFile.HtmlFilePath, e.Src);
+            if (HtmlContentFile.StyleSheets.TryGetValue(styleSheetFilePath, out string styleSheetContent))
             {
                 e.SetStyleSheet = styleSheetContent;
             }
             base.OnStylesheetLoad(e);
         }
 
-        private static void OnChapterContentChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnHtmlContentFileChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            BookHtmlContent bookHtmlContent = dependencyObject as BookHtmlContent;
-            if (bookHtmlContent == null || bookHtmlContent.ChapterContent == null)
+            if (!(dependencyObject is BookHtmlContent bookHtmlContent) || bookHtmlContent.HtmlContentFile == null)
             {
                 return;
             }
@@ -75,7 +91,36 @@ namespace VersOne.Epub.WpfDemo.Controls
             {
                 bookHtmlContent.RegisterFonts();
             }
-            bookHtmlContent.Text = bookHtmlContent.ChapterContent.HtmlContent;
+            bookHtmlContent.isContentLoaded = false;
+            bookHtmlContent.queuedScrollToAnchor = null;
+            bookHtmlContent.Text = bookHtmlContent.HtmlContentFile.HtmlContent;
+        }
+
+        protected override void OnLoadComplete(EventArgs e)
+        {
+            base.OnLoadComplete(e);
+            if (queuedScrollToAnchor != null)
+            {
+                ScrollToElement(queuedScrollToAnchor);
+                queuedScrollToAnchor = null;
+            }
+            isContentLoaded = true;
+        }
+
+        private static void OnAnchorChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(dependencyObject is BookHtmlContent bookHtmlContent) || bookHtmlContent.HtmlContentFile == null || bookHtmlContent.Anchor == null)
+            {
+                return;
+            }
+            if (bookHtmlContent.isContentLoaded)
+            {
+                bookHtmlContent.ScrollToElement(bookHtmlContent.Anchor);
+            }
+            else
+            {
+                bookHtmlContent.queuedScrollToAnchor = bookHtmlContent.Anchor;
+            }
         }
 
         private string GetFullPath(string htmlFilePath, string relativePath)
@@ -96,7 +141,7 @@ namespace VersOne.Epub.WpfDemo.Controls
 
         private void RegisterFonts()
         {
-            foreach (KeyValuePair<string, byte[]> fontFile in ChapterContent.Fonts)
+            foreach (KeyValuePair<string, byte[]> fontFile in HtmlContentFile.Fonts)
             {
                 MemoryStream packageStream = new MemoryStream();
                 Package package = Package.Open(packageStream, FileMode.Create, FileAccess.ReadWrite);

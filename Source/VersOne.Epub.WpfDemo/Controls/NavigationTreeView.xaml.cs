@@ -2,9 +2,9 @@
 
 namespace VersOne.Epub.WpfDemo.Controls
 {
-    public partial class ContentsTreeView : TreeView
+    public partial class NavigationTreeView : TreeView
     {
-        public ContentsTreeView()
+        public NavigationTreeView()
         {
             InitializeComponent();
         }

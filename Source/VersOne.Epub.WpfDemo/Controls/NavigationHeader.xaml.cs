@@ -2,9 +2,9 @@
 
 namespace VersOne.Epub.WpfDemo.Controls
 {
-    public partial class ContentsButton : Button
+    public partial class NavigationHeader : Button
     {
-        public ContentsButton()
+        public NavigationHeader()
         {
             InitializeComponent();
         }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using VersOne.Epub.WpfDemo.Entities;
 using VersOne.Epub.WpfDemo.ViewModels;
-using VersOne.Epub;
 
 namespace VersOne.Epub.WpfDemo.Models
 {
@@ -24,19 +23,43 @@ namespace VersOne.Epub.WpfDemo.Models
             return epubBook;
         }
 
-        public List<ChapterViewModel> GetChapters(EpubBook epubBook)
+        public List<NavigationItemViewModel> GetNavigation(EpubBook epubBook)
         {
-            return GetChapters(epubBook.Chapters);
+            return GetNavigation(epubBook.Navigation);
         }
 
-        private List<ChapterViewModel> GetChapters(List<EpubChapter> epubChapters)
+        public List<HtmlContentFileViewModel> GetReadingOrder(EpubBook epubBook)
         {
-            List<ChapterViewModel> result = new List<ChapterViewModel>();
-            foreach (EpubChapter epubChapter in epubChapters)
+            Dictionary<string, byte[]> images = epubBook.Content.Images.ToDictionary(imageFile => imageFile.Key, imageFile => imageFile.Value.Content);
+            Dictionary<string, string> styleSheets = epubBook.Content.Css.ToDictionary(cssFile => cssFile.Key, cssFile => cssFile.Value.Content);
+            Dictionary<string, byte[]> fonts = epubBook.Content.Fonts.ToDictionary(fontFile => fontFile.Key, fontFile => fontFile.Value.Content);
+            List<HtmlContentFileViewModel> result = new List<HtmlContentFileViewModel>();
+            foreach (EpubTextContentFile epubHtmlFile in epubBook.ReadingOrder)
             {
-                List<ChapterViewModel> subChapters = GetChapters(epubChapter.SubChapters);
-                ChapterViewModel chapterViewModel = new ChapterViewModel(epubChapter.ContentFileName, epubChapter.Title, subChapters, epubChapter.HtmlContent);
-                result.Add(chapterViewModel);
+                HtmlContentFileViewModel htmlContentFileViewModel = new HtmlContentFileViewModel(epubHtmlFile.FileName, epubHtmlFile.Content, images,
+                    styleSheets, fonts);
+                result.Add(htmlContentFileViewModel);
+            }
+            return result;
+        }
+
+        private List<NavigationItemViewModel> GetNavigation(List<EpubNavigationItem> epubNavigationItems)
+        {
+            List<NavigationItemViewModel> result = new List<NavigationItemViewModel>();
+            foreach (EpubNavigationItem epubNavigationItem in epubNavigationItems)
+            {
+                List<NavigationItemViewModel> nestedItems = GetNavigation(epubNavigationItem.NestedItems);
+                NavigationItemViewModel navigationItemViewModel;
+                if (epubNavigationItem.Type == EpubNavigationItemType.HEADER)
+                {
+                    navigationItemViewModel = new NavigationItemViewModel(epubNavigationItem.Title, nestedItems);
+                }
+                else
+                {
+                    navigationItemViewModel = new NavigationItemViewModel(epubNavigationItem.Title, epubNavigationItem.Link.ContentFileName,
+                        epubNavigationItem.Link.Anchor, nestedItems);
+                }
+                result.Add(navigationItemViewModel);
             }
             return result;
         }

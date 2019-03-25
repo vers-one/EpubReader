@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq.Expressions;
-using VersOne.Epub.WpfDemo.Utils;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace VersOne.Epub.WpfDemo.ViewModels
 {
@@ -9,9 +7,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> expression)
+        protected void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(ExpressionUtils.GetPropertyName(expression)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
