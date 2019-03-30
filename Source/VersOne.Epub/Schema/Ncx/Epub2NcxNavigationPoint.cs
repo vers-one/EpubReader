@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace VersOne.Epub.Schema
 {
@@ -14,7 +13,7 @@ namespace VersOne.Epub.Schema
 
         public override string ToString()
         {
-            return String.Format("Id: {0}, Content.Source: {1}", Id, Content.Source);
+            return $"Id: {Id}, Content.Source: {Content.Source}";
         }
     }
 }

@@ -93,13 +93,13 @@ namespace VersOne.Epub.Internal
             Epub2NcxHead result = new Epub2NcxHead();
             foreach (XElement metaNode in headNode.Elements())
             {
-                if (String.Compare(metaNode.Name.LocalName, "meta", StringComparison.OrdinalIgnoreCase) == 0)
+                if (metaNode.CompareNameTo("meta"))
                 {
                     Epub2NcxHeadMeta meta = new Epub2NcxHeadMeta();
                     foreach (XAttribute metaNodeAttribute in metaNode.Attributes())
                     {
                         string attributeValue = metaNodeAttribute.Value;
-                        switch (metaNodeAttribute.Name.LocalName.ToLowerInvariant())
+                        switch (metaNodeAttribute.GetLowerCaseLocalName())
                         {
                             case "name":
                                 meta.Name = attributeValue;
@@ -131,7 +131,7 @@ namespace VersOne.Epub.Internal
             Epub2NcxDocTitle result = new Epub2NcxDocTitle();
             foreach (XElement textNode in docTitleNode.Elements())
             {
-                if (String.Compare(textNode.Name.LocalName, "text", StringComparison.OrdinalIgnoreCase) == 0)
+                if (textNode.CompareNameTo("text"))
                 {
                     result.Add(textNode.Value);
                 }
@@ -144,7 +144,7 @@ namespace VersOne.Epub.Internal
             Epub2NcxDocAuthor result = new Epub2NcxDocAuthor();
             foreach (XElement textNode in docAuthorNode.Elements())
             {
-                if (String.Compare(textNode.Name.LocalName, "text", StringComparison.OrdinalIgnoreCase) == 0)
+                if (textNode.CompareNameTo("text"))
                 {
                     result.Add(textNode.Value);
                 }
@@ -157,7 +157,7 @@ namespace VersOne.Epub.Internal
             Epub2NcxNavigationMap result = new Epub2NcxNavigationMap();
             foreach (XElement navigationPointNode in navigationMapNode.Elements())
             {
-                if (String.Compare(navigationPointNode.Name.LocalName, "navPoint", StringComparison.OrdinalIgnoreCase) == 0)
+                if (navigationPointNode.CompareNameTo("navPoint"))
                 {
                     Epub2NcxNavigationPoint navigationPoint = ReadNavigationPoint(navigationPointNode);
                     result.Add(navigationPoint);
@@ -172,7 +172,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navigationPointNodeAttribute in navigationPointNode.Attributes())
             {
                 string attributeValue = navigationPointNodeAttribute.Value;
-                switch (navigationPointNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navigationPointNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -193,7 +193,7 @@ namespace VersOne.Epub.Internal
             result.ChildNavigationPoints = new List<Epub2NcxNavigationPoint>();
             foreach (XElement navigationPointChildNode in navigationPointNode.Elements())
             {
-                switch (navigationPointChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navigationPointChildNode.GetLowerCaseLocalName())
                 {
                     case "navlabel":
                         Epub2NcxNavigationLabel navigationLabel = ReadNavigationLabel(navigationPointChildNode);
@@ -211,11 +211,11 @@ namespace VersOne.Epub.Internal
             }
             if (!result.NavigationLabels.Any())
             {
-                throw new Exception(String.Format("EPUB parsing error: navigation point {0} should contain at least one navigation label.", result.Id));
+                throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain at least one navigation label.");
             }
             if (result.Content == null)
             {
-                throw new Exception(String.Format("EPUB parsing error: navigation point {0} should contain content.", result.Id));
+                throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain content.");
             }
             return result;
         }
@@ -238,7 +238,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navigationContentNodeAttribute in navigationContentNode.Attributes())
             {
                 string attributeValue = navigationContentNodeAttribute.Value;
-                switch (navigationContentNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navigationContentNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -260,7 +260,7 @@ namespace VersOne.Epub.Internal
             Epub2NcxPageList result = new Epub2NcxPageList();
             foreach (XElement pageTargetNode in navigationPageListNode.Elements())
             {
-                if (String.Compare(pageTargetNode.Name.LocalName, "pageTarget", StringComparison.OrdinalIgnoreCase) == 0)
+                if (pageTargetNode.CompareNameTo("pageTarget"))
                 {
                     Epub2NcxPageTarget pageTarget = ReadNavigationPageTarget(pageTargetNode);
                     result.Add(pageTarget);
@@ -275,7 +275,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navigationPageTargetNodeAttribute in navigationPageTargetNode.Attributes())
             {
                 string attributeValue = navigationPageTargetNodeAttribute.Value;
-                switch (navigationPageTargetNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navigationPageTargetNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -308,7 +308,7 @@ namespace VersOne.Epub.Internal
             }
             result.NavigationLabels = new List<Epub2NcxNavigationLabel>();
             foreach (XElement navigationPageTargetChildNode in navigationPageTargetNode.Elements())
-                switch (navigationPageTargetChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navigationPageTargetChildNode.GetLowerCaseLocalName())
                 {
                     case "navlabel":
                         Epub2NcxNavigationLabel navigationLabel = ReadNavigationLabel(navigationPageTargetChildNode);
@@ -332,7 +332,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navigationListNodeAttribute in navigationListNode.Attributes())
             {
                 string attributeValue = navigationListNodeAttribute.Value;
-                switch (navigationListNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navigationListNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -344,7 +344,7 @@ namespace VersOne.Epub.Internal
             }
             foreach (XElement navigationListChildNode in navigationListNode.Elements())
             {
-                switch (navigationListChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navigationListChildNode.GetLowerCaseLocalName())
                 {
                     case "navlabel":
                         Epub2NcxNavigationLabel navigationLabel = ReadNavigationLabel(navigationListChildNode);
@@ -369,7 +369,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navigationPageTargetNodeAttribute in navigationTargetNode.Attributes())
             {
                 string attributeValue = navigationPageTargetNodeAttribute.Value;
-                switch (navigationPageTargetNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navigationPageTargetNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -391,7 +391,7 @@ namespace VersOne.Epub.Internal
             }
             foreach (XElement navigationTargetChildNode in navigationTargetNode.Elements())
             {
-                switch (navigationTargetChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navigationTargetChildNode.GetLowerCaseLocalName())
                 {
                     case "navlabel":
                         Epub2NcxNavigationLabel navigationLabel = ReadNavigationLabel(navigationTargetChildNode);

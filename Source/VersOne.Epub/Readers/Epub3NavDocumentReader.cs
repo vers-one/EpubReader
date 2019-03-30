@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Schema;
+using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
@@ -68,7 +69,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navNodeAttribute in navNode.Attributes())
             {
                 string attributeValue = navNodeAttribute.Value;
-                switch (navNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "type":
                         epub3Nav.Type = StructuralSemanticsPropertyParser.Parse(attributeValue);
@@ -80,7 +81,7 @@ namespace VersOne.Epub.Internal
             }
             foreach (XElement navChildNode in navNode.Elements())
             {
-                switch (navChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navChildNode.GetLowerCaseLocalName())
                 {
                     case "h1":
                     case "h2":
@@ -105,7 +106,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navOlNodeAttribute in epub3NavOlNode.Attributes())
             {
                 string attributeValue = navOlNodeAttribute.Value;
-                switch (navOlNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navOlNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "hidden":
                         epub3NavOl.IsHidden = true;
@@ -115,7 +116,7 @@ namespace VersOne.Epub.Internal
             epub3NavOl.Lis = new List<Epub3NavLi>();
             foreach (XElement navOlChildNode in epub3NavOlNode.Elements())
             {
-                switch (navOlChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navOlChildNode.GetLowerCaseLocalName())
                 {
                     case "li":
                         Epub3NavLi epub3NavLi = ReadEpub3NavLi(navOlChildNode);
@@ -131,7 +132,7 @@ namespace VersOne.Epub.Internal
             Epub3NavLi epub3NavLi = new Epub3NavLi();
             foreach (XElement navLiChildNode in epub3NavLiNode.Elements())
             {
-                switch (navLiChildNode.Name.LocalName.ToLowerInvariant())
+                switch (navLiChildNode.GetLowerCaseLocalName())
                 {
                     case "a":
                         Epub3NavAnchor epub3NavAnchor = ReadEpub3NavAnchor(navLiChildNode);
@@ -156,7 +157,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navAnchorNodeAttribute in epub3NavAnchorNode.Attributes())
             {
                 string attributeValue = navAnchorNodeAttribute.Value;
-                switch (navAnchorNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navAnchorNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "href":
                         epub3NavAnchor.Href = attributeValue;
@@ -182,7 +183,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute navSpanNodeAttribute in epub3NavSpanNode.Attributes())
             {
                 string attributeValue = navSpanNodeAttribute.Value;
-                switch (navSpanNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (navSpanNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "title":
                         epub3NavSpan.Title = attributeValue;

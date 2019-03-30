@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VersOne.Epub.Schema;
+using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
@@ -15,7 +16,7 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubMetadataMeta coverMetaItem = metaItems.FirstOrDefault(metaItem => String.Compare(metaItem.Name, "cover", StringComparison.OrdinalIgnoreCase) == 0);
+            EpubMetadataMeta coverMetaItem = metaItems.FirstOrDefault(metaItem => metaItem.Name.CompareOrdinalIgnoreCase("cover"));
             if (coverMetaItem == null)
             {
                 return null;
@@ -24,14 +25,14 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("Incorrect EPUB metadata: cover item content is missing.");
             }
-            EpubManifestItem coverManifestItem = bookRef.Schema.Package.Manifest.FirstOrDefault(manifestItem => String.Compare(manifestItem.Id, coverMetaItem.Content, StringComparison.OrdinalIgnoreCase) == 0);
+            EpubManifestItem coverManifestItem = bookRef.Schema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
             if (coverManifestItem == null)
             {
-                throw new Exception(String.Format("Incorrect EPUB manifest: item with ID = \"{0}\" is missing.", coverMetaItem.Content));
+                throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
             }
             if (!bookRef.Content.Images.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
             {
-                throw new Exception(String.Format("Incorrect EPUB manifest: item with href = \"{0}\" is missing.", coverManifestItem.Href));
+                throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
             }
             byte[] coverImageContent = await coverImageContentFileRef.ReadContentAsBytesAsync().ConfigureAwait(false);
             return coverImageContent;

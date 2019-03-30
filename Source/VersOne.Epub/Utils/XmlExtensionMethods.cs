@@ -9,6 +9,11 @@ namespace VersOne.Epub.Utils
             return xAttribute.Name.LocalName.ToLowerInvariant();
         }
 
+        public static string GetLowerCaseLocalName(this XElement xElement)
+        {
+            return xElement.Name.LocalName.ToLowerInvariant();
+        }
+
         public static bool CompareNameTo(this XElement xElement, string value)
         {
             return xElement.Name.LocalName.CompareOrdinalIgnoreCase(value);

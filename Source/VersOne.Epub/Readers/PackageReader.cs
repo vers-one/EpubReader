@@ -96,7 +96,7 @@ namespace VersOne.Epub.Internal
             foreach (XElement metadataItemNode in metadataNode.Elements())
             {
                 string innerText = metadataItemNode.Value;
-                switch (metadataItemNode.Name.LocalName.ToLowerInvariant())
+                switch (metadataItemNode.GetLowerCaseLocalName())
                 {
                     case "title":
                         result.Titles.Add(innerText);
@@ -170,7 +170,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute metadataCreatorNodeAttribute in metadataCreatorNode.Attributes())
             {
                 string attributeValue = metadataCreatorNodeAttribute.Value;
-                switch (metadataCreatorNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (metadataCreatorNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "role":
                         result.Role = attributeValue;
@@ -190,7 +190,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute metadataContributorNodeAttribute in metadataContributorNode.Attributes())
             {
                 string attributeValue = metadataContributorNodeAttribute.Value;
-                switch (metadataContributorNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (metadataContributorNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "role":
                         result.Role = attributeValue;
@@ -222,7 +222,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute metadataIdentifierNodeAttribute in metadataIdentifierNode.Attributes())
             {
                 string attributeValue = metadataIdentifierNodeAttribute.Value;
-                switch (metadataIdentifierNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (metadataIdentifierNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -242,7 +242,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes())
             {
                 string attributeValue = metadataMetaNodeAttribute.Value;
-                switch (metadataMetaNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (metadataMetaNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "name":
                         result.Name = attributeValue;
@@ -261,7 +261,7 @@ namespace VersOne.Epub.Internal
             foreach (XAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes())
             {
                 string attributeValue = metadataMetaNodeAttribute.Value;
-                switch (metadataMetaNodeAttribute.Name.LocalName.ToLowerInvariant())
+                switch (metadataMetaNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "id":
                         result.Id = attributeValue;
@@ -286,7 +286,7 @@ namespace VersOne.Epub.Internal
             EpubManifest result = new EpubManifest();
             foreach (XElement manifestItemNode in manifestNode.Elements())
             {
-                if (String.Compare(manifestItemNode.Name.LocalName, "item", StringComparison.OrdinalIgnoreCase) == 0)
+                if (manifestItemNode.CompareNameTo("item"))
                 {
                     EpubManifestItem manifestItem = new EpubManifestItem();
                     foreach (XAttribute manifestItemNodeAttribute in manifestItemNode.Attributes())
@@ -409,13 +409,13 @@ namespace VersOne.Epub.Internal
             EpubGuide result = new EpubGuide();
             foreach (XElement guideReferenceNode in guideNode.Elements())
             {
-                if (String.Compare(guideReferenceNode.Name.LocalName, "reference", StringComparison.OrdinalIgnoreCase) == 0)
+                if (guideReferenceNode.CompareNameTo("reference"))
                 {
                     EpubGuideReference guideReference = new EpubGuideReference();
                     foreach (XAttribute guideReferenceNodeAttribute in guideReferenceNode.Attributes())
                     {
                         string attributeValue = guideReferenceNodeAttribute.Value;
-                        switch (guideReferenceNodeAttribute.Name.LocalName.ToLowerInvariant())
+                        switch (guideReferenceNodeAttribute.GetLowerCaseLocalName())
                         {
                             case "type":
                                 guideReference.Type = attributeValue;

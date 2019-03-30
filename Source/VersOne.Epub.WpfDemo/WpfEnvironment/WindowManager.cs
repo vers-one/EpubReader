@@ -45,12 +45,11 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
             }
             if (!registeredWindowsByViewModel.TryGetValue(viewModel.GetType(), out WindowInfo windowInfo))
             {
-                throw new ArgumentException(String.Format("There are no registered window for {0} type.", viewModel.GetType().FullName));
+                throw new ArgumentException($"There are no registered window for {viewModel.GetType().FullName} type.");
             }
-            Window window = Activator.CreateInstance(windowInfo.WindowType) as Window;
-            if (window == null)
+            if (!(Activator.CreateInstance(windowInfo.WindowType) is Window window))
             {
-                throw new InvalidOperationException(String.Format("There was an error while trying to create an instance of {0} window class.", windowInfo.WindowType.FullName));
+                throw new InvalidOperationException($"There was an error while trying to create an instance of {windowInfo.WindowType.FullName} window class.");
             }
             window.DataContext = viewModel;
             IWindowContext windowContext = new WindowContext(this, windowInfo.ViewName, window, viewModel);
@@ -81,9 +80,11 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
             {
                 openFileDialog.InitialDirectory = openFileDialogParameters.InitialDirectory;
             }
+#pragma warning disable IDE0017 // The order of the calls is important here
             OpenFileDialogResult result = new OpenFileDialogResult();
             result.DialogResult = openFileDialog.ShowDialog() == true;
             result.SelectedFilePaths = result.DialogResult ? openFileDialog.FileNames.ToList() : new List<string>();
+#pragma warning restore IDE0017
             return result;
         }
 
@@ -103,7 +104,7 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
             string viewName = windowType.Name.Substring(0, windowType.Name.Length - 4);
             if (registeredWindowsByViewName.ContainsKey(viewName))
             {
-                throw new Exception(String.Format("View {0} has been declared more than once.", viewName));
+                throw new Exception($"View {viewName} has been declared more than once.");
             }
             string viewModelTypeName = viewName + "ViewModel";
             Type viewModelType = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(type => String.Compare(type.Name, viewModelTypeName, StringComparison.OrdinalIgnoreCase) == 0);
