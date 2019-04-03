@@ -179,7 +179,7 @@ namespace VersOne.Epub.Internal
                     case "class":
                         result.Class = attributeValue;
                         break;
-                    case "playOrder":
+                    case "playorder":
                         result.PlayOrder = attributeValue;
                         break;
                 }
