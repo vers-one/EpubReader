@@ -133,15 +133,15 @@ foreach (EpubNavigationHeadMeta meta in navigation.Head)
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
 
-DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.Net45.zip) (26.9 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.NetCore.zip) (27.0 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.NetStandard.zip) (27.0 KB)
+DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v2.0.5/VersOne.Epub.Net45.zip) (26.9 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v2.0.5/VersOne.Epub.NetCore.zip) (27.0 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/download/v2.0.5/VersOne.Epub.NetStandard.zip) (27.0 KB)
 
 ## Demo apps
-[Download WPF demo app ](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/WpfDemo.zip) (WpfDemo.zip, 409 KB)
+[Download WPF demo app ](https://github.com/vers-one/EpubReader/releases/download/v2.0.5/WpfDemo.zip) (WpfDemo.zip, 409 KB)
 
 This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
 
 HTML renderer used in this demo app may be a little bit slow for some books.
 
-[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/NetCoreDemo.zip) (NetCoreDemo.zip, 17.6 MB)
+[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/download/v2.0.5/NetCoreDemo.zip) (NetCoreDemo.zip, 17.6 MB)
 
 This .NET Core console application demonstrates how to open EPUB books and retrieve their text content.
