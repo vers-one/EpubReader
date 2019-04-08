@@ -2,6 +2,7 @@
 .NET library for reading EPUB files.
 
 Supports .NET Framework >= 4.6, .NET Core >= 1.0, and .NET Standard >= 1.3.
+
 Supports EPUB 2 (2.0, 2.0.1) and EPUB 3 (3.0, 3.0.1, 3.1).
 
 [Download](#download-latest-stable-release) | [WPF & .NET Core demo apps](#demo-apps)
@@ -145,9 +146,10 @@ StructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
 ```
 
 ## More examples
-[How to extract the plain text of the whole book.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
-[How to extract the table of contents.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/PrintNavigation.cs)
-[How to iterate over all EPUB files in a directory and collect some statistics.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/TestDirectory.cs)
+
+1. [How to extract the plain text of the whole book.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
+2. [How to extract the table of contents.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/PrintNavigation.cs)
+3. [How to iterate over all EPUB files in a directory and collect some statistics.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/TestDirectory.cs)
 
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
