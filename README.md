@@ -1,9 +1,14 @@
 # EpubReader
 .NET library for reading EPUB files.
 
-Supports .NET Framework >= 4.5, .NET Core >= 1.0, and .NET Standard >= 1.3.
+Supports .NET Framework >= 4.6, .NET Core >= 1.0, and .NET Standard >= 1.3.
+Supports EPUB 2 (2.0, 2.0.1) and EPUB 3 (3.0, 3.0.1, 3.1).
 
 [Download](#download-latest-stable-release) | [WPF & .NET Core demo apps](#demo-apps)
+
+## Migration from 2.x
+
+[How to migrate from 2.x to 3.x](https://github.com/vers-one/EpubReader/wiki/Migrating-from-2.x-to-3.x)
 
 ## Example
 ```csharp
@@ -32,19 +37,25 @@ if (coverImageContent != null)
     }
 }
             
-// CHAPTERS
+// TABLE OF CONTENTS
 
 // Enumerating chapters
-foreach (EpubChapter chapter in epubBook.Chapters)
+foreach (EpubNavigationItem chapter in epubBook.Navigation)
 {
     // Title of chapter
     string chapterTitle = chapter.Title;
                 
-    // HTML content of current chapter
-    string chapterHtmlContent = chapter.HtmlContent;
-
     // Nested chapters
-    List<EpubChapter> subChapters = chapter.SubChapters;
+    List<EpubNavigationItem> subChapters = chapter.NestedItems;
+}
+
+// READING ORDER
+
+// Enumerating the whole text content of the book in the order of reading
+foreach (EpubTextContentFile textContentFile in book.ReadingOrder)
+{
+    // HTML of current text content file
+    string htmlContent = textContentFile.Content;
 }
 
             
@@ -116,32 +127,40 @@ foreach (EpubMetadataContributor contributor in package.Metadata.Contributors)
     string contributorRole = contributor.Role;
 }
 
-// EPUB NCX data
-EpubNavigation navigation = epubBook.Schema.Navigation;
+// EPUB 2 NCX data
+Epub2Ncx epub2Ncx = epubBook.Schema.Epub2Ncx;
 
-// Enumerating NCX metadata
-foreach (EpubNavigationHeadMeta meta in navigation.Head)
+// Enumerating EPUB 2 NCX metadata
+foreach (Epub2NcxHeadMeta meta in epub2Ncx.Head)
 {
     string metadataItemName = meta.Name;
     string metadataItemContent = meta.Content;
 }
+
+// EPUB 3 navigation
+Epub3NavDocument epub3NavDocument = epubBook.Schema.Epub3NavDocument
+
+// Accessing structural semantics data of the head item
+StructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
 ```
 
 ## More examples
-[How to extract plain text from all chapters.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
+[How to extract the plain text of the whole book.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
+[How to extract the table of contents.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/PrintNavigation.cs)
+[How to iterate over all EPUB files in a directory and collect some statistics.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/TestDirectory.cs)
 
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
 
-DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.Net45.zip) (26.9 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.NetCore.zip) (27.0 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/VersOne.Epub.NetStandard.zip) (27.0 KB)
+DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v3.0.0/VersOne.Epub.Net46.zip) (38.3 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v3.0.0/VersOne.Epub.NetCore.zip) (38.4 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/download/v3.0.0/VersOne.Epub.NetStandard.zip) (38.4 KB)
 
 ## Demo apps
-[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/WpfDemo.zip) (WpfDemo.zip, 409 KB)
+[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/download/v3.0.0/WpfDemo.zip) (WpfDemo.zip, 479 KB)
 
 This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
 
-HTML renderer used in this demo app may be a little bit slow for some books.
+HTML renderer used in this demo app may have difficulties while rendering HTML content for some of the books if the HTML structure is too complicated.
 
-[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/download/v2.0.4/NetCoreDemo.zip) (NetCoreDemo.zip, 17.6 MB)
+[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/download/v3.0.0/NetCoreDemo.zip) (NetCoreDemo.zip, 17.6 MB)
 
 This .NET Core console application demonstrates how to open EPUB books and retrieve their text content.
