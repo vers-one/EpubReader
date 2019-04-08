@@ -59,7 +59,6 @@ namespace VersOne.Epub.Internal
                     navigationItemRef.Title = epub3Nav.Head;
                     navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3Nav.Ol);
                     result.Add(navigationItemRef);
-
                 }
                 else
                 {

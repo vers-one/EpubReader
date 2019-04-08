@@ -7,7 +7,7 @@
         <description>.NET library for reading EPUB files</description>
         <authors>vers</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <licenseUrl>https://github.com/vers-one/EpubReader/blob/master/LICENSE</licenseUrl>
+        <license type="expression">Unlicense</license>
         <projectUrl>https://github.com/vers-one/EpubReader</projectUrl>
         <releaseNotes>Better EPUB 3 support. Has breaking changes. For migration instruction please refer to https://github.com/vers-one/EpubReader/wiki/Migrating-from-2.x-to-3.x </releaseNotes>
         <copyright>Unlicense &lt;http://unlicense.org&gt;</copyright>
