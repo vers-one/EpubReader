@@ -23,7 +23,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book synchronously without reading its whole content.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
+        /// <param name="stream">seekable stream containing the EPUB file</param>
         /// <returns></returns>
         public static EpubBookRef OpenBook(Stream stream)
         {
@@ -47,7 +47,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book asynchronously without reading its whole content.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
+        /// <param name="stream">seekable stream containing the EPUB file</param>
         /// <returns></returns>
         public static Task<EpubBookRef> OpenBookAsync(Stream stream)
         {
@@ -65,9 +65,9 @@ namespace VersOne.Epub
         }
 
         /// <summary>
-        /// Opens the book synchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
+        /// Opens the book synchronously and reads all of its content into the memory.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
+        /// <param name="stream">seekable stream containing the EPUB file</param>
         /// <returns></returns>
         public static EpubBook ReadBook(Stream stream)
         {
@@ -88,7 +88,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book asynchronously and reads all of its content into the memory.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
+        /// <param name="stream">seekable stream containing the EPUB file</param>
         /// <returns></returns>
         public static async Task<EpubBook> ReadBookAsync(Stream stream)
         {
@@ -129,8 +129,10 @@ namespace VersOne.Epub
                 result.Author = epubBookRef.Author;
                 result.Content = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
                 result.CoverImage = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
-                List<EpubChapterRef> chapterRefs = await epubBookRef.GetChaptersAsync().ConfigureAwait(false);
-                result.Chapters = await ReadChapters(chapterRefs).ConfigureAwait(false);
+                List<EpubTextContentFileRef> htmlContentFileRefs = await epubBookRef.GetReadingOrderAsync().ConfigureAwait(false);
+                result.ReadingOrder = ReadReadingOrder(result, htmlContentFileRefs);
+                List<EpubNavigationItemRef> navigationItemRefs = await epubBookRef.GetNavigationAsync().ConfigureAwait(false);
+                result.Navigation = ReadNavigation(result, navigationItemRefs);
             }
             return result;
         }
@@ -210,20 +212,27 @@ namespace VersOne.Epub
             return result;
         }
 
-        private static async Task<List<EpubChapter>> ReadChapters(List<EpubChapterRef> chapterRefs)
+        private static List<EpubTextContentFile> ReadReadingOrder(EpubBook epubBook, List<EpubTextContentFileRef> htmlContentFileRefs)
         {
-            List<EpubChapter> result = new List<EpubChapter>();
-            foreach (EpubChapterRef chapterRef in chapterRefs)
+            return htmlContentFileRefs.Select(htmlContentFileRef => epubBook.Content.Html[htmlContentFileRef.FileName]).ToList();
+        }
+
+        private static List<EpubNavigationItem> ReadNavigation(EpubBook epubBook, List<EpubNavigationItemRef> navigationItemRefs)
+        {
+            List<EpubNavigationItem> result = new List<EpubNavigationItem>();
+            foreach (EpubNavigationItemRef navigationItemRef in navigationItemRefs)
             {
-                EpubChapter chapter = new EpubChapter
+                EpubNavigationItem navigationItem = new EpubNavigationItem(navigationItemRef.Type)
                 {
-                    Title = chapterRef.Title,
-                    ContentFileName = chapterRef.ContentFileName,
-                    Anchor = chapterRef.Anchor
+                    Title = navigationItemRef.Title,
+                    Link = navigationItemRef.Link,
                 };
-                chapter.HtmlContent = await chapterRef.ReadHtmlContentAsync().ConfigureAwait(false);
-                chapter.SubChapters = await ReadChapters(chapterRef.SubChapters).ConfigureAwait(false);
-                result.Add(chapter);
+                if (navigationItemRef.HtmlContentFileRef != null)
+                {
+                    navigationItem.HtmlContentFile = epubBook.Content.Html[navigationItemRef.HtmlContentFileRef.FileName];
+                }
+                navigationItem.NestedItems = ReadNavigation(epubBook, navigationItemRef.NestedItems);
+                result.Add(navigationItem);
             }
             return result;
         }

@@ -2,18 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>VersOne.Epub</id>
-        <version>2.0.5</version>
+        <version>3.0.0</version>
         <title>EPUB reader</title>
         <description>.NET library for reading EPUB files</description>
         <authors>vers</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">Unlicense</license>
         <projectUrl>https://github.com/vers-one/EpubReader</projectUrl>
-        <releaseNotes>Fix for reading play order attribute.</releaseNotes>
+        <releaseNotes>Better EPUB 3 support. Has breaking changes. For migration instruction please refer to https://github.com/vers-one/EpubReader/wiki/Migrating-from-2.x-to-3.x </releaseNotes>
         <copyright>Unlicense &lt;http://unlicense.org&gt;</copyright>
         <tags>epub</tags>
         <dependencies>
-            <group targetFramework="net45">
+            <group targetFramework="net46">
             </group>
             <group targetFramework="netcoreapp1.0">
                 <dependency id="System.IO.Compression" version="4.3.0" exclude="Build,Analyzers" />
@@ -24,7 +24,7 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="bin\Release\net45\VersOne.Epub.dll" target="lib\net45" />
+        <file src="bin\Release\net46\VersOne.Epub.dll" target="lib\net46" />
         <file src="bin\Release\netcoreapp1.0\VersOne.Epub.dll" target="lib\netcoreapp1.0" />
         <file src="bin\Release\netstandard1.3\VersOne.Epub.dll" target="lib\netstandard1.3" />
     </files>

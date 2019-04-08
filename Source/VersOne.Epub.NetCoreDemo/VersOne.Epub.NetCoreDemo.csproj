@@ -8,10 +8,10 @@
         <Product />
         <Description />
         <Copyright>vers, 2015-2019</Copyright>
-        <Version>2.0.5</Version>
+        <Version>3.0.0</Version>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.1" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.2" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\VersOne.Epub\VersOne.Epub.csproj" />

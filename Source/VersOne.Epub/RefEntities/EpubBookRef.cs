@@ -40,14 +40,24 @@ namespace VersOne.Epub
             return await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
         }
 
-        public List<EpubChapterRef> GetChapters()
+        public List<EpubTextContentFileRef> GetReadingOrder()
         {
-            return GetChaptersAsync().Result;
+            return GetReadingOrderAsync().Result;
         }
 
-        public async Task<List<EpubChapterRef>> GetChaptersAsync()
+        public async Task<List<EpubTextContentFileRef>> GetReadingOrderAsync()
         {
-            return await Task.Run(() => ChapterReader.GetChapters(this)).ConfigureAwait(false);
+            return await Task.Run(() => SpineReader.GetReadingOrder(this)).ConfigureAwait(false);
+        }
+
+        public List<EpubNavigationItemRef> GetNavigation()
+        {
+            return GetNavigationAsync().Result;
+        }
+
+        public async Task<List<EpubNavigationItemRef>> GetNavigationAsync()
+        {
+            return await Task.Run(() => NavigationReader.GetNavigationItems(this)).ConfigureAwait(false);
         }
 
         public void Dispose()

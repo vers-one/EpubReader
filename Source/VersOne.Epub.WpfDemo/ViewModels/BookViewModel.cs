@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,34 +12,53 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private readonly BookModel bookModel;
 
         private bool isLoading;
-        private ObservableCollection<ChapterViewModel> contents;
-        private Dictionary<string, byte[]> images;
-        private Dictionary<string, string> styleSheets;
-        private Dictionary<string, byte[]> fonts;
-        private ChapterViewModel selectedChapter;
-        private ChapterContentViewModel selectedChapterContent;
-        private Command selectChapterCommand;
+        private ObservableCollection<NavigationItemViewModel> navigation;
+        private ObservableCollection<HtmlContentFileViewModel> readingOrder;
+        private HtmlContentFileViewModel currentHtmlContentFile;
+        private HtmlContentFileViewModel previousHtmlContentFile;
+        private HtmlContentFileViewModel nextHtmlContentFile;
+        private string currentAnchor;
+        private Command navigateCommand;
+        private Command previousCommand;
+        private Command nextCommand;
 
         public BookViewModel(int bookId)
         {
             bookModel = new BookModel();
             isLoading = true;
-            selectChapterCommand = null;
-            selectedChapter = null;
-            selectedChapterContent = null;
+            currentHtmlContentFile = null;
+            previousHtmlContentFile = null;
+            nextHtmlContentFile = null;
+            currentAnchor = null;
+            navigateCommand = null;
+            previousCommand = null;
+            nextCommand = null;
             bookModel.OpenBookAsync(bookId).ContinueWith(epubBook => BookOpened(epubBook), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        public ObservableCollection<ChapterViewModel> Contents
+        public ObservableCollection<NavigationItemViewModel> Navigation
         {
             get
             {
-                return contents;
+                return navigation;
             }
             private set
             {
-                contents = value;
-                OnPropertyChanged(() => Contents);
+                navigation = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<HtmlContentFileViewModel> ReadingOrder
+        {
+            get
+            {
+                return readingOrder;
+            }
+            private set
+            {
+                readingOrder = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -53,59 +71,171 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             private set
             {
                 isLoading = value;
-                OnPropertyChanged(() => IsLoading);
+                NotifyPropertyChanged();
             }
         }
 
-        public ChapterContentViewModel SelectedChapterContent
+        public HtmlContentFileViewModel CurrentHtmlContentFile
         {
             get
             {
-                return selectedChapterContent;
+                return currentHtmlContentFile;
             }
             set
             {
-                selectedChapterContent = value;
-                OnPropertyChanged(() => SelectedChapterContent);
+                currentHtmlContentFile = value;
+                NotifyPropertyChanged();
             }
         }
 
-        public ICommand SelectChapterCommand
+        public bool IsPreviousButtonVisible
         {
             get
             {
-                if (selectChapterCommand == null)
+                return previousHtmlContentFile != null;
+            }
+        }
+
+        public bool IsNextButtonVisible
+        {
+            get
+            {
+                return nextHtmlContentFile != null;
+            }
+        }
+
+        public string CurrentAnchor
+        {
+            get
+            {
+                return currentAnchor;
+            }
+            set
+            {
+                currentAnchor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ICommand NavigateCommand
+        {
+            get
+            {
+                if (navigateCommand == null)
                 {
-                    selectChapterCommand = new Command(param => SelectChapter(param as ChapterViewModel));
+                    navigateCommand = new Command(param => Navigate(param as NavigationItemViewModel));
                 }
-                return selectChapterCommand;
+                return navigateCommand;
+            }
+        }
+
+        public ICommand PreviousCommand
+        {
+            get
+            {
+                if (previousCommand == null)
+                {
+                    previousCommand = new Command(NavigateToPreviousItemInReadingOrder);
+                }
+                return previousCommand;
+            }
+        }
+
+        public ICommand NextCommand
+        {
+            get
+            {
+                if (nextCommand == null)
+                {
+                    nextCommand = new Command(NavigateToNextItemInReadingOrder);
+                }
+                return nextCommand;
             }
         }
 
         private void BookOpened(Task<EpubBook> task)
         {
             EpubBook epubBook = task.Result;
-            Contents = new ObservableCollection<ChapterViewModel>(bookModel.GetChapters(epubBook));
-            images = epubBook.Content.Images.ToDictionary(imageFile => imageFile.Key, imageFile => imageFile.Value.Content);
-            styleSheets = epubBook.Content.Css.ToDictionary(cssFile => cssFile.Key, cssFile => cssFile.Value.Content);
-            fonts = epubBook.Content.Fonts.ToDictionary(fontFile => fontFile.Key, fontFile => fontFile.Value.Content);
-            if (Contents.Any())
+            Navigation = new ObservableCollection<NavigationItemViewModel>(bookModel.GetNavigation(epubBook));
+            ReadingOrder = new ObservableCollection<HtmlContentFileViewModel>(bookModel.GetReadingOrder(epubBook));
+            if (ReadingOrder.Any())
             {
-                SelectChapter(Contents.First());
+                CurrentHtmlContentFile = ReadingOrder.First();
+                if (ReadingOrder.Count > 1)
+                {
+                    nextHtmlContentFile = ReadingOrder[1];
+                }
             }
             IsLoading = false;
+            NotifyPropertyChanged(nameof(IsPreviousButtonVisible));
+            NotifyPropertyChanged(nameof(IsNextButtonVisible));
         }
 
-        private void SelectChapter(ChapterViewModel chapterViewModel)
+        private void Navigate(NavigationItemViewModel navigationItemViewModel)
         {
-            if (selectedChapter != null)
+            navigationItemViewModel.IsTreeItemExpanded = true;
+            if (navigationItemViewModel.IsLink)
             {
-                selectedChapter.IsSelected = false;
+                Navigate(ReadingOrder.FirstOrDefault(htmlContentFile => htmlContentFile.HtmlFilePath == navigationItemViewModel.FilePath));
+                CurrentAnchor = navigationItemViewModel.Anchor;
             }
-            selectedChapter = chapterViewModel;
-            selectedChapter.IsTreeItemExpanded = true;
-            selectedChapter.IsSelected = true;
-            SelectedChapterContent = new ChapterContentViewModel(selectedChapter.FilePath, selectedChapter.HtmlContent, images, styleSheets, fonts);
+        }
+
+        private void Navigate(HtmlContentFileViewModel targetHtmlContentFileViewModel)
+        {
+            if (targetHtmlContentFileViewModel == null)
+            {
+                CurrentHtmlContentFile = null;
+                previousHtmlContentFile = null;
+                nextHtmlContentFile = null;
+            }
+            else if (CurrentHtmlContentFile != targetHtmlContentFileViewModel)
+            {
+                CurrentHtmlContentFile = targetHtmlContentFileViewModel;
+                int currentReadingOrderItemIndex = ReadingOrder.IndexOf(CurrentHtmlContentFile);
+                if (currentReadingOrderItemIndex != -1)
+                {
+                    if (currentReadingOrderItemIndex > 0)
+                    {
+                        previousHtmlContentFile = ReadingOrder[currentReadingOrderItemIndex - 1];
+                    }
+                    else
+                    {
+                        previousHtmlContentFile = null;
+                    }
+                    if (currentReadingOrderItemIndex < ReadingOrder.Count - 1)
+                    {
+                        nextHtmlContentFile = ReadingOrder[currentReadingOrderItemIndex + 1];
+                    }
+                    else
+                    {
+                        nextHtmlContentFile = null;
+                    }
+                }
+                else
+                {
+                    previousHtmlContentFile = null;
+                    nextHtmlContentFile = null;
+                }
+            }
+            NotifyPropertyChanged(nameof(IsPreviousButtonVisible));
+            NotifyPropertyChanged(nameof(IsNextButtonVisible));
+        }
+
+        private void NavigateToPreviousItemInReadingOrder()
+        {
+            if (previousHtmlContentFile != null)
+            {
+                Navigate(previousHtmlContentFile);
+            }
+        }
+
+        private void NavigateToNextItemInReadingOrder()
+        {
+            if (nextHtmlContentFile != null)
+            {
+                Navigate(nextHtmlContentFile);
+            }
         }
     }
 }

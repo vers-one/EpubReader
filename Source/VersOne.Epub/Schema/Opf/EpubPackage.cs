@@ -1,4 +1,6 @@
-﻿namespace VersOne.Epub.Schema
+﻿using VersOne.Epub.Internal;
+
+namespace VersOne.Epub.Schema
 {
     public class EpubPackage
     {
@@ -7,5 +9,10 @@
         public EpubManifest Manifest { get; set; }
         public EpubSpine Spine { get; set; }
         public EpubGuide Guide { get; set; }
+
+        public string GetVersionString()
+        {
+            return VersionUtils.GetVersionString(EpubVersion);
+        }
     }
 }
