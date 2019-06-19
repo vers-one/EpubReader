@@ -154,15 +154,15 @@ StructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
 
-DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/download/v3.0.1/VersOne.Epub.Net46.zip) (38.3 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/download/v3.0.1/VersOne.Epub.NetCore.zip) (38.4 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/download/v3.0.1/VersOne.Epub.NetStandard.zip) (38.4 KB)
+DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.Net46.zip) (38.3 KB) / [for .NET Core](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.NetCore.zip) (38.4 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.NetStandard.zip) (38.4 KB)
 
 ## Demo apps
-[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/download/v3.0.1/WpfDemo.zip) (WpfDemo.zip, 479 KB)
+[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/latest/download/WpfDemo.zip) (WpfDemo.zip, 479 KB)
 
 This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
 
 HTML renderer used in this demo app may have difficulties while rendering HTML content for some of the books if the HTML structure is too complicated.
 
-[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/download/v3.0.1/NetCoreDemo.zip) (NetCoreDemo.zip, 17.6 MB)
+[Download .NET Core console demo app](https://github.com/vers-one/EpubReader/releases/latest/download/NetCoreDemo.zip) (NetCoreDemo.zip, 17.6 MB)
 
 This .NET Core console application demonstrates how to open EPUB books and retrieve their text content.

@@ -302,7 +302,7 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
-            if (result.Type == default(Epub2NcxPageTargetType))
+            if (result.Type == default)
             {
                 throw new Exception("Incorrect EPUB navigation page target: page target type is missing.");
             }
