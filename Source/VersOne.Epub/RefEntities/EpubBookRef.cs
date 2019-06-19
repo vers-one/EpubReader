@@ -8,12 +8,11 @@ namespace VersOne.Epub
 {
     public class EpubBookRef : IDisposable
     {
-        private readonly ZipArchive epubArchive;
         private bool isDisposed;
 
         public EpubBookRef(ZipArchive epubArchive)
         {
-            this.epubArchive = epubArchive;
+            EpubArchive = epubArchive;
             isDisposed = false;
         }
 
@@ -29,13 +28,7 @@ namespace VersOne.Epub
         public EpubSchema Schema { get; set; }
         public EpubContentRef Content { get; set; }
 
-        internal ZipArchive EpubArchive
-        {
-            get
-            {
-                return epubArchive;
-            }
-        }
+        internal ZipArchive EpubArchive { get; private set; }
 
         public byte[] ReadCover()
         {
@@ -47,14 +40,24 @@ namespace VersOne.Epub
             return await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
         }
 
-        public List<EpubChapterRef> GetChapters()
+        public List<EpubTextContentFileRef> GetReadingOrder()
         {
-            return GetChaptersAsync().Result;
+            return GetReadingOrderAsync().Result;
         }
 
-        public async Task<List<EpubChapterRef>> GetChaptersAsync()
+        public async Task<List<EpubTextContentFileRef>> GetReadingOrderAsync()
         {
-            return await Task.Run(() => ChapterReader.GetChapters(this)).ConfigureAwait(false);
+            return await Task.Run(() => SpineReader.GetReadingOrder(this)).ConfigureAwait(false);
+        }
+
+        public List<EpubNavigationItemRef> GetNavigation()
+        {
+            return GetNavigationAsync().Result;
+        }
+
+        public async Task<List<EpubNavigationItemRef>> GetNavigationAsync()
+        {
+            return await Task.Run(() => NavigationReader.GetNavigationItems(this)).ConfigureAwait(false);
         }
 
         public void Dispose()
@@ -69,7 +72,7 @@ namespace VersOne.Epub
             {
                 if (disposing)
                 {
-                    epubArchive.Dispose();
+                    EpubArchive?.Dispose();
                 }
                 isDisposed = true;
             }

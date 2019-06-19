@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace VersOne.Epub.Schema
 {
@@ -11,10 +11,11 @@ namespace VersOne.Epub.Schema
         public string RequiredModules { get; set; }
         public string Fallback { get; set; }
         public string FallbackStyle { get; set; }
+        public List<ManifestProperty> Properties { get; set; }
 
         public override string ToString()
         {
-            return String.Format("Id: {0}, Href = {1}, MediaType = {2}", Id, Href, MediaType);
+            return $"Id: {Id}, Href = {Href}, MediaType = {MediaType}";
         }
     }
 }

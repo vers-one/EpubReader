@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VersOne.Epub.WpfDemo</RootNamespace>
     <AssemblyName>VersOne.Epub.WpfDemo</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -39,11 +39,11 @@
     <ApplicationIcon>Resources\Book_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlRenderer">
-      <HintPath>..\packages\HtmlRenderer.Core.1.5.0.5\lib\net45\HtmlRenderer.dll</HintPath>
+    <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlRenderer.Core.1.5.0.6\lib\net45\HtmlRenderer.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlRenderer.WPF">
-      <HintPath>..\packages\HtmlRenderer.WPF.1.5.0.5\lib\net45\HtmlRenderer.WPF.dll</HintPath>
+    <Reference Include="HtmlRenderer.WPF, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlRenderer.WPF.1.5.0.6\lib\net45\HtmlRenderer.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections" />
@@ -73,11 +73,15 @@
       <DependentUpon>BookButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BookHtmlContent.cs" />
-    <Compile Include="Controls\ContentsButton.xaml.cs">
-      <DependentUpon>ContentsButton.xaml</DependentUpon>
+    <Compile Include="Controls\NavigationHeader.xaml.cs">
+      <DependentUpon>NavigationHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ContentsTreeView.xaml.cs">
-      <DependentUpon>ContentsTreeView.xaml</DependentUpon>
+    <Compile Include="Controls\NavigationItem.xaml.cs">
+      <DependentUpon>NavigationItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NavigationTemplateSelector.cs" />
+    <Compile Include="Controls\NavigationTreeView.xaml.cs">
+      <DependentUpon>NavigationTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TextBlockWithTooltip.cs" />
     <Compile Include="Entities\Book.cs" />
@@ -89,11 +93,10 @@
     <Compile Include="Utils\BooleanToInverseVisibilityConverter.cs" />
     <Compile Include="Utils\BooleanToVisibilityConverter.cs" />
     <Compile Include="Utils\Command.cs" />
-    <Compile Include="Utils\ExpressionUtils.cs" />
     <Compile Include="Utils\IntToDoubleConverter.cs" />
     <Compile Include="ViewModels\BookViewModel.cs" />
-    <Compile Include="ViewModels\ChapterContentViewModel.cs" />
-    <Compile Include="ViewModels\ChapterViewModel.cs" />
+    <Compile Include="ViewModels\HtmlContentFileViewModel.cs" />
+    <Compile Include="ViewModels\NavigationItemViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Views\BookView.xaml.cs">
       <DependentUpon>BookView.xaml</DependentUpon>
@@ -118,11 +121,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ContentsButton.xaml">
+    <Page Include="Controls\NavigationHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ContentsTreeView.xaml">
+    <Page Include="Controls\NavigationItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NavigationTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

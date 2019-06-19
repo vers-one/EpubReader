@@ -14,7 +14,7 @@ namespace VersOne.Epub.Internal
             ZipArchiveEntry containerFileEntry = epubArchive.GetEntry(EPUB_CONTAINER_FILE_PATH);
             if (containerFileEntry == null)
             {
-                throw new Exception(String.Format("EPUB parsing error: {0} file not found in archive.", EPUB_CONTAINER_FILE_PATH));
+                throw new Exception($"EPUB parsing error: {EPUB_CONTAINER_FILE_PATH} file not found in archive.");
             }
             XDocument containerDocument;
             using (Stream containerStream = containerFileEntry.Open())

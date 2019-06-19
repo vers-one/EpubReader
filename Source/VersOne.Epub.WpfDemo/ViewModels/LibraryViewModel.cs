@@ -66,7 +66,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private void RefreshLibrary()
         {
             Books = new ObservableCollection<LibraryItemViewModel>(libraryModel.GetLibraryItems());
-            OnPropertyChanged(() => Books);
+            NotifyPropertyChanged(nameof(Books));
         }
 
         private void AddBook()

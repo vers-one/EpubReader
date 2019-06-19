@@ -8,9 +8,10 @@ namespace VersOne.Epub
         public string Title { get; set; }
         public string Author { get; set; }
         public List<string> AuthorList { get; set; }
-        public EpubSchema Schema { get; set; }
-        public EpubContent Content { get; set; }
         public byte[] CoverImage { get; set; }
-        public List<EpubChapter> Chapters { get; set; }
+        public List<EpubTextContentFile> ReadingOrder { get; set; }
+        public List<EpubNavigationItem> Navigation { get; set; }
+        public EpubContent Content { get; set; }
+        public EpubSchema Schema { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace VersOne.Epub.WpfDemo
             }
             using (FileStream fileStream = new FileStream(SETTINGS_FILE_NAME, FileMode.Open))
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings), typeof(Settings).GetNestedTypes());
                 Settings result = (Settings)xmlSerializer.Deserialize(fileStream);
                 return result;
             }

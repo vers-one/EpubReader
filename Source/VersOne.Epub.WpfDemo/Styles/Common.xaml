@@ -6,6 +6,8 @@
     <Style x:Key="windowStyle" TargetType="Window">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Icon" Value="/Resources/Book_icon.ico" />
+        <Setter Property="MinWidth" Value="320" />
+        <Setter Property="MinHeight" Value="240" />
     </Style>
     <Style x:Key="ptSansTextStyle" TargetType="Control">
         <Setter Property="FontFamily" Value="pack://application:,,,/Resources/#PT Sans" />
@@ -24,7 +26,8 @@
                                 <SolidColorBrush x:Name="borderBackground" Color="White" />
                             </Border.Background>
                             <Grid>
-                                <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   IsEnabled="{TemplateBinding IsEnabled}" Margin="{TemplateBinding Padding}" />
                                 <Border x:Name="innerBorder" CornerRadius="4" BorderThickness="1" BorderBrush="White" Margin="-2" Opacity="0">
                                     <Border.Effect>
@@ -53,5 +56,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="prevNextNavigationButton" TargetType="Button" BasedOn="{StaticResource whiteButtonStyle}">
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Padding" Value="8" />
     </Style>
 </ResourceDictionary>

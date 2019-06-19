@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VersOne.Epub.Schema
+﻿namespace VersOne.Epub.Schema
 {
     public class EpubGuideReference
     {
@@ -10,7 +8,7 @@ namespace VersOne.Epub.Schema
 
         public override string ToString()
         {
-            return String.Format("Type: {0}, Href: {1}", Type, Href);
+            return $"Type: {Type}, Href: {Href}";
         }
     }
 }

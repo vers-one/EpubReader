@@ -86,7 +86,7 @@ namespace VersOne.Epub.WpfDemo.Models
 
         private string GetBookCoverImageFilePath(int bookId)
         {
-            return Path.Combine(applicationContext.CurrentDirectory, Constants.COVER_IMAGES_FOLDER, String.Format("{0}.png", bookId));
+            return Path.Combine(applicationContext.CurrentDirectory, Constants.COVER_IMAGES_FOLDER, $"{bookId}.png");
         }
 
         private Bitmap ResizeCover(Image image)
