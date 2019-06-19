@@ -285,7 +285,7 @@ namespace VersOne.Epub.Internal
                         break;
                     case "type":
                         Epub2NcxPageTargetType type;
-                        if (Enum.TryParse(attributeValue, out type))
+                        if (Enum.TryParse(attributeValue, true, out type))
                         {
                             result.Type = type;
                         }
