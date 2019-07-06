@@ -77,7 +77,7 @@ EpubByteContentFile firstImage = images.Values.First();
 EpubContentType contentType = firstImage.ContentType;
 
 // MIME type (e.g. "image/jpeg", "image/png")
-string mimeContentType = firstImage.ContentMimeType;
+string mimeType = firstImage.ContentMimeType;
 
 // Creating Image class instance from the content
 using (MemoryStream imageStream = new MemoryStream(firstImage.Content))
@@ -85,6 +85,13 @@ using (MemoryStream imageStream = new MemoryStream(firstImage.Content))
     Image image = Image.FromStream(imageStream);
 }
 
+// Cover metadata
+if (bookContent.Cover != null)
+{
+    string coverFileName = bookContent.Cover.FileName;
+    EpubContentType coverContentType = bookContent.Cover.ContentType;
+    string coverMimeType = bookContent.Cover.ContentMimeType;
+}
 
 // HTML & CSS
 

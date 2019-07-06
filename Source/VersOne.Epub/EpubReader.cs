@@ -170,6 +170,10 @@ namespace VersOne.Epub
                     result.AllFiles.Add(contentFileRef.Key, await ReadByteContentFile(contentFileRef.Value).ConfigureAwait(false));
                 }
             }
+            if (contentRef.Cover != null)
+            {
+                result.Cover = result.Images[contentRef.Cover.FileName];
+            }
             return result;
         }
 
