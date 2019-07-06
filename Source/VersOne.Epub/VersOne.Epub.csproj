@@ -6,7 +6,7 @@
         <Product />
         <Description />
         <Copyright>vers, 2015-2019</Copyright>
-        <Version>3.0.2</Version>
+        <Version>3.0.3</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
     <ItemGroup>

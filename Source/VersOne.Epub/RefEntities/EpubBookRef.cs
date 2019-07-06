@@ -37,7 +37,11 @@ namespace VersOne.Epub
 
         public async Task<byte[]> ReadCoverAsync()
         {
-            return await BookCoverReader.ReadBookCoverAsync(this).ConfigureAwait(false);
+            if (Content.Cover == null)
+            {
+                return null;
+            }
+            return await Content.Cover.ReadContentAsBytesAsync().ConfigureAwait(false);
         }
 
         public List<EpubTextContentFileRef> GetReadingOrder()

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -9,9 +8,9 @@ namespace VersOne.Epub.Internal
 {
     internal static class BookCoverReader
     {
-        public static async Task<byte[]> ReadBookCoverAsync(EpubBookRef bookRef)
+        public static EpubByteContentFileRef ReadBookCover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
         {
-            List<EpubMetadataMeta> metaItems = bookRef.Schema.Package.Metadata.MetaItems;
+            List<EpubMetadataMeta> metaItems = epubSchema.Package.Metadata.MetaItems;
             if (metaItems == null || !metaItems.Any())
             {
                 return null;
@@ -25,17 +24,16 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("Incorrect EPUB metadata: cover item content is missing.");
             }
-            EpubManifestItem coverManifestItem = bookRef.Schema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
+            EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
             if (coverManifestItem == null)
             {
                 throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
             }
-            if (!bookRef.Content.Images.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
+            if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
             {
                 throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
             }
-            byte[] coverImageContent = await coverImageContentFileRef.ReadContentAsBytesAsync().ConfigureAwait(false);
-            return coverImageContent;
+            return coverImageContentFileRef;
         }
     }
 }
