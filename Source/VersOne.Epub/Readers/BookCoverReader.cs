@@ -27,7 +27,13 @@ namespace VersOne.Epub.Internal
             EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
             if (coverManifestItem == null)
             {
-                throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+                // 2019-08-20 Hotfix: if coverManifestItem is not found by its Id, then try it with its Href - some ebooks refer to the image directly!
+                coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Href.CompareOrdinalIgnoreCase(coverMetaItem.Content));
+
+                if (null == coverManifestItem)
+                {
+                    throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+                }
             }
             if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
             {
