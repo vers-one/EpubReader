@@ -25,7 +25,14 @@ namespace VersOne.Epub.Internal
             }
             else
             {
-                return String.Concat(directory, "/", fileName);
+                while (fileName.StartsWith("../"))
+                {
+                    var idx = directory.LastIndexOf("/");
+                    directory = idx > 0 ? directory.Substring(0, idx) : string.Empty;
+                    fileName = fileName.Substring(3);
+                }
+
+                return string.IsNullOrEmpty(directory) ? fileName : String.Concat(directory, "/", fileName);
             }
         }
     }
