@@ -27,13 +27,37 @@ namespace VersOne.Epub.Internal
             EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
             if (coverManifestItem == null)
             {
-                throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+                // 2019-08-20 Hotfix: if coverManifestItem is not found by its Id, then try it with its Href - some ebooks refer to the image directly!
+                coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Href.CompareOrdinalIgnoreCase(coverMetaItem.Content));
+                if (null == coverManifestItem)
+                {
+                    throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+                }
             }
-            if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
+            if (imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
             {
-                throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
+                return coverImageContentFileRef;
             }
-            return coverImageContentFileRef;
+
+            // 2019-08-21 Fix some ebooks seem to contain more than one item with Id="cover"
+            // thus we test if there is a second item....
+
+            coverManifestItem = epubSchema.Package.Manifest.Where(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content)).Skip(1).FirstOrDefault(); ;
+            if (coverManifestItem == null)
+            {
+                // 2019-08-20 Hotfix: if coverManifestItem is not found by its Id, then try it with its Href - some ebooks refer to the image directly!
+                coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Href.CompareOrdinalIgnoreCase(coverMetaItem.Content));
+
+                if (null == coverManifestItem)
+                {
+                    throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+                }
+            }
+            if (imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef2))
+            {
+                return coverImageContentFileRef2;
+            }
+            throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
         }
     }
 }
