@@ -39,7 +39,13 @@ namespace VersOne.Epub
         {
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException("Specified epub file not found.", filePath);
+                if (!filePath.StartsWith(@"\\?\")) // handle large file name lengths
+                {
+                    filePath = @"\\?\" + filePath;
+                }
+
+                if (!File.Exists(filePath))
+                    throw new FileNotFoundException("Specified epub file not found.", filePath);
             }
             return OpenBookAsync(GetZipArchive(filePath));
         }
