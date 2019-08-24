@@ -11,7 +11,7 @@ namespace VersOne.Epub.Internal
             {
                 Html = new Dictionary<string, EpubTextContentFileRef>(),
                 Css = new Dictionary<string, EpubTextContentFileRef>(),
-                Images = new Dictionary<string, EpubByteContentFileRef>(),
+                Images = new Dictionary<string, EpubByteContentFileRef>(System.StringComparer.OrdinalIgnoreCase),
                 Fonts = new Dictionary<string, EpubByteContentFileRef>(),
                 AllFiles = new Dictionary<string, EpubContentFileRef>()
             };
