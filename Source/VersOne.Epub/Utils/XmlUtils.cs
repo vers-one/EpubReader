@@ -33,7 +33,7 @@ namespace VersOne.Epub.Internal
             }
             catch (System.Xml.XmlException xx)
             {
-                if (xx.Message.StartsWith("Version number '1.1'")) // try to solve the known problem that .NET framework does not support XML version 1.1
+                if (xx.Message.Contains("'1.1'")) // try to solve the known problem that .NET framework does not support XML version 1.1
                 {
                     memoryStream.Seek(0, SeekOrigin.Begin);
                     var buffer = new byte[512];
