@@ -11,7 +11,10 @@ namespace VersOne.Epub.Internal
         {
             if (bookRef.Schema.Package.EpubVersion == EpubVersion.EPUB_2)
             {
-                return GetNavigationItems(bookRef, bookRef.Schema.Epub2Ncx);
+                if (null != bookRef.Schema.Epub2Ncx)
+                    return GetNavigationItems(bookRef, bookRef.Schema.Epub2Ncx);
+                else
+                    return new List<EpubNavigationItemRef>(); // if Ncx is missing, return an empty list
             }
             else
             {

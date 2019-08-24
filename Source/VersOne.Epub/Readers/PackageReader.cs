@@ -369,7 +369,9 @@ namespace VersOne.Epub.Internal
             }
             if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(result.Toc))
             {
+#if STRICTEPUB
                 throw new Exception("Incorrect EPUB spine: TOC is missing");
+#endif
             }
             foreach (XElement spineItemNode in spineNode.Elements())
             {

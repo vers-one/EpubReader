@@ -160,7 +160,10 @@ namespace VersOne.Epub.Internal
                 if (navigationPointNode.CompareNameTo("navPoint"))
                 {
                     Epub2NcxNavigationPoint navigationPoint = ReadNavigationPoint(navigationPointNode);
-                    result.Add(navigationPoint);
+                    if (null != navigationPoint)
+                    {
+                        result.Add(navigationPoint);
+                    }
                 }
             }
             return result;
@@ -205,7 +208,10 @@ namespace VersOne.Epub.Internal
                         break;
                     case "navpoint":
                         Epub2NcxNavigationPoint childNavigationPoint = ReadNavigationPoint(navigationPointChildNode);
-                        result.ChildNavigationPoints.Add(childNavigationPoint);
+                        if (null != childNavigationPoint)
+                        {
+                            result.ChildNavigationPoints.Add(childNavigationPoint);
+                        }
                         break;
                 }
             }
@@ -215,7 +221,11 @@ namespace VersOne.Epub.Internal
             }
             if (result.Content == null)
             {
+#if STRICTEPUB
                 throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain content.");
+#else
+                return null;
+#endif
             }
             return result;
         }
