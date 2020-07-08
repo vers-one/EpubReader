@@ -275,9 +275,18 @@ namespace VersOne.Epub.Internal
                     case "scheme":
                         result.Scheme = attributeValue;
                         break;
+                    case "name":
+                        result.Name = attributeValue;
+                        break;
+                    case "content":
+                        result.Content = attributeValue;
+                        break;
                 }
             }
-            result.Content = metadataMetaNode.Value;
+            if (string.IsNullOrEmpty(result.Content))
+            {
+                result.Content = metadataMetaNode.Value;
+            }
             return result;
         }
 
