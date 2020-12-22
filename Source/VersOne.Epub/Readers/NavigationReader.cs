@@ -18,7 +18,14 @@ namespace VersOne.Epub.Internal
             }
             else
             {
-                return GetNavigationItems(bookRef, bookRef.Schema.Epub3NavDocument);
+                if (bookRef.Schema.Epub3NavDocument != null)
+                    return GetNavigationItems(bookRef, bookRef.Schema.Epub3NavDocument);
+
+                // otherwise fallback to Epub2Ncx
+                if (null != bookRef.Schema.Epub2Ncx)
+                    return GetNavigationItems(bookRef, bookRef.Schema.Epub2Ncx);
+                else
+                    return new List<EpubNavigationItemRef>(); // if Ncx is missing, return an empty list
             }
         }
 

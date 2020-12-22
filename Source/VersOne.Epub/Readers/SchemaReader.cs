@@ -1,4 +1,5 @@
-﻿using System.IO.Compression;
+﻿using System;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using VersOne.Epub.Schema;
 
@@ -15,7 +16,14 @@ namespace VersOne.Epub.Internal
             EpubPackage package = await PackageReader.ReadPackageAsync(epubArchive, rootFilePath).ConfigureAwait(false);
             result.Package = package;
             result.Epub2Ncx = await Epub2NcxReader.ReadEpub2NcxAsync(epubArchive, contentDirectoryPath, package).ConfigureAwait(false);
-            result.Epub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(epubArchive, contentDirectoryPath, package).ConfigureAwait(false);
+            try
+            {
+                result.Epub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(epubArchive, contentDirectoryPath, package).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                result.Epub3NavDocument = null;
+            }
             return result;
         }
     }
