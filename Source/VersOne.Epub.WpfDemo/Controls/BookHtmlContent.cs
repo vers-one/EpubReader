@@ -136,7 +136,7 @@ namespace VersOne.Epub.WpfDemo.Controls
                 basePath = Path.GetDirectoryName(basePath);
             }
             string fullPath = String.Concat(basePath.Replace('\\', '/'), '/', relativePath);
-            return fullPath;
+            return fullPath.TrimStart('/');
         }
 
         private void RegisterFonts()

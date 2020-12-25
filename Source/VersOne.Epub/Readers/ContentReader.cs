@@ -70,7 +70,11 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
-            result.Cover = BookCoverReader.ReadBookCover(bookRef.Schema, result.Images);
+
+            result.Cover = BookCoverReader.ReadBookCoverVersion3(bookRef.Schema, result.Images);  // try V3 first
+            if (result.Cover == null)
+                result.Cover = BookCoverReader.ReadBookCover(bookRef.Schema, result.Images);
+
             return result;
         }
 

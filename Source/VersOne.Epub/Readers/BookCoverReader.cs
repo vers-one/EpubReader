@@ -8,6 +8,21 @@ namespace VersOne.Epub.Internal
 {
     internal static class BookCoverReader
     {
+        public static EpubByteContentFileRef ReadBookCoverVersion3(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
+        {
+            // https://ebookflightdeck.com/handbook/coverimage
+
+            var manifestItem = epubSchema.Package.Manifest.FirstOrDefault(m => m.Properties != null && m.Properties.Contains(ManifestProperty.COVER_IMAGE));
+            if (manifestItem == null)
+                return null;
+
+            EpubByteContentFileRef coverImageContentFileRef;
+            if (manifestItem.Href != null && imageContentRefs.TryGetValue(manifestItem.Href, out coverImageContentFileRef))
+                return coverImageContentFileRef;
+
+            return null;
+        }
+
         public static EpubByteContentFileRef ReadBookCover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
         {
             List<EpubMetadataMeta> metaItems = epubSchema.Package.Metadata.MetaItems;
