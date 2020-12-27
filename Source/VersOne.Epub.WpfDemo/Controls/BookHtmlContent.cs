@@ -76,6 +76,8 @@ namespace VersOne.Epub.WpfDemo.Controls
             string styleSheetFilePath = GetFullPath(HtmlContentFile.HtmlFilePath, e.Src);
             if (HtmlContentFile.StyleSheets.TryGetValue(styleSheetFilePath, out string styleSheetContent))
             {
+                // remove font-family? due to IndexOutOfRangeException in TheArtOfDev.HtmlRenderer.Core.Parse.CssParser.ParseFontFamilyProperty(string)
+                styleSheetContent = styleSheetContent.Replace("font-family", "delete-font-family");  // make it invalid
                 e.SetStyleSheet = styleSheetContent;
             }
             base.OnStylesheetLoad(e);
