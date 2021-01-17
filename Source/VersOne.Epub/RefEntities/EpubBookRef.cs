@@ -25,10 +25,12 @@ namespace VersOne.Epub
         public string Title { get; set; }
         public string Author { get; set; }
         public List<string> AuthorList { get; set; }
+        public string Description { get; set; }
         public EpubSchema Schema { get; set; }
         public EpubContentRef Content { get; set; }
 
         internal ZipArchive EpubArchive { get; private set; }
+        
 
         public byte[] ReadCover()
         {
