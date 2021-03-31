@@ -178,7 +178,7 @@ namespace VersOne.Epub.Internal
                     case "file-as":
                         result.FileAs = attributeValue;
                         break;
-                    case "id" ;
+                    case "id":
                         result.Id = attributeValue;
                         break;
                 }
