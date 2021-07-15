@@ -113,6 +113,7 @@ namespace VersOne.Epub
                 result.Title = result.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
                 result.AuthorList = result.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
                 result.Author = String.Join(", ", result.AuthorList);
+                result.Description = result.Schema.Package.Metadata.Description;
                 result.Content = await Task.Run(() => ContentReader.ParseContentMap(result)).ConfigureAwait(false);
                 return result;
             }
@@ -135,6 +136,7 @@ namespace VersOne.Epub
                 result.Author = epubBookRef.Author;
                 result.Content = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
                 result.CoverImage = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
+                result.Description = epubBookRef.Description;
                 List<EpubTextContentFileRef> htmlContentFileRefs = await epubBookRef.GetReadingOrderAsync().ConfigureAwait(false);
                 result.ReadingOrder = ReadReadingOrder(result, htmlContentFileRefs);
                 List<EpubNavigationItemRef> navigationItemRefs = await epubBookRef.GetNavigationAsync().ConfigureAwait(false);

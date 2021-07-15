@@ -13,5 +13,6 @@ namespace VersOne.Epub
         public List<EpubNavigationItem> Navigation { get; set; }
         public EpubContent Content { get; set; }
         public EpubSchema Schema { get; set; }
+        public string Description { get; set; }
     }
 }
