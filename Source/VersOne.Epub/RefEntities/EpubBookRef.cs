@@ -30,7 +30,6 @@ namespace VersOne.Epub
         public EpubContentRef Content { get; set; }
 
         internal ZipArchive EpubArchive { get; private set; }
-        
 
         public byte[] ReadCover()
         {
