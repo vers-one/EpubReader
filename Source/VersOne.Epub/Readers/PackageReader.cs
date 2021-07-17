@@ -178,6 +178,9 @@ namespace VersOne.Epub.Internal
                     case "file-as":
                         result.FileAs = attributeValue;
                         break;
+                    case "id":
+                        result.Id = attributeValue;
+                        break;
                 }
             }
             result.Creator = metadataCreatorNode.Value;
