@@ -172,14 +172,14 @@ namespace VersOne.Epub.Internal
                 string attributeValue = metadataCreatorNodeAttribute.Value;
                 switch (metadataCreatorNodeAttribute.GetLowerCaseLocalName())
                 {
+                    case "id":
+                        result.Id = attributeValue;
+                        break;
                     case "role":
                         result.Role = attributeValue;
                         break;
                     case "file-as":
                         result.FileAs = attributeValue;
-                        break;
-                    case "id":
-                        result.Id = attributeValue;
                         break;
                 }
             }
@@ -195,6 +195,9 @@ namespace VersOne.Epub.Internal
                 string attributeValue = metadataContributorNodeAttribute.Value;
                 switch (metadataContributorNodeAttribute.GetLowerCaseLocalName())
                 {
+                    case "id":
+                        result.Id = attributeValue;
+                        break;
                     case "role":
                         result.Role = attributeValue;
                         break;
