@@ -1,6 +1,6 @@
 ﻿namespace VersOne.Epub.WpfDemo.Entities
 {
-    public class Constants
+    public static class Constants
     {
         public const string COVER_IMAGES_FOLDER = "Covers";
         public const string GENERIC_COVER_IMAGE_SOURCE = "/Resources/Book.png";

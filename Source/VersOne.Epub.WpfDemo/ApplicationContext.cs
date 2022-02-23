@@ -9,8 +9,8 @@ namespace VersOne.Epub.WpfDemo
         private const string SETTINGS_FILE_NAME = "settings.xml";
 
         private static readonly ApplicationContext instance;
-        private string currentDirectory;
-        private Settings settings;
+        private readonly string currentDirectory;
+        private readonly Settings settings;
 
         static ApplicationContext()
         {

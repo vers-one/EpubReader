@@ -8,13 +8,11 @@ namespace VersOne.Epub.WpfDemo.Models
 {
     internal class BookModel
     {
-        private readonly ApplicationContext applicationContext;
         private readonly Settings settings;
 
         public BookModel()
         {
-            applicationContext = ApplicationContext.Instance;
-            settings = applicationContext.Settings;
+            settings = ApplicationContext.Instance.Settings;
         }
 
         public async Task<EpubBook> OpenBookAsync(int bookId)

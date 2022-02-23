@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VersOne.Epub.Schema;
@@ -37,7 +39,7 @@ namespace VersOne.Epub.Internal
             {
                 // some ebooks seem to contain more than one item with Id="cover"
                 // thus we test if there is a second item, and whether that is an image....
-                coverManifestItem = epubSchema.Package.Manifest.Where(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content)).Skip(1).FirstOrDefault(); ;
+                coverManifestItem = epubSchema.Package.Manifest.Where(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content)).Skip(1).FirstOrDefault();
                 if (null != coverManifestItem?.Href && imageContentRefs.TryGetValue(coverManifestItem.Href, out coverImageContentFileRef))
                 {
                     return coverImageContentFileRef;
@@ -63,7 +65,6 @@ namespace VersOne.Epub.Internal
             {
                 return coverImageContentFileRef;
             }
-
 
             throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing or no corresponding image was found.");
         }

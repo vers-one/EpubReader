@@ -4,8 +4,6 @@ namespace VersOne.Epub.WpfDemo.Entities
 {
     public class Settings
     {
-        public List<Book> Books { get; set; }
-
         public static Settings Empty
         {
             get
@@ -16,5 +14,7 @@ namespace VersOne.Epub.WpfDemo.Entities
                 };
             }
         }
+
+        public List<Book> Books { get; set; }
     }
 }

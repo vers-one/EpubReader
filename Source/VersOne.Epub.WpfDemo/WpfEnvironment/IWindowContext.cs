@@ -5,14 +5,14 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
 {
     public interface IWindowContext
     {
-        string ViewName { get; }
-        Window Window { get; }
-        object DataContext { get; }
-
         event EventHandler Activated;
         event EventHandler Showing;
         event EventHandler Closing;
         event EventHandler Closed;
+
+        string ViewName { get; }
+        Window Window { get; }
+        object DataContext { get; }
 
         void Show(bool showMaximized = false);
         bool? ShowDialog(IWindowContext ownerWindowContext = null, bool showMaximized = false);

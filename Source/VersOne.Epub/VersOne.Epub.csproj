@@ -5,11 +5,26 @@
         <Company />
         <Product />
         <Description />
-        <Copyright>vers, 2015-2019</Copyright>
+        <Copyright>vers, 2015-2022</Copyright>
         <Version>3.0.3</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<DocumentationFile></DocumentationFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
+      <AdditionalFiles Include="stylecop.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.35.0.42613">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.406">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="System.IO.Compression" Version="4.3.0" />
         <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
         <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />

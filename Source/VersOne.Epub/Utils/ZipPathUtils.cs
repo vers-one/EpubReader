@@ -27,7 +27,7 @@ namespace VersOne.Epub.Internal
             {
                 while (fileName.StartsWith("../"))
                 {
-                    var idx = directory.LastIndexOf("/");
+                    int idx = directory.LastIndexOf("/");
                     directory = idx > 0 ? directory.Substring(0, idx) : string.Empty;
                     fileName = fileName.Substring(3);
                 }

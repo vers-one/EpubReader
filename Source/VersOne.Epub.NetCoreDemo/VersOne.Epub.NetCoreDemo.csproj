@@ -7,11 +7,22 @@
         <Company />
         <Product />
         <Description />
-        <Copyright>vers, 2015-2019</Copyright>
+        <Copyright>vers, 2015-2022</Copyright>
         <Version>3.0.3</Version>
-    </PropertyGroup>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<DocumentationFile></DocumentationFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
     <ItemGroup>
         <PackageReference Include="HtmlAgilityPack" Version="1.11.2" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.35.0.42613">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.406">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\VersOne.Epub\VersOne.Epub.csproj" />

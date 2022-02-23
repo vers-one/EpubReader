@@ -13,7 +13,18 @@ namespace VersOne.Epub.WpfDemo.Utils
             {
                 return Visibility.Hidden;
             }
-            return (bool)value ? Visibility.Visible : (parameter != null ? Visibility.Collapsed : Visibility.Hidden);
+            if ((bool)value)
+            {
+                return Visibility.Visible;
+            }
+            else if (parameter != null)
+            {
+                return Visibility.Collapsed;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

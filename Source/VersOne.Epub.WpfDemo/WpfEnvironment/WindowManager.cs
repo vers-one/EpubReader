@@ -7,12 +7,12 @@ using Microsoft.Win32;
 
 namespace VersOne.Epub.WpfDemo.WpfEnvironment
 {
-    internal class WindowManager: IWindowManager
+    internal class WindowManager : IWindowManager
     {
         private static readonly WindowManager instance;
-        private Dictionary<string, WindowInfo> registeredWindowsByViewName;
-        private Dictionary<Type, WindowInfo> registeredWindowsByViewModel;
-        private Dictionary<string, IWindowContext> openWindows;
+        private readonly Dictionary<string, WindowInfo> registeredWindowsByViewName;
+        private readonly Dictionary<Type, WindowInfo> registeredWindowsByViewModel;
+        private readonly Dictionary<string, IWindowContext> openWindows;
         private IWindowContext lastActivatedWindowContext;
 
         static WindowManager()

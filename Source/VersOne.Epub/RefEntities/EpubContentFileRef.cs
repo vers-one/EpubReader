@@ -10,7 +10,7 @@ namespace VersOne.Epub
     {
         private readonly EpubBookRef epubBookRef;
 
-        public EpubContentFileRef(EpubBookRef epubBookRef)
+        protected EpubContentFileRef(EpubBookRef epubBookRef)
         {
             this.epubBookRef = epubBookRef;
         }

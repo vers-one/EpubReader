@@ -9,6 +9,12 @@ namespace VersOne.Epub
             Type = type;
         }
 
+        public EpubNavigationItemType Type { get; }
+        public string Title { get; set; }
+        public EpubNavigationItemLink Link { get; set; }
+        public EpubTextContentFile HtmlContentFile { get; set; }
+        public List<EpubNavigationItem> NestedItems { get; set; }
+
         public static EpubNavigationItem CreateAsHeader()
         {
             return new EpubNavigationItem(EpubNavigationItemType.HEADER);
@@ -18,12 +24,6 @@ namespace VersOne.Epub
         {
             return new EpubNavigationItem(EpubNavigationItemType.LINK);
         }
-
-        public EpubNavigationItemType Type { get; }
-        public string Title { get; set; }
-        public EpubNavigationItemLink Link { get; set; }
-        public EpubTextContentFile HtmlContentFile { get; set; }
-        public List<EpubNavigationItem> NestedItems { get; set; }
 
         public override string ToString()
         {

@@ -12,7 +12,6 @@ namespace VersOne.Epub.Internal
             List<EpubTextContentFileRef> result = new List<EpubTextContentFileRef>();
             foreach (EpubSpineItemRef spineItemRef in bookRef.Schema.Package.Spine)
             {
-
                 EpubManifestItem manifestItem = bookRef.Schema.Package.Manifest.FirstOrDefault(item => item.Id == spineItemRef.IdRef);
                 if (manifestItem == null)
                 {

@@ -5,14 +5,14 @@ namespace VersOne.Epub.WpfDemo.Utils
 {
     public class Command : ICommand
     {
-        Predicate<object> canExecute = null;
-        Action<Object> executeAction = null;
+        private readonly Predicate<object> canExecute = null;
+        private readonly Action<Object> executeAction = null;
 
         public Command(Action executeAction)
             : this(param => true, param => executeAction())
         {
         }
-        
+
         public Command(Action<object> executeAction)
             : this(param => true, executeAction)
         {

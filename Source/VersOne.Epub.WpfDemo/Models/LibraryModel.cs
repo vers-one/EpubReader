@@ -8,7 +8,6 @@ using System.Linq;
 using System.Windows;
 using VersOne.Epub.WpfDemo.Entities;
 using VersOne.Epub.WpfDemo.ViewModels;
-using VersOne.Epub;
 
 namespace VersOne.Epub.WpfDemo.Models
 {

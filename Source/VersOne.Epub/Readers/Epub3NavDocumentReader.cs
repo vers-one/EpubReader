@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -125,7 +127,6 @@ namespace VersOne.Epub.Internal
             Epub3NavOl epub3NavOl = new Epub3NavOl();
             foreach (XAttribute navOlNodeAttribute in epub3NavOlNode.Attributes())
             {
-                string attributeValue = navOlNodeAttribute.Value;
                 switch (navOlNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "hidden":

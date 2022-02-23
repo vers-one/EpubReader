@@ -9,7 +9,7 @@ namespace VersOne.Epub.Schema
 
         public override string ToString()
         {
-            return String.Concat("Source: " + Source);
+            return "Source: " + Source;
         }
     }
 }

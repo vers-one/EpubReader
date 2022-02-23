@@ -7,7 +7,7 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
 {
     internal class WindowContext : IWindowContext
     {
-        private IWindowManager windowManager;
+        private readonly IWindowManager windowManager;
 
         internal WindowContext(IWindowManager windowManager, string viewName, Window window, object dataContext)
         {
@@ -20,14 +20,14 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
             Window.Closed += Window_Closed;
         }
 
-        public string ViewName { get; private set; }
-        public Window Window { get; private set; }
-        public object DataContext { get; private set; }
-
         public event EventHandler Activated;
         public event EventHandler Showing;
         public event EventHandler Closing;
         public event EventHandler Closed;
+
+        public string ViewName { get; private set; }
+        public Window Window { get; private set; }
+        public object DataContext { get; private set; }
 
         public void Show(bool showMaximized = false)
         {

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
+
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;

@@ -81,21 +81,6 @@ namespace VersOne.Epub.WpfDemo.Controls
             base.OnStylesheetLoad(e);
         }
 
-        private static void OnHtmlContentFileChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(dependencyObject is BookHtmlContent bookHtmlContent) || bookHtmlContent.HtmlContentFile == null)
-            {
-                return;
-            }
-            if (!bookHtmlContent.areFontsRegistered)
-            {
-                bookHtmlContent.RegisterFonts();
-            }
-            bookHtmlContent.isContentLoaded = false;
-            bookHtmlContent.queuedScrollToAnchor = null;
-            bookHtmlContent.Text = bookHtmlContent.HtmlContentFile.HtmlContent;
-        }
-
         protected override void OnLoadComplete(EventArgs e)
         {
             base.OnLoadComplete(e);
@@ -121,6 +106,21 @@ namespace VersOne.Epub.WpfDemo.Controls
             {
                 bookHtmlContent.queuedScrollToAnchor = bookHtmlContent.Anchor;
             }
+        }
+
+        private static void OnHtmlContentFileChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(dependencyObject is BookHtmlContent bookHtmlContent) || bookHtmlContent.HtmlContentFile == null)
+            {
+                return;
+            }
+            if (!bookHtmlContent.areFontsRegistered)
+            {
+                bookHtmlContent.RegisterFonts();
+            }
+            bookHtmlContent.isContentLoaded = false;
+            bookHtmlContent.queuedScrollToAnchor = null;
+            bookHtmlContent.Text = bookHtmlContent.HtmlContentFile.HtmlContent;
         }
 
         private string GetFullPath(string htmlFilePath, string relativePath)

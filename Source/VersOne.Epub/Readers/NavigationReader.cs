@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VersOne.Epub.Schema;
