@@ -12,6 +12,7 @@
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<DocumentationFile></DocumentationFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
       <AdditionalFiles Include="stylecop.json" />
