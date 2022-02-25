@@ -80,12 +80,12 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
             {
                 openFileDialog.InitialDirectory = openFileDialogParameters.InitialDirectory;
             }
-#pragma warning disable IDE0017 // The order of the calls is important here
-            OpenFileDialogResult result = new OpenFileDialogResult();
-            result.DialogResult = openFileDialog.ShowDialog() == true;
-            result.SelectedFilePaths = result.DialogResult ? openFileDialog.FileNames.ToList() : new List<string>();
-#pragma warning restore IDE0017
-            return result;
+            bool showDialogResult = openFileDialog.ShowDialog() == true;
+            return new OpenFileDialogResult
+            {
+                DialogResult = showDialogResult,
+                SelectedFilePaths = showDialogResult ? openFileDialog.FileNames.ToList() : new List<string>()
+            };
         }
 
         private void EnumerateWindowsInAssembly()
