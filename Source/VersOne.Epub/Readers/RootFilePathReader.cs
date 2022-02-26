@@ -1,20 +1,20 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using VersOne.Epub.Environment;
 
 namespace VersOne.Epub.Internal
 {
     internal static class RootFilePathReader
     {
-        public static async Task<string> GetRootFilePathAsync(ZipArchive epubArchive)
+        public static async Task<string> GetRootFilePathAsync(IZipFile epubFile)
         {
             const string EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
-            ZipArchiveEntry containerFileEntry = epubArchive.GetEntry(EPUB_CONTAINER_FILE_PATH);
+            IZipFileEntry containerFileEntry = epubFile.GetEntry(EPUB_CONTAINER_FILE_PATH);
             if (containerFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: {EPUB_CONTAINER_FILE_PATH} file not found in archive.");
+                throw new Exception($"EPUB parsing error: {EPUB_CONTAINER_FILE_PATH} file not found in the EPUB file.");
             }
             XDocument containerDocument;
             using (Stream containerStream = containerFileEntry.Open())

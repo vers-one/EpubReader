@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -14,7 +15,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class Epub3NavDocumentReader
     {
-        public static async Task<Epub3NavDocument> ReadEpub3NavDocumentAsync(ZipArchive epubArchive, string contentDirectoryPath, EpubPackage package)
+        public static async Task<Epub3NavDocument> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
             Epub3NavDocument result = new Epub3NavDocument();
             EpubManifestItem navManifestItem =
@@ -31,14 +32,14 @@ namespace VersOne.Epub.Internal
                 }
             }
             string navFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, navManifestItem.Href);
-            ZipArchiveEntry navFileEntry = epubArchive.GetEntry(navFileEntryPath);
+            IZipFileEntry navFileEntry = epubFile.GetEntry(navFileEntryPath);
             if (navFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: navigation file {navFileEntryPath} not found in archive.");
+                throw new Exception($"EPUB parsing error: navigation file {navFileEntryPath} not found in the EPUB file.");
             }
             if (navFileEntry.Length > Int32.MaxValue)
             {
-                throw new Exception($"EPUB parsing error: navigation file {navFileEntryPath} is larger than 2 Gb.");
+                throw new Exception($"EPUB parsing error: navigation file {navFileEntryPath} is larger than 2 GB.");
             }
             XDocument navDocument;
             using (Stream containerStream = navFileEntry.Open())

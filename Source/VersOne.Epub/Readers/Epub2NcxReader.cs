@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -14,7 +15,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class Epub2NcxReader
     {
-        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(ZipArchive epubArchive, string contentDirectoryPath, EpubPackage package)
+        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
             Epub2Ncx result = new Epub2Ncx();
             string tocId = package.Spine.Toc;
@@ -28,14 +29,14 @@ namespace VersOne.Epub.Internal
                 throw new Exception($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
             }
             string tocFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
-            ZipArchiveEntry tocFileEntry = epubArchive.GetEntry(tocFileEntryPath);
+            IZipFileEntry tocFileEntry = epubFile.GetEntry(tocFileEntryPath);
             if (tocFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} not found in archive.");
+                throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} not found in the EPUB file.");
             }
             if (tocFileEntry.Length > Int32.MaxValue)
             {
-                throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} is larger than 2 Gb.");
+                throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} is larger than 2 GB.");
             }
             XDocument containerDocument;
             using (Stream containerStream = tocFileEntry.Open())

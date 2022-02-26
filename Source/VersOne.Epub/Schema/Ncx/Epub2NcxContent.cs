@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VersOne.Epub.Schema
+﻿namespace VersOne.Epub.Schema
 {
     public class Epub2NcxContent
     {

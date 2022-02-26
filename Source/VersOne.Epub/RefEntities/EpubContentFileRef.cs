@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Threading.Tasks;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Internal;
 
 namespace VersOne.Epub
@@ -26,7 +26,7 @@ namespace VersOne.Epub
 
         public async Task<byte[]> ReadContentAsBytesAsync()
         {
-            ZipArchiveEntry contentFileEntry = GetContentFileEntry();
+            IZipFileEntry contentFileEntry = GetContentFileEntry();
             byte[] content = new byte[(int)contentFileEntry.Length];
             using (Stream contentStream = OpenContentStream(contentFileEntry))
             using (MemoryStream memoryStream = new MemoryStream(content))
@@ -55,31 +55,31 @@ namespace VersOne.Epub
             return OpenContentStream(GetContentFileEntry());
         }
 
-        private ZipArchiveEntry GetContentFileEntry()
+        private IZipFileEntry GetContentFileEntry()
         {
             if (String.IsNullOrEmpty(FileName))
             {
                 throw new Exception("EPUB parsing error: file name of the specified content file is empty.");
             }
             string contentFilePath = ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
-            ZipArchiveEntry contentFileEntry = epubBookRef.EpubArchive.GetEntry(contentFilePath);
+            IZipFileEntry contentFileEntry = epubBookRef.EpubFile.GetEntry(contentFilePath);
             if (contentFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: file \"{contentFilePath}\" was not found in the archive.");
+                throw new Exception($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.");
             }
             if (contentFileEntry.Length > Int32.MaxValue)
             {
-                throw new Exception($"EPUB parsing error: file \"{contentFilePath}\" is larger than 2 Gb.");
+                throw new Exception($"EPUB parsing error: file \"{contentFilePath}\" is larger than 2 GB.");
             }
             return contentFileEntry;
         }
 
-        private Stream OpenContentStream(ZipArchiveEntry contentFileEntry)
+        private Stream OpenContentStream(IZipFileEntry contentFileEntry)
         {
             Stream contentStream = contentFileEntry.Open();
             if (contentStream == null)
             {
-                throw new Exception($"Incorrect EPUB file: content file \"{FileName}\" specified in the manifest was not found in the archive.");
+                throw new Exception($"Incorrect EPUB file: content file \"{FileName}\" specified in the manifest was not found in the EPUB file.");
             }
             return contentStream;
         }

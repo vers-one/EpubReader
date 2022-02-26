@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Compression;
 using System.Threading.Tasks;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Internal;
 
 namespace VersOne.Epub
@@ -10,9 +10,9 @@ namespace VersOne.Epub
     {
         private bool isDisposed;
 
-        public EpubBookRef(ZipArchive epubArchive)
+        public EpubBookRef(IZipFile epubFile)
         {
-            EpubArchive = epubArchive;
+            EpubFile = epubFile;
             isDisposed = false;
         }
 
@@ -29,7 +29,7 @@ namespace VersOne.Epub
         public EpubSchema Schema { get; set; }
         public EpubContentRef Content { get; set; }
 
-        internal ZipArchive EpubArchive { get; private set; }
+        internal IZipFile EpubFile { get; private set; }
 
         public byte[] ReadCover()
         {
@@ -77,7 +77,7 @@ namespace VersOne.Epub
             {
                 if (disposing)
                 {
-                    EpubArchive?.Dispose();
+                    EpubFile?.Dispose();
                 }
                 isDisposed = true;
             }

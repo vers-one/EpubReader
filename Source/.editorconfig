@@ -1,10 +1,19 @@
 ﻿[*.cs]
 
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = error
+
 # IDE0008: Use explicit type
 csharp_style_var_when_type_is_apparent = false
 csharp_style_var_for_built_in_types = false
 csharp_style_var_elsewhere = false
 dotnet_diagnostic.IDE0008.severity = error
+
+# IDE0017: Use object initializers
+dotnet_diagnostic.IDE0017.severity = none
+
+# IDE0060: Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = error
 
 # S3963: "static" fields should be initialized inline
 dotnet_diagnostic.S3963.severity = none

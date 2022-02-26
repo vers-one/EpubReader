@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -11,12 +11,12 @@ namespace VersOne.Epub.Internal
 {
     internal static class PackageReader
     {
-        public static async Task<EpubPackage> ReadPackageAsync(ZipArchive epubArchive, string rootFilePath)
+        public static async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
         {
-            ZipArchiveEntry rootFileEntry = epubArchive.GetEntry(rootFilePath);
+            IZipFileEntry rootFileEntry = epubFile.GetEntry(rootFilePath);
             if (rootFileEntry == null)
             {
-                throw new Exception("EPUB parsing error: root file not found in archive.");
+                throw new Exception("EPUB parsing error: root file not found in the EPUB file.");
             }
             XDocument containerDocument;
             using (Stream containerStream = rootFileEntry.Open())

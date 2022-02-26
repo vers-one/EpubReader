@@ -5,7 +5,7 @@ namespace VersOne.Epub.NetCoreDemo
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             char input = '\0';
             while (input != 'Q')

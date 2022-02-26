@@ -145,15 +145,15 @@ namespace VersOne.Epub.WpfDemo.Controls
             {
                 MemoryStream packageStream = new MemoryStream();
                 Package package = Package.Open(packageStream, FileMode.Create, FileAccess.ReadWrite);
-                Uri packageUri = new Uri(fontFile.Key + ":");
+                Uri packageUri = new Uri("fonts://" + fontFile.Key);
                 PackageStore.AddPackage(packageUri, package);
                 Uri packPartUri = new Uri("/content", UriKind.Relative);
                 PackagePart packPart = package.CreatePart(packPartUri, "font/content");
                 packPart.GetStream().Write(fontFile.Value, 0, fontFile.Value.Length);
                 Uri fontUri = PackUriHelper.Create(packageUri, packPart.Uri);
-                foreach (FontFamily fontFamilty in Fonts.GetFontFamilies(fontUri))
+                foreach (FontFamily fontFamily in Fonts.GetFontFamilies(fontUri))
                 {
-                    HtmlRender.AddFontFamily(fontFamilty);
+                    HtmlRender.AddFontFamily(fontFamily);
                 }
             }
             areFontsRegistered = true;
