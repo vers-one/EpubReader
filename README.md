@@ -1,6 +1,8 @@
 # EpubReader
 .NET library for reading EPUB files.
 
+[![Build](https://github.com/vers-one/EpubReader/actions/workflows/build.yml/badge.svg)](https://github.com/vers-one/EpubReader/actions/workflows/build.yml)
+
 Supports .NET Standard >= 1.3 and .NET Framework >= 4.6.
 
 Supports EPUB 2 (2.0, 2.0.1) and EPUB 3 (3.0, 3.0.1, 3.1, 3.2).
