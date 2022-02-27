@@ -15,6 +15,9 @@ dotnet_diagnostic.IDE0017.severity = none
 # IDE0060: Remove unused parameter
 dotnet_diagnostic.IDE0060.severity = error
 
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = error
+
 # S3963: "static" fields should be initialized inline
 dotnet_diagnostic.S3963.severity = none
 

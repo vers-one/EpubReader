@@ -34,7 +34,7 @@ namespace VersOne.Epub.Internal
                     epubVersion = EpubVersion.EPUB_2;
                     break;
                 case "3.0":
-                    epubVersion = EpubVersion.EPUB_3_0;
+                    epubVersion = EpubVersion.EPUB_3;
                     break;
                 case "3.1":
                     epubVersion = EpubVersion.EPUB_3_1;
@@ -153,7 +153,7 @@ namespace VersOne.Epub.Internal
                             EpubMetadataMeta meta = ReadMetadataMetaVersion2(metadataItemNode);
                             result.MetaItems.Add(meta);
                         }
-                        else if (epubVersion == EpubVersion.EPUB_3_0 || epubVersion == EpubVersion.EPUB_3_1)
+                        else if (epubVersion == EpubVersion.EPUB_3 || epubVersion == EpubVersion.EPUB_3_1)
                         {
                             EpubMetadataMeta meta = ReadMetadataMetaVersion3(metadataItemNode);
                             result.MetaItems.Add(meta);

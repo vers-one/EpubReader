@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp1.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
         <Authors>vers</Authors>
         <Company />
@@ -9,13 +9,12 @@
         <Description />
         <Copyright>vers, 2015-2022</Copyright>
         <Version>3.0.3</Version>
-		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<DocumentationFile></DocumentationFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.2" />
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="8.35.0.42613">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

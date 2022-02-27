@@ -2,7 +2,7 @@
 using System.Text;
 using HtmlAgilityPack;
 
-namespace VersOne.Epub.NetCoreDemo
+namespace VersOne.Epub.ConsoleDemo
 {
     internal static class ExtractPlainText
     {
@@ -17,9 +17,9 @@ namespace VersOne.Epub.NetCoreDemo
 
         private static void PrintTextContentFile(EpubTextContentFile textContentFile)
         {
-            HtmlDocument htmlDocument = new HtmlDocument();
+            HtmlDocument htmlDocument = new();
             htmlDocument.LoadHtml(textContentFile.Content);
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach (HtmlNode node in htmlDocument.DocumentNode.SelectNodes("//text()"))
             {
                 sb.AppendLine(node.InnerText.Trim());

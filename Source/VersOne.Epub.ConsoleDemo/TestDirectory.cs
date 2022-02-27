@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace VersOne.Epub.NetCoreDemo
+namespace VersOne.Epub.ConsoleDemo
 {
     internal static class TestDirectory
     {

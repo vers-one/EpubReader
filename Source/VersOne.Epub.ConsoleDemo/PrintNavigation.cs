@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VersOne.Epub.NetCoreDemo
+namespace VersOne.Epub.ConsoleDemo
 {
     internal static class PrintNavigation
     {

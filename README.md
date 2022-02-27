@@ -1,15 +1,11 @@
 # EpubReader
 .NET library for reading EPUB files.
 
-Supports .NET Framework >= 4.6, .NET Core >= 1.0, and .NET Standard >= 1.3.
+Supports .NET Standard >= 1.3 and .NET Framework >= 4.6.
 
-Supports EPUB 2 (2.0, 2.0.1) and EPUB 3 (3.0, 3.0.1, 3.1).
+Supports EPUB 2 (2.0, 2.0.1) and EPUB 3 (3.0, 3.0.1, 3.1, 3.2).
 
 [Download](#download-latest-stable-release) | [WPF & .NET Core demo apps](#demo-apps)
-
-## Migration from 2.x
-
-[How to migrate from 2.x to 3.x](https://github.com/vers-one/EpubReader/wiki/Migrating-from-2.x-to-3.x)
 
 ## Example
 ```csharp
@@ -154,9 +150,9 @@ StructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
 
 ## More examples
 
-1. [How to extract the plain text of the whole book.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/ExtractPlainText.cs)
-2. [How to extract the table of contents.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/PrintNavigation.cs)
-3. [How to iterate over all EPUB files in a directory and collect some statistics.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.NetCoreDemo/TestDirectory.cs)
+1. [How to extract the plain text of the whole book.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/ExtractPlainText.cs)
+2. [How to extract the table of contents.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/PrintNavigation.cs)
+3. [How to iterate over all EPUB files in a directory and collect some statistics.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/TestDirectory.cs)
 
 ## Download latest stable release
 [Via NuGet package from nuget.org](https://www.nuget.org/packages/VersOne.Epub)

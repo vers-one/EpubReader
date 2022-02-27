@@ -4,11 +4,11 @@ namespace VersOne.Epub.Schema
 {
     public enum EpubVersion
     {
-        [VersionString("2.0")]
+        [VersionString("2")]
         EPUB_2 = 2,
 
-        [VersionString("3.0")]
-        EPUB_3_0,
+        [VersionString("3")]
+        EPUB_3,
 
         [VersionString("3.1")]
         EPUB_3_1

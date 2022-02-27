@@ -15,9 +15,6 @@
         <dependencies>
             <group targetFramework="net46">
             </group>
-            <group targetFramework="netcoreapp1.0">
-                <dependency id="System.IO.Compression" version="4.3.0" exclude="Build,Analyzers" />
-            </group>
             <group targetFramework="netstandard1.3">
                 <dependency id="System.IO.Compression" version="4.3.0" exclude="Build,Analyzers" />
             </group>
@@ -25,7 +22,6 @@
     </metadata>
     <files>
         <file src="bin\Release\net46\VersOne.Epub.dll" target="lib\net46" />
-        <file src="bin\Release\netcoreapp1.0\VersOne.Epub.dll" target="lib\netcoreapp1.0" />
         <file src="bin\Release\netstandard1.3\VersOne.Epub.dll" target="lib\netstandard1.3" />
     </files>
 </package>
