@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -11,7 +12,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class PackageReader
     {
-        public static async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
+        public static async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath, PackageReaderOptions packageReaderOptions)
         {
             IZipFileEntry rootFileEntry = epubFile.GetEntry(rootFilePath);
             if (rootFileEntry == null)
@@ -62,7 +63,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: spine not found in the package.");
             }
-            EpubSpine spine = ReadSpine(spineNode, epubVersion);
+            EpubSpine spine = ReadSpine(spineNode, epubVersion, packageReaderOptions);
             result.Spine = spine;
             XElement guideNode = packageNode.Element(opfNamespace + "guide");
             if (guideNode != null)
@@ -354,7 +355,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion)
+        private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion, PackageReaderOptions packageReaderOptions)
         {
             EpubSpine result = new EpubSpine();
             foreach (XAttribute spineNodeAttribute in spineNode.Attributes())
@@ -373,11 +374,9 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
-            if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(result.Toc))
+            if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(result.Toc) && !packageReaderOptions.IgnoreMissingToc)
             {
-#if STRICTEPUB
                 throw new Exception("Incorrect EPUB spine: TOC is missing");
-#endif
             }
             foreach (XElement spineItemNode in spineNode.Elements())
             {

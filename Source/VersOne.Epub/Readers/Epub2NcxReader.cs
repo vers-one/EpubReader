@@ -1,13 +1,11 @@
-﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -15,7 +13,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class Epub2NcxReader
     {
-        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
+        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package, Epub2NcxReaderOptions epub2NcxReaderOptions)
         {
             Epub2Ncx result = new Epub2Ncx();
             string tocId = package.Spine.Toc;
@@ -74,7 +72,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: TOC file does not contain navMap element.");
             }
-            Epub2NcxNavigationMap navMap = ReadNavigationMap(navMapNode);
+            Epub2NcxNavigationMap navMap = ReadNavigationMap(navMapNode, epub2NcxReaderOptions);
             result.NavMap = navMap;
             XElement pageListNode = ncxNode.Element(ncxNamespace + "pageList");
             if (pageListNode != null)
@@ -155,15 +153,15 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static Epub2NcxNavigationMap ReadNavigationMap(XElement navigationMapNode)
+        private static Epub2NcxNavigationMap ReadNavigationMap(XElement navigationMapNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
         {
             Epub2NcxNavigationMap result = new Epub2NcxNavigationMap();
             foreach (XElement navigationPointNode in navigationMapNode.Elements())
             {
                 if (navigationPointNode.CompareNameTo("navPoint"))
                 {
-                    Epub2NcxNavigationPoint navigationPoint = ReadNavigationPoint(navigationPointNode);
-                    if (null != navigationPoint)
+                    Epub2NcxNavigationPoint navigationPoint = ReadNavigationPoint(navigationPointNode, epub2NcxReaderOptions);
+                    if (navigationPoint != null)
                     {
                         result.Add(navigationPoint);
                     }
@@ -172,7 +170,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static Epub2NcxNavigationPoint ReadNavigationPoint(XElement navigationPointNode)
+        private static Epub2NcxNavigationPoint ReadNavigationPoint(XElement navigationPointNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
         {
             Epub2NcxNavigationPoint result = new Epub2NcxNavigationPoint();
             foreach (XAttribute navigationPointNodeAttribute in navigationPointNode.Attributes())
@@ -210,8 +208,8 @@ namespace VersOne.Epub.Internal
                         result.Content = content;
                         break;
                     case "navpoint":
-                        Epub2NcxNavigationPoint childNavigationPoint = ReadNavigationPoint(navigationPointChildNode);
-                        if (null != childNavigationPoint)
+                        Epub2NcxNavigationPoint childNavigationPoint = ReadNavigationPoint(navigationPointChildNode, epub2NcxReaderOptions);
+                        if (childNavigationPoint != null)
                         {
                             result.ChildNavigationPoints.Add(childNavigationPoint);
                         }
@@ -224,11 +222,14 @@ namespace VersOne.Epub.Internal
             }
             if (result.Content == null)
             {
-#if STRICTEPUB
-                throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain content.");
-#else
-                return null;
-#endif
+                if (epub2NcxReaderOptions.IgnoreMissingContentForNavigationPoints)
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain content.");
+                }
             }
             return result;
         }
@@ -321,6 +322,7 @@ namespace VersOne.Epub.Internal
             }
             result.NavigationLabels = new List<Epub2NcxNavigationLabel>();
             foreach (XElement navigationPageTargetChildNode in navigationPageTargetNode.Elements())
+            {
                 switch (navigationPageTargetChildNode.GetLowerCaseLocalName())
                 {
                     case "navlabel":
@@ -332,6 +334,7 @@ namespace VersOne.Epub.Internal
                         result.Content = content;
                         break;
                 }
+            }
             if (!result.NavigationLabels.Any())
             {
                 throw new Exception("Incorrect EPUB navigation page target: at least one navLabel element is required.");

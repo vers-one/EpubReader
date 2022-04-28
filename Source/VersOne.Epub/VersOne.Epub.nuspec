@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>VersOne.Epub</id>
-        <version>3.0.3.1</version>
+        <version>3.1.0</version>
         <title>EPUB reader</title>
         <description>.NET library for reading EPUB files</description>
         <authors>vers</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">Unlicense</license>
         <projectUrl>https://github.com/vers-one/EpubReader</projectUrl>
-        <releaseNotes>Cover metadata has been added. For instruction on how to migrate from 2.x to 3.x please refer to https://github.com/vers-one/EpubReader/wiki/Migrating-from-2.x-to-3.x</releaseNotes>
+        <releaseNotes>Some configuration options to handle malformed EPUB files.</releaseNotes>
         <copyright>Unlicense &lt;http://unlicense.org&gt;</copyright>
         <tags>epub</tags>
         <dependencies>
