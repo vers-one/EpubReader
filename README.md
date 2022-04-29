@@ -160,10 +160,10 @@ StructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
 ## Download latest stable release
 [Download from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
 
-DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.Net46.zip) (40.4 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.NetStandard.zip) (40.4 KB)
+DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.Net46.zip) (40.4 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.NetStandard.zip) (40.5 KB)
 
 ## Demo apps
-[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/latest/download/WpfDemo.zip) (WpfDemo.zip, 487 KB)
+[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/latest/download/WpfDemo.zip) (WpfDemo.zip, 488 KB)
 
 This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
 
