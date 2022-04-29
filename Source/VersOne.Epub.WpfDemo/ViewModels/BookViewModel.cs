@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,6 +15,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private bool isLoading;
         private ObservableCollection<NavigationItemViewModel> navigation;
         private ObservableCollection<HtmlContentFileViewModel> readingOrder;
+        private ZipArchive currentEpubArchive;
         private HtmlContentFileViewModel currentHtmlContentFile;
         private HtmlContentFileViewModel previousHtmlContentFile;
         private HtmlContentFileViewModel nextHtmlContentFile;
@@ -26,6 +28,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         {
             bookModel = new BookModel();
             isLoading = true;
+            currentEpubArchive = null;
             currentHtmlContentFile = null;
             previousHtmlContentFile = null;
             nextHtmlContentFile = null;
@@ -71,6 +74,19 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             private set
             {
                 isLoading = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ZipArchive CurrentEpubArchive
+        {
+            get
+            {
+                return currentEpubArchive;
+            }
+            set
+            {
+                currentEpubArchive = value;
                 NotifyPropertyChanged();
             }
         }
@@ -156,6 +172,11 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private void BookOpened(Task<EpubBook> task)
         {
             EpubBook epubBook = task.Result;
+            if (currentEpubArchive != null)
+            {
+                currentEpubArchive.Dispose();
+            }
+            CurrentEpubArchive = ZipFile.OpenRead(epubBook.FilePath);
             Navigation = new ObservableCollection<NavigationItemViewModel>(bookModel.GetNavigation(epubBook));
             ReadingOrder = new ObservableCollection<HtmlContentFileViewModel>(bookModel.GetReadingOrder(epubBook));
             if (ReadingOrder.Any())
@@ -176,7 +197,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             navigationItemViewModel.IsTreeItemExpanded = true;
             if (navigationItemViewModel.IsLink)
             {
-                Navigate(ReadingOrder.FirstOrDefault(htmlContentFile => htmlContentFile.HtmlFilePath == navigationItemViewModel.FilePath));
+                Navigate(ReadingOrder.FirstOrDefault(htmlContentFile => htmlContentFile.HtmlFilePathInEpubManifest == navigationItemViewModel.FilePath));
                 CurrentAnchor = navigationItemViewModel.Anchor;
             }
         }

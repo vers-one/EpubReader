@@ -18,6 +18,9 @@ dotnet_diagnostic.IDE0060.severity = error
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = error
 
+# S1168: Empty arrays and collections should be returned instead of null
+dotnet_diagnostic.S1168.severity = none
+
 # S3963: "static" fields should be initialized inline
 dotnet_diagnostic.S3963.severity = none
 

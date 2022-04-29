@@ -34,8 +34,8 @@ namespace VersOne.Epub.WpfDemo.Models
             List<HtmlContentFileViewModel> result = new List<HtmlContentFileViewModel>();
             foreach (EpubTextContentFile epubHtmlFile in epubBook.ReadingOrder)
             {
-                HtmlContentFileViewModel htmlContentFileViewModel = new HtmlContentFileViewModel(epubHtmlFile.FileName, epubHtmlFile.Content, images,
-                    styleSheets, fonts);
+                HtmlContentFileViewModel htmlContentFileViewModel = new HtmlContentFileViewModel(epubHtmlFile.FileName, epubHtmlFile.FilePathInEpubArchive,
+                    epubHtmlFile.Content, images, styleSheets, fonts);
                 result.Add(htmlContentFileViewModel);
             }
             return result;

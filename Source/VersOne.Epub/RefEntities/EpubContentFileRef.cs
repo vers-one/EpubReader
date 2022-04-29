@@ -19,6 +19,14 @@ namespace VersOne.Epub
         public EpubContentType ContentType { get; set; }
         public string ContentMimeType { get; set; }
 
+        public string FilePathInEpubArchive
+        {
+            get
+            {
+                return ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
+            }
+        }
+
         public byte[] ReadContentAsBytes()
         {
             return ReadContentAsBytesAsync().Result;
@@ -61,7 +69,7 @@ namespace VersOne.Epub
             {
                 throw new Exception("EPUB parsing error: file name of the specified content file is empty.");
             }
-            string contentFilePath = ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
+            string contentFilePath = FilePathInEpubArchive;
             IZipFileEntry contentFileEntry = epubBookRef.EpubFile.GetEntry(contentFilePath);
             if (contentFileEntry == null)
             {

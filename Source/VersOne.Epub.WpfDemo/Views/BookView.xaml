@@ -23,26 +23,28 @@
                         <controls:NavigationTemplateSelector>
                             <controls:NavigationTemplateSelector.NavigationHeaderTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding NestedItems}">
-                                    <controls:NavigationHeader Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=controls:NavigationTreeView}}" CommandParameter="{Binding}" />
+                                    <controls:NavigationHeader Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=controls:NavigationTreeView}}"
+                                                               CommandParameter="{Binding}" />
                                 </HierarchicalDataTemplate>
                             </controls:NavigationTemplateSelector.NavigationHeaderTemplate>
                             <controls:NavigationTemplateSelector.NavigationItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding NestedItems}">
-                                    <controls:NavigationItem Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=controls:NavigationTreeView}}" CommandParameter="{Binding}" />
+                                    <controls:NavigationItem Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=controls:NavigationTreeView}}"
+                                                             CommandParameter="{Binding}" />
                                 </HierarchicalDataTemplate>
                             </controls:NavigationTemplateSelector.NavigationItemTemplate>
                         </controls:NavigationTemplateSelector>
                     </controls:NavigationTreeView.ItemTemplateSelector>
                 </controls:NavigationTreeView>
                 <GridSplitter Grid.Column="1" Width="4" Height="Auto" HorizontalAlignment="Stretch" Background="White" BorderBrush="#FF989898"
-                          BorderThickness="0,0,1,0" />
+                              BorderThickness="0,0,1,0" />
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <controls:BookHtmlContent Grid.Row="0" HtmlContentFile="{Binding CurrentHtmlContentFile}"
-                                          Anchor="{Binding CurrentAnchor}" />
+                    <controls:BookHtmlContent Grid.Row="0" EpubArchive="{Binding CurrentEpubArchive}" HtmlContentFile="{Binding CurrentHtmlContentFile}"
+                                              Anchor="{Binding CurrentAnchor}" />
                     <Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="#FF989898" Padding="4">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -61,6 +63,7 @@
                 </Grid>
             </Grid>
         </Border>
-        <TextBlock Text="Loading book..." HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <TextBlock Text="Loading book..." HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Visibility="{Binding IsLoading, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </Window>

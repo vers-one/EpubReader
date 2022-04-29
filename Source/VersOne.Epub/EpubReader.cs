@@ -199,6 +199,7 @@ namespace VersOne.Epub
                 EpubTextContentFile textContentFile = new EpubTextContentFile
                 {
                     FileName = textContentFileRef.Value.FileName,
+                    FilePathInEpubArchive = textContentFileRef.Value.FilePathInEpubArchive,
                     ContentType = textContentFileRef.Value.ContentType,
                     ContentMimeType = textContentFileRef.Value.ContentMimeType
                 };
@@ -223,6 +224,7 @@ namespace VersOne.Epub
             EpubByteContentFile result = new EpubByteContentFile
             {
                 FileName = contentFileRef.FileName,
+                FilePathInEpubArchive = contentFileRef.FilePathInEpubArchive,
                 ContentType = contentFileRef.ContentType,
                 ContentMimeType = contentFileRef.ContentMimeType
             };

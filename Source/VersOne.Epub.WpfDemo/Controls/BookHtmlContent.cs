@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.IO.Packaging;
 using System.Windows;
 using System.Windows.Media;
@@ -13,6 +14,7 @@ namespace VersOne.Epub.WpfDemo.Controls
 {
     public class BookHtmlContent : HtmlPanel
     {
+        public static readonly DependencyProperty EpubArchiveProperty = DependencyProperty.Register("EpubArchive", typeof(ZipArchive), typeof(BookHtmlContent));
         public static readonly DependencyProperty HtmlContentFileProperty = DependencyProperty.Register("HtmlContentFile", typeof(HtmlContentFileViewModel), typeof(BookHtmlContent), new PropertyMetadata(OnHtmlContentFileChanged));
         public static readonly DependencyProperty AnchorProperty = DependencyProperty.Register("Anchor", typeof(string), typeof(BookHtmlContent), new PropertyMetadata(OnAnchorChanged));
 
@@ -25,6 +27,18 @@ namespace VersOne.Epub.WpfDemo.Controls
             areFontsRegistered = false;
             isContentLoaded = false;
             queuedScrollToAnchor = null;
+        }
+
+        public ZipArchive EpubArchive
+        {
+            get
+            {
+                return (ZipArchive)GetValue(EpubArchiveProperty);
+            }
+            set
+            {
+                SetValue(EpubArchiveProperty, value);
+            }
         }
 
         public HtmlContentFileViewModel HtmlContentFile
@@ -53,8 +67,8 @@ namespace VersOne.Epub.WpfDemo.Controls
 
         protected override void OnImageLoad(HtmlImageLoadEventArgs e)
         {
-            string imageFilePath = GetFullPath(HtmlContentFile.HtmlFilePath, e.Src);
-            if (HtmlContentFile.Images.TryGetValue(imageFilePath, out byte[] imageContent))
+            byte[] imageContent = GetImageContent(e.Src);
+            if (imageContent != null)
             {
                 using (MemoryStream imageStream = new MemoryStream(imageContent))
                 {
@@ -73,8 +87,8 @@ namespace VersOne.Epub.WpfDemo.Controls
 
         protected override void OnStylesheetLoad(HtmlStylesheetLoadEventArgs e)
         {
-            string styleSheetFilePath = GetFullPath(HtmlContentFile.HtmlFilePath, e.Src);
-            if (HtmlContentFile.StyleSheets.TryGetValue(styleSheetFilePath, out string styleSheetContent))
+            string styleSheetContent = GetStyleSheetContent(e.Src);
+            if (styleSheetContent != null)
             {
                 e.SetStyleSheet = styleSheetContent;
             }
@@ -123,6 +137,45 @@ namespace VersOne.Epub.WpfDemo.Controls
             bookHtmlContent.Text = bookHtmlContent.HtmlContentFile.HtmlContent;
         }
 
+        private byte[] GetImageContent(string imageFilePath)
+        {
+            if (HtmlContentFile.Images.TryGetValue(GetFullPath(HtmlContentFile.HtmlFilePathInEpubManifest, imageFilePath), out byte[] imageContent))
+            {
+                return imageContent;
+            }
+            ZipArchiveEntry zipArchiveEntry = EpubArchive.GetEntry(GetFullPath(HtmlContentFile.HtmlFilePathInEpubArchive, imageFilePath));
+            if (zipArchiveEntry != null)
+            {
+                imageContent = new byte[(int)zipArchiveEntry.Length];
+                using (Stream zipArchiveEntryStream = zipArchiveEntry.Open())
+                using (MemoryStream memoryStream = new MemoryStream(imageContent))
+                {
+                    zipArchiveEntryStream.CopyTo(memoryStream);
+                }
+                return imageContent;
+            }
+            return null;
+        }
+
+        private string GetStyleSheetContent(string styleSheetFilePath)
+        {
+            if (HtmlContentFile.StyleSheets.TryGetValue(GetFullPath(HtmlContentFile.HtmlFilePathInEpubManifest, styleSheetFilePath), out string styleSheetContent))
+            {
+                return styleSheetContent;
+            }
+            ZipArchiveEntry zipArchiveEntry = EpubArchive.GetEntry(GetFullPath(HtmlContentFile.HtmlFilePathInEpubArchive, styleSheetFilePath));
+            if (zipArchiveEntry != null)
+            {
+                using (Stream zipArchiveEntryStream = zipArchiveEntry.Open())
+                using (StreamReader streamReader = new StreamReader(zipArchiveEntryStream))
+                {
+                    styleSheetContent = streamReader.ReadToEnd();
+                }
+                return styleSheetContent;
+            }
+            return null;
+        }
+
         private string GetFullPath(string htmlFilePath, string relativePath)
         {
             if (relativePath.StartsWith("/"))
@@ -136,7 +189,11 @@ namespace VersOne.Epub.WpfDemo.Controls
                 basePath = Path.GetDirectoryName(basePath);
             }
             string fullPath = String.Concat(basePath.Replace('\\', '/'), '/', relativePath);
-            return fullPath.Length > 1 ? fullPath.Substring(1) : String.Empty;
+            if (fullPath.StartsWith("/"))
+            {
+                fullPath = fullPath.Length > 1 ? fullPath.Substring(1) : String.Empty;
+            }
+            return fullPath;
         }
 
         private void RegisterFonts()
