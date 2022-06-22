@@ -1,0 +1,50 @@
+name: Update versions
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "New version for all projects"
+        required: true 
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Update versions
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set VersOne.Epub.csproj version
+        id: update
+        uses: vers-one/dotnet-project-version-updater@v1.0
+        with:
+          file: "Source/VersOne.Epub/VersOne.Epub.csproj"
+          version: ${{ github.event.inputs.version }}
+
+      - name: Set VersOne.Epub.nuspec version
+        uses: vers-one/dotnet-project-version-updater@v1.0
+        with:
+          file: "Source/VersOne.Epub/VersOne.Epub.nuspec"
+          version: ${{ github.event.inputs.version }}
+
+      - name: Set VersOne.Epub.ConsoleDemo.csproj version
+        uses: vers-one/dotnet-project-version-updater@v1.0
+        with:
+          file: "Source/VersOne.Epub.ConsoleDemo/VersOne.Epub.ConsoleDemo.csproj"
+          version: ${{ github.event.inputs.version }}
+
+      - name: Set VersOne.Epub.WpfDemo version
+        uses: vers-one/dotnet-project-version-updater@v1.0
+        with:
+          file: "Source/VersOne.Epub.WpfDemo/Properties/AssemblyInfo.cs"
+          version: ${{ github.event.inputs.version }}
+
+      - run: |
+          git config user.name "vers-one"
+          git config user.email "vers-one@users.noreply.github.com"
+          git add .
+          git commit -m "Update project versions to ${{ steps.update.outputs.newVersion }}"
+          git tag v${{ steps.update.outputs.newVersion }}
+          git push --atomic origin main v${{ steps.update.outputs.newVersion }}
