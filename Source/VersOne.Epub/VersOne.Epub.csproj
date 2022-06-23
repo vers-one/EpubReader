@@ -9,7 +9,6 @@
         <Version>3.1.1</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<DocumentationFile></DocumentationFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>

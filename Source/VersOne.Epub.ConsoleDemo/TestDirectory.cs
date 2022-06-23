@@ -10,8 +10,8 @@ namespace VersOne.Epub.ConsoleDemo
         public static void Run(string directoryPath)
         {
             int totalFiles = 0;
-            Dictionary<string, int> filesByVersion = new Dictionary<string, int>();
-            List<string> filesWithErrors = new List<string>();
+            Dictionary<string, int> filesByVersion = new();
+            List<string> filesWithErrors = new();
             TestEpubDirectory(directoryPath, ref totalFiles, filesByVersion, filesWithErrors);
             if (totalFiles == 0)
             {
@@ -74,26 +74,24 @@ namespace VersOne.Epub.ConsoleDemo
             Console.WriteLine("-----------------------------------");
             try
             {
-                using (EpubBookRef bookRef = EpubReader.OpenBook(epubFilePath))
+                using EpubBookRef bookRef = EpubReader.OpenBook(epubFilePath);
+                string epubVersionString = bookRef.Schema.Package.GetVersionString();
+                if (filesByVersion.ContainsKey(epubVersionString))
                 {
-                    string epubVersionString = bookRef.Schema.Package.GetVersionString();
-                    if (filesByVersion.ContainsKey(epubVersionString))
-                    {
-                        filesByVersion[epubVersionString]++;
-                    }
-                    else
-                    {
-                        filesByVersion[epubVersionString] = 1;
-                    }
-                    Console.WriteLine($"EPUB version: {epubVersionString}");
-                    Console.WriteLine($"Total files: {bookRef.Content.AllFiles.Count}, HTML files: {bookRef.Content.Html.Count}," +
-                        $" CSS files: {bookRef.Content.Css.Count}, image files: {bookRef.Content.Images.Count}, font files: {bookRef.Content.Fonts.Count}.");
-                    Console.WriteLine($"Reading order: {bookRef.GetReadingOrder().Count} file(s).");
-                    Console.WriteLine("Navigation:");
-                    foreach (EpubNavigationItemRef navigationItemRef in bookRef.GetNavigation())
-                    {
-                        PrintNavigationItem(navigationItemRef, 0);
-                    }
+                    filesByVersion[epubVersionString]++;
+                }
+                else
+                {
+                    filesByVersion[epubVersionString] = 1;
+                }
+                Console.WriteLine($"EPUB version: {epubVersionString}");
+                Console.WriteLine($"Total files: {bookRef.Content.AllFiles.Count}, HTML files: {bookRef.Content.Html.Count}," +
+                    $" CSS files: {bookRef.Content.Css.Count}, image files: {bookRef.Content.Images.Count}, font files: {bookRef.Content.Fonts.Count}.");
+                Console.WriteLine($"Reading order: {bookRef.GetReadingOrder().Count} file(s).");
+                Console.WriteLine("Navigation:");
+                foreach (EpubNavigationItemRef navigationItemRef in bookRef.GetNavigation())
+                {
+                    PrintNavigationItem(navigationItemRef, 0);
                 }
             }
             catch (Exception exception)
