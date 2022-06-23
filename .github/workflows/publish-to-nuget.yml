@@ -1,0 +1,37 @@
+name: Publish to Nuget
+
+on: workflow_dispatch
+
+jobs:
+  create-release:
+    runs-on: windows-2022
+
+    env:
+      Configuration: Release
+      Solution_Name: Source\EpubReader.sln
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore dependencies
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration /p:RestorePackagesConfig=true
+
+    - name: Build solution
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+  
+    - name: Make Nuget package
+      run: nuget.exe pack Source\VersOne.Epub\VersOne.Epub.nuspec
+  
+    - name: Publish Nuget package
+      run: nuget.exe push *.nupkg -ApiKey ${{ secrets.NugetApiKey }} -SkipDuplicate
