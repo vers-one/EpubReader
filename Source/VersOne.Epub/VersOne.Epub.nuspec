@@ -9,7 +9,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">Unlicense</license>
         <projectUrl>https://github.com/vers-one/EpubReader</projectUrl>
-        <releaseNotes>All content files now expose their physical file path in EPUB archive.</releaseNotes>
+        <releaseNotes>Release notes: https://github.com/vers-one/EpubReader/releases/latest/</releaseNotes>
         <copyright>Unlicense &lt;http://unlicense.org&gt;</copyright>
         <tags>epub</tags>
         <dependencies>

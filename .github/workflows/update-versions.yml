@@ -47,4 +47,4 @@ jobs:
           git add .
           git commit -m "Update project versions to ${{ steps.update.outputs.newVersion }}"
           git tag v${{ steps.update.outputs.newVersion }}
-          git push --atomic origin main v${{ steps.update.outputs.newVersion }}
+          git push --atomic origin master v${{ steps.update.outputs.newVersion }}
