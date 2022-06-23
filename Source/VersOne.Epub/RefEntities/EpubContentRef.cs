@@ -5,6 +5,7 @@ namespace VersOne.Epub
     public class EpubContentRef
     {
         public EpubByteContentFileRef Cover { get; set; }
+        public EpubTextContentFileRef NavigationHtmlFile { get; set; }
         public Dictionary<string, EpubTextContentFileRef> Html { get; set; }
         public Dictionary<string, EpubTextContentFileRef> Css { get; set; }
         public Dictionary<string, EpubByteContentFileRef> Images { get; set; }

@@ -4,8 +4,8 @@ namespace VersOne.Epub
 {
     public class EpubTextContentFileRef : EpubContentFileRef
     {
-        public EpubTextContentFileRef(EpubBookRef epubBookRef)
-            : base(epubBookRef)
+        public EpubTextContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType)
+            : base(epubBookRef, fileName, contentType, contentMimeType)
         {
         }
 

@@ -1,9 +1,6 @@
-﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -57,33 +54,13 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: navigation file does not contain body element.");
             }
-
             result.Navs = new List<Epub3Nav>();
-            string folder = ZipPathUtils.GetDirectoryPath(navManifestItem.Href);
-
             foreach (XElement navNode in bodyNode.Elements(xhtmlNamespace + "nav"))
             {
                 Epub3Nav epub3Nav = ReadEpub3Nav(navNode);
-                AdjustRelativePath(epub3Nav.Ol, folder);
                 result.Navs.Add(epub3Nav);
             }
             return result;
-        }
-
-        private static void AdjustRelativePath(Epub3NavOl nav, string rootFolder)
-        {
-            if (nav == null) return;
-
-            foreach (var li in nav.Lis)
-            {
-                if  (li.Anchor?.Href != null && li.Anchor.Href.Length > 0 && li.Anchor.Href[0] != '/')
-                {
-                    var relativeHref = $"{rootFolder}/{li.Anchor.Href}";
-                    li.Anchor.Href = relativeHref;
-                }
-
-                AdjustRelativePath(li.ChildOl, rootFolder);
-            }
         }
 
         private static Epub3Nav ReadEpub3Nav(XElement navNode)

@@ -10,22 +10,19 @@ namespace VersOne.Epub
     {
         private readonly EpubBookRef epubBookRef;
 
-        protected EpubContentFileRef(EpubBookRef epubBookRef)
+        protected EpubContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType)
         {
             this.epubBookRef = epubBookRef;
+            FileName = fileName;
+            FilePathInEpubArchive = ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
+            ContentType = contentType;
+            ContentMimeType = contentMimeType;
         }
 
-        public string FileName { get; set; }
-        public EpubContentType ContentType { get; set; }
-        public string ContentMimeType { get; set; }
-
-        public string FilePathInEpubArchive
-        {
-            get
-            {
-                return ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
-            }
-        }
+        public string FileName { get; }
+        public string FilePathInEpubArchive { get; }
+        public EpubContentType ContentType { get; }
+        public string ContentMimeType { get; }
 
         public byte[] ReadContentAsBytes()
         {

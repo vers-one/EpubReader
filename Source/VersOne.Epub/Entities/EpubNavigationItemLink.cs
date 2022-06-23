@@ -4,18 +4,16 @@ namespace VersOne.Epub
 {
     public class EpubNavigationItemLink
     {
-        public EpubNavigationItemLink()
+        public EpubNavigationItemLink(string contentFileUrl, string baseDirectoryPath)
         {
-        }
-
-        public EpubNavigationItemLink(string url)
-        {
-            UrlParser urlParser = new UrlParser(url);
+            UrlParser urlParser = new UrlParser(contentFileUrl);
             ContentFileName = urlParser.Path;
+            ContentFilePathInEpubArchive = ZipPathUtils.Combine(baseDirectoryPath, ContentFileName);
             Anchor = urlParser.Anchor;
         }
 
         public string ContentFileName { get; set; }
+        public string ContentFilePathInEpubArchive { get; set; }
         public string Anchor { get; set; }
     }
 }

@@ -197,7 +197,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             navigationItemViewModel.IsTreeItemExpanded = true;
             if (navigationItemViewModel.IsLink)
             {
-                Navigate(ReadingOrder.FirstOrDefault(htmlContentFile => htmlContentFile.HtmlFilePathInEpubManifest == navigationItemViewModel.FilePath));
+                Navigate(ReadingOrder.FirstOrDefault(htmlContentFile => htmlContentFile.HtmlFilePathInEpubArchive == navigationItemViewModel.FilePathInEpubArchive));
                 CurrentAnchor = navigationItemViewModel.Anchor;
             }
         }

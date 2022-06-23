@@ -29,16 +29,15 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.XML:
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
-                        EpubTextContentFileRef epubTextContentFile = new EpubTextContentFileRef(bookRef)
-                        {
-                            FileName = fileName,
-                            ContentMimeType = contentMimeType,
-                            ContentType = contentType
-                        };
+                        EpubTextContentFileRef epubTextContentFile = new EpubTextContentFileRef(bookRef, fileName, contentType, contentMimeType);
                         switch (contentType)
                         {
                             case EpubContentType.XHTML_1_1:
                                 result.Html[fileName] = epubTextContentFile;
+                                if (result.NavigationHtmlFile == null && manifestItem.Properties != null && manifestItem.Properties.Contains(ManifestProperty.NAV))
+                                {
+                                    result.NavigationHtmlFile = epubTextContentFile;
+                                }
                                 break;
                             case EpubContentType.CSS:
                                 result.Css[fileName] = epubTextContentFile;
@@ -47,12 +46,7 @@ namespace VersOne.Epub.Internal
                         result.AllFiles[fileName] = epubTextContentFile;
                         break;
                     default:
-                        EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef)
-                        {
-                            FileName = fileName,
-                            ContentMimeType = contentMimeType,
-                            ContentType = contentType
-                        };
+                        EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef, fileName, contentType, contentMimeType);
                         switch (contentType)
                         {
                             case EpubContentType.IMAGE_GIF:

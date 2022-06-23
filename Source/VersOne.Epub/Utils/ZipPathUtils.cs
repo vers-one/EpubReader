@@ -4,6 +4,8 @@ namespace VersOne.Epub.Internal
 {
     internal static class ZipPathUtils
     {
+        private const string DIRECTORY_UP = "../";
+
         public static string GetDirectoryPath(string filePath)
         {
             int lastSlashIndex = filePath.LastIndexOf('/');
@@ -25,14 +27,14 @@ namespace VersOne.Epub.Internal
             }
             else
             {
-                while (fileName.StartsWith("../"))
+                while (fileName.StartsWith(DIRECTORY_UP))
                 {
-                    int idx = directory.LastIndexOf("/");
-                    directory = idx > 0 ? directory.Substring(0, idx) : string.Empty;
-                    fileName = fileName.Substring(3);
+                    int lastDirectorySlashIndex = directory.LastIndexOf('/');
+                    directory = lastDirectorySlashIndex != -1 ? directory.Substring(0, lastDirectorySlashIndex) : String.Empty;
+                    fileName = fileName.Substring(DIRECTORY_UP.Length);
                 }
 
-                return string.IsNullOrEmpty(directory) ? fileName : String.Concat(directory, "/", fileName);
+                return String.IsNullOrEmpty(directory) ? fileName : String.Concat(directory, '/', fileName);
             }
         }
     }

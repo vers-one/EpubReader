@@ -188,6 +188,10 @@ namespace VersOne.Epub
             {
                 result.Cover = result.Images[contentRef.Cover.FileName];
             }
+            if (contentRef.NavigationHtmlFile != null)
+            {
+                result.NavigationHtmlFile = result.Html[contentRef.NavigationHtmlFile.FileName];
+            }
             return result;
         }
 

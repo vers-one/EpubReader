@@ -1,6 +1,4 @@
-﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using VersOne.Epub.Schema;
@@ -13,10 +11,7 @@ namespace VersOne.Epub.Internal
         {
             if (bookRef.Schema.Package.EpubVersion == EpubVersion.EPUB_2)
             {
-                if (null != bookRef.Schema.Epub2Ncx)
-                    return GetNavigationItems(bookRef, bookRef.Schema.Epub2Ncx);
-                else
-                    return new List<EpubNavigationItemRef>(); // if Ncx is missing, return an empty list
+                return bookRef.Schema.Epub2Ncx != null ? GetNavigationItems(bookRef, bookRef.Schema.Epub2Ncx) : null;
             }
             else
             {
@@ -43,7 +38,7 @@ namespace VersOne.Epub.Internal
                 {
                     EpubNavigationItemRef navigationItemRef = EpubNavigationItemRef.CreateAsLink();
                     navigationItemRef.Title = navigationPoint.NavigationLabels.First().Text;
-                    navigationItemRef.Link = new EpubNavigationItemLink(navigationPoint.Content.Source);
+                    navigationItemRef.Link = new EpubNavigationItemLink(navigationPoint.Content.Source, bookRef.Schema.ContentDirectoryPath);
                     navigationItemRef.HtmlContentFileRef = GetHtmlContentFileRef(bookRef, navigationItemRef.Link.ContentFileName);
                     navigationItemRef.NestedItems = GetNavigationItems(bookRef, navigationPoint.ChildNavigationPoints);
                     result.Add(navigationItemRef);
@@ -57,17 +52,18 @@ namespace VersOne.Epub.Internal
             List<EpubNavigationItemRef> result;
             if (epub3Nav != null)
             {
+                string epub3NavigationBaseDirectoryPath = ZipPathUtils.GetDirectoryPath(bookRef.Content.NavigationHtmlFile.FilePathInEpubArchive);
                 if (epub3Nav.Head != null)
                 {
                     result = new List<EpubNavigationItemRef>();
                     EpubNavigationItemRef navigationItemRef = EpubNavigationItemRef.CreateAsHeader();
                     navigationItemRef.Title = epub3Nav.Head;
-                    navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3Nav.Ol);
+                    navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3Nav.Ol, epub3NavigationBaseDirectoryPath);
                     result.Add(navigationItemRef);
                 }
                 else
                 {
-                    result = GetNavigationItems(bookRef, epub3Nav.Ol);
+                    result = GetNavigationItems(bookRef, epub3Nav.Ol, epub3NavigationBaseDirectoryPath);
                 }
             }
             else
@@ -77,7 +73,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static List<EpubNavigationItemRef> GetNavigationItems(EpubBookRef bookRef, Epub3NavOl epub3NavOl)
+        private static List<EpubNavigationItemRef> GetNavigationItems(EpubBookRef bookRef, Epub3NavOl epub3NavOl, string epub3NavigationBaseDirectoryPath)
         {
             List<EpubNavigationItemRef> result = new List<EpubNavigationItemRef>();
             if (epub3NavOl != null && epub3NavOl.Lis != null)
@@ -91,9 +87,9 @@ namespace VersOne.Epub.Internal
                             Epub3NavAnchor navAnchor = epub3NavLi.Anchor;
                             EpubNavigationItemRef navigationItemRef = EpubNavigationItemRef.CreateAsLink();
                             navigationItemRef.Title = GetFirstNonEmptyHeader(navAnchor.Text, navAnchor.Title, navAnchor.Alt);
-                            navigationItemRef.Link = new EpubNavigationItemLink(navAnchor.Href);
+                            navigationItemRef.Link = new EpubNavigationItemLink(navAnchor.Href, epub3NavigationBaseDirectoryPath);
                             navigationItemRef.HtmlContentFileRef = GetHtmlContentFileRef(bookRef, navigationItemRef.Link.ContentFileName);
-                            navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3NavLi.ChildOl);
+                            navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3NavLi.ChildOl, epub3NavigationBaseDirectoryPath);
                             result.Add(navigationItemRef);
                         }
                         else if (epub3NavLi.Span != null)
@@ -101,7 +97,7 @@ namespace VersOne.Epub.Internal
                             Epub3NavSpan navSpan = epub3NavLi.Span;
                             EpubNavigationItemRef navigationItemRef = EpubNavigationItemRef.CreateAsHeader();
                             navigationItemRef.Title = GetFirstNonEmptyHeader(navSpan.Text, navSpan.Title, navSpan.Alt);
-                            navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3NavLi.ChildOl);
+                            navigationItemRef.NestedItems = GetNavigationItems(bookRef, epub3NavLi.ChildOl, epub3NavigationBaseDirectoryPath);
                             result.Add(navigationItemRef);
                         }
                     }

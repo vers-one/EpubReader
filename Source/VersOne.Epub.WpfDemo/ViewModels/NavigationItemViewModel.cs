@@ -15,10 +15,10 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             isTreeItemExpanded = false;
         }
 
-        public NavigationItemViewModel(string title, string filePath, string anchor, IEnumerable<NavigationItemViewModel> nestedItems)
+        public NavigationItemViewModel(string title, string filePathInEpubArchive, string anchor, IEnumerable<NavigationItemViewModel> nestedItems)
         {
             IsLink = true;
-            FilePath = filePath;
+            FilePathInEpubArchive = filePathInEpubArchive;
             Anchor = anchor;
             Title = title;
             NestedItems = new ObservableCollection<NavigationItemViewModel>(nestedItems);
@@ -27,7 +27,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
 
         public bool IsLink { get; }
         public string Title { get; }
-        public string FilePath { get; }
+        public string FilePathInEpubArchive { get; }
         public string Anchor { get; }
         public ObservableCollection<NavigationItemViewModel> NestedItems { get; private set; }
 

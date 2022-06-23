@@ -15,8 +15,8 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.35.0.42613">
+        <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.40.0.48530">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
