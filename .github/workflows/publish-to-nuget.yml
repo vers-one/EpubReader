@@ -34,4 +34,4 @@ jobs:
       run: nuget.exe pack Source\VersOne.Epub\VersOne.Epub.nuspec
   
     - name: Publish Nuget package
-      run: nuget.exe push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NugetApiKey }} -SkipDuplicate
+      run: nuget.exe push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }} -SkipDuplicate
