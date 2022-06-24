@@ -47,6 +47,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ github.event.inputs.version }}
+        draft: true
         files: |
           VersOne.Epub.Net46.zip
           VersOne.Epub.NetStandard.zip
