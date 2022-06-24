@@ -56,7 +56,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: manifest not found in the package.");
             }
-            EpubManifest manifest = ReadManifest(manifestNode);
+            EpubManifest manifest = ReadManifest(manifestNode, packageReaderOptions);
             result.Manifest = manifest;
             XElement spineNode = packageNode.Element(opfNamespace + "spine");
             if (spineNode == null)
@@ -288,7 +288,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubManifest ReadManifest(XElement manifestNode)
+        private static EpubManifest ReadManifest(XElement manifestNode, PackageReaderOptions packageReaderOptions)
         {
             EpubManifest result = new EpubManifest();
             foreach (XElement manifestItemNode in manifestNode.Elements())
@@ -329,14 +329,26 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.Id))
                     {
+                        if (packageReaderOptions.SkipInvalidManifestItems)
+                        {
+                            continue;
+                        }
                         throw new Exception("Incorrect EPUB manifest: item ID is missing");
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.Href))
                     {
+                        if (packageReaderOptions.SkipInvalidManifestItems)
+                        {
+                            continue;
+                        }
                         throw new Exception("Incorrect EPUB manifest: item href is missing");
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.MediaType))
                     {
+                        if (packageReaderOptions.SkipInvalidManifestItems)
+                        {
+                            continue;
+                        }
                         throw new Exception("Incorrect EPUB manifest: item media type is missing");
                     }
                     result.Add(manifestItem);
