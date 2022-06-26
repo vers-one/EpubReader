@@ -12,6 +12,9 @@ dotnet_diagnostic.IDE0008.severity = error
 # IDE0017: Use object initializers
 dotnet_diagnostic.IDE0017.severity = none
 
+# IDE0018: Inline variable declaration
+dotnet_diagnostic.IDE0018.severity = error
+
 # IDE0060: Remove unused parameter
 dotnet_diagnostic.IDE0060.severity = error
 

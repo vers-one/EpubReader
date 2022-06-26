@@ -49,7 +49,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: metadata not found in the package.");
             }
-            EpubMetadata metadata = ReadMetadata(metadataNode, result.EpubVersion);
+            EpubMetadata metadata = ReadMetadata(metadataNode);
             result.Metadata = metadata;
             XElement manifestNode = packageNode.Element(opfNamespace + "manifest");
             if (manifestNode == null)
@@ -74,7 +74,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubMetadata ReadMetadata(XElement metadataNode, EpubVersion epubVersion)
+        private static EpubMetadata ReadMetadata(XElement metadataNode)
         {
             EpubMetadata result = new EpubMetadata
             {
@@ -149,16 +149,8 @@ namespace VersOne.Epub.Internal
                         result.Rights.Add(innerText);
                         break;
                     case "meta":
-                        if (epubVersion == EpubVersion.EPUB_2)
-                        {
-                            EpubMetadataMeta meta = ReadMetadataMetaVersion2(metadataItemNode);
-                            result.MetaItems.Add(meta);
-                        }
-                        else if (epubVersion == EpubVersion.EPUB_3 || epubVersion == EpubVersion.EPUB_3_1)
-                        {
-                            EpubMetadataMeta meta = ReadMetadataMetaVersion3(metadataItemNode);
-                            result.MetaItems.Add(meta);
-                        }
+                        EpubMetadataMeta meta = ReadMetadataMeta(metadataItemNode);
+                        result.MetaItems.Add(meta);
                         break;
                 }
             }
@@ -243,7 +235,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubMetadataMeta ReadMetadataMetaVersion2(XElement metadataMetaNode)
+        private static EpubMetadataMeta ReadMetadataMeta(XElement metadataMetaNode)
         {
             EpubMetadataMeta result = new EpubMetadataMeta();
             foreach (XAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes())
@@ -257,19 +249,6 @@ namespace VersOne.Epub.Internal
                     case "content":
                         result.Content = attributeValue;
                         break;
-                }
-            }
-            return result;
-        }
-
-        private static EpubMetadataMeta ReadMetadataMetaVersion3(XElement metadataMetaNode)
-        {
-            EpubMetadataMeta result = new EpubMetadataMeta();
-            foreach (XAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes())
-            {
-                string attributeValue = metadataMetaNodeAttribute.Value;
-                switch (metadataMetaNodeAttribute.GetLowerCaseLocalName())
-                {
                     case "id":
                         result.Id = attributeValue;
                         break;
@@ -284,7 +263,10 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
-            result.Content = metadataMetaNode.Value;
+            if (result.Content == null)
+            {
+                result.Content = metadataMetaNode.Value;
+            }
             return result;
         }
 
