@@ -188,11 +188,7 @@ namespace VersOne.Epub.WpfDemo.Controls
                 relativePath = relativePath.Length > 3 ? relativePath.Substring(3) : String.Empty;
                 basePath = Path.GetDirectoryName(basePath);
             }
-            string fullPath = String.Concat(basePath.Replace('\\', '/'), '/', relativePath);
-            if (fullPath.StartsWith("/"))
-            {
-                fullPath = fullPath.Length > 1 ? fullPath.Substring(1) : String.Empty;
-            }
+            string fullPath = String.Concat(basePath.Replace('\\', '/'), '/', relativePath).TrimStart('/');
             return fullPath;
         }
 

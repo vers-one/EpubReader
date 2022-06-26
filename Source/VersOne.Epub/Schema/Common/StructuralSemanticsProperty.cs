@@ -1,4 +1,6 @@
-﻿namespace VersOne.Epub.Schema
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace VersOne.Epub.Schema
 {
     public enum StructuralSemanticsProperty
     {
@@ -135,6 +137,8 @@
         UNKNOWN
     }
 
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name",
+        Justification = "Enum and parser need to be close to each other to avoid issues when the enum was changed without changing the parser. The file needs to be named after enum.")]
     internal static class StructuralSemanticsPropertyParser
     {
         public static StructuralSemanticsProperty Parse(string stringValue)

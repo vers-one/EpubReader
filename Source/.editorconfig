@@ -24,6 +24,9 @@ dotnet_diagnostic.IDE0090.severity = error
 # S1168: Empty arrays and collections should be returned instead of null
 dotnet_diagnostic.S1168.severity = none
 
+# S3267: Loops should be simplified with "LINQ" expressions
+dotnet_diagnostic.S3267.severity = none
+
 # S3963: "static" fields should be initialized inline
 dotnet_diagnostic.S3963.severity = none
 
@@ -65,9 +68,6 @@ dotnet_diagnostic.CS1591.severity = none
 # S112: General exceptions should never be thrown
 dotnet_diagnostic.S112.severity = none
 
-# S3267: Loops should be simplified with "LINQ" expressions
-dotnet_diagnostic.S3267.severity = none
-
 # SA1600: Elements should be documented
 dotnet_diagnostic.SA1600.severity = none
 
@@ -80,8 +80,3 @@ dotnet_diagnostic.SA1602.severity = none
 # SA1616: Element return value documentation should have text
 dotnet_diagnostic.SA1616.severity = none
 
-# SA1629: Documentation text should end with a period
-dotnet_diagnostic.SA1629.severity = none
-
-# SA1649: File name should match first type name
-dotnet_diagnostic.SA1649.severity = none

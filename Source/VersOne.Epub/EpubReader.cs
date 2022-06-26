@@ -16,8 +16,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book synchronously without reading its whole content. Holds the handle to the EPUB file.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="filePath">Path to the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static EpubBookRef OpenBook(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
@@ -27,8 +27,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book synchronously without reading its whole content.
         /// </summary>
-        /// <param name="stream">seekable stream containing the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="stream">Seekable stream containing the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static EpubBookRef OpenBook(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
@@ -38,8 +38,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book asynchronously without reading its whole content. Holds the handle to the EPUB file.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="filePath">Path to the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static Task<EpubBookRef> OpenBookAsync(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
@@ -54,8 +54,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book asynchronously without reading its whole content.
         /// </summary>
-        /// <param name="stream">seekable stream containing the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="stream">Seekable stream containing the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static Task<EpubBookRef> OpenBookAsync(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
@@ -65,8 +65,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book synchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="filePath">Path to the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static EpubBook ReadBook(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
@@ -76,8 +76,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book synchronously and reads all of its content into the memory.
         /// </summary>
-        /// <param name="stream">seekable stream containing the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="stream">Seekable stream containing the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static EpubBook ReadBook(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
@@ -87,8 +87,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book asynchronously and reads all of its content into the memory. Does not hold the handle to the EPUB file.
         /// </summary>
-        /// <param name="filePath">path to the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="filePath">Path to the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static async Task<EpubBook> ReadBookAsync(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
@@ -99,8 +99,8 @@ namespace VersOne.Epub
         /// <summary>
         /// Opens the book asynchronously and reads all of its content into the memory.
         /// </summary>
-        /// <param name="stream">seekable stream containing the EPUB file</param>
-        /// <param name="epubReaderOptions">various options to configure the behavior of the EPUB reader</param>
+        /// <param name="stream">Seekable stream containing the EPUB file.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <returns></returns>
         public static async Task<EpubBook> ReadBookAsync(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
