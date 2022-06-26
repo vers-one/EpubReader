@@ -1,20 +1,27 @@
-﻿#pragma warning disable // code analysis warnings have been temporarily disabled but need to be fixed in the future
-
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using VersOne.Epub.Options;
 
 namespace VersOne.Epub.Internal
 {
     internal static class XmlUtils
     {
-        public static async Task<XDocument> LoadDocumentAsync(Stream stream)
+        private const string XML_DECLARATION_FIRST_CHARS = "<?xml";
+
+        public static async Task<XDocument> LoadDocumentAsync(Stream stream, XmlReaderOptions xmlReaderOptions)
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
                 memoryStream.Position = 0;
+                if (xmlReaderOptions.SkipXmlHeaders)
+                {
+                    SkipXmlHeader(memoryStream);
+                }
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
                 {
                     DtdProcessing = DtdProcessing.Ignore,
@@ -22,38 +29,60 @@ namespace VersOne.Epub.Internal
                 };
                 using (XmlReader xmlReader = XmlReader.Create(memoryStream, xmlReaderSettings))
                 {
-                    return await Task.Run(() => LoadXDocument(memoryStream)).ConfigureAwait(false);
+                    return await Task.Run(() => XDocument.Load(xmlReader)).ConfigureAwait(false);
                 }
             }
         }
 
-        private static XDocument LoadXDocument(MemoryStream memoryStream)
+        // This is a workaround for an issue that XML 1.1 files are not supported in .NET.
+        // See https://github.com/vers-one/EpubReader/issues/34 for more details.
+        // This method checks if the stream content starts with an XML declaration (<?xml ...)
+        // in which case it moves the stream position to the next '<' character
+        // (i.e. to the first XML content node, effectively skipping the XML header).
+        // Files with no XML declaration are treated as XML 1.0 files by .NET.
+        // If the stream content doesn't contain XML declaration, this method does not change its position.
+        private static void SkipXmlHeader(MemoryStream memoryStream)
         {
-            try
+            bool IsMatch(IList<byte> buffer, string pattern, int startPosition)
             {
-                return XDocument.Load(memoryStream);
-            }
-            catch (System.Xml.XmlException xx)
-            {
-                if (xx.Message.Contains("'1.1'")) // try to solve the known problem that .NET framework does not support XML version 1.1
+                if (startPosition > buffer.Count - pattern.Length)
                 {
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-                    var buffer = new byte[512];
-                    var read = memoryStream.Read(buffer, 0, buffer.Length); // read first 512 byte
-
-                    for (int i = 2; i < read; ++i) // search for "1.1" in the buffer
+                    return false;
+                }
+                for (int i = 0; i < pattern.Length; i++)
+                {
+                    if (buffer[startPosition + i] != pattern[i])
                     {
-                        if (buffer[i - 2] == 0x31 && buffer[i - 1] == 0x2E && buffer[i] == 0x31) // if string is "1.1"
-                        {
-                            memoryStream.Seek(i, SeekOrigin.Begin); // seek to index i
-                            memoryStream.WriteByte(0x30);           // replace by '0' to get version number "1.0"
-                            memoryStream.Seek(0, SeekOrigin.Begin); // rewind memory stream
-                            return XDocument.Load(memoryStream);
-                        }
+                        return false;
                     }
                 }
-                throw;
+                return true;
             }
+
+            int IndexOf(IList<byte> buffer, string pattern, int startPosition)
+            {
+                for (int i = startPosition; i < buffer.Count - pattern.Length; i++)
+                {
+                    if (IsMatch(buffer, pattern, i))
+                    {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            memoryStream.TryGetBuffer(out ArraySegment<byte> memoryStreamBuffer);
+            int position = IndexOf(memoryStreamBuffer, XML_DECLARATION_FIRST_CHARS, 0);
+            if (position == -1)
+            {
+                return;
+            }
+            position = IndexOf(memoryStreamBuffer, "<", position + XML_DECLARATION_FIRST_CHARS.Length);
+            if (position == -1)
+            {
+                return;
+            }
+            memoryStream.Position = position;
         }
     }
 }

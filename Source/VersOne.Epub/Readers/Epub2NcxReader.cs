@@ -13,7 +13,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class Epub2NcxReader
     {
-        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package, Epub2NcxReaderOptions epub2NcxReaderOptions)
+        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package, EpubReaderOptions epubReaderOptions)
         {
             Epub2Ncx result = new Epub2Ncx();
             string tocId = package.Spine.Toc;
@@ -39,7 +39,7 @@ namespace VersOne.Epub.Internal
             XDocument containerDocument;
             using (Stream containerStream = tocFileEntry.Open())
             {
-                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream).ConfigureAwait(false);
+                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace ncxNamespace = "http://www.daisy.org/z3986/2005/ncx/";
             XElement ncxNode = containerDocument.Element(ncxNamespace + "ncx");
@@ -72,7 +72,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: TOC file does not contain navMap element.");
             }
-            Epub2NcxNavigationMap navMap = ReadNavigationMap(navMapNode, epub2NcxReaderOptions);
+            Epub2NcxNavigationMap navMap = ReadNavigationMap(navMapNode, epubReaderOptions.Epub2NcxReaderOptions);
             result.NavMap = navMap;
             XElement pageListNode = ncxNode.Element(ncxNamespace + "pageList");
             if (pageListNode != null)

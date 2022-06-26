@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -12,7 +13,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class Epub3NavDocumentReader
     {
-        public static async Task<Epub3NavDocument> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
+        public static async Task<Epub3NavDocument> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package, EpubReaderOptions epubReaderOptions)
         {
             Epub3NavDocument result = new Epub3NavDocument();
             EpubManifestItem navManifestItem =
@@ -41,7 +42,7 @@ namespace VersOne.Epub.Internal
             XDocument navDocument;
             using (Stream containerStream = navFileEntry.Open())
             {
-                navDocument = await XmlUtils.LoadDocumentAsync(containerStream).ConfigureAwait(false);
+                navDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace xhtmlNamespace = navDocument.Root.Name.Namespace;
             XElement htmlNode = navDocument.Element(xhtmlNamespace + "html");
