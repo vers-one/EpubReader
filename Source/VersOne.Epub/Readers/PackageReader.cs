@@ -12,7 +12,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class PackageReader
     {
-        public static async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath, PackageReaderOptions packageReaderOptions)
+        public static async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath, EpubReaderOptions epubReaderOptions)
         {
             IZipFileEntry rootFileEntry = epubFile.GetEntry(rootFilePath);
             if (rootFileEntry == null)
@@ -22,7 +22,7 @@ namespace VersOne.Epub.Internal
             XDocument containerDocument;
             using (Stream containerStream = rootFileEntry.Open())
             {
-                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream).ConfigureAwait(false);
+                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
             XElement packageNode = containerDocument.Element(opfNamespace + "package");
@@ -56,14 +56,14 @@ namespace VersOne.Epub.Internal
             {
                 throw new Exception("EPUB parsing error: manifest not found in the package.");
             }
-            EpubManifest manifest = ReadManifest(manifestNode, packageReaderOptions);
+            EpubManifest manifest = ReadManifest(manifestNode, epubReaderOptions.PackageReaderOptions);
             result.Manifest = manifest;
             XElement spineNode = packageNode.Element(opfNamespace + "spine");
             if (spineNode == null)
             {
                 throw new Exception("EPUB parsing error: spine not found in the package.");
             }
-            EpubSpine spine = ReadSpine(spineNode, epubVersion, packageReaderOptions);
+            EpubSpine spine = ReadSpine(spineNode, epubVersion, epubReaderOptions.PackageReaderOptions);
             result.Spine = spine;
             XElement guideNode = packageNode.Element(opfNamespace + "guide");
             if (guideNode != null)

@@ -9,6 +9,7 @@
         {
             PackageReaderOptions = new PackageReaderOptions();
             Epub2NcxReaderOptions = new Epub2NcxReaderOptions();
+            XmlReaderOptions = new XmlReaderOptions();
         }
 
         /// <summary>
@@ -20,5 +21,10 @@
         /// Gets or sets EPUB 2 NCX (Navigation Center eXtended) reader options.
         /// </summary>
         public Epub2NcxReaderOptions Epub2NcxReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets XML reader options.
+        /// </summary>
+        public XmlReaderOptions XmlReaderOptions { get; set; }
     }
 }

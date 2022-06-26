@@ -3,12 +3,13 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
+using VersOne.Epub.Options;
 
 namespace VersOne.Epub.Internal
 {
     internal static class RootFilePathReader
     {
-        public static async Task<string> GetRootFilePathAsync(IZipFile epubFile)
+        public static async Task<string> GetRootFilePathAsync(IZipFile epubFile, EpubReaderOptions epubReaderOptions)
         {
             const string EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
             IZipFileEntry containerFileEntry = epubFile.GetEntry(EPUB_CONTAINER_FILE_PATH);
@@ -19,7 +20,7 @@ namespace VersOne.Epub.Internal
             XDocument containerDocument;
             using (Stream containerStream = containerFileEntry.Open())
             {
-                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream).ConfigureAwait(false);
+                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace cnsNamespace = "urn:oasis:names:tc:opendocument:xmlns:container";
             XAttribute fullPathAttribute = containerDocument.Element(cnsNamespace + "container")?.Element(cnsNamespace + "rootfiles")?.Element(cnsNamespace + "rootfile")?.Attribute("full-path");
