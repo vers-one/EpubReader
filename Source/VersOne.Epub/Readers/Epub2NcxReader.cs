@@ -24,17 +24,17 @@ namespace VersOne.Epub.Internal
             EpubManifestItem tocManifestItem = package.Manifest.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId));
             if (tocManifestItem == null)
             {
-                throw new Exception($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
+                throw new Epub2NcxException($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
             }
             string tocFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
             IZipFileEntry tocFileEntry = epubFile.GetEntry(tocFileEntryPath);
             if (tocFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} not found in the EPUB file.");
+                throw new Epub2NcxException($"EPUB parsing error: TOC file {tocFileEntryPath} not found in the EPUB file.");
             }
             if (tocFileEntry.Length > Int32.MaxValue)
             {
-                throw new Exception($"EPUB parsing error: TOC file {tocFileEntryPath} is larger than 2 GB.");
+                throw new Epub2NcxException($"EPUB parsing error: TOC file {tocFileEntryPath} is larger than 2 GB.");
             }
             XDocument containerDocument;
             using (Stream containerStream = tocFileEntry.Open())
@@ -45,19 +45,19 @@ namespace VersOne.Epub.Internal
             XElement ncxNode = containerDocument.Element(ncxNamespace + "ncx");
             if (ncxNode == null)
             {
-                throw new Exception("EPUB parsing error: TOC file does not contain ncx element.");
+                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain ncx element.");
             }
             XElement headNode = ncxNode.Element(ncxNamespace + "head");
             if (headNode == null)
             {
-                throw new Exception("EPUB parsing error: TOC file does not contain head element.");
+                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain head element.");
             }
             Epub2NcxHead navigationHead = ReadNavigationHead(headNode);
             result.Head = navigationHead;
             XElement docTitleNode = ncxNode.Element(ncxNamespace + "docTitle");
             if (docTitleNode == null)
             {
-                throw new Exception("EPUB parsing error: TOC file does not contain docTitle element.");
+                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain docTitle element.");
             }
             Epub2NcxDocTitle navigationDocTitle = ReadNavigationDocTitle(docTitleNode);
             result.DocTitle = navigationDocTitle;
@@ -70,7 +70,7 @@ namespace VersOne.Epub.Internal
             XElement navMapNode = ncxNode.Element(ncxNamespace + "navMap");
             if (navMapNode == null)
             {
-                throw new Exception("EPUB parsing error: TOC file does not contain navMap element.");
+                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain navMap element.");
             }
             Epub2NcxNavigationMap navMap = ReadNavigationMap(navMapNode, epubReaderOptions.Epub2NcxReaderOptions);
             result.NavMap = navMap;
@@ -115,11 +115,11 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(meta.Name))
                     {
-                        throw new Exception("Incorrect EPUB navigation meta: meta name is missing.");
+                        throw new Epub2NcxException("Incorrect EPUB navigation meta: meta name is missing.");
                     }
                     if (meta.Content == null)
                     {
-                        throw new Exception("Incorrect EPUB navigation meta: meta content is missing.");
+                        throw new Epub2NcxException("Incorrect EPUB navigation meta: meta content is missing.");
                     }
                     result.Add(meta);
                 }
@@ -191,7 +191,7 @@ namespace VersOne.Epub.Internal
             }
             if (String.IsNullOrWhiteSpace(result.Id))
             {
-                throw new Exception("Incorrect EPUB navigation point: point ID is missing.");
+                throw new Epub2NcxException("Incorrect EPUB navigation point: point ID is missing.");
             }
             result.NavigationLabels = new List<Epub2NcxNavigationLabel>();
             result.ChildNavigationPoints = new List<Epub2NcxNavigationPoint>();
@@ -218,7 +218,7 @@ namespace VersOne.Epub.Internal
             }
             if (!result.NavigationLabels.Any())
             {
-                throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain at least one navigation label.");
+                throw new Epub2NcxException($"EPUB parsing error: navigation point {result.Id} should contain at least one navigation label.");
             }
             if (result.Content == null)
             {
@@ -228,7 +228,7 @@ namespace VersOne.Epub.Internal
                 }
                 else
                 {
-                    throw new Exception($"EPUB parsing error: navigation point {result.Id} should contain content.");
+                    throw new Epub2NcxException($"EPUB parsing error: navigation point {result.Id} should contain content.");
                 }
             }
             return result;
@@ -240,7 +240,7 @@ namespace VersOne.Epub.Internal
             XElement navigationLabelTextNode = navigationLabelNode.Element(navigationLabelNode.Name.Namespace + "text");
             if (navigationLabelTextNode == null)
             {
-                throw new Exception("Incorrect EPUB navigation label: label text element is missing.");
+                throw new Epub2NcxException("Incorrect EPUB navigation label: label text element is missing.");
             }
             result.Text = navigationLabelTextNode.Value;
             return result;
@@ -264,7 +264,7 @@ namespace VersOne.Epub.Internal
             }
             if (String.IsNullOrWhiteSpace(result.Source))
             {
-                throw new Exception("Incorrect EPUB navigation content: content source is missing.");
+                throw new Epub2NcxException("Incorrect EPUB navigation content: content source is missing.");
             }
             return result;
         }
@@ -318,7 +318,7 @@ namespace VersOne.Epub.Internal
             }
             if (result.Type == default)
             {
-                throw new Exception("Incorrect EPUB navigation page target: page target type is missing.");
+                throw new Epub2NcxException("Incorrect EPUB navigation page target: page target type is missing.");
             }
             result.NavigationLabels = new List<Epub2NcxNavigationLabel>();
             foreach (XElement navigationPageTargetChildNode in navigationPageTargetNode.Elements())
@@ -337,7 +337,7 @@ namespace VersOne.Epub.Internal
             }
             if (!result.NavigationLabels.Any())
             {
-                throw new Exception("Incorrect EPUB navigation page target: at least one navLabel element is required.");
+                throw new Epub2NcxException("Incorrect EPUB navigation page target: at least one navLabel element is required.");
             }
             return result;
         }
@@ -374,7 +374,7 @@ namespace VersOne.Epub.Internal
             }
             if (!result.NavigationLabels.Any())
             {
-                throw new Exception("Incorrect EPUB navigation page target: at least one navLabel element is required.");
+                throw new Epub2NcxException("Incorrect EPUB navigation page target: at least one navLabel element is required.");
             }
             return result;
         }
@@ -403,7 +403,7 @@ namespace VersOne.Epub.Internal
             }
             if (String.IsNullOrWhiteSpace(result.Id))
             {
-                throw new Exception("Incorrect EPUB navigation target: navigation target ID is missing.");
+                throw new Epub2NcxException("Incorrect EPUB navigation target: navigation target ID is missing.");
             }
             foreach (XElement navigationTargetChildNode in navigationTargetNode.Elements())
             {
@@ -421,7 +421,7 @@ namespace VersOne.Epub.Internal
             }
             if (!result.NavigationLabels.Any())
             {
-                throw new Exception("Incorrect EPUB navigation target: at least one navLabel element is required.");
+                throw new Epub2NcxException("Incorrect EPUB navigation target: at least one navLabel element is required.");
             }
             return result;
         }

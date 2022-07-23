@@ -104,7 +104,7 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
             string viewName = windowType.Name.Substring(0, windowType.Name.Length - 4);
             if (registeredWindowsByViewName.ContainsKey(viewName))
             {
-                throw new Exception($"View {viewName} has been declared more than once.");
+                throw new InvalidOperationException($"View {viewName} has been declared more than once.");
             }
             string viewModelTypeName = viewName + "ViewModel";
             Type viewModelType = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(type => String.Compare(type.Name, viewModelTypeName, StringComparison.OrdinalIgnoreCase) == 0);

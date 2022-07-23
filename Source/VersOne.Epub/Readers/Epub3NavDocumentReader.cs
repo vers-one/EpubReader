@@ -26,18 +26,18 @@ namespace VersOne.Epub.Internal
                 }
                 else
                 {
-                    throw new Exception("EPUB parsing error: NAV item not found in EPUB manifest.");
+                    throw new Epub3NavException("EPUB parsing error: NAV item not found in EPUB manifest.");
                 }
             }
             string navFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, navManifestItem.Href);
             IZipFileEntry navFileEntry = epubFile.GetEntry(navFileEntryPath);
             if (navFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: navigation file {navFileEntryPath} not found in the EPUB file.");
+                throw new Epub3NavException($"EPUB parsing error: navigation file {navFileEntryPath} not found in the EPUB file.");
             }
             if (navFileEntry.Length > Int32.MaxValue)
             {
-                throw new Exception($"EPUB parsing error: navigation file {navFileEntryPath} is larger than 2 GB.");
+                throw new Epub3NavException($"EPUB parsing error: navigation file {navFileEntryPath} is larger than 2 GB.");
             }
             XDocument navDocument;
             using (Stream containerStream = navFileEntry.Open())
@@ -48,12 +48,12 @@ namespace VersOne.Epub.Internal
             XElement htmlNode = navDocument.Element(xhtmlNamespace + "html");
             if (htmlNode == null)
             {
-                throw new Exception("EPUB parsing error: navigation file does not contain html element.");
+                throw new Epub3NavException("EPUB parsing error: navigation file does not contain html element.");
             }
             XElement bodyNode = htmlNode.Element(xhtmlNamespace + "body");
             if (bodyNode == null)
             {
-                throw new Exception("EPUB parsing error: navigation file does not contain body element.");
+                throw new Epub3NavException("EPUB parsing error: navigation file does not contain body element.");
             }
             result.Navs = new List<Epub3Nav>();
             foreach (XElement navNode in bodyNode.Elements(xhtmlNamespace + "nav"))

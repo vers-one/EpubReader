@@ -50,12 +50,12 @@ namespace VersOne.Epub.Internal
             }
             if (String.IsNullOrEmpty(coverMetaItem.Content))
             {
-                throw new Exception("Incorrect EPUB metadata: cover item content is missing.");
+                throw new EpubPackageException("Incorrect EPUB metadata: cover item content is missing.");
             }
             EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
             if (coverManifestItem == null)
             {
-                throw new Exception($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
+                throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
             }
             if (coverManifestItem.Href == null)
             {
@@ -63,7 +63,7 @@ namespace VersOne.Epub.Internal
             }
             if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
             {
-                throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
+                throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
             }
             return coverImageContentFileRef;
         }
@@ -90,7 +90,7 @@ namespace VersOne.Epub.Internal
             }
             if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
             {
-                throw new Exception($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
+                throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
             }
             return coverImageContentFileRef;
         }

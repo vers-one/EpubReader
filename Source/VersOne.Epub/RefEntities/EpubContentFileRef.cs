@@ -64,17 +64,17 @@ namespace VersOne.Epub
         {
             if (String.IsNullOrEmpty(FileName))
             {
-                throw new Exception("EPUB parsing error: file name of the specified content file is empty.");
+                throw new EpubPackageException("EPUB parsing error: file name of the specified content file is empty.");
             }
             string contentFilePath = FilePathInEpubArchive;
             IZipFileEntry contentFileEntry = epubBookRef.EpubFile.GetEntry(contentFilePath);
             if (contentFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.");
+                throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.", contentFilePath);
             }
             if (contentFileEntry.Length > Int32.MaxValue)
             {
-                throw new Exception($"EPUB parsing error: file \"{contentFilePath}\" is larger than 2 GB.");
+                throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" is larger than 2 GB.", contentFilePath);
             }
             return contentFileEntry;
         }
@@ -84,7 +84,7 @@ namespace VersOne.Epub
             Stream contentStream = contentFileEntry.Open();
             if (contentStream == null)
             {
-                throw new Exception($"Incorrect EPUB file: content file \"{FileName}\" specified in the manifest was not found in the EPUB file.");
+                throw new EpubContentException($"Incorrect EPUB file: content file \"{FileName}\" specified in the manifest was not found in the EPUB file.", FilePathInEpubArchive);
             }
             return contentStream;
         }

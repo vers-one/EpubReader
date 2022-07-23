@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
@@ -15,7 +14,7 @@ namespace VersOne.Epub.Internal
             IZipFileEntry containerFileEntry = epubFile.GetEntry(EPUB_CONTAINER_FILE_PATH);
             if (containerFileEntry == null)
             {
-                throw new Exception($"EPUB parsing error: {EPUB_CONTAINER_FILE_PATH} file not found in the EPUB file.");
+                throw new EpubContainerException($"EPUB parsing error: {EPUB_CONTAINER_FILE_PATH} file not found in the EPUB file.");
             }
             XDocument containerDocument;
             using (Stream containerStream = containerFileEntry.Open())
@@ -26,7 +25,7 @@ namespace VersOne.Epub.Internal
             XAttribute fullPathAttribute = containerDocument.Element(cnsNamespace + "container")?.Element(cnsNamespace + "rootfiles")?.Element(cnsNamespace + "rootfile")?.Attribute("full-path");
             if (fullPathAttribute == null)
             {
-                throw new Exception("EPUB parsing error: root file path not found in the EPUB container.");
+                throw new EpubContainerException("EPUB parsing error: root file path not found in the EPUB container.");
             }
             return fullPathAttribute.Value;
         }

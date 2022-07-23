@@ -17,7 +17,7 @@ namespace VersOne.Epub.Internal
             IZipFileEntry rootFileEntry = epubFile.GetEntry(rootFilePath);
             if (rootFileEntry == null)
             {
-                throw new Exception("EPUB parsing error: root file not found in the EPUB file.");
+                throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
             }
             XDocument containerDocument;
             using (Stream containerStream = rootFileEntry.Open())
@@ -41,27 +41,27 @@ namespace VersOne.Epub.Internal
                     epubVersion = EpubVersion.EPUB_3_1;
                     break;
                 default:
-                    throw new Exception($"Unsupported EPUB version: {epubVersionValue}.");
+                    throw new EpubPackageException($"Unsupported EPUB version: {epubVersionValue}.");
             }
             result.EpubVersion = epubVersion;
             XElement metadataNode = packageNode.Element(opfNamespace + "metadata");
             if (metadataNode == null)
             {
-                throw new Exception("EPUB parsing error: metadata not found in the package.");
+                throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
             }
             EpubMetadata metadata = ReadMetadata(metadataNode);
             result.Metadata = metadata;
             XElement manifestNode = packageNode.Element(opfNamespace + "manifest");
             if (manifestNode == null)
             {
-                throw new Exception("EPUB parsing error: manifest not found in the package.");
+                throw new EpubPackageException("EPUB parsing error: manifest not found in the package.");
             }
             EpubManifest manifest = ReadManifest(manifestNode, epubReaderOptions.PackageReaderOptions);
             result.Manifest = manifest;
             XElement spineNode = packageNode.Element(opfNamespace + "spine");
             if (spineNode == null)
             {
-                throw new Exception("EPUB parsing error: spine not found in the package.");
+                throw new EpubPackageException("EPUB parsing error: spine not found in the package.");
             }
             EpubSpine spine = ReadSpine(spineNode, epubVersion, epubReaderOptions.PackageReaderOptions);
             result.Spine = spine;
@@ -315,7 +315,7 @@ namespace VersOne.Epub.Internal
                         {
                             continue;
                         }
-                        throw new Exception("Incorrect EPUB manifest: item ID is missing");
+                        throw new EpubPackageException("Incorrect EPUB manifest: item ID is missing");
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.Href))
                     {
@@ -323,7 +323,7 @@ namespace VersOne.Epub.Internal
                         {
                             continue;
                         }
-                        throw new Exception("Incorrect EPUB manifest: item href is missing");
+                        throw new EpubPackageException("Incorrect EPUB manifest: item href is missing");
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.MediaType))
                     {
@@ -331,7 +331,7 @@ namespace VersOne.Epub.Internal
                         {
                             continue;
                         }
-                        throw new Exception("Incorrect EPUB manifest: item media type is missing");
+                        throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing");
                     }
                     result.Add(manifestItem);
                 }
@@ -370,7 +370,7 @@ namespace VersOne.Epub.Internal
             }
             if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(result.Toc) && !packageReaderOptions.IgnoreMissingToc)
             {
-                throw new Exception("Incorrect EPUB spine: TOC is missing");
+                throw new EpubPackageException("Incorrect EPUB spine: TOC is missing");
             }
             foreach (XElement spineItemNode in spineNode.Elements())
             {
@@ -395,7 +395,7 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(spineItemRef.IdRef))
                     {
-                        throw new Exception("Incorrect EPUB spine: item ID ref is missing");
+                        throw new EpubPackageException("Incorrect EPUB spine: item ID ref is missing");
                     }
                     XAttribute linearAttribute = spineItemNode.Attribute("linear");
                     spineItemRef.IsLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
@@ -431,11 +431,11 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(guideReference.Type))
                     {
-                        throw new Exception("Incorrect EPUB guide: item type is missing");
+                        throw new EpubPackageException("Incorrect EPUB guide: item type is missing");
                     }
                     if (String.IsNullOrWhiteSpace(guideReference.Href))
                     {
-                        throw new Exception("Incorrect EPUB guide: item href is missing");
+                        throw new EpubPackageException("Incorrect EPUB guide: item href is missing");
                     }
                     result.Add(guideReference);
                 }

@@ -27,6 +27,10 @@ dotnet_diagnostic.S1168.severity = none
 # S3267: Loops should be simplified with "LINQ" expressions
 dotnet_diagnostic.S3267.severity = none
 
+# S3925: "ISerializable" should be implemented correctly
+# .NET Standard 1.3 doesn't have [Serializable] attribute
+dotnet_diagnostic.S3925.severity = none
+
 # S3963: "static" fields should be initialized inline
 dotnet_diagnostic.S3963.severity = none
 
@@ -65,9 +69,6 @@ dotnet_diagnostic.SA1516.severity = none
 # CS1591: Missing XML comment for publicly visible type or member
 dotnet_diagnostic.CS1591.severity = none
 
-# S112: General exceptions should never be thrown
-dotnet_diagnostic.S112.severity = none
-
 # SA1600: Elements should be documented
 dotnet_diagnostic.SA1600.severity = none
 
@@ -79,4 +80,3 @@ dotnet_diagnostic.SA1602.severity = none
 
 # SA1616: Element return value documentation should have text
 dotnet_diagnostic.SA1616.severity = none
-
