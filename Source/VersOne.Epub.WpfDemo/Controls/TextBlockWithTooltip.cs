@@ -4,8 +4,14 @@ using System.Windows.Controls;
 
 namespace VersOne.Epub.WpfDemo.Controls
 {
+    /// <summary>
+    /// A text block control that shows a tooltip with the content of its <see cref="TextBlock.Text" /> property if it is trimmed on the screen.
+    /// </summary>
     public class TextBlockWithTooltip : TextBlock
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TextBlockWithTooltip" /> class.
+        /// </summary>
         public TextBlockWithTooltip()
         {
             SizeChanged += TextBlockWithTooltip_SizeChanged;

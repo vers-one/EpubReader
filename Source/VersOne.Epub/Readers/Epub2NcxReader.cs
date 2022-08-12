@@ -59,13 +59,15 @@ namespace VersOne.Epub.Internal
             {
                 throw new Epub2NcxException("EPUB parsing error: TOC file does not contain docTitle element.");
             }
-            Epub2NcxDocTitle navigationDocTitle = ReadNavigationDocTitle(docTitleNode);
-            result.DocTitle = navigationDocTitle;
-            result.DocAuthors = new List<Epub2NcxDocAuthor>();
+            result.DocTitle = ReadNavigationDocTitle(docTitleNode);
+            result.DocAuthors = new List<string>();
             foreach (XElement docAuthorNode in ncxNode.Elements(ncxNamespace + "docAuthor"))
             {
-                Epub2NcxDocAuthor navigationDocAuthor = ReadNavigationDocAuthor(docAuthorNode);
-                result.DocAuthors.Add(navigationDocAuthor);
+                string navigationDocAuthor = ReadNavigationDocAuthor(docAuthorNode);
+                if (navigationDocAuthor != null)
+                {
+                    result.DocAuthors.Add(navigationDocAuthor);
+                }
             }
             XElement navMapNode = ncxNode.Element(ncxNamespace + "navMap");
             if (navMapNode == null)
@@ -127,30 +129,28 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static Epub2NcxDocTitle ReadNavigationDocTitle(XElement docTitleNode)
+        private static string ReadNavigationDocTitle(XElement docTitleNode)
         {
-            Epub2NcxDocTitle result = new Epub2NcxDocTitle();
             foreach (XElement textNode in docTitleNode.Elements())
             {
                 if (textNode.CompareNameTo("text"))
                 {
-                    result.Add(textNode.Value);
+                    return textNode.Value;
                 }
             }
-            return result;
+            return null;
         }
 
-        private static Epub2NcxDocAuthor ReadNavigationDocAuthor(XElement docAuthorNode)
+        private static string ReadNavigationDocAuthor(XElement docAuthorNode)
         {
-            Epub2NcxDocAuthor result = new Epub2NcxDocAuthor();
             foreach (XElement textNode in docAuthorNode.Elements())
             {
                 if (textNode.CompareNameTo("text"))
                 {
-                    result.Add(textNode.Value);
+                    return textNode.Value;
                 }
             }
-            return result;
+            return null;
         }
 
         private static Epub2NcxNavigationMap ReadNavigationMap(XElement navigationMapNode, Epub2NcxReaderOptions epub2NcxReaderOptions)

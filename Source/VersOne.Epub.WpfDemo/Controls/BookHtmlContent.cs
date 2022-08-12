@@ -12,16 +12,33 @@ using VersOne.Epub.WpfDemo.ViewModels;
 
 namespace VersOne.Epub.WpfDemo.Controls
 {
+    /// <summary>
+    /// WPF control that renders a single HTML content file of a EPUB book.
+    /// </summary>
     public class BookHtmlContent : HtmlPanel
     {
+        /// <summary>
+        /// Identifies the <see cref="EpubArchive" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty EpubArchiveProperty = DependencyProperty.Register("EpubArchive", typeof(ZipArchive), typeof(BookHtmlContent));
+
+        /// <summary>
+        /// Identifies the <see cref="HtmlContentFile" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty HtmlContentFileProperty = DependencyProperty.Register("HtmlContentFile", typeof(HtmlContentFileViewModel), typeof(BookHtmlContent), new PropertyMetadata(OnHtmlContentFileChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="Anchor" /> dependency property.
+        /// </summary>
         public static readonly DependencyProperty AnchorProperty = DependencyProperty.Register("Anchor", typeof(string), typeof(BookHtmlContent), new PropertyMetadata(OnAnchorChanged));
 
         private bool areFontsRegistered;
         private bool isContentLoaded;
         private string queuedScrollToAnchor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookHtmlContent" /> class.
+        /// </summary>
         public BookHtmlContent()
         {
             areFontsRegistered = false;
@@ -29,6 +46,9 @@ namespace VersOne.Epub.WpfDemo.Controls
             queuedScrollToAnchor = null;
         }
 
+        /// <summary>
+        /// Gets or sets the EPUB archive that contains the HTML content file that needs to be rendered.
+        /// </summary>
         public ZipArchive EpubArchive
         {
             get
@@ -41,6 +61,9 @@ namespace VersOne.Epub.WpfDemo.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the HTML content file that needs to be rendered.
+        /// </summary>
         public HtmlContentFileViewModel HtmlContentFile
         {
             get
@@ -53,6 +76,9 @@ namespace VersOne.Epub.WpfDemo.Controls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the anchor inside the HTML content file that needs to be scrolled to once the content is fully loaded.
+        /// </summary>
         public string Anchor
         {
             get
@@ -65,6 +91,10 @@ namespace VersOne.Epub.WpfDemo.Controls
             }
         }
 
+        /// <summary>
+        /// Loads the content of the image from the EPUB archive.
+        /// </summary>
+        /// <param name="e">An event argument identifying the image that needs to be loaded.</param>
         protected override void OnImageLoad(HtmlImageLoadEventArgs e)
         {
             byte[] imageContent = GetImageContent(e.Src);
@@ -85,6 +115,10 @@ namespace VersOne.Epub.WpfDemo.Controls
             base.OnImageLoad(e);
         }
 
+        /// <summary>
+        /// Loads the content of the CSS stylesheet from the EPUB archive.
+        /// </summary>
+        /// <param name="e">An event argument identifying the CSS stylesheet that needs to be loaded.</param>
         protected override void OnStylesheetLoad(HtmlStylesheetLoadEventArgs e)
         {
             string styleSheetContent = GetStyleSheetContent(e.Src);
@@ -95,6 +129,10 @@ namespace VersOne.Epub.WpfDemo.Controls
             base.OnStylesheetLoad(e);
         }
 
+        /// <summary>
+        /// Scrolls the rendered HTML content to the <see cref="Anchor" /> if needed.
+        /// </summary>
+        /// <param name="e">An argument containing event data.</param>
         protected override void OnLoadComplete(EventArgs e)
         {
             base.OnLoadComplete(e);

@@ -17,7 +17,7 @@ namespace VersOne.Epub.Internal
         {
             Epub3NavDocument result = new Epub3NavDocument();
             EpubManifestItem navManifestItem =
-                package.Manifest.FirstOrDefault(item => item.Properties != null && item.Properties.Contains(ManifestProperty.NAV));
+                package.Manifest.FirstOrDefault(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
             if (navManifestItem == null)
             {
                 if (package.EpubVersion == EpubVersion.EPUB_2)
@@ -73,7 +73,7 @@ namespace VersOne.Epub.Internal
                 switch (navNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "type":
-                        epub3Nav.Type = StructuralSemanticsPropertyParser.Parse(attributeValue);
+                        epub3Nav.Type = Epub3NavStructuralSemanticsPropertyParser.Parse(attributeValue);
                         break;
                     case "hidden":
                         epub3Nav.IsHidden = true;
@@ -169,7 +169,7 @@ namespace VersOne.Epub.Internal
                         epub3NavAnchor.Alt = attributeValue;
                         break;
                     case "type":
-                        epub3NavAnchor.Type = StructuralSemanticsPropertyParser.Parse(attributeValue);
+                        epub3NavAnchor.Type = Epub3NavStructuralSemanticsPropertyParser.Parse(attributeValue);
                         break;
                 }
             }

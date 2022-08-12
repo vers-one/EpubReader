@@ -6,6 +6,9 @@ using VersOne.Epub.WpfDemo.WpfEnvironment;
 
 namespace VersOne.Epub.WpfDemo.ViewModels
 {
+    /// <summary>
+    /// View model for the <see cref="Views.LibraryView" />.
+    /// </summary>
     public class LibraryViewModel : ViewModel
     {
         private readonly IWindowManager windowManager;
@@ -15,6 +18,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private Command removeFromLibraryCommand;
         private Command openBookCommand;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LibraryViewModel" /> class.
+        /// </summary>
         public LibraryViewModel()
         {
             windowManager = WindowManager.Instance;
@@ -25,8 +31,14 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             RefreshLibrary();
         }
 
+        /// <summary>
+        /// Gets a collection of library items (i.e. books shown in the library view).
+        /// </summary>
         public ObservableCollection<LibraryItemViewModel> Books { get; private set; }
 
+        /// <summary>
+        /// Gets the command which is executed when the user clicks on the 'Add book' button in the library view.
+        /// </summary>
         public ICommand AddBookCommand
         {
             get
@@ -39,6 +51,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the command which is executed when the user clicks on the 'Remove from library' context menu item of a book in the library view.
+        /// </summary>
         public ICommand RemoveFromLibraryCommand
         {
             get
@@ -51,6 +66,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the command which is executed when the user clicks on a book in the library view.
+        /// </summary>
         public ICommand OpenBookCommand
         {
             get

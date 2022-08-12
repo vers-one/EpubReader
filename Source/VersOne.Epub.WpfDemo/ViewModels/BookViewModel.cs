@@ -8,6 +8,9 @@ using VersOne.Epub.WpfDemo.Utils;
 
 namespace VersOne.Epub.WpfDemo.ViewModels
 {
+    /// <summary>
+    /// View model for the <see cref="Views.BookView" />.
+    /// </summary>
     public class BookViewModel : ViewModel
     {
         private readonly BookModel bookModel;
@@ -24,6 +27,10 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private Command previousCommand;
         private Command nextCommand;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookViewModel" /> class.
+        /// </summary>
+        /// <param name="bookId">The unique identifier of the book which should contain the same value as <see cref="Entities.Book.Id" />.</param>
         public BookViewModel(int bookId)
         {
             bookModel = new BookModel();
@@ -39,6 +46,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             bookModel.OpenBookAsync(bookId).ContinueWith(epubBook => BookOpened(epubBook), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
+        /// <summary>
+        /// Gets a collection of navigation items which are used to render the navigation tree in the <see cref="Views.BookView" />.
+        /// </summary>
         public ObservableCollection<NavigationItemViewModel> Navigation
         {
             get
@@ -52,6 +62,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets a collection of HTML content files which determine the order in which they are rendered in the <see cref="Views.BookView" />.
+        /// </summary>
         public ObservableCollection<HtmlContentFileViewModel> ReadingOrder
         {
             get
@@ -65,6 +78,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the book is still loading or not.
+        /// </summary>
         public bool IsLoading
         {
             get
@@ -78,6 +94,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the EPUB book file currently opened in the <see cref="Views.BookView" />.
+        /// </summary>
         public ZipArchive CurrentEpubArchive
         {
             get
@@ -91,6 +110,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to a view model of the HTML content file from <see cref="CurrentEpubArchive" /> currently rendered in the <see cref="Views.BookView" />.
+        /// </summary>
         public HtmlContentFileViewModel CurrentHtmlContentFile
         {
             get
@@ -104,6 +126,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the button to navigate to the previous content file in the reading order should be visible or not.
+        /// </summary>
         public bool IsPreviousButtonVisible
         {
             get
@@ -112,6 +137,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the button to navigate to the next content file in the reading order should be visible or not.
+        /// </summary>
         public bool IsNextButtonVisible
         {
             get
@@ -120,6 +148,10 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the anchor in the <see cref="CurrentHtmlContentFile" /> which is used to determine the place
+        /// where the content should be scrolled to once it is fully loaded.
+        /// </summary>
         public string CurrentAnchor
         {
             get
@@ -133,6 +165,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the command which is executed when the user clicks on a navigation link in the navigation tree in the <see cref="Views.BookView" />.
+        /// </summary>
         public ICommand NavigateCommand
         {
             get
@@ -145,6 +180,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the command which is executed when the user clicks on the '&lt; PREVIOUS' button in the <see cref="Views.BookView" />.
+        /// </summary>
         public ICommand PreviousCommand
         {
             get
@@ -157,6 +195,9 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the command which is executed when the user clicks on the 'NEXT &gt;' button in the <see cref="Views.BookView" />.
+        /// </summary>
         public ICommand NextCommand
         {
             get

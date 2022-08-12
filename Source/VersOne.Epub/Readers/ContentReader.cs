@@ -34,7 +34,7 @@ namespace VersOne.Epub.Internal
                         {
                             case EpubContentType.XHTML_1_1:
                                 result.Html[fileName] = epubTextContentFile;
-                                if (result.NavigationHtmlFile == null && manifestItem.Properties != null && manifestItem.Properties.Contains(ManifestProperty.NAV))
+                                if (result.NavigationHtmlFile == null && manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.NAV))
                                 {
                                     result.NavigationHtmlFile = epubTextContentFile;
                                 }

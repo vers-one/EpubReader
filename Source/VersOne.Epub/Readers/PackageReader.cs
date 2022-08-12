@@ -92,6 +92,7 @@ namespace VersOne.Epub.Internal
                 Relations = new List<string>(),
                 Coverages = new List<string>(),
                 Rights = new List<string>(),
+                Links = new List<EpubMetadataLink>(),
                 MetaItems = new List<EpubMetadataMeta>()
             };
             foreach (XElement metadataItemNode in metadataNode.Elements())
@@ -147,6 +148,10 @@ namespace VersOne.Epub.Internal
                         break;
                     case "rights":
                         result.Rights.Add(innerText);
+                        break;
+                    case "link":
+                        EpubMetadataLink link = ReadMetadataLink(metadataItemNode);
+                        result.Links.Add(link);
                         break;
                     case "meta":
                         EpubMetadataMeta meta = ReadMetadataMeta(metadataItemNode);
@@ -235,6 +240,37 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
+        private static EpubMetadataLink ReadMetadataLink(XElement metadataIdentifierNode)
+        {
+            EpubMetadataLink result = new EpubMetadataLink();
+            foreach (XAttribute metadataIdentifierNodeAttribute in metadataIdentifierNode.Attributes())
+            {
+                string attributeValue = metadataIdentifierNodeAttribute.Value;
+                switch (metadataIdentifierNodeAttribute.GetLowerCaseLocalName())
+                {
+                    case "id":
+                        result.Id = attributeValue;
+                        break;
+                    case "href":
+                        result.Href = attributeValue;
+                        break;
+                    case "media-type":
+                        result.MediaType = attributeValue;
+                        break;
+                    case "refines":
+                        result.Refines = attributeValue;
+                        break;
+                    case "properties":
+                        result.Properties = EpubMetadataLinkPropertyParser.ParsePropertyList(attributeValue);
+                        break;
+                    case "rel":
+                        result.Relationships = EpubMetadataLinkRelationshipParser.ParseRelationshipList(attributeValue);
+                        break;
+                }
+            }
+            return result;
+        }
+
         private static EpubMetadataMeta ReadMetadataMeta(XElement metadataMetaNode)
         {
             EpubMetadataMeta result = new EpubMetadataMeta();
@@ -292,6 +328,9 @@ namespace VersOne.Epub.Internal
                             case "media-type":
                                 manifestItem.MediaType = attributeValue;
                                 break;
+                            case "media-overlay":
+                                manifestItem.MediaOverlay = attributeValue;
+                                break;
                             case "required-namespace":
                                 manifestItem.RequiredNamespace = attributeValue;
                                 break;
@@ -305,7 +344,7 @@ namespace VersOne.Epub.Internal
                                 manifestItem.FallbackStyle = attributeValue;
                                 break;
                             case "properties":
-                                manifestItem.Properties = ReadManifestProperties(attributeValue);
+                                manifestItem.Properties = EpubManifestPropertyParser.ParsePropertyList(attributeValue);
                                 break;
                         }
                     }
@@ -339,16 +378,6 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static List<ManifestProperty> ReadManifestProperties(string propertiesAttributeValue)
-        {
-            List<ManifestProperty> result = new List<ManifestProperty>();
-            foreach (string propertyStringValue in propertiesAttributeValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                result.Add(ManifestPropertyParser.Parse(propertyStringValue));
-            }
-            return result;
-        }
-
         private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion, PackageReaderOptions packageReaderOptions)
         {
             EpubSpine result = new EpubSpine();
@@ -361,7 +390,7 @@ namespace VersOne.Epub.Internal
                         result.Id = attributeValue;
                         break;
                     case "page-progression-direction":
-                        result.PageProgressionDirection = PageProgressionDirectionParser.Parse(attributeValue);
+                        result.PageProgressionDirection = EpubPageProgressionDirectionParser.Parse(attributeValue);
                         break;
                     case "toc":
                         result.Toc = attributeValue;
@@ -389,7 +418,7 @@ namespace VersOne.Epub.Internal
                                 spineItemRef.IdRef = attributeValue;
                                 break;
                             case "properties":
-                                spineItemRef.Properties = SpinePropertyParser.ParsePropertyList(attributeValue);
+                                spineItemRef.Properties = EpubSpinePropertyParser.ParsePropertyList(attributeValue);
                                 break;
                         }
                     }

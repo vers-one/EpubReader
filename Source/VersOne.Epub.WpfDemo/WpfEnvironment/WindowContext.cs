@@ -65,7 +65,7 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
         public bool? ShowDialog(IntPtr ownerHandle, bool showMaximized = false)
         {
             OnShowing();
-            var windowInteropHelper = new WindowInteropHelper(Window);
+            WindowInteropHelper windowInteropHelper = new WindowInteropHelper(Window);
             windowInteropHelper.Owner = ownerHandle;
             return ShowDialog(showMaximized, ownerHandle != IntPtr.Zero);
         }

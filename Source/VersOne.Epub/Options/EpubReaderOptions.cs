@@ -5,6 +5,9 @@
     /// </summary>
     public class EpubReaderOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EpubReaderOptions" /> class.
+        /// </summary>
         public EpubReaderOptions()
         {
             PackageReaderOptions = new PackageReaderOptions();

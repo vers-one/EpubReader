@@ -5,6 +5,9 @@
     /// </summary>
     public class XmlReaderOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmlReaderOptions" /> class.
+        /// </summary>
         public XmlReaderOptions()
         {
             SkipXmlHeaders = false;

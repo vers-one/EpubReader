@@ -83,7 +83,7 @@ namespace VersOne.Epub.Internal
         private static EpubByteContentFileRef ReadEpub3Cover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
         {
             EpubManifestItem coverManifestItem =
-                epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Properties != null && manifestItem.Properties.Contains(ManifestProperty.COVER_IMAGE));
+                epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.COVER_IMAGE));
             if (coverManifestItem == null || coverManifestItem.Href == null)
             {
                 return null;

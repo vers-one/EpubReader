@@ -15,6 +15,12 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
     <ItemGroup>
+      <None Remove="stylecop.json" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="stylecop.json" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="8.40.0.48530">
           <PrivateAssets>all</PrivateAssets>

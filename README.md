@@ -4,9 +4,13 @@
 [![Build](https://github.com/vers-one/EpubReader/actions/workflows/build.yml/badge.svg)](https://github.com/vers-one/EpubReader/actions/workflows/build.yml)
 [![NuGet](https://img.shields.io/nuget/v/VersOne.Epub.svg)](https://www.nuget.org/packages/VersOne.Epub)
 
-Supports .NET Standard >= 1.3 (which includes .NET Core >= 1.0 and .NET >= 5) and .NET Framework >= 4.6.
+Supported EPUB standards:
+* EPUB 2 (2.0, 2.0.1)
+* EPUB 3 (3.0, 3.0.1, 3.1, 3.2)
 
-Supports EPUB 2 (2.0, 2.0.1) and EPUB 3 (3.0, 3.0.1, 3.1, 3.2).
+Supported runtimes:
+* .NET Standard >= 1.3 (includes .NET Core >= 1.0 and .NET >= 5)
+* .NET Framework >= 4.6
 
 [Download](#download-latest-stable-release) | [WPF & .NET 6 console demo apps](#demo-apps)
 
@@ -67,7 +71,7 @@ EpubContent bookContent = epubBook.Content;
             
 // IMAGES
 
-// All images in the book (file name is the key)
+// All images in the book (key is the file name)
 Dictionary<string, EpubByteContentFile> images = bookContent.Images;
 
 EpubByteContentFile firstImage = images.Values.First();
@@ -94,10 +98,10 @@ if (bookContent.Cover != null)
 
 // HTML & CSS
 
-// All XHTML files in the book (file name is the key)
+// All XHTML files in the book (key is the file name)
 Dictionary<string, EpubTextContentFile> htmlFiles = bookContent.Html;
 
-// All CSS files in the book (file name is the key)
+// All CSS files in the book (key is the file name)
 Dictionary<string, EpubTextContentFile> cssFiles = bookContent.Css;
 
 // Entire HTML content of the book
@@ -115,7 +119,7 @@ foreach (EpubTextContentFile cssFile in cssFiles.Values)
 
 // OTHER CONTENT
 
-// All fonts in the book (file name is the key)
+// All fonts in the book (key is the file name)
 Dictionary<string, EpubByteContentFile> fonts = bookContent.Fonts;
 
 // All files in the book (including HTML, CSS, images, fonts, and other types of files)
@@ -148,27 +152,28 @@ foreach (Epub2NcxHeadMeta meta in epub2Ncx.Head)
 Epub3NavDocument epub3NavDocument = epubBook.Schema.Epub3NavDocument;
 
 // Accessing structural semantics data of the head item
-StructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
+Epub3NavStructuralSemanticsProperty? ssp = epub3NavDocument.Navs.First().Type;
 ```
 
 ## More examples
 
 1. [How to extract the plain text of the whole book.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/ExtractPlainText.cs)
 2. [How to extract the table of contents.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/PrintNavigation.cs)
-3. [How to iterate over all EPUB files in a directory and collect some statistics.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/TestDirectory.cs)
+3. [How to iterate over all EPUB files in a directory and gather some stats.](https://github.com/vers-one/EpubReader/tree/master/Source/VersOne.Epub.ConsoleDemo/TestDirectory.cs)
 
-## Download latest stable release
-[Download from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
-
-DLL file from GitHub: [for .NET Framework](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.Net46.zip) (40.4 KB) / [for .NET Standard](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.NetStandard.zip) (40.5 KB)
+## Download the latest stable release
+* [Download from nuget.org](https://www.nuget.org/packages/VersOne.Epub)
+* DLL file from GitHub:
+  * [for .NET Framework](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.Net46.zip)
+  * [for .NET Standard](https://github.com/vers-one/EpubReader/releases/latest/download/VersOne.Epub.NetStandard.zip)
 
 ## Demo apps
-[Download WPF demo app](https://github.com/vers-one/EpubReader/releases/latest/download/WpfDemo.zip) (WpfDemo.zip, 488 KB)
+* [Download WPF demo app](https://github.com/vers-one/EpubReader/releases/latest/download/WpfDemo.zip) (WpfDemo.zip)
 
-This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
+  This .NET Framework application demonstrates how to open EPUB books and extract their content using the library.
 
-HTML renderer used in this demo app may have difficulties while rendering content for some of the books if the HTML structure is too complicated.
+  HTML renderer used in this demo app may have difficulties while rendering content for some of the books if the HTML structure is too complicated.
 
-[Download .NET 6 console demo app](https://github.com/vers-one/EpubReader/releases/latest/download/ConsoleDemo.zip) (ConsoleDemo.zip, 185 KB)
+* [Download .NET 6 console demo app](https://github.com/vers-one/EpubReader/releases/latest/download/ConsoleDemo.zip) (ConsoleDemo.zip)
 
-This .NET 6 console application demonstrates how to open EPUB books and retrieve their text content.
+  This .NET 6 console application demonstrates how to open EPUB books and retrieve their text content.

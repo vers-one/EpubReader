@@ -181,6 +181,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <AdditionalFiles Include="stylecop.json" />
     <Resource Include="Resources\PTSans.ttf" />
   </ItemGroup>
   <ItemGroup>

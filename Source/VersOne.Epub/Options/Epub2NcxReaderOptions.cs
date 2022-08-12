@@ -1,10 +1,13 @@
 ﻿namespace VersOne.Epub.Options
 {
     /// <summary>
-    /// Various options to configure the behavior of the EPUB 2 NCX (Navigation Center eXtended) reader.
+    /// Various options to configure the behavior of the EPUB 2 NCX navigation document reader.
     /// </summary>
     public class Epub2NcxReaderOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2NcxReaderOptions" /> class.
+        /// </summary>
         public Epub2NcxReaderOptions()
         {
             IgnoreMissingContentForNavigationPoints = false;

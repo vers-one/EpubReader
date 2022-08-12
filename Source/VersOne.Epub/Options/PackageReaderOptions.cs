@@ -5,6 +5,9 @@
     /// </summary>
     public class PackageReaderOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PackageReaderOptions" /> class.
+        /// </summary>
         public PackageReaderOptions()
         {
             IgnoreMissingToc = false;
