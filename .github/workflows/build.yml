@@ -25,7 +25,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.302
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
