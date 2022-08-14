@@ -72,10 +72,10 @@ namespace VersOne.Epub.WpfDemo.WpfEnvironment
 
         /// <summary>
         /// Closes the window with a specified dialog result
-        /// which is returned by the <see cref="ShowDialog(IWindowContext, bool)" /> and the <see cref="ShowDialog(IntPtr, bool)"/> methods.
+        /// which is returned by the <see cref="ShowDialog(IWindowContext, bool)" /> and the <see cref="ShowDialog(IntPtr, bool)" /> methods.
         /// </summary>
         /// <param name="dialogResult">
-        /// Dialog result to be returned by the <see cref="ShowDialog(IWindowContext, bool)" /> and the <see cref="ShowDialog(IntPtr, bool)"/> methods.
+        /// Dialog result to be returned by the <see cref="ShowDialog(IWindowContext, bool)" /> and the <see cref="ShowDialog(IntPtr, bool)" /> methods.
         /// </param>
         void CloseDialog(bool dialogResult);
 

@@ -21,7 +21,7 @@ namespace VersOne.Epub.WpfDemo.Controls
         public DataTemplate NavigationItemTemplate { get; set; }
 
         /// <summary>
-        /// Returns the <see cref="NavigationItemTemplate" /> if the <paramref name="item"/> is a navigation link and <see cref="NavigationHeaderTemplate" /> otherwise.
+        /// Returns the <see cref="NavigationItemTemplate" /> if the <paramref name="item" /> is a navigation link and <see cref="NavigationHeaderTemplate" /> otherwise.
         /// </summary>
         /// <param name="item">The navigation item for which to select the template.</param>
         /// <param name="container">The data-bound object. Not used in this template selector.</param>

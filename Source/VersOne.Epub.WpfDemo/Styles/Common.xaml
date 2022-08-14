@@ -38,7 +38,7 @@
                         </Border>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="borderBackground" Storyboard.TargetProperty="Color" To="#EBEBEB" Duration="0:0:0.15" />

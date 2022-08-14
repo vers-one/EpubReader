@@ -16,12 +16,12 @@
         }
 
         /// <summary>
-        /// Gets or sets EPUB package reader options.
+        /// Gets or sets EPUB OPF package reader options.
         /// </summary>
         public PackageReaderOptions PackageReaderOptions { get; set; }
 
         /// <summary>
-        /// Gets or sets EPUB 2 NCX (Navigation Center eXtended) reader options.
+        /// Gets or sets EPUB 2 NCX navigation document reader options.
         /// </summary>
         public Epub2NcxReaderOptions Epub2NcxReaderOptions { get; set; }
 

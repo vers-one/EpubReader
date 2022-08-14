@@ -66,7 +66,10 @@ namespace VersOne.Epub
         /// </summary>
         public EpubContentRef Content { get; internal set; }
 
-        internal IZipFile EpubFile { get; private set; }
+        /// <summary>
+        /// Gets the reference to the EPUB file.
+        /// </summary>
+        public IZipFile EpubFile { get; private set; }
 
         /// <summary>
         /// Loads the book's cover image from the EPUB file.
@@ -134,7 +137,9 @@ namespace VersOne.Epub
             return await Task.Run(() => NavigationReader.GetNavigationItems(this)).ConfigureAwait(false);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Releases the managed resources used by the <see cref="EpubBookRef" />.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -142,9 +147,12 @@ namespace VersOne.Epub
         }
 
         /// <summary>
-        /// Releases the unmanaged resources used by the <see cref="EpubBookRef" /> and optionally releases the managed resources.
+        /// Releases the resources used by the <see cref="EpubBookRef" />.
         /// </summary>
-        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        /// <param name="disposing">
+        /// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+        /// This class has no unmanaged resources, so the value of <c>false</c> causes this method to not release any resources.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (!isDisposed)

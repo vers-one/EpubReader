@@ -7,25 +7,25 @@ namespace VersOne.Epub.WpfDemo.Utils
 {
     /// <summary>
     /// XAML data converter which converts <c>false</c> to <see cref="Visibility.Visible" />
-    /// and <c>true</c> to <see cref="Visibility.Hidden" /> or <see cref="Visibility.Collapsed"/> (depending on the supplied additional parameter).
+    /// and <c>true</c> to <see cref="Visibility.Hidden" /> or <see cref="Visibility.Collapsed" /> (depending on the supplied additional parameter).
     /// </summary>
     public class BooleanToInverseVisibilityConverter : IValueConverter
     {
         /// <summary>
         /// Converts <c>false</c> to <see cref="Visibility.Visible" />
-        /// and <c>true</c> to <see cref="Visibility.Hidden" /> or <see cref="Visibility.Collapsed"/> (depending on the value of the <paramref name="parameter"/>).
+        /// and <c>true</c> to <see cref="Visibility.Hidden" /> or <see cref="Visibility.Collapsed" /> (depending on the value of the <paramref name="parameter" />).
         /// </summary>
         /// <param name="value">Boolean value to convert from.</param>
         /// <param name="targetType">The type of the binding target property. Not used in this converter.</param>
         /// <param name="parameter">
         /// Additional parameter which determines whether <c>true</c> value should be converted to <see cref="Visibility.Hidden" /> (if the parameter is <c>null</c>)
-        /// or to <see cref="Visibility.Collapsed"/> (if the parameter is not <c>null</c>).
+        /// or to <see cref="Visibility.Collapsed" /> (if the parameter is not <c>null</c>).
         /// </param>
         /// <param name="culture">The culture for the conversion. Not used in this converter.</param>
         /// <returns>
-        /// <see cref="Visibility.Visible" /> if the <paramref name="value"/> is <c>false</c> and
-        /// <see cref="Visibility.Hidden" /> or <see cref="Visibility.Collapsed"/> (depending on the value of the <paramref name="parameter"/>)
-        /// if the <paramref name="value"/> is <c>true</c>.
+        /// <see cref="Visibility.Visible" /> if the <paramref name="value" /> is <c>false</c> and
+        /// <see cref="Visibility.Hidden" /> or <see cref="Visibility.Collapsed" /> (depending on the value of the <paramref name="parameter" />)
+        /// if the <paramref name="value" /> is <c>true</c>.
         /// </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
