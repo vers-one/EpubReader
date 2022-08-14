@@ -22,6 +22,8 @@
     </metadata>
     <files>
         <file src="bin\Release\net46\VersOne.Epub.dll" target="lib\net46" />
+        <file src="bin\Release\net46\VersOne.Epub.xml" target="lib\net46" />
         <file src="bin\Release\netstandard1.3\VersOne.Epub.dll" target="lib\netstandard1.3" />
+        <file src="bin\Release\netstandard1.3\VersOne.Epub.xml" target="lib\netstandard1.3" />
     </files>
 </package>
