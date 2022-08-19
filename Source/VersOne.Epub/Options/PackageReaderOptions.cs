@@ -15,15 +15,15 @@
 
         /// <summary>
         /// Gets or sets a value indicating whether the package reader should ignore missing TOC attribute in the EPUB 2 spine.
-        /// If it's set to false and the TOC attribute is not present, then the "Incorrect EPUB spine: TOC is missing" exception will be thrown.
-        /// Default value is false.
+        /// If it's set to <c>false</c> and the TOC attribute is not present, then the "Incorrect EPUB spine: TOC is missing" exception will be thrown.
+        /// Default value is <c>false</c>.
         /// </summary>
         public bool IgnoreMissingToc { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the package reader should skip EPUB manifest items that are missing required attributes (id, href, or media-type).
-        /// If it's set to false and one of the required attributes is not present, then one of the "Incorrect EPUB manifest: item ... is missing" exceptions will be thrown.
-        /// Default value is false.
+        /// If it's set to <c>false</c> and one of the required attributes is not present, then one of the "Incorrect EPUB manifest: item ... is missing" exceptions will be thrown.
+        /// Default value is <c>false</c>.
         /// </summary>
         public bool SkipInvalidManifestItems { get; set; }
     }
