@@ -1,0 +1,11 @@
+- name: Getting Started
+  href: getting-started/index.md
+- name: Class Reference
+  href: reference/
+  homepage: reference/index.md
+- name: Examples
+  href: examples/
+- name: Malformed EPUB files
+  href: malformed-epub/index.md
+- name: FAQ
+  href: faq/index.md

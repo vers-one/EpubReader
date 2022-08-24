@@ -1,0 +1,62 @@
+{
+    "metadata": [
+        {
+            "src": [
+                {
+                    "src": "../Source/VersOne.Epub/",
+                    "files": [
+                        "*.csproj"
+                    ]
+                }
+            ],
+            "dest": "reference",
+            "disableGitFeatures": false,
+            "disableDefaultFilter": false,
+            "properties": {
+                "TargetFramework": "netstandard1.3"
+            }
+        }
+    ],
+    "build": {
+        "content": [
+            {
+                "files": [
+                    "*.md",
+                    "toc.yml",
+                    "getting-started/**.md",
+                    "reference/**.md",
+                    "reference/**.yml",
+                    "examples/**.md",
+                    "examples/toc.yml",
+                    "malformed-epub/**.md",
+                    "faq/**.md"
+                ]
+            }
+        ],
+        "resource": [
+            {
+                "files": [
+                    "images/**"
+                ]
+            }
+        ],
+        "globalMetadata": {
+            "_appLogoPath": "images/logo.svg",
+            "_appFaviconPath": "images/favicon.ico"
+        },
+        "dest": "docfx_output",
+        "template": [
+            "default",
+            "templates/default"
+        ],
+        "xrefService": [
+            "https://xref.docs.microsoft.com/query?uid={uid}"
+        ],
+        "postProcessors": [],
+        "markdownEngineName": "markdig",
+        "noLangKeyword": false,
+        "keepFileLink": false,
+        "cleanupCacheHistory": false,
+        "disableGitFeatures": false
+    }
+}

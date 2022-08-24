@@ -3,3 +3,6 @@ packages/
 bin/
 obj/
 *.user
+Documentation/docfx_output/
+Documentation/reference/*.yml
+Documentation/reference/.*

@@ -1,0 +1,58 @@
+name: Generate documentation
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  generate-documentation:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.302
+
+    - name: Restore dependencies
+      run: dotnet restore .\Source\VersOne.Epub\VersOne.Epub.csproj
+
+    - name: Install DocFX
+      run: nuget install docfx.console -x
+
+    - name: Checkout DocFX hack
+      run: git clone https://github.com/vers-one/DocFX-fix
+
+    - name: Apply the hack
+      run: xcopy /Y DocFX-fix\*.* docfx.console\tools\
+
+    - name: Run DocFX
+      run: docfx.console\tools\docfx.exe Documentation\docfx.json
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v1
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: './Documentation/docfx_output'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@main

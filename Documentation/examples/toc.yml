@@ -1,0 +1,6 @@
+- name: How to extract the table of contents
+  href: example-1.md
+- name: How to extract the plain text of the whole book
+  href: example-2.md
+- name: How to iterate over all EPUB files in a directory and gather some stats
+  href: example-3.md
