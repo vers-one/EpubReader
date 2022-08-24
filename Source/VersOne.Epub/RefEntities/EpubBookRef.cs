@@ -52,7 +52,7 @@ namespace VersOne.Epub
         public List<string> AuthorList { get; internal set; }
 
         /// <summary>
-        /// Gets the book's description or null if the description is not present in the book.
+        /// Gets the book's description or <c>null</c> if the description is not present in the book.
         /// </summary>
         public string Description { get; internal set; }
 

@@ -17,7 +17,7 @@ Supported runtimes:
 * .NET Standard >= 1.3 (includes .NET Core >= 1.0 and .NET >= 5)
 * .NET Framework >= 4.6
 
-[Download](#download-latest-stable-release) | [Documentation](https://os.vers.one/EpubReader/) | [WPF & .NET 6 console demo apps](#demo-apps)
+[Download](#download-the-latest-stable-release) | [Documentation](https://os.vers.one/EpubReader/) | [WPF & .NET 6 console demo apps](#demo-apps)
 
 ## EpubReader in a nutshell
 ![EpubReader in a nutshell](Documentation/images/epubreader-in-a-nutshell.png)
