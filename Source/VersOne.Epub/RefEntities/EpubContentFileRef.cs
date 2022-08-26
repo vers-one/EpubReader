@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 
 namespace VersOne.Epub
 {
@@ -13,6 +14,8 @@ namespace VersOne.Epub
     public abstract class EpubContentFileRef
     {
         private readonly EpubBookRef epubBookRef;
+        private readonly ContentReaderOptions contentReaderOptions;
+        private ReplacementContentFileEntry replacementContentFileEntry;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpubContentFileRef" /> class with a specified EPUB book reference, a file name, a content type of the file,
@@ -22,13 +25,16 @@ namespace VersOne.Epub
         /// <param name="fileName">Relative file path of the content file (as it is specified in the EPUB manifest).</param>
         /// <param name="contentType">The type of the content of the file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
-        protected EpubContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType)
+        /// <param name="contentReaderOptions">Optional content reader options determining how to handle missing content files.</param>
+        protected EpubContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType, ContentReaderOptions contentReaderOptions = null)
         {
             this.epubBookRef = epubBookRef;
             FileName = fileName;
             FilePathInEpubArchive = ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
             ContentType = contentType;
             ContentMimeType = contentMimeType;
+            this.contentReaderOptions = contentReaderOptions;
+            replacementContentFileEntry = null;
         }
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace VersOne.Epub
         {
             IZipFileEntry contentFileEntry = GetContentFileEntry();
             byte[] content = new byte[(int)contentFileEntry.Length];
-            using (Stream contentStream = OpenContentStream(contentFileEntry))
+            using (Stream contentStream = contentFileEntry.Open())
             using (MemoryStream memoryStream = new MemoryStream(content))
             {
                 await contentStream.CopyToAsync(memoryStream).ConfigureAwait(false);
@@ -104,11 +110,15 @@ namespace VersOne.Epub
         /// <returns>A <see cref="Stream" /> to access the referenced file's content.</returns>
         public Stream GetContentStream()
         {
-            return OpenContentStream(GetContentFileEntry());
+            return GetContentFileEntry().Open();
         }
 
         private IZipFileEntry GetContentFileEntry()
         {
+            if (replacementContentFileEntry != null)
+            {
+                return replacementContentFileEntry;
+            }
             if (String.IsNullOrEmpty(FileName))
             {
                 throw new EpubPackageException("EPUB parsing error: file name of the specified content file is empty.");
@@ -117,7 +127,28 @@ namespace VersOne.Epub
             IZipFileEntry contentFileEntry = epubBookRef.EpubFile.GetEntry(contentFilePath);
             if (contentFileEntry == null)
             {
-                throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.", contentFilePath);
+                bool throwMissingFileException = true;
+                if (contentReaderOptions != null)
+                {
+                    ContentFileMissingEventArgs contentFileMissingEventArgs = new ContentFileMissingEventArgs(FileName, FilePathInEpubArchive, ContentType, ContentMimeType);
+                    contentReaderOptions.RaiseContentFileMissingEvent(contentFileMissingEventArgs);
+                    if (contentFileMissingEventArgs.ReplacementContentStream != null)
+                    {
+                        replacementContentFileEntry = new ReplacementContentFileEntry(contentFileMissingEventArgs.ReplacementContentStream);
+                        contentFileEntry = replacementContentFileEntry;
+                        throwMissingFileException = false;
+                    }
+                    else if (contentFileMissingEventArgs.SuppressException)
+                    {
+                        replacementContentFileEntry = new ReplacementContentFileEntry(new MemoryStream());
+                        contentFileEntry = replacementContentFileEntry;
+                        throwMissingFileException = false;
+                    }
+                }
+                if (throwMissingFileException)
+                {
+                    throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.", contentFilePath);
+                }
             }
             if (contentFileEntry.Length > Int32.MaxValue)
             {
@@ -126,14 +157,26 @@ namespace VersOne.Epub
             return contentFileEntry;
         }
 
-        private Stream OpenContentStream(IZipFileEntry contentFileEntry)
+        private sealed class ReplacementContentFileEntry : IZipFileEntry
         {
-            Stream contentStream = contentFileEntry.Open();
-            if (contentStream == null)
+            private readonly byte[] replacementStreamContent;
+
+            public ReplacementContentFileEntry(Stream replacementStream)
             {
-                throw new EpubContentException($"Incorrect EPUB file: content file \"{FileName}\" specified in the manifest was not found in the EPUB file.", FilePathInEpubArchive);
+                using (replacementStream)
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    replacementStream.CopyTo(memoryStream);
+                    replacementStreamContent = memoryStream.ToArray();
+                }
             }
-            return contentStream;
+
+            public long Length => replacementStreamContent.Length;
+
+            public Stream Open()
+            {
+                return new MemoryStream(replacementStreamContent);
+            }
         }
     }
 }

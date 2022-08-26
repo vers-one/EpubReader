@@ -20,7 +20,8 @@ namespace VersOne.Epub.Environment.Implementation
 
         public IZipFileEntry GetEntry(string entryName)
         {
-            return new ZipFileEntry(zipArchive.GetEntry(entryName));
+            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
+            return zipArchiveEntry != null ? new ZipFileEntry(zipArchiveEntry) : null;
         }
 
         public void Dispose()

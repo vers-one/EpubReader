@@ -11,6 +11,7 @@
         public EpubReaderOptions()
         {
             PackageReaderOptions = new PackageReaderOptions();
+            ContentReaderOptions = new ContentReaderOptions();
             Epub2NcxReaderOptions = new Epub2NcxReaderOptions();
             XmlReaderOptions = new XmlReaderOptions();
         }
@@ -19,6 +20,11 @@
         /// Gets or sets EPUB OPF package reader options.
         /// </summary>
         public PackageReaderOptions PackageReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB content reader options.
+        /// </summary>
+        public ContentReaderOptions ContentReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB 2 NCX navigation document reader options.

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 
 namespace VersOne.Epub.Internal
 {
     internal static class ContentReader
     {
-        public static EpubContentRef ParseContentMap(EpubBookRef bookRef)
+        public static EpubContentRef ParseContentMap(EpubBookRef bookRef, ContentReaderOptions contentReaderOptions)
         {
             EpubContentRef result = new EpubContentRef
             {
@@ -29,7 +30,7 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.XML:
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
-                        EpubTextContentFileRef epubTextContentFile = new EpubTextContentFileRef(bookRef, fileName, contentType, contentMimeType);
+                        EpubTextContentFileRef epubTextContentFile = new EpubTextContentFileRef(bookRef, fileName, contentType, contentMimeType, contentReaderOptions);
                         switch (contentType)
                         {
                             case EpubContentType.XHTML_1_1:
@@ -46,7 +47,7 @@ namespace VersOne.Epub.Internal
                         result.AllFiles[fileName] = epubTextContentFile;
                         break;
                     default:
-                        EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef, fileName, contentType, contentMimeType);
+                        EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef, fileName, contentType, contentMimeType, contentReaderOptions);
                         switch (contentType)
                         {
                             case EpubContentType.IMAGE_GIF:

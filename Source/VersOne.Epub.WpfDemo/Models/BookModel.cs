@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VersOne.Epub.Options;
 using VersOne.Epub.WpfDemo.Entities;
 using VersOne.Epub.WpfDemo.ViewModels;
 
@@ -17,7 +18,12 @@ namespace VersOne.Epub.WpfDemo.Models
 
         public async Task<EpubBook> OpenBookAsync(int bookId)
         {
-            EpubBook epubBook = await EpubReader.ReadBookAsync(settings.Books.First(book => book.Id == bookId).FilePath);
+            EpubReaderOptions epubReaderOptions = new EpubReaderOptions();
+            epubReaderOptions.ContentReaderOptions.ContentFileMissing += (sender, e) =>
+            {
+                e.SuppressException = true;
+            };
+            EpubBook epubBook = await EpubReader.ReadBookAsync(settings.Books.First(book => book.Id == bookId).FilePath, epubReaderOptions);
             return epubBook;
         }
 

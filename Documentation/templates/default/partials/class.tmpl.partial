@@ -101,21 +101,7 @@
 <h5 class="propertyValue">Property type: {{{type.specName.0.value}}}</h5>
 {{/propertyValue}}
 {{#eventType}}
-<h5 class="eventType">{{__global.eventType}}</h5>
-<table class="table table-bordered table-striped table-condensed">
-  <thead>
-    <tr>
-      <th>{{__global.type}}</th>
-      <th>{{__global.description}}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{{{type.specName.0.value}}}</td>
-      <td>{{{description}}}</td>
-    </tr>
-  </tbody>
-</table>
+<h5 class="eventType">Event type: {{{type.specName.0.value}}}</h5>
 {{/eventType}}
 {{/syntax}}
 {{#overridden}}

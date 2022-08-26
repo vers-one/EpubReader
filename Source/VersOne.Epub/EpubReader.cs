@@ -114,16 +114,20 @@ namespace VersOne.Epub
         private static async Task<EpubBookRef> OpenBookAsync(IZipFile zipFile, string filePath, EpubReaderOptions epubReaderOptions)
         {
             EpubBookRef result = null;
+            if (epubReaderOptions == null)
+            {
+                epubReaderOptions = new EpubReaderOptions();
+            }
             try
             {
                 result = new EpubBookRef(zipFile);
                 result.FilePath = filePath;
-                result.Schema = await SchemaReader.ReadSchemaAsync(zipFile, epubReaderOptions ?? new EpubReaderOptions()).ConfigureAwait(false);
+                result.Schema = await SchemaReader.ReadSchemaAsync(zipFile, epubReaderOptions).ConfigureAwait(false);
                 result.Title = result.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
                 result.AuthorList = result.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
                 result.Author = String.Join(", ", result.AuthorList);
                 result.Description = result.Schema.Package.Metadata.Description;
-                result.Content = await Task.Run(() => ContentReader.ParseContentMap(result)).ConfigureAwait(false);
+                result.Content = await Task.Run(() => ContentReader.ParseContentMap(result, epubReaderOptions.ContentReaderOptions)).ConfigureAwait(false);
                 return result;
             }
             catch

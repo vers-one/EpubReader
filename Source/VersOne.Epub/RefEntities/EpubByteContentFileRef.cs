@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using VersOne.Epub.Options;
 
 namespace VersOne.Epub
 {
@@ -16,8 +17,9 @@ namespace VersOne.Epub
         /// <param name="fileName">Relative file path of the content file (as it is specified in the EPUB manifest).</param>
         /// <param name="contentType">The type of the content of the file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
-        public EpubByteContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType)
-            : base(epubBookRef, fileName, contentType, contentMimeType)
+        /// <param name="contentReaderOptions">Optional content reader options determining how to handle missing content files.</param>
+        public EpubByteContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType, ContentReaderOptions contentReaderOptions = null)
+            : base(epubBookRef, fileName, contentType, contentMimeType, contentReaderOptions)
         {
         }
 
