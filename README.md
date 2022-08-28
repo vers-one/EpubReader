@@ -7,6 +7,7 @@
 .NET library for reading EPUB files.
 
 [![Build](https://github.com/vers-one/EpubReader/actions/workflows/build.yml/badge.svg)](https://github.com/vers-one/EpubReader/actions/workflows/build.yml)
+[![Tests](https://github.com/vers-one/EpubReader/actions/workflows/test.yml/badge.svg)](https://github.com/vers-one/EpubReader/actions/workflows/test.yml)
 [![NuGet](https://img.shields.io/nuget/v/VersOne.Epub.svg)](https://www.nuget.org/packages/VersOne.Epub)
 
 Supported EPUB standards:

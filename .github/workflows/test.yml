@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  test:
 
     runs-on: windows-2022
 
@@ -24,7 +24,8 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.302
+        dotnet-version: '7.0.x'
+        include-prerelease: true
 
     - name: Build test project and its dependencies
       run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
