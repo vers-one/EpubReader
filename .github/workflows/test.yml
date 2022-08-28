@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: windows-2022
+
+    env:
+      Configuration: Debug
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.302
+
+    - name: Build test project and its dependencies
+      run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
+
+    - name: Run tests
+      run: dotnet test Source\VersOne.Epub.Test --no-restore
