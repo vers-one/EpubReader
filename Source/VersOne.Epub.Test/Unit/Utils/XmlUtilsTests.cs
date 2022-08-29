@@ -26,20 +26,20 @@ namespace VersOne.Epub.Test.Unit.Utils
                 )
             );
 
-        [Fact]
+        [Fact(DisplayName = "Loading a regular XML 1.0 file should succeed")]
         public async void TestXml10File()
         {
             XDocument actualXDocument = await XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_0_FILE), new XmlReaderOptions());
             CompareXDocuments(ExpectedXDocument, actualXDocument);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Loading an XML 1.1 file with XmlReaderOptions.SkipXmlHeaders = false should throw XmlException")]
         public async void TestXml11FileThrowsException()
         {
             await Assert.ThrowsAsync<XmlException>(() => XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_1_FILE), new XmlReaderOptions()));
         }
 
-        [Theory]
+        [Theory(DisplayName = "Loading either an XML 1.1 file or an XML file without a header with XmlReaderOptions.SkipXmlHeaders = true should succeed")]
         [InlineData(XML_1_1_FILE)]
         [InlineData(XML_BODY)]
         public async void TestXml11FileWorkaround(string xmlFileContent)
