@@ -7,7 +7,6 @@ namespace VersOne.Epub.Test.Unit.Readers
     public class RootFilePathReaderTests
     {
         private const string EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
-
         private const string ROOT_FILE_PATH_FOR_CORRECT_CONTAINER_FILE = "OEBPS/content.opf";
 
         private const string CORRECT_CONTAINER_FILE = $"""
