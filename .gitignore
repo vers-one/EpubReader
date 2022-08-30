@@ -6,3 +6,4 @@ obj/
 Documentation/docfx_output/
 Documentation/reference/*.yml
 Documentation/reference/.*
+coverage.*.xml

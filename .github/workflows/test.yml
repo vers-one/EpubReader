@@ -31,4 +31,7 @@ jobs:
       run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
 
     - name: Run tests
-      run: dotnet test Source\VersOne.Epub.Test --no-restore
+      run: dotnet test Source\VersOne.Epub.Test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+    - name: Upload code coverage result to Codecov
+      uses: codecov/codecov-action@v3
