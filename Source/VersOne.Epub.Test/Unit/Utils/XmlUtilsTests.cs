@@ -61,7 +61,7 @@ namespace VersOne.Epub.Test.Unit.Utils
             else
             {
                 Assert.NotNull(actual);
-
+                CompareXElements(expected.Root, actual.Root);
             }
         }
 

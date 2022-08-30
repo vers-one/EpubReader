@@ -18,12 +18,33 @@ namespace VersOne.Epub.Test.Unit.Readers
             </container>
             """;
 
-        private const string INCORRECT_CONTAINER_FILE = $"""
+        private const string INCORRECT_CONTAINER_FILE_NO_FULL_PATH_ATTRIBUTE = $"""
+            <?xml version='1.0' encoding='utf-8'?>
+            <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
+              <rootfiles>
+                <rootfile media-type="application/oebps-package+xml" />
+              </rootfiles>
+            </container>
+            """;
+
+        private const string INCORRECT_CONTAINER_FILE_NO_ROOTFILE_ELEMENT = $"""
             <?xml version='1.0' encoding='utf-8'?>
             <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
               <rootfiles>
               </rootfiles>
             </container>
+            """;
+
+        private const string INCORRECT_CONTAINER_FILE_NO_ROOTFILES_ELEMENT = $"""
+            <?xml version='1.0' encoding='utf-8'?>
+            <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
+            </container>
+            """;
+
+        private const string INCORRECT_CONTAINER_FILE_NO_CONTAINER_ELEMENT = $"""
+            <?xml version='1.0' encoding='utf-8'?>
+            <test>
+            </test>
             """;
 
         [Fact(DisplayName = "Getting root file path from a ZIP archive with a correct container file should succeed")]
@@ -42,11 +63,15 @@ namespace VersOne.Epub.Test.Unit.Readers
             await Assert.ThrowsAsync<EpubContainerException>(() => RootFilePathReader.GetRootFilePathAsync(testZipFile, new EpubReaderOptions()));
         }
 
-        [Fact(DisplayName = "Getting root file path from a ZIP archive with an incorrect container file should throw EpubContainerException")]
-        public async void TestGetRootFilePathAsyncWithIncorrectContainerFile()
+        [Theory(DisplayName = "Getting root file path from a ZIP archive with an incorrect container file should throw EpubContainerException")]
+        [InlineData(INCORRECT_CONTAINER_FILE_NO_FULL_PATH_ATTRIBUTE)]
+        [InlineData(INCORRECT_CONTAINER_FILE_NO_ROOTFILE_ELEMENT)]
+        [InlineData(INCORRECT_CONTAINER_FILE_NO_ROOTFILES_ELEMENT)]
+        [InlineData(INCORRECT_CONTAINER_FILE_NO_CONTAINER_ELEMENT)]
+        public async void TestGetRootFilePathAsyncWithIncorrectContainerFile(string containerFileContent)
         {
             TestZipFile testZipFile = new();
-            testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, INCORRECT_CONTAINER_FILE);
+            testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, containerFileContent);
             await Assert.ThrowsAsync<EpubContainerException>(() => RootFilePathReader.GetRootFilePathAsync(testZipFile, new EpubReaderOptions()));
         }
     }

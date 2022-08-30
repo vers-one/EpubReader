@@ -11,6 +11,7 @@
         public PackageReaderOptions()
         {
             IgnoreMissingToc = false;
+            SkipInvalidManifestItems = false;
         }
 
         /// <summary>
