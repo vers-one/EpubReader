@@ -52,6 +52,16 @@ namespace VersOne.Epub.Test.Unit.Utils
             CompareXDocuments(ExpectedXDocument, actualXDocument);
         }
 
+        [Fact(DisplayName = "Loading a file with just XML 1.1 header and no other content with XmlReaderOptions.SkipXmlHeaders = true should throw XmlException")]
+        public async void TestXml11EmptyFileThrowsException()
+        {
+            XmlReaderOptions xmlReaderOptions = new()
+            {
+                SkipXmlHeaders = true
+            };
+            await Assert.ThrowsAsync<XmlException>(() => XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_1_HEADER), xmlReaderOptions));
+        }
+
         private void CompareXDocuments(XDocument expected, XDocument actual)
         {
             if (expected == null)

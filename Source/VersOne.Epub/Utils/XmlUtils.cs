@@ -45,10 +45,6 @@ namespace VersOne.Epub.Internal
         {
             bool IsMatch(IList<byte> buffer, string pattern, int startPosition)
             {
-                if (startPosition > buffer.Count - pattern.Length)
-                {
-                    return false;
-                }
                 for (int i = 0; i < pattern.Length; i++)
                 {
                     if (buffer[startPosition + i] != pattern[i])
