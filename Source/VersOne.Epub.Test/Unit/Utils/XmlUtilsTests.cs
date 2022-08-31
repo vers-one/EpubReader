@@ -64,15 +64,8 @@ namespace VersOne.Epub.Test.Unit.Utils
 
         private void CompareXDocuments(XDocument expected, XDocument actual)
         {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                CompareXElements(expected.Root, actual.Root);
-            }
+            Assert.NotNull(actual);
+            CompareXElements(expected.Root, actual.Root);
         }
 
         private void CompareXElements(XElement expected, XElement actual)
