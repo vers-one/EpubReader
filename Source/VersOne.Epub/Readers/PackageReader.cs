@@ -211,7 +211,7 @@ namespace VersOne.Epub.Internal
         private static EpubMetadataDate ReadMetadataDate(XElement metadataDateNode)
         {
             EpubMetadataDate result = new EpubMetadataDate();
-            XAttribute eventAttribute = metadataDateNode.Attribute(metadataDateNode.Name.Namespace + "event");
+            XAttribute eventAttribute = metadataDateNode.Attribute(metadataDateNode.Parent.Name.Namespace + "event");
             if (eventAttribute != null)
             {
                 result.Event = eventAttribute.Value;
@@ -231,7 +231,7 @@ namespace VersOne.Epub.Internal
                     case "id":
                         result.Id = attributeValue;
                         break;
-                    case "opf:scheme":
+                    case "scheme":
                         result.Scheme = attributeValue;
                         break;
                 }
