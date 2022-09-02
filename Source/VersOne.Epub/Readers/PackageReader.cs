@@ -26,6 +26,10 @@ namespace VersOne.Epub.Internal
             }
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
             XElement packageNode = containerDocument.Element(opfNamespace + "package");
+            if (packageNode == null)
+            {
+                throw new EpubPackageException("EPUB parsing error: package XML element not found in the package file.");
+            }
             EpubPackage result = new EpubPackage();
             string epubVersionValue = packageNode.Attribute("version").Value;
             EpubVersion epubVersion;

@@ -110,7 +110,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
               </manifest>
               <spine id="spine" page-progression-direction="ltr" toc="ncx">
-                <itemref id="itemref-1" idref="item-front" linear="yes" />
+                <itemref id="itemref-1" idref="item-front" />
                 <itemref id="itemref-2" idref="item-toc" linear="no" />
                 <itemref id="itemref-3" idref="item-1" linear="yes" />
                 <itemref id="itemref-4" idref="item-2" linear="yes" properties="page-spread-left" />
@@ -118,6 +118,202 @@ namespace VersOne.Epub.Test.Unit.Readers
               </spine>
               <guide>
                 <reference type="toc" title="Contents" href="toc.html" />
+              </guide>
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_NON_SUPPORTED_EPUB_VERSION = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="1.0">
+              <metadata />
+              <manifest />
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_PACKAGE = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <not-a-package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest />
+              <spine />
+            </not-a-package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_METADATA = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <manifest />
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_MANIFEST = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_SPINE = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item href="chapter1.html" media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id=" " href="chapter1.html" media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="item-1" media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="item-1" href=" " media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="item-1" href="chapter1.html" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="item-1" href="chapter1.html" media-type=" " />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string EPUB2_OPF_FILE_WITHOUT_SPINE_TOC = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine />
+            </package>
+            """;
+
+        private const string EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine toc=" " />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_IDREF_IN_SPINE_ITEMREF = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest />
+              <spine>
+                <itemref />
+              </spine>
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_EMPTY_IDREF_IN_SPINE_ITEMREF = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest />
+              <spine>
+                <itemref idref=" " />
+              </spine>
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_TYPE_IN_GUIDE_REFERENCE = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine toc="ncx" />
+              <guide>
+                <reference href="toc.html" />
+              </guide>
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_EMPTY_TYPE_IN_GUIDE_REFERENCE = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine toc="ncx" />
+              <guide>
+                <reference type=" " href="toc.html" />
+              </guide>
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_HREF_IN_GUIDE_REFERENCE = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine toc="ncx" />
+              <guide>
+                <reference type="toc" />
+              </guide>
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_EMPTY_HREF_IN_GUIDE_REFERENCE = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine toc="ncx" />
+              <guide>
+                <reference type="toc" href=" " />
               </guide>
             </package>
             """;
@@ -551,6 +747,16 @@ namespace VersOne.Epub.Test.Unit.Readers
             }
         }
 
+        private static EpubPackage Epub2PackageWithoutSpineToc =>
+            new()
+            {
+                EpubVersion = EpubVersion.EPUB_2,
+                Metadata = EmptyMetadata,
+                Manifest = new EpubManifest(),
+                Spine = new EpubSpine()
+            };
+
+
         public static IEnumerable<object[]> ReadMinimalPackageAsyncTestData
         {
             get
@@ -573,22 +779,200 @@ namespace VersOne.Epub.Test.Unit.Readers
         [MemberData(nameof(ReadMinimalPackageAsyncTestData))]
         public async void ReadMinimalPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
         {
-            TestZipFile testZipFile = new();
-            testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);
-            testZipFile.AddEntry(OPF_FILE_PATH, opfFileContent);
-            EpubPackage actualEpubPackage = await PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, new EpubReaderOptions());
-            CompareEpubPackages(expectedEpubPackage, actualEpubPackage);
+            await TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage);
         }
 
         [Theory(DisplayName = "Reading a full OPF package should succeed")]
         [MemberData(nameof(ReadFullPackageAsyncTestData))]
         public async void ReadFullPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
         {
+            await TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage);
+        }
+         
+        [Fact(DisplayName = "Trying to read OPF package from the EPUB file with no OPF package should fail with EpubContainerException")]
+        public async void ReadPackageWithNoOpfFileTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);
+            await Assert.ThrowsAsync<EpubContainerException>(() => PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, new EpubReaderOptions()));
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with non-supported EPUB version should fail with EpubPackageException")]
+        public async void ReadPackageWithNonSupportedEpubVersionTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_NON_SUPPORTED_EPUB_VERSION);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without package XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutPackageNodeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_PACKAGE);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without metadata XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutMetadataNodeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_METADATA);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without manifest XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestNodeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_MANIFEST);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without spine XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutSpineNodeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_SPINE);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without ID attribute in a manifest item XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestItemIdTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty ID attribute in a manifest item XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyManifestItemIdTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without ID attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
+        public async void ReadPackageWithoutManifestItemIdWithSkippingInvalidManifestItemsTest()
+        {
+            await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM, MinimalEpub3Package);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without href attribute in a manifest item XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestItemHrefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty href attribute in a manifest item XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyManifestItemHrefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without href attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
+        public async void ReadPackageWithoutManifestItemHrefWithSkippingInvalidManifestItemsTest()
+        {
+            await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM, MinimalEpub3Package);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without media type attribute in a manifest item XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestItemMediaTypeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty media type attribute in a manifest item XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyManifestItemMediaTypeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without media type attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
+        public async void ReadPackageWithoutManifestItemMediaTypeWithSkippingInvalidManifestItemsTest()
+        {
+            await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM, MinimalEpub3Package);
+        }
+
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without toc attribute in the spine XML node should fail with EpubPackageException")]
+        public async void ReadEpub2PackageWithoutSpineTocTest()
+        {
+            await TestFailingReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC);
+        }
+
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty toc attribute in the spine XML node should fail with EpubPackageException")]
+        public async void ReadEpub2PackageWithEmptySpineTocTest()
+        {
+            await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
+        }
+
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without toc attribute in the spine XML node with IgnoreMissingToc = true should succeed")]
+        public async void ReadEpub2PackageWithoutSpineTocWithIgnoreMissingTocTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = new PackageReaderOptions()
+                {
+                    IgnoreMissingToc = true
+                }
+            };
+            await TestSuccessfulReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC, Epub2PackageWithoutSpineToc, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without ID ref attribute in a spine item ref XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutSpineItemRefIdRefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_IDREF_IN_SPINE_ITEMREF);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty ID ref attribute in a spine item ref XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptySpineItemRefIdRefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_IDREF_IN_SPINE_ITEMREF);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without type attribute in a guide reference XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutGuideReferenceTypeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_TYPE_IN_GUIDE_REFERENCE);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty type attribute in a guide reference XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyGuideReferenceTypeTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_TYPE_IN_GUIDE_REFERENCE);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without href attribute in a guide reference XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutGuideReferenceHrefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_GUIDE_REFERENCE);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty href attribute in a guide reference XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyGuideReferenceHrefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_GUIDE_REFERENCE);
+        }
+
+        private async Task TestSuccessfulReadOperation(string opfFileContent, EpubPackage expectedEpubPackage, EpubReaderOptions epubReaderOptions = null)
+        {
+            TestZipFile testZipFile = CreateTestZipFileWithOpfFile(opfFileContent);
+            EpubPackage actualEpubPackage = await PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, epubReaderOptions ?? new EpubReaderOptions());
+            CompareEpubPackages(expectedEpubPackage, actualEpubPackage);
+        }
+
+        private Task TestSuccessfulReadOperationWithSkippingInvalidManifestItems(string opfFileContent, EpubPackage expectedEpubPackage)
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = new PackageReaderOptions()
+                {
+                    SkipInvalidManifestItems = true
+                }
+            };
+            return TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage, epubReaderOptions);
+        }
+
+        private async Task TestFailingReadOperation(string opfFileContent)
+        {
+            TestZipFile testZipFile = CreateTestZipFileWithOpfFile(opfFileContent);
+            await Assert.ThrowsAsync<EpubPackageException>(() => PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, new EpubReaderOptions()));
+        }
+
+        private TestZipFile CreateTestZipFileWithOpfFile(string opfFileContent)
+        {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);
             testZipFile.AddEntry(OPF_FILE_PATH, opfFileContent);
-            EpubPackage actualEpubPackage = await PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, new EpubReaderOptions());
-            CompareEpubPackages(expectedEpubPackage, actualEpubPackage);
+            return testZipFile;
         }
 
         private void CompareEpubPackages(EpubPackage expected, EpubPackage actual)
