@@ -358,6 +358,8 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
+            result.NavigationLabels = new List<Epub2NcxNavigationLabel>();
+            result.NavigationTargets = new List<Epub2NcxNavigationTarget>();
             foreach (XElement navigationListChildNode in navigationListNode.Elements())
             {
                 switch (navigationListChildNode.GetLowerCaseLocalName())
@@ -366,7 +368,7 @@ namespace VersOne.Epub.Internal
                         Epub2NcxNavigationLabel navigationLabel = ReadNavigationLabel(navigationListChildNode);
                         result.NavigationLabels.Add(navigationLabel);
                         break;
-                    case "navTarget":
+                    case "navtarget":
                         Epub2NcxNavigationTarget navigationTarget = ReadNavigationTarget(navigationListChildNode);
                         result.NavigationTargets.Add(navigationTarget);
                         break;
@@ -405,6 +407,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Epub2NcxException("Incorrect EPUB navigation target: navigation target ID is missing.");
             }
+            result.NavigationLabels = new List<Epub2NcxNavigationLabel>();
             foreach (XElement navigationTargetChildNode in navigationTargetNode.Elements())
             {
                 switch (navigationTargetChildNode.GetLowerCaseLocalName())

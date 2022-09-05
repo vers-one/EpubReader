@@ -4,11 +4,16 @@ namespace VersOne.Epub.Test.Unit.Mocks
 {
     internal class TestZipFile : IZipFile
     {
-        readonly Dictionary<string, TestZipFileEntry> entries;
+        readonly Dictionary<string, IZipFileEntry> entries;
 
         public TestZipFile()
         {
-            entries = new Dictionary<string, TestZipFileEntry>();
+            entries = new Dictionary<string, IZipFileEntry>();
+        }
+
+        public void AddEntry(string entryName, IZipFileEntry entry)
+        {
+            entries.Add(entryName, entry);
         }
 
         public void AddEntry(string entryName, string entryContent)
@@ -18,7 +23,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public IZipFileEntry GetEntry(string entryName)
         {
-            return entries.TryGetValue(entryName, out TestZipFileEntry value) ? value : null;
+            return entries.TryGetValue(entryName, out IZipFileEntry value) ? value : null;
         }
 
         public void Dispose()

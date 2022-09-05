@@ -2,6 +2,7 @@
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Unit.Mocks;
+using VersOne.Epub.Test.Unit.TestUtils;
 
 namespace VersOne.Epub.Test.Unit.Readers
 {
@@ -803,97 +804,97 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITH_NON_SUPPORTED_EPUB_VERSION);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without package XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'package' XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutPackageNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_PACKAGE);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without metadata XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'metadata' XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutMetadataNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_METADATA);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without manifest XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'manifest' XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutManifestNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_MANIFEST);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without spine XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'spine' XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutSpineNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_SPINE);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without ID attribute in a manifest item XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutManifestItemIdTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty ID attribute in a manifest item XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package with empty 'id' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithEmptyManifestItemIdTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without ID attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
+        [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
         public async void ReadPackageWithoutManifestItemIdWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM, MinimalEpub3Package);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without href attribute in a manifest item XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutManifestItemHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty href attribute in a manifest item XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package with empty 'href' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithEmptyManifestItemHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without href attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
+        [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
         public async void ReadPackageWithoutManifestItemHrefWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM, MinimalEpub3Package);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without media type attribute in a manifest item XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutManifestItemMediaTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty media type attribute in a manifest item XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package with empty 'media-type' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithEmptyManifestItemMediaTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without media type attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
+        [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
         public async void ReadPackageWithoutManifestItemMediaTypeWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM, MinimalEpub3Package);
         }
 
-        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without toc attribute in the spine XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node should fail with EpubPackageException")]
         public async void ReadEpub2PackageWithoutSpineTocTest()
         {
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC);
         }
 
-        [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty toc attribute in the spine XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node should fail with EpubPackageException")]
         public async void ReadEpub2PackageWithEmptySpineTocTest()
         {
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
         }
 
-        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without toc attribute in the spine XML node with IgnoreMissingToc = true should succeed")]
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node with IgnoreMissingToc = true should succeed")]
         public async void ReadEpub2PackageWithoutSpineTocWithIgnoreMissingTocTest()
         {
             EpubReaderOptions epubReaderOptions = new()
@@ -906,37 +907,37 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestSuccessfulReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC, Epub2PackageWithoutSpineToc, epubReaderOptions);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without ID ref attribute in a spine item ref XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'idref' attribute in a spine item ref XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutSpineItemRefIdRefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_IDREF_IN_SPINE_ITEMREF);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty ID ref attribute in a spine item ref XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package with empty 'idref' attribute in a spine item ref XML node should fail with EpubPackageException")]
         public async void ReadPackageWithEmptySpineItemRefIdRefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_IDREF_IN_SPINE_ITEMREF);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without type attribute in a guide reference XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'type' attribute in a guide reference XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutGuideReferenceTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_TYPE_IN_GUIDE_REFERENCE);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty type attribute in a guide reference XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package with empty 'type' attribute in a guide reference XML node should fail with EpubPackageException")]
         public async void ReadPackageWithEmptyGuideReferenceTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_TYPE_IN_GUIDE_REFERENCE);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package without href attribute in a guide reference XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a guide reference XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutGuideReferenceHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_GUIDE_REFERENCE);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty href attribute in a guide reference XML node should fail with EpubPackageException")]
+        [Fact(DisplayName = "Trying to read OPF package with empty 'href' attribute in a guide reference XML node should fail with EpubPackageException")]
         public async void ReadPackageWithEmptyGuideReferenceHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_GUIDE_REFERENCE);
@@ -989,46 +990,22 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Titles, actual.Titles);
-            Assert.Equal(expected.Creators.Count, actual.Creators.Count);
-            for (int i = 0; i < expected.Creators.Count; i++)
-            {
-                CompareEpubMetadataCreators(expected.Creators[i], actual.Creators[i]);
-            }
+            AssertUtils.CollectionsEqual(expected.Creators, actual.Creators, CompareEpubMetadataCreators);
             Assert.Equal(expected.Subjects, actual.Subjects);
             Assert.Equal(expected.Description, actual.Description);
             Assert.Equal(expected.Publishers, actual.Publishers);
-            Assert.Equal(expected.Contributors.Count, actual.Contributors.Count);
-            for (int i = 0; i < expected.Contributors.Count; i++)
-            {
-                CompareEpubMetadataContributors(expected.Contributors[i], actual.Contributors[i]);
-            }
-            Assert.Equal(expected.Dates.Count, actual.Dates.Count);
-            for (int i = 0; i < expected.Dates.Count; i++)
-            {
-                CompareEpubMetadataDates(expected.Dates[i], actual.Dates[i]);
-            }
+            AssertUtils.CollectionsEqual(expected.Contributors, actual.Contributors, CompareEpubMetadataContributors);
+            AssertUtils.CollectionsEqual(expected.Dates, actual.Dates, CompareEpubMetadataDates);
             Assert.Equal(expected.Types, actual.Types);
             Assert.Equal(expected.Formats, actual.Formats);
-            Assert.Equal(expected.Identifiers.Count, actual.Identifiers.Count);
-            for (int i = 0; i < expected.Identifiers.Count; i++)
-            {
-                CompareEpubMetadataIdentifiers(expected.Identifiers[i], actual.Identifiers[i]);
-            }
+            AssertUtils.CollectionsEqual(expected.Identifiers, actual.Identifiers, CompareEpubMetadataIdentifiers);
             Assert.Equal(expected.Sources, actual.Sources);
             Assert.Equal(expected.Languages, actual.Languages);
             Assert.Equal(expected.Relations, actual.Relations);
             Assert.Equal(expected.Coverages, actual.Coverages);
             Assert.Equal(expected.Rights, actual.Rights);
-            Assert.Equal(expected.Links.Count, actual.Links.Count);
-            for (int i = 0; i < expected.Links.Count; i++)
-            {
-                CompareEpubMetadataLinks(expected.Links[i], actual.Links[i]);
-            }
-            Assert.Equal(expected.MetaItems.Count, actual.MetaItems.Count);
-            for (int i = 0; i < expected.Links.Count; i++)
-            {
-                CompareEpubMetadataMetas(expected.MetaItems[i], actual.MetaItems[i]);
-            }
+            AssertUtils.CollectionsEqual(expected.Links, actual.Links, CompareEpubMetadataLinks);
+            AssertUtils.CollectionsEqual(expected.MetaItems, actual.MetaItems, CompareEpubMetadataMetas);
         }
 
         private void CompareEpubMetadataCreators(EpubMetadataCreator expected, EpubMetadataCreator actual)
@@ -1089,11 +1066,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         private void CompareEpubManifests(EpubManifest expected, EpubManifest actual)
         {
             Assert.NotNull(actual);
-            Assert.Equal(expected.Count, actual.Count);
-            for (int i = 0; i < expected.Count; i++)
-            {
-                CompareEpubManifestItems(expected[i], actual[i]);
-            }
+            AssertUtils.CollectionsEqual(expected, actual, CompareEpubManifestItems);
         }
 
         private void CompareEpubManifestItems(EpubManifestItem expected, EpubManifestItem actual)
@@ -1116,11 +1089,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.PageProgressionDirection, actual.PageProgressionDirection);
             Assert.Equal(expected.Toc, actual.Toc);
-            Assert.Equal(expected.Count, actual.Count);
-            for (int i = 0; i < expected.Count; i++)
-            {
-                CompareEpubSpineItemRefs(expected[i], actual[i]);
-            }
+            AssertUtils.CollectionsEqual(expected, actual, CompareEpubSpineItemRefs);
         }
 
         private void CompareEpubSpineItemRefs(EpubSpineItemRef expected, EpubSpineItemRef actual)
@@ -1141,11 +1110,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             else
             {
                 Assert.NotNull(actual);
-                Assert.Equal(expected.Count, actual.Count);
-                for (int i = 0; i < expected.Count; i++)
-                {
-                    CompareEpubGuideReferences(expected[i], actual[i]);
-                }
+                AssertUtils.CollectionsEqual(expected, actual, CompareEpubGuideReferences);
             }
         }
 
