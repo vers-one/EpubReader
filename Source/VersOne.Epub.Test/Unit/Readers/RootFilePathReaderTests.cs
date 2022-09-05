@@ -43,8 +43,7 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private const string INCORRECT_CONTAINER_FILE_NO_CONTAINER_ELEMENT = $"""
             <?xml version='1.0' encoding='utf-8'?>
-            <test>
-            </test>
+            <test />
             """;
 
         [Fact(DisplayName = "Getting root file path from a ZIP archive with a correct container file should succeed")]
