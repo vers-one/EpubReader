@@ -25,6 +25,10 @@ namespace VersOne.Epub.Internal
             {
                 return fileName;
             }
+            else if (String.IsNullOrEmpty(fileName))
+            {
+                return fileName;
+            }
             else
             {
                 while (fileName.StartsWith(DIRECTORY_UP))
