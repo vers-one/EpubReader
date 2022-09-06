@@ -822,6 +822,10 @@ namespace VersOne.Epub.Schema
     {
         public static Epub3NavStructuralSemanticsProperty Parse(string stringValue)
         {
+            if (string.IsNullOrEmpty(stringValue))
+            {
+                return Epub3NavStructuralSemanticsProperty.UNKNOWN;
+            }
             switch (stringValue.ToLowerInvariant())
             {
                 case "cover":
