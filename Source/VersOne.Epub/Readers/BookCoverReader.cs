@@ -70,11 +70,14 @@ namespace VersOne.Epub.Internal
 
         private static EpubByteContentFileRef ReadEpub2CoverFromGuide(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
         {
-            foreach (EpubGuideReference guideReference in epubSchema.Package.Guide)
+            if (epubSchema.Package.Guide != null)
             {
-                if (guideReference.Type.ToLowerInvariant() == "cover" && imageContentRefs.TryGetValue(guideReference.Href, out EpubByteContentFileRef coverImageContentFileRef))
+                foreach (EpubGuideReference guideReference in epubSchema.Package.Guide)
                 {
-                    return coverImageContentFileRef;
+                    if (guideReference.Type.ToLowerInvariant() == "cover" && imageContentRefs.TryGetValue(guideReference.Href, out EpubByteContentFileRef coverImageContentFileRef))
+                    {
+                        return coverImageContentFileRef;
+                    }
                 }
             }
             return null;
