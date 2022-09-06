@@ -1,8 +1,8 @@
 ﻿using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
+using VersOne.Epub.Test.Unit.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
-using VersOne.Epub.Test.Unit.TestUtils;
 
 namespace VersOne.Epub.Test.Unit.Readers
 {
@@ -868,7 +868,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testZipFile = CreateTestZipFileWithNcxFile(ncxFileContent);
             Epub2Ncx actualEpub2Ncx =
                 await Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx, epubReaderOptions ?? new EpubReaderOptions());
-            CompareEpub2Ncxes(expectedEpub2Ncx, actualEpub2Ncx);
+            Epub2NcxComparer.CompareEpub2Ncxes(expectedEpub2Ncx, actualEpub2Ncx);
         }
 
         private async Task TestFailingReadOperation(string ncxFileContent)
@@ -883,109 +883,6 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(NCX_FILE_PATH_IN_EPUB_ARCHIVE, new TestZipFileEntry(ncxFileContent));
             return testZipFile;
-        }
-
-        private void CompareEpub2Ncxes(Epub2Ncx expected, Epub2Ncx actual)
-        {
-            Assert.NotNull(actual);
-            CompareEpub2NcxHeads(expected.Head, actual.Head);
-            Assert.Equal(expected.DocTitle, actual.DocTitle);
-            Assert.Equal(expected.DocAuthors, actual.DocAuthors);
-            CompareEpub2NcxNavigationMaps(expected.NavMap, actual.NavMap);
-            CompareEpub2NcxPageLists(expected.PageList, actual.PageList);
-            AssertUtils.CollectionsEqual(expected.NavLists, actual.NavLists, CompareEpub2NcxNavigationLists);
-        }
-
-        private void CompareEpub2NcxHeads(Epub2NcxHead expected, Epub2NcxHead actual)
-        {
-            Assert.NotNull(actual);
-            AssertUtils.CollectionsEqual(expected, actual, ComprareEpub2NcxHeadMetas);
-        }
-
-        private void ComprareEpub2NcxHeadMetas(Epub2NcxHeadMeta expected, Epub2NcxHeadMeta actual)
-        {
-            Assert.Equal(expected.Name, actual.Name);
-            Assert.Equal(expected.Content, actual.Content);
-            Assert.Equal(expected.Scheme, actual.Scheme);
-        }
-
-        private void CompareEpub2NcxNavigationMaps(Epub2NcxNavigationMap expected, Epub2NcxNavigationMap actual)
-        {
-            Assert.NotNull(actual);
-            AssertUtils.CollectionsEqual(expected, actual, CompareEpub2NcxNavigationPoints);
-        }
-
-        private void CompareEpub2NcxNavigationPoints(Epub2NcxNavigationPoint expected, Epub2NcxNavigationPoint actual)
-        {
-            Assert.NotNull(actual);
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Class, actual.Class);
-            Assert.Equal(expected.PlayOrder, actual.PlayOrder);
-            AssertUtils.CollectionsEqual(expected.NavigationLabels, actual.NavigationLabels, CompareEpub2NcxNavigationLabels);
-            CompareEpub2NcxContents(expected.Content, actual.Content);
-            AssertUtils.CollectionsEqual(expected.ChildNavigationPoints, actual.ChildNavigationPoints, CompareEpub2NcxNavigationPoints);
-        }
-
-        private void CompareEpub2NcxNavigationLabels(Epub2NcxNavigationLabel expected, Epub2NcxNavigationLabel actual)
-        {
-            Assert.NotNull(actual);
-            Assert.Equal(expected.Text, actual.Text);
-        }
-
-        private void CompareEpub2NcxContents(Epub2NcxContent expected, Epub2NcxContent actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                Assert.Equal(expected.Id, actual.Id);
-                Assert.Equal(expected.Source, actual.Source);
-            }
-        }
-
-        private void CompareEpub2NcxPageLists(Epub2NcxPageList expected, Epub2NcxPageList actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                AssertUtils.CollectionsEqual(expected, actual, CompareEpub2NcxPageTargets);
-            }
-        }
-
-        private void CompareEpub2NcxPageTargets(Epub2NcxPageTarget expected, Epub2NcxPageTarget actual)
-        {
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Value, actual.Value);
-            Assert.Equal(expected.Type, actual.Type);
-            Assert.Equal(expected.Class, actual.Class);
-            Assert.Equal(expected.PlayOrder, actual.PlayOrder);
-            AssertUtils.CollectionsEqual(expected.NavigationLabels, actual.NavigationLabels, CompareEpub2NcxNavigationLabels);
-            CompareEpub2NcxContents(expected.Content, actual.Content);
-        }
-
-        private void CompareEpub2NcxNavigationLists(Epub2NcxNavigationList expected, Epub2NcxNavigationList actual)
-        {
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Class, actual.Class);
-            AssertUtils.CollectionsEqual(expected.NavigationLabels, actual.NavigationLabels, CompareEpub2NcxNavigationLabels);
-            AssertUtils.CollectionsEqual(expected.NavigationTargets, actual.NavigationTargets, CompareEpub2NcxNavigationTargets);
-        }
-
-        private void CompareEpub2NcxNavigationTargets(Epub2NcxNavigationTarget expected, Epub2NcxNavigationTarget actual)
-        {
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Value, actual.Value);
-            Assert.Equal(expected.Class, actual.Class);
-            Assert.Equal(expected.PlayOrder, actual.PlayOrder);
-            AssertUtils.CollectionsEqual(expected.NavigationLabels, actual.NavigationLabels, CompareEpub2NcxNavigationLabels);
-            CompareEpub2NcxContents(expected.Content, actual.Content);
         }
     }
 }

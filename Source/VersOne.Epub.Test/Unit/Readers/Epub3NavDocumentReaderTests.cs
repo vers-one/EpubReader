@@ -1,8 +1,8 @@
 ﻿using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
+using VersOne.Epub.Test.Unit.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
-using VersOne.Epub.Test.Unit.TestUtils;
 
 namespace VersOne.Epub.Test.Unit.Readers
 {
@@ -333,7 +333,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testZipFile = CreateTestZipFileWithNavFile(navFileContent);
             Epub3NavDocument actualEpub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH,
                 MinimalEpubPackageWithNav, epubReaderOptions ?? new EpubReaderOptions());
-            CompareEpub3NavDocuments(expectedEpub3NavDocument, actualEpub3NavDocument);
+            Epub3NavDocumentComparer.CompareEpub3NavDocuments(expectedEpub3NavDocument, actualEpub3NavDocument);
         }
 
         private async Task TestFailingReadOperation(string navFileContent)
@@ -348,75 +348,6 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(NAV_FILE_PATH_IN_EPUB_ARCHIVE, new TestZipFileEntry(navFileContent));
             return testZipFile;
-        }
-
-        private void CompareEpub3NavDocuments(Epub3NavDocument expected, Epub3NavDocument actual)
-        {
-            Assert.NotNull(actual);
-            Assert.NotNull(actual.Navs);
-            AssertUtils.CollectionsEqual(expected.Navs, actual.Navs, CompareEpub3Navs);
-        }
-
-        private void CompareEpub3Navs(Epub3Nav expected, Epub3Nav actual)
-        {
-            Assert.NotNull(actual);
-            Assert.Equal(expected.Type, actual.Type);
-            Assert.Equal(expected.IsHidden, actual.IsHidden);
-            Assert.Equal(expected.Head, actual.Head);
-            CompareEpub3NavOls(expected.Ol, actual.Ol);
-        }
-
-        private void CompareEpub3NavOls(Epub3NavOl expected, Epub3NavOl actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                Assert.Equal(expected.IsHidden, actual.IsHidden);
-                AssertUtils.CollectionsEqual(expected.Lis, actual.Lis, CompareEpub3NavLis);
-            }
-        }
-
-        private void CompareEpub3NavLis(Epub3NavLi expected, Epub3NavLi actual)
-        {
-            Assert.NotNull(actual);
-            CompareEpub3NavAnchors(expected.Anchor, actual.Anchor);
-            CompareEpub3NavSpans(expected.Span, actual.Span);
-            CompareEpub3NavOls(expected.ChildOl, actual.ChildOl);
-        }
-
-        private void CompareEpub3NavAnchors(Epub3NavAnchor expected, Epub3NavAnchor actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                Assert.Equal(expected.Href, actual.Href);
-                Assert.Equal(expected.Text, actual.Text);
-                Assert.Equal(expected.Title, actual.Title);
-                Assert.Equal(expected.Alt, actual.Alt);
-                Assert.Equal(expected.Type, actual.Type);
-            }
-        }
-
-        private void CompareEpub3NavSpans(Epub3NavSpan expected, Epub3NavSpan actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.Equal(expected.Text, actual.Text);
-                Assert.Equal(expected.Title, actual.Title);
-                Assert.Equal(expected.Alt, actual.Alt);
-            }
         }
     }
 }
