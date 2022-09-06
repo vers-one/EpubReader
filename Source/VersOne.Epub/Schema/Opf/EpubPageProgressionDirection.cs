@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace VersOne.Epub.Schema
 {
@@ -35,6 +36,10 @@ namespace VersOne.Epub.Schema
     {
         public static EpubPageProgressionDirection Parse(string stringValue)
         {
+            if (String.IsNullOrEmpty(stringValue))
+            {
+                return EpubPageProgressionDirection.UNKNOWN;
+            }
             switch (stringValue.ToLowerInvariant())
             {
                 case "default":
