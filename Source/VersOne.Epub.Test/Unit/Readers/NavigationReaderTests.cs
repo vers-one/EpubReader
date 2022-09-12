@@ -1,7 +1,7 @@
 ﻿using VersOne.Epub.Internal;
 using VersOne.Epub.Schema;
+using VersOne.Epub.Test.Unit.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
-using VersOne.Epub.Test.Unit.TestUtils;
 
 namespace VersOne.Epub.Test.Unit.Readers
 {
@@ -48,7 +48,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
             List<EpubNavigationItemRef> expectedNavigationItems = new();
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 2 books with full NCX file should succeed")]
@@ -117,7 +117,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedNavigationItem1
             };
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 books with minimal NAV file should succeed")]
@@ -140,7 +140,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
             List<EpubNavigationItemRef> expectedNavigationItems = new();
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 books with full NAV file should succeed")]
@@ -243,7 +243,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedNavigationItem1
             };
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file without a header should succeed")]
@@ -294,7 +294,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 CreateNavigationLink("Test text", "chapter1.html", testTextContentFileRef)
             };
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or empty Lis should succeed")]
@@ -337,7 +337,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new();
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or non-existent anchor hrefs should succeed")]
@@ -396,7 +396,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 CreateNavigationLink("Non-existent href test", "non-existent.html", null)
             };
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or empty titles should succeed")]
@@ -560,7 +560,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 CreateNavigationHeader(String.Empty),
             };
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
-            CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         private EpubTextContentFileRef CreateTestNavigationFile(EpubBookRef epubBookRef)
@@ -607,44 +607,6 @@ namespace VersOne.Epub.Test.Unit.Readers
                 result.Html[htmlFile.FileName] = htmlFile;
             }
             return result;
-        }
-
-        private void CompareNavigationItemRefLists(List<EpubNavigationItemRef> expected, List<EpubNavigationItemRef> actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                AssertUtils.CollectionsEqual(expected, actual, CompareNavigationItemRefs);
-            }
-        }
-
-        private void CompareNavigationItemRefs(EpubNavigationItemRef expected, EpubNavigationItemRef actual)
-        {
-            Assert.NotNull(actual);
-            Assert.Equal(expected.Type, actual.Type);
-            Assert.Equal(expected.Title, actual.Title);
-            CompareNavigationItemLinks(expected.Link, actual.Link);
-            Assert.Equal(expected.HtmlContentFileRef, actual.HtmlContentFileRef);
-            CompareNavigationItemRefLists(expected.NestedItems, actual.NestedItems);
-        }
-
-        private void CompareNavigationItemLinks(EpubNavigationItemLink expected, EpubNavigationItemLink actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                Assert.Equal(expected.ContentFileName, actual.ContentFileName);
-                Assert.Equal(expected.ContentFilePathInEpubArchive, actual.ContentFilePathInEpubArchive);
-                Assert.Equal(expected.Anchor, actual.Anchor);
-            }
         }
     }
 }
