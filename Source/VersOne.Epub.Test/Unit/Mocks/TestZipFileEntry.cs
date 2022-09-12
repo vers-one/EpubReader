@@ -12,6 +12,11 @@ namespace VersOne.Epub.Test.Unit.Mocks
             byteContent = Encoding.UTF8.GetBytes(textContent);
         }
 
+        public TestZipFileEntry(byte[] byteContent)
+        {
+            this.byteContent = byteContent;
+        }
+
         public long Length => byteContent.Length;
 
         public Stream Open()
