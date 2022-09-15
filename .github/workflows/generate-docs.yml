@@ -36,12 +36,6 @@ jobs:
     - name: Install DocFX
       run: nuget install docfx.console -x
 
-    - name: Checkout DocFX hack
-      run: git clone https://github.com/vers-one/DocFX-fix
-
-    - name: Apply the hack
-      run: xcopy /Y DocFX-fix\*.* docfx.console\tools\
-
     - name: Run DocFX
       run: docfx.console\tools\docfx.exe Documentation\docfx.json
 
