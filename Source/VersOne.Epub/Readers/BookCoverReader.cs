@@ -52,7 +52,8 @@ namespace VersOne.Epub.Internal
             {
                 throw new EpubPackageException("Incorrect EPUB metadata: cover item content is missing.");
             }
-            EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
+            EpubManifestItem coverManifestItem =
+                epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
             if (coverManifestItem == null)
             {
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
@@ -72,7 +73,7 @@ namespace VersOne.Epub.Internal
         {
             if (epubSchema.Package.Guide != null)
             {
-                foreach (EpubGuideReference guideReference in epubSchema.Package.Guide)
+                foreach (EpubGuideReference guideReference in epubSchema.Package.Guide.Items)
                 {
                     if (guideReference.Type.ToLowerInvariant() == "cover" && imageContentRefs.TryGetValue(guideReference.Href, out EpubByteContentFileRef coverImageContentFileRef))
                     {
@@ -85,8 +86,8 @@ namespace VersOne.Epub.Internal
 
         private static EpubByteContentFileRef ReadEpub3Cover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
         {
-            EpubManifestItem coverManifestItem =
-                epubSchema.Package.Manifest.FirstOrDefault(manifestItem => manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.COVER_IMAGE));
+            EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Properties != null &&
+                manifestItem.Properties.Contains(EpubManifestProperty.COVER_IMAGE));
             if (coverManifestItem == null || coverManifestItem.Href == null)
             {
                 return null;

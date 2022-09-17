@@ -135,48 +135,55 @@ namespace VersOne.Epub.Test.Unit.Readers
                     },
                     Manifest = new EpubManifest()
                     {
-                        new EpubManifestItem()
+                        Items = new List<EpubManifestItem>()
                         {
-                            Id = "item-1",
-                            Href = "chapter1.html",
-                            MediaType = "application/xhtml+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-2",
-                            Href = "chapter2.html",
-                            MediaType = "application/xhtml+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-toc",
-                            Href = NAV_FILE_NAME,
-                            MediaType = "application/xhtml+xml",
-                            Properties = new List<EpubManifestProperty>()
+                            new EpubManifestItem()
                             {
-                                EpubManifestProperty.NAV
+                                Id = "item-1",
+                                Href = "chapter1.html",
+                                MediaType = "application/xhtml+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-2",
+                                Href = "chapter2.html",
+                                MediaType = "application/xhtml+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-toc",
+                                Href = NAV_FILE_NAME,
+                                MediaType = "application/xhtml+xml",
+                                Properties = new List<EpubManifestProperty>()
+                                {
+                                    EpubManifestProperty.NAV
+                                }
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "ncx",
+                                Href = NCX_FILE_NAME,
+                                MediaType = "application/x-dtbncx+xml"
                             }
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "ncx",
-                            Href = NCX_FILE_NAME,
-                            MediaType = "application/x-dtbncx+xml"
                         }
                     },
                     Spine = new EpubSpine()
                     {
-                        new EpubSpineItemRef()
+                        Toc = "ncx",
+                        Items = new List<EpubSpineItemRef>()
                         {
-                            Id = "itemref-1",
-                            IdRef = "item-1",
-                            IsLinear = true
-                        },
-                        new EpubSpineItemRef()
-                        {
-                            Id = "itemref-2",
-                            IdRef = "item-2",
-                            IsLinear = true
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-1",
+                                IdRef = "item-1",
+                                IsLinear = true
+                            },
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-2",
+                                IdRef = "item-2",
+                                IsLinear = true
+                            }
                         }
                     }
                 },
@@ -184,10 +191,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                 {
                     Head = new Epub2NcxHead()
                     {
-                        new Epub2NcxHeadMeta()
+                        Items = new List<Epub2NcxHeadMeta>()
                         {
-                            Name = "dtb:uid",
-                            Content = "9781234567890"
+                            new Epub2NcxHeadMeta()
+                            {
+                                Name = "dtb:uid",
+                                Content = "9781234567890"
+                            }
                         }
                     },
                     DocTitle = "Test title",
@@ -197,37 +207,40 @@ namespace VersOne.Epub.Test.Unit.Readers
                     },
                     NavMap = new Epub2NcxNavigationMap()
                     {
-                        new Epub2NcxNavigationPoint()
+                        Items = new List<Epub2NcxNavigationPoint>()
                         {
-                            Id = "navpoint-1",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                            new Epub2NcxNavigationPoint()
                             {
-                                new Epub2NcxNavigationLabel()
+                                Id = "navpoint-1",
+                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
                                 {
-                                    Text = "Chapter 1"
-                                }
-                            },
-                            Content = new Epub2NcxContent()
-                            {
-                                Source = "chapter1.html"
-                            },
-                            ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                        },
-                        new Epub2NcxNavigationPoint()
-                        {
-                            Id = "navpoint-2",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                            {
-                                new Epub2NcxNavigationLabel()
+                                    new Epub2NcxNavigationLabel()
+                                    {
+                                        Text = "Chapter 1"
+                                    }
+                                },
+                                Content = new Epub2NcxContent()
                                 {
-                                    Text = "Chapter 2"
-                                }
+                                    Source = "chapter1.html"
+                                },
+                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
                             },
-                            Content = new Epub2NcxContent()
+                            new Epub2NcxNavigationPoint()
                             {
-                                Source = "chapter2.html"
-                            },
-                            ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
+                                Id = "navpoint-2",
+                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                                {
+                                    new Epub2NcxNavigationLabel()
+                                    {
+                                        Text = "Chapter 2"
+                                    }
+                                },
+                                Content = new Epub2NcxContent()
+                                {
+                                    Source = "chapter2.html"
+                                },
+                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
+                            }
                         }
                     },
                     NavLists = new List<Epub2NcxNavigationList>()
@@ -265,7 +278,6 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            expectedEpubSchema.Package.Spine.Toc = "ncx";
             EpubSchema actualEpubSchema = await SchemaReader.ReadSchemaAsync(testZipFile, new EpubReaderOptions());
             EpubSchemaComparer.CompareEpubSchemas(expectedEpubSchema, actualEpubSchema);
         }

@@ -125,18 +125,24 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile());
             epubBookRef.Schema.Package.Spine = new EpubSpine()
             {
-                new EpubSpineItemRef()
+                Items = new List<EpubSpineItemRef>()
                 {
-                    IdRef = "item-1"
+                    new EpubSpineItemRef()
+                    {
+                        IdRef = "item-1"
+                    }
                 }
             };
             epubBookRef.Schema.Package.Manifest = new EpubManifest()
             {
-                new EpubManifestItem()
+                Items = new List<EpubManifestItem>()
                 {
-                    Id = "item-1",
-                    Href = htmlFileName,
-                    MediaType = "application/xhtml+xml"
+                    new EpubManifestItem()
+                    {
+                        Id = "item-1",
+                        Href = htmlFileName,
+                        MediaType = "application/xhtml+xml"
+                    }
                 }
             };
             EpubTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(epubBookRef, htmlFileName);

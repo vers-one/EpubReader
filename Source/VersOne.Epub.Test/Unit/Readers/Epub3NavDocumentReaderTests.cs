@@ -124,14 +124,17 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 Manifest = new EpubManifest()
                 {
-                    new EpubManifestItem()
+                    Items = new List<EpubManifestItem>()
                     {
-                        Id = "nav",
-                        Href = NAV_FILE_NAME,
-                        MediaType = "application/xhtml+xml",
-                        Properties = new List<EpubManifestProperty>()
+                        new EpubManifestItem()
                         {
-                            EpubManifestProperty.NAV
+                            Id = "nav",
+                            Href = NAV_FILE_NAME,
+                            MediaType = "application/xhtml+xml",
+                            Properties = new List<EpubManifestProperty>()
+                            {
+                                EpubManifestProperty.NAV
+                            }
                         }
                     }
                 }
@@ -274,11 +277,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                 EpubVersion = EpubVersion.EPUB_3,
                 Manifest = new EpubManifest()
                 {
-                    new EpubManifestItem()
+                    Items = new List<EpubManifestItem>()
                     {
-                        Id = "test",
-                        Href = "test.html",
-                        MediaType = "application/xhtml+xml"
+                        new EpubManifestItem()
+                        {
+                            Id = "test",
+                            Href = "test.html",
+                            MediaType = "application/xhtml+xml"
+                        }
                     }
                 }
             };
@@ -294,6 +300,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 EpubVersion = EpubVersion.EPUB_2,
                 Manifest = new EpubManifest()
+                {
+                    Items = new List<EpubManifestItem>()
+                }
             };
             Epub3NavDocument epub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage, new EpubReaderOptions());
             Assert.Null(epub3NavDocument);

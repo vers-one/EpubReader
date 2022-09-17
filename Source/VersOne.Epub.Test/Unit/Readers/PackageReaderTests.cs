@@ -345,10 +345,14 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 EpubVersion = EpubVersion.EPUB_2,
                 Metadata = EmptyMetadata,
-                Manifest = new EpubManifest(),
+                Manifest = new EpubManifest()
+                {
+                    Items = new List<EpubManifestItem>()
+                },
                 Spine = new EpubSpine()
                 {
-                    Toc = "ncx"
+                    Toc = "ncx",
+                    Items = new List<EpubSpineItemRef>()
                 }
             };
 
@@ -357,8 +361,14 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 EpubVersion = EpubVersion.EPUB_3,
                 Metadata = EmptyMetadata,
-                Manifest = new EpubManifest(),
+                Manifest = new EpubManifest()
+                {
+                    Items = new List<EpubManifestItem>()
+                },
                 Spine = new EpubSpine()
+                {
+                    Items = new List<EpubSpineItemRef>()
+                }
             };
 
         private static EpubPackage MinimalEpub31Package =>
@@ -366,15 +376,21 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 EpubVersion = EpubVersion.EPUB_3_1,
                 Metadata = EmptyMetadata,
-                Manifest = new EpubManifest(),
+                Manifest = new EpubManifest()
+                {
+                    Items = new List<EpubManifestItem>()
+                },
                 Spine = new EpubSpine()
+                {
+                    Items = new List<EpubSpineItemRef>()
+                }
             };
 
         private static EpubPackage FullPackage
         {
             get
             {
-                EpubPackage result = new()
+                return new()
                 {
                     EpubVersion = EpubVersion.EPUB_3,
                     Metadata = new EpubMetadata()
@@ -573,178 +589,186 @@ namespace VersOne.Epub.Test.Unit.Readers
                     },
                     Manifest = new EpubManifest()
                     {
-                        new EpubManifestItem()
+                        Items = new List<EpubManifestItem>()
                         {
-                            Id = "item-front",
-                            Href = "front.html",
-                            MediaType = "application/xhtml+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "cover",
-                            Href = "cover.html",
-                            MediaType = "application/xhtml+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "cover-image",
-                            Href = "cover.jpg",
-                            MediaType = "image/jpeg",
-                            Properties = new List<EpubManifestProperty>()
+                            new EpubManifestItem()
                             {
-                                EpubManifestProperty.COVER_IMAGE
-                            }
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-css",
-                            Href = "styles.css",
-                            MediaType = "text/css"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-font",
-                            Href = "font.ttf",
-                            MediaType = "application/x-font-truetype"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-1",
-                            Href = "chapter1.html",
-                            MediaType = "application/xhtml+xml",
-                            MediaOverlay = "item-1-audio"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-1-audio",
-                            Href = "chapter1-audio.smil",
-                            MediaType = "application/smil+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-2",
-                            Href = "chapter2.html",
-                            MediaType = "application/xhtml+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-2-fall",
-                            Href = "chapter2.xml",
-                            MediaType = "text/example+xml",
-                            RequiredNamespace = "http://example.com/ns/example/",
-                            RequiredModules = "ruby, server-side-image-map",
-                            Fallback = "item-2",
-                            FallbackStyle = "item-css"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-3",
-                            Href = "chapter3.html",
-                            MediaType = "application/xhtml+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-3-fall",
-                            Href = "chapter3.xml",
-                            MediaType = "application/z3998-auth+xml",
-                            Fallback = "item-3"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-3-remote-audio",
-                            Href = "http://example.com/audio/123/chapter3.mp4",
-                            MediaType = "audio/mp4"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-image",
-                            Href = "image.jpg",
-                            MediaType = "image/jpeg"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-title-audio",
-                            Href = "title.mp3",
-                            MediaType = "audio/mpeg"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-atom",
-                            Href = "book.atom",
-                            MediaType = "application/atom+xml"
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-toc",
-                            Href = "toc.html",
-                            MediaType = "application/xhtml+xml",
-                            Properties = new List<EpubManifestProperty>()
+                                Id = "item-front",
+                                Href = "front.html",
+                                MediaType = "application/xhtml+xml"
+                            },
+                            new EpubManifestItem()
                             {
-                                EpubManifestProperty.NAV
+                                Id = "cover",
+                                Href = "cover.html",
+                                MediaType = "application/xhtml+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "cover-image",
+                                Href = "cover.jpg",
+                                MediaType = "image/jpeg",
+                                Properties = new List<EpubManifestProperty>()
+                                {
+                                    EpubManifestProperty.COVER_IMAGE
+                                }
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-css",
+                                Href = "styles.css",
+                                MediaType = "text/css"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-font",
+                                Href = "font.ttf",
+                                MediaType = "application/x-font-truetype"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-1",
+                                Href = "chapter1.html",
+                                MediaType = "application/xhtml+xml",
+                                MediaOverlay = "item-1-audio"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-1-audio",
+                                Href = "chapter1-audio.smil",
+                                MediaType = "application/smil+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-2",
+                                Href = "chapter2.html",
+                                MediaType = "application/xhtml+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-2-fall",
+                                Href = "chapter2.xml",
+                                MediaType = "text/example+xml",
+                                RequiredNamespace = "http://example.com/ns/example/",
+                                RequiredModules = "ruby, server-side-image-map",
+                                Fallback = "item-2",
+                                FallbackStyle = "item-css"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-3",
+                                Href = "chapter3.html",
+                                MediaType = "application/xhtml+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-3-fall",
+                                Href = "chapter3.xml",
+                                MediaType = "application/z3998-auth+xml",
+                                Fallback = "item-3"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-3-remote-audio",
+                                Href = "http://example.com/audio/123/chapter3.mp4",
+                                MediaType = "audio/mp4"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-image",
+                                Href = "image.jpg",
+                                MediaType = "image/jpeg"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-title-audio",
+                                Href = "title.mp3",
+                                MediaType = "audio/mpeg"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-atom",
+                                Href = "book.atom",
+                                MediaType = "application/atom+xml"
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-toc",
+                                Href = "toc.html",
+                                MediaType = "application/xhtml+xml",
+                                Properties = new List<EpubManifestProperty>()
+                                {
+                                    EpubManifestProperty.NAV
+                                }
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "ncx",
+                                Href = "toc.ncx",
+                                MediaType = "application/x-dtbncx+xml"
                             }
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "ncx",
-                            Href = "toc.ncx",
-                            MediaType = "application/x-dtbncx+xml"
                         }
                     },
                     Spine = new EpubSpine()
                     {
-                        new EpubSpineItemRef()
+                        Id = "spine",
+                        PageProgressionDirection = EpubPageProgressionDirection.LEFT_TO_RIGHT,
+                        Toc = "ncx",
+                        Items = new List<EpubSpineItemRef>()
                         {
-                            Id = "itemref-1",
-                            IdRef = "item-front",
-                            IsLinear = true
-                        },
-                        new EpubSpineItemRef()
-                        {
-                            Id = "itemref-2",
-                            IdRef = "item-toc",
-                            IsLinear = false
-                        },
-                        new EpubSpineItemRef()
-                        {
-                            Id = "itemref-3",
-                            IdRef = "item-1",
-                            IsLinear = true
-                        },
-                        new EpubSpineItemRef()
-                        {
-                            Id = "itemref-4",
-                            IdRef = "item-2",
-                            IsLinear = true,
-                            Properties = new List<EpubSpineProperty>()
+                            new EpubSpineItemRef()
                             {
-                                EpubSpineProperty.PAGE_SPREAD_LEFT
-                            }
-                        },
-                        new EpubSpineItemRef()
-                        {
-                            Id = "itemref-5",
-                            IdRef = "item-3",
-                            IsLinear = true,
-                            Properties = new List<EpubSpineProperty>()
+                                Id = "itemref-1",
+                                IdRef = "item-front",
+                                IsLinear = true
+                            },
+                            new EpubSpineItemRef()
                             {
-                                EpubSpineProperty.PAGE_SPREAD_RIGHT
+                                Id = "itemref-2",
+                                IdRef = "item-toc",
+                                IsLinear = false
+                            },
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-3",
+                                IdRef = "item-1",
+                                IsLinear = true
+                            },
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-4",
+                                IdRef = "item-2",
+                                IsLinear = true,
+                                Properties = new List<EpubSpineProperty>()
+                                {
+                                    EpubSpineProperty.PAGE_SPREAD_LEFT
+                                }
+                            },
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-5",
+                                IdRef = "item-3",
+                                IsLinear = true,
+                                Properties = new List<EpubSpineProperty>()
+                                {
+                                    EpubSpineProperty.PAGE_SPREAD_RIGHT
+                                }
                             }
                         }
                     },
                     Guide = new EpubGuide()
                     {
-                        new EpubGuideReference()
+                        Items = new List<EpubGuideReference>()
                         {
-                            Type = "toc",
-                            Title = "Contents",
-                            Href = "toc.html"
+                            new EpubGuideReference()
+                            {
+                                Type = "toc",
+                                Title = "Contents",
+                                Href = "toc.html"
+                            }
                         }
                     }
                 };
-                result.Spine.Id = "spine";
-                result.Spine.PageProgressionDirection = EpubPageProgressionDirection.LEFT_TO_RIGHT;
-                result.Spine.Toc = "ncx";
-                return result;
             }
         }
 
@@ -753,8 +777,14 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 EpubVersion = EpubVersion.EPUB_2,
                 Metadata = EmptyMetadata,
-                Manifest = new EpubManifest(),
+                Manifest = new EpubManifest()
+                {
+                    Items = new List<EpubManifestItem>()
+                },
                 Spine = new EpubSpine()
+                {
+                    Items = new List<EpubSpineItemRef>()
+                }
             };
 
 

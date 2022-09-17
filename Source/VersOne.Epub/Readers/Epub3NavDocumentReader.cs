@@ -17,7 +17,7 @@ namespace VersOne.Epub.Internal
         {
             Epub3NavDocument result = new Epub3NavDocument();
             EpubManifestItem navManifestItem =
-                package.Manifest.FirstOrDefault(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
+                package.Manifest.Items.FirstOrDefault(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
             if (navManifestItem == null)
             {
                 if (package.EpubVersion == EpubVersion.EPUB_2)

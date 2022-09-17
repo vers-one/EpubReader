@@ -16,7 +16,7 @@ namespace VersOne.Epub.Internal
                 Fonts = new Dictionary<string, EpubByteContentFileRef>(),
                 AllFiles = new Dictionary<string, EpubContentFileRef>()
             };
-            foreach (EpubManifestItem manifestItem in bookRef.Schema.Package.Manifest)
+            foreach (EpubManifestItem manifestItem in bookRef.Schema.Package.Manifest.Items)
             {
                 string fileName = manifestItem.Href;
                 string contentMimeType = manifestItem.MediaType;

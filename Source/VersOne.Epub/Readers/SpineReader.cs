@@ -9,9 +9,9 @@ namespace VersOne.Epub.Internal
         public static List<EpubTextContentFileRef> GetReadingOrder(EpubBookRef bookRef)
         {
             List<EpubTextContentFileRef> result = new List<EpubTextContentFileRef>();
-            foreach (EpubSpineItemRef spineItemRef in bookRef.Schema.Package.Spine)
+            foreach (EpubSpineItemRef spineItemRef in bookRef.Schema.Package.Spine.Items)
             {
-                EpubManifestItem manifestItem = bookRef.Schema.Package.Manifest.FirstOrDefault(item => item.Id == spineItemRef.IdRef);
+                EpubManifestItem manifestItem = bookRef.Schema.Package.Manifest.Items.FirstOrDefault(item => item.Id == spineItemRef.IdRef);
                 if (manifestItem == null)
                 {
                     throw new EpubPackageException($"Incorrect EPUB spine: item with IdRef = \"{spineItemRef.IdRef}\" is missing in the manifest.");

@@ -312,7 +312,10 @@ namespace VersOne.Epub.Internal
 
         private static EpubManifest ReadManifest(XElement manifestNode, PackageReaderOptions packageReaderOptions)
         {
-            EpubManifest result = new EpubManifest();
+            EpubManifest result = new EpubManifest()
+            {
+                Items = new List<EpubManifestItem>()
+            };
             foreach (XElement manifestItemNode in manifestNode.Elements())
             {
                 if (manifestItemNode.CompareNameTo("item"))
@@ -376,7 +379,7 @@ namespace VersOne.Epub.Internal
                         }
                         throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing");
                     }
-                    result.Add(manifestItem);
+                    result.Items.Add(manifestItem);
                 }
             }
             return result;
@@ -384,7 +387,10 @@ namespace VersOne.Epub.Internal
 
         private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion, PackageReaderOptions packageReaderOptions)
         {
-            EpubSpine result = new EpubSpine();
+            EpubSpine result = new EpubSpine()
+            {
+                Items = new List<EpubSpineItemRef>()
+            };
             foreach (XAttribute spineNodeAttribute in spineNode.Attributes())
             {
                 string attributeValue = spineNodeAttribute.Value;
@@ -432,7 +438,7 @@ namespace VersOne.Epub.Internal
                     }
                     XAttribute linearAttribute = spineItemNode.Attribute("linear");
                     spineItemRef.IsLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
-                    result.Add(spineItemRef);
+                    result.Items.Add(spineItemRef);
                 }
             }
             return result;
@@ -440,7 +446,10 @@ namespace VersOne.Epub.Internal
 
         private static EpubGuide ReadGuide(XElement guideNode)
         {
-            EpubGuide result = new EpubGuide();
+            EpubGuide result = new EpubGuide()
+            {
+                Items = new List<EpubGuideReference>()
+            };
             foreach (XElement guideReferenceNode in guideNode.Elements())
             {
                 if (guideReferenceNode.CompareNameTo("reference"))
@@ -470,7 +479,7 @@ namespace VersOne.Epub.Internal
                     {
                         throw new EpubPackageException("Incorrect EPUB guide: item href is missing");
                     }
-                    result.Add(guideReference);
+                    result.Items.Add(guideReference);
                 }
             }
             return result;

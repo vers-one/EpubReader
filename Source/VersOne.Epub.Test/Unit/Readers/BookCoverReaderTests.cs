@@ -29,7 +29,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 Name = "cover",
                 Content = "cover-image"
             });
-            epubBookRef.Schema.Package.Manifest.Add(new EpubManifestItem()
+            epubBookRef.Schema.Package.Manifest.Items.Add(new EpubManifestItem()
             {
                 Id = "cover-image",
                 Href = "cover.jpg",
@@ -45,10 +45,13 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(EpubVersion.EPUB_2);
             epubBookRef.Schema.Package.Guide = new EpubGuide()
             {
-                new EpubGuideReference()
+                Items = new List<EpubGuideReference>()
                 {
-                    Type = "cover",
-                    Href = "cover.jpg"
+                    new EpubGuideReference()
+                    {
+                        Type = "cover",
+                        Href = "cover.jpg"
+                    }
                 }
             };
             EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef(epubBookRef);
@@ -59,7 +62,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         public void ReadBookCoverForEpub3WithCoverInManifestTest()
         {
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(EpubVersion.EPUB_3);
-            epubBookRef.Schema.Package.Manifest.Add(new EpubManifestItem()
+            epubBookRef.Schema.Package.Manifest.Items.Add(new EpubManifestItem()
             {
                 Id = "cover-image",
                 Href = "cover.jpg",
@@ -140,7 +143,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 Name = "cover",
                 Content = "cover-image"
             });
-            epubBookRef.Schema.Package.Manifest.Add(new EpubManifestItem()
+            epubBookRef.Schema.Package.Manifest.Items.Add(new EpubManifestItem()
             {
                 Id = "cover-image",
                 Href = null,
@@ -158,7 +161,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 Name = "cover",
                 Content = "cover-image"
             });
-            epubBookRef.Schema.Package.Manifest.Add(new EpubManifestItem()
+            epubBookRef.Schema.Package.Manifest.Items.Add(new EpubManifestItem()
             {
                 Id = "cover-image",
                 Href = "cover.jpg",
@@ -173,10 +176,13 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(EpubVersion.EPUB_2);
             epubBookRef.Schema.Package.Guide = new EpubGuide()
             {
-                new EpubGuideReference()
+                Items = new List<EpubGuideReference>()
                 {
-                    Type = "test-type",
-                    Href = "test.jpg"
+                    new EpubGuideReference()
+                    {
+                        Type = "test-type",
+                        Href = "test.jpg"
+                    }
                 }
             };
             TestSuccessfulReadOperation(epubBookRef, null);
@@ -188,20 +194,23 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(EpubVersion.EPUB_3);
             epubBookRef.Schema.Package.Manifest = new EpubManifest()
             {
-                new EpubManifestItem()
+                Items = new List<EpubManifestItem>()
                 {
-                    Id = "test-image",
-                    Href = "test.jpg",
-                    MediaType = "image/jpeg"
-                },
-                new EpubManifestItem()
-                {
-                    Id = "test-item-with-property",
-                    Href = "toc.html",
-                    MediaType = "application/xhtml+xml",
-                    Properties = new List<EpubManifestProperty>()
+                    new EpubManifestItem()
                     {
-                        EpubManifestProperty.NAV
+                        Id = "test-image",
+                        Href = "test.jpg",
+                        MediaType = "image/jpeg"
+                    },
+                    new EpubManifestItem()
+                    {
+                        Id = "test-item-with-property",
+                        Href = "toc.html",
+                        MediaType = "application/xhtml+xml",
+                        Properties = new List<EpubManifestProperty>()
+                        {
+                            EpubManifestProperty.NAV
+                        }
                     }
                 }
             };
@@ -212,7 +221,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         public void ReadBookCoverForEpub3WithNullHrefInCoverManifestItemTest()
         {
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(EpubVersion.EPUB_3);
-            epubBookRef.Schema.Package.Manifest.Add(new EpubManifestItem()
+            epubBookRef.Schema.Package.Manifest.Items.Add(new EpubManifestItem()
             {
                 Id = "cover-image",
                 Href = null,
@@ -229,7 +238,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         public void ReadBookCoverForEpub3WithMissingManifestItemImageTest()
         {
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(EpubVersion.EPUB_3);
-            epubBookRef.Schema.Package.Manifest.Add(new EpubManifestItem()
+            epubBookRef.Schema.Package.Manifest.Items.Add(new EpubManifestItem()
             {
                 Id = "cover-image",
                 Href = "cover.jpg",
@@ -283,7 +292,10 @@ namespace VersOne.Epub.Test.Unit.Readers
                             Links = new List<EpubMetadataLink>(),
                             MetaItems = new List<EpubMetadataMeta>()
                         },
-                        Manifest = new EpubManifest(),
+                        Manifest = new EpubManifest()
+                        {
+                            Items = new List<EpubManifestItem>()
+                        },
                         Spine = new EpubSpine(),
                         Guide = null
                     }
