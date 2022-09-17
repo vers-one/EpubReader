@@ -488,18 +488,24 @@ namespace VersOne.Epub.Test.Unit.Root
                     },
                     Manifest = new EpubManifest()
                     {
-                        new EpubManifestItem()
+                        Items = new List<EpubManifestItem>()
                         {
-                            Id = "item-toc",
-                            Href = NAV_FILE_NAME,
-                            MediaType = HTML_CONTENT_MIME_TYPE,
-                            Properties = new List<EpubManifestProperty>()
+                            new EpubManifestItem()
                             {
-                                EpubManifestProperty.NAV
+                                Id = "item-toc",
+                                Href = NAV_FILE_NAME,
+                                MediaType = HTML_CONTENT_MIME_TYPE,
+                                Properties = new List<EpubManifestProperty>()
+                                {
+                                    EpubManifestProperty.NAV
+                                }
                             }
                         }
                     },
-                    Spine = new EpubSpine(),
+                    Spine = new EpubSpine()
+                    {
+                        Items = new List<EpubSpineItemRef>()
+                    },
                     Guide = null
                 },
                 Epub2Ncx = null,
@@ -887,7 +893,7 @@ namespace VersOne.Epub.Test.Unit.Root
 
         private EpubSchema CreateFullExpectedEpubSchema()
         {
-            EpubSchema result = new()
+            return new()
             {
                 Package = new EpubPackage()
                 {
@@ -923,100 +929,107 @@ namespace VersOne.Epub.Test.Unit.Root
                     },
                     Manifest = new EpubManifest()
                     {
-                        new EpubManifestItem()
+                        Items = new List<EpubManifestItem>()
                         {
-                            Id = "item-1",
-                            Href = CHAPTER1_FILE_NAME,
-                            MediaType = HTML_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-2",
-                            Href = CHAPTER2_FILE_NAME,
-                            MediaType = HTML_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-3",
-                            Href = STYLES1_FILE_NAME,
-                            MediaType = CSS_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-4",
-                            Href = STYLES2_FILE_NAME,
-                            MediaType = CSS_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-5",
-                            Href = IMAGE1_FILE_NAME,
-                            MediaType = IMAGE_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-6",
-                            Href = IMAGE2_FILE_NAME,
-                            MediaType = IMAGE_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-7",
-                            Href = FONT1_FILE_NAME,
-                            MediaType = FONT_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-8",
-                            Href = FONT2_FILE_NAME,
-                            MediaType = FONT_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-9",
-                            Href = AUDIO_FILE_NAME,
-                            MediaType = AUDIO_MPEG_CONTENT_MIME_TYPE
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-toc",
-                            Href = NAV_FILE_NAME,
-                            MediaType = HTML_CONTENT_MIME_TYPE,
-                            Properties = new List<EpubManifestProperty>()
+                            new EpubManifestItem()
                             {
-                                EpubManifestProperty.NAV
-                            }
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "item-cover",
-                            Href = COVER_FILE_NAME,
-                            MediaType = IMAGE_CONTENT_MIME_TYPE,
-                            Properties = new List<EpubManifestProperty>()
+                                Id = "item-1",
+                                Href = CHAPTER1_FILE_NAME,
+                                MediaType = HTML_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
                             {
-                                EpubManifestProperty.COVER_IMAGE
+                                Id = "item-2",
+                                Href = CHAPTER2_FILE_NAME,
+                                MediaType = HTML_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-3",
+                                Href = STYLES1_FILE_NAME,
+                                MediaType = CSS_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-4",
+                                Href = STYLES2_FILE_NAME,
+                                MediaType = CSS_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-5",
+                                Href = IMAGE1_FILE_NAME,
+                                MediaType = IMAGE_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-6",
+                                Href = IMAGE2_FILE_NAME,
+                                MediaType = IMAGE_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-7",
+                                Href = FONT1_FILE_NAME,
+                                MediaType = FONT_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-8",
+                                Href = FONT2_FILE_NAME,
+                                MediaType = FONT_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-9",
+                                Href = AUDIO_FILE_NAME,
+                                MediaType = AUDIO_MPEG_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-toc",
+                                Href = NAV_FILE_NAME,
+                                MediaType = HTML_CONTENT_MIME_TYPE,
+                                Properties = new List<EpubManifestProperty>()
+                                {
+                                    EpubManifestProperty.NAV
+                                }
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-cover",
+                                Href = COVER_FILE_NAME,
+                                MediaType = IMAGE_CONTENT_MIME_TYPE,
+                                Properties = new List<EpubManifestProperty>()
+                                {
+                                    EpubManifestProperty.COVER_IMAGE
+                                }
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "ncx",
+                                Href = NCX_FILE_NAME,
+                                MediaType = NCX_CONTENT_MIME_TYPE
                             }
-                        },
-                        new EpubManifestItem()
-                        {
-                            Id = "ncx",
-                            Href = NCX_FILE_NAME,
-                            MediaType = NCX_CONTENT_MIME_TYPE
                         }
                     },
                     Spine = new EpubSpine()
                     {
-                        new EpubSpineItemRef()
+                        Toc = "ncx",
+                        Items = new List<EpubSpineItemRef>()
                         {
-                            Id = "itemref-1",
-                            IdRef = "item-1",
-                            IsLinear = true
-                        },
-                        new EpubSpineItemRef()
-                        {
-                            Id = "itemref-2",
-                            IdRef = "item-2",
-                            IsLinear = true
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-1",
+                                IdRef = "item-1",
+                                IsLinear = true
+                            },
+                            new EpubSpineItemRef()
+                            {
+                                Id = "itemref-2",
+                                IdRef = "item-2",
+                                IsLinear = true
+                            }
                         }
                     },
                     Guide = null
@@ -1025,10 +1038,13 @@ namespace VersOne.Epub.Test.Unit.Root
                 {
                     Head = new Epub2NcxHead()
                     {
-                        new Epub2NcxHeadMeta()
+                        Items = new List<Epub2NcxHeadMeta>()
                         {
-                            Name = "dtb:uid",
-                            Content = BOOK_UID
+                            new Epub2NcxHeadMeta()
+                            {
+                                Name = "dtb:uid",
+                                Content = BOOK_UID
+                            }
                         }
                     },
                     DocTitle = BOOK_TITLE,
@@ -1038,37 +1054,40 @@ namespace VersOne.Epub.Test.Unit.Root
                     },
                     NavMap = new Epub2NcxNavigationMap()
                     {
-                        new Epub2NcxNavigationPoint()
+                        Items = new List<Epub2NcxNavigationPoint>()
                         {
-                            Id = "navpoint-1",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                            new Epub2NcxNavigationPoint()
                             {
-                                new Epub2NcxNavigationLabel()
+                                Id = "navpoint-1",
+                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
                                 {
-                                    Text = "Chapter 1"
-                                }
-                            },
-                            Content = new Epub2NcxContent()
-                            {
-                                Source = CHAPTER1_FILE_NAME
-                            },
-                            ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                        },
-                        new Epub2NcxNavigationPoint()
-                        {
-                            Id = "navpoint-2",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                            {
-                                new Epub2NcxNavigationLabel()
+                                    new Epub2NcxNavigationLabel()
+                                    {
+                                        Text = "Chapter 1"
+                                    }
+                                },
+                                Content = new Epub2NcxContent()
                                 {
-                                    Text = "Chapter 2"
-                                }
+                                    Source = CHAPTER1_FILE_NAME
+                                },
+                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
                             },
-                            Content = new Epub2NcxContent()
+                            new Epub2NcxNavigationPoint()
                             {
-                                Source = CHAPTER2_FILE_NAME
-                            },
-                            ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
+                                Id = "navpoint-2",
+                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                                {
+                                    new Epub2NcxNavigationLabel()
+                                    {
+                                        Text = "Chapter 2"
+                                    }
+                                },
+                                Content = new Epub2NcxContent()
+                                {
+                                    Source = CHAPTER2_FILE_NAME
+                                },
+                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
+                            }
                         }
                     },
                     NavLists = new List<Epub2NcxNavigationList>()
@@ -1107,8 +1126,6 @@ namespace VersOne.Epub.Test.Unit.Root
                 },
                 ContentDirectoryPath = CONTENT_DIRECTORY_PATH
             };
-            result.Package.Spine.Toc = "ncx";
-            return result;
         }
     }
 }

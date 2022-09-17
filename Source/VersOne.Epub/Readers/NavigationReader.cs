@@ -21,7 +21,7 @@ namespace VersOne.Epub.Internal
 
         public static List<EpubNavigationItemRef> GetNavigationItems(EpubBookRef bookRef, Epub2Ncx epub2Ncx)
         {
-            return GetNavigationItems(bookRef, epub2Ncx.NavMap);
+            return GetNavigationItems(bookRef, epub2Ncx.NavMap.Items);
         }
 
         public static List<EpubNavigationItemRef> GetNavigationItems(EpubBookRef bookRef, Epub3NavDocument epub3NavDocument)

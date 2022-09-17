@@ -9,7 +9,15 @@ namespace VersOne.Epub.Schema
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.3" /> for more information.
     /// </para>
     /// </summary>
-    public class EpubManifest : List<EpubManifestItem>
+    public class EpubManifest
     {
+        /// <summary>
+        /// <para>Gets a list of the content items that constitute the EPUB book.</para>
+        /// <para>
+        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-manifest-elem" />
+        /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.3" /> for more information.
+        /// </para>
+        /// </summary>
+        public List<EpubManifestItem> Items { get; internal set; }
     }
 }

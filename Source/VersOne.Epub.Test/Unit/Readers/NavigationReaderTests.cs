@@ -68,37 +68,40 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         NavMap = new Epub2NcxNavigationMap()
                         {
-                            new Epub2NcxNavigationPoint()
+                            Items = new List<Epub2NcxNavigationPoint>()
                             {
-                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                                new Epub2NcxNavigationPoint()
                                 {
-                                    new Epub2NcxNavigationLabel()
+                                    NavigationLabels = new List<Epub2NcxNavigationLabel>()
                                     {
-                                        Text = "Test label 1"
-                                    },
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Test label 2"
-                                    }
-                                },
-                                Content = new Epub2NcxContent()
-                                {
-                                    Source = "chapter1.html"
-                                },
-                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                                {
-                                    new Epub2NcxNavigationPoint()
-                                    {
-                                        NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                                        new Epub2NcxNavigationLabel()
                                         {
-                                            new Epub2NcxNavigationLabel()
-                                            {
-                                                Text = "Test label 3"
-                                            }
+                                            Text = "Test label 1"
                                         },
-                                        Content = new Epub2NcxContent()
+                                        new Epub2NcxNavigationLabel()
                                         {
-                                            Source = "chapter1.html#section-1"
+                                            Text = "Test label 2"
+                                        }
+                                    },
+                                    Content = new Epub2NcxContent()
+                                    {
+                                        Source = "chapter1.html"
+                                    },
+                                    ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
+                                    {
+                                        new Epub2NcxNavigationPoint()
+                                        {
+                                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                                            {
+                                                new Epub2NcxNavigationLabel()
+                                                {
+                                                    Text = "Test label 3"
+                                                }
+                                            },
+                                            Content = new Epub2NcxContent()
+                                            {
+                                                Source = "chapter1.html#section-1"
+                                            }
                                         }
                                     }
                                 }

@@ -21,28 +21,34 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef();
             epubBookRef.Schema.Package.Spine = new EpubSpine()
             {
-                new EpubSpineItemRef()
+                Items = new List<EpubSpineItemRef>()
                 {
-                    IdRef = "item-1"
-                },
-                new EpubSpineItemRef()
-                {
-                    IdRef = "item-2"
+                    new EpubSpineItemRef()
+                    {
+                        IdRef = "item-1"
+                    },
+                    new EpubSpineItemRef()
+                    {
+                        IdRef = "item-2"
+                    }
                 }
             };
             epubBookRef.Schema.Package.Manifest = new EpubManifest()
             {
-                new EpubManifestItem()
+                Items = new List<EpubManifestItem>()
                 {
-                    Id = "item-1",
-                    Href = "chapter1.html",
-                    MediaType = "application/xhtml+xml"
-                },
-                new EpubManifestItem()
-                {
-                    Id = "item-2",
-                    Href = "chapter2.html",
-                    MediaType = "application/xhtml+xml"
+                    new EpubManifestItem()
+                    {
+                        Id = "item-1",
+                        Href = "chapter1.html",
+                        MediaType = "application/xhtml+xml"
+                    },
+                    new EpubManifestItem()
+                    {
+                        Id = "item-2",
+                        Href = "chapter2.html",
+                        MediaType = "application/xhtml+xml"
+                    }
                 }
             };
             EpubTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef(epubBookRef, "chapter1.html");
@@ -73,18 +79,24 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef();
             epubBookRef.Schema.Package.Spine = new EpubSpine()
             {
-                new EpubSpineItemRef()
+                Items = new List<EpubSpineItemRef>()
                 {
-                    IdRef = "item-1"
+                    new EpubSpineItemRef()
+                    {
+                        IdRef = "item-1"
+                    }
                 }
             };
             epubBookRef.Schema.Package.Manifest = new EpubManifest()
             {
-                new EpubManifestItem()
+                Items = new List<EpubManifestItem>()
                 {
-                    Id = "item-2",
-                    Href = "chapter2.html",
-                    MediaType = "application/xhtml+xml"
+                    new EpubManifestItem()
+                    {
+                        Id = "item-2",
+                        Href = "chapter2.html",
+                        MediaType = "application/xhtml+xml"
+                    }
                 }
             };
             Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
@@ -96,18 +108,24 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef();
             epubBookRef.Schema.Package.Spine = new EpubSpine()
             {
-                new EpubSpineItemRef()
+                Items = new List<EpubSpineItemRef>()
                 {
-                    IdRef = "item-1"
+                    new EpubSpineItemRef()
+                    {
+                        IdRef = "item-1"
+                    }
                 }
             };
             epubBookRef.Schema.Package.Manifest = new EpubManifest()
             {
-                new EpubManifestItem()
+                Items = new List<EpubManifestItem>()
                 {
-                    Id = "item-1",
-                    Href = "chapter1.html",
-                    MediaType = "application/xhtml+xml"
+                    new EpubManifestItem()
+                    {
+                        Id = "item-1",
+                        Href = "chapter1.html",
+                        MediaType = "application/xhtml+xml"
+                    }
                 }
             };
             epubBookRef.Content.Html = new Dictionary<string, EpubTextContentFileRef>();
@@ -142,8 +160,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                             Links = new List<EpubMetadataLink>(),
                             MetaItems = new List<EpubMetadataMeta>()
                         },
-                        Manifest = new EpubManifest(),
+                        Manifest = new EpubManifest()
+                        {
+                            Items = new List<EpubManifestItem>()
+                        },
                         Spine = new EpubSpine()
+                        {
+                            Items = new List<EpubSpineItemRef>()
+                        }
                     }
                 },
                 Content = new EpubContentRef()

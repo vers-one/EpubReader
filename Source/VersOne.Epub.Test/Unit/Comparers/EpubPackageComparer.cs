@@ -95,7 +95,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
         private static void CompareEpubManifests(EpubManifest expected, EpubManifest actual)
         {
             Assert.NotNull(actual);
-            AssertUtils.CollectionsEqual(expected, actual, CompareEpubManifestItems);
+            AssertUtils.CollectionsEqual(expected.Items, actual.Items, CompareEpubManifestItems);
         }
 
         private static void CompareEpubManifestItems(EpubManifestItem expected, EpubManifestItem actual)
@@ -118,7 +118,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.PageProgressionDirection, actual.PageProgressionDirection);
             Assert.Equal(expected.Toc, actual.Toc);
-            AssertUtils.CollectionsEqual(expected, actual, CompareEpubSpineItemRefs);
+            AssertUtils.CollectionsEqual(expected.Items, actual.Items, CompareEpubSpineItemRefs);
         }
 
         private static void CompareEpubSpineItemRefs(EpubSpineItemRef expected, EpubSpineItemRef actual)
@@ -139,7 +139,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             else
             {
                 Assert.NotNull(actual);
-                AssertUtils.CollectionsEqual(expected, actual, CompareEpubGuideReferences);
+                AssertUtils.CollectionsEqual(expected.Items, actual.Items, CompareEpubGuideReferences);
             }
         }
 

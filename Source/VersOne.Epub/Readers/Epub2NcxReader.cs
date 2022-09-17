@@ -21,7 +21,7 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubManifestItem tocManifestItem = package.Manifest.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId));
+            EpubManifestItem tocManifestItem = package.Manifest.Items.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId));
             if (tocManifestItem == null)
             {
                 throw new Epub2NcxException($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
@@ -93,7 +93,10 @@ namespace VersOne.Epub.Internal
 
         private static Epub2NcxHead ReadNavigationHead(XElement headNode)
         {
-            Epub2NcxHead result = new Epub2NcxHead();
+            Epub2NcxHead result = new Epub2NcxHead()
+            {
+                Items = new List<Epub2NcxHeadMeta>()
+            };
             foreach (XElement metaNode in headNode.Elements())
             {
                 if (metaNode.CompareNameTo("meta"))
@@ -123,7 +126,7 @@ namespace VersOne.Epub.Internal
                     {
                         throw new Epub2NcxException("Incorrect EPUB navigation meta: meta content is missing.");
                     }
-                    result.Add(meta);
+                    result.Items.Add(meta);
                 }
             }
             return result;
@@ -155,7 +158,10 @@ namespace VersOne.Epub.Internal
 
         private static Epub2NcxNavigationMap ReadNavigationMap(XElement navigationMapNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
         {
-            Epub2NcxNavigationMap result = new Epub2NcxNavigationMap();
+            Epub2NcxNavigationMap result = new Epub2NcxNavigationMap()
+            {
+                Items = new List<Epub2NcxNavigationPoint>()
+            };
             foreach (XElement navigationPointNode in navigationMapNode.Elements())
             {
                 if (navigationPointNode.CompareNameTo("navPoint"))
@@ -163,7 +169,7 @@ namespace VersOne.Epub.Internal
                     Epub2NcxNavigationPoint navigationPoint = ReadNavigationPoint(navigationPointNode, epub2NcxReaderOptions);
                     if (navigationPoint != null)
                     {
-                        result.Add(navigationPoint);
+                        result.Items.Add(navigationPoint);
                     }
                 }
             }
@@ -271,13 +277,16 @@ namespace VersOne.Epub.Internal
 
         private static Epub2NcxPageList ReadNavigationPageList(XElement navigationPageListNode)
         {
-            Epub2NcxPageList result = new Epub2NcxPageList();
+            Epub2NcxPageList result = new Epub2NcxPageList()
+            {
+                Items = new List<Epub2NcxPageTarget>()
+            };
             foreach (XElement pageTargetNode in navigationPageListNode.Elements())
             {
                 if (pageTargetNode.CompareNameTo("pageTarget"))
                 {
                     Epub2NcxPageTarget pageTarget = ReadNavigationPageTarget(pageTargetNode);
-                    result.Add(pageTarget);
+                    result.Items.Add(pageTarget);
                 }
             }
             return result;
