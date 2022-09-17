@@ -22,24 +22,9 @@ namespace VersOne.Epub.Test.Unit.Comparers
             Assert.NotNull(actual);
             Assert.Equal(expected.Type, actual.Type);
             Assert.Equal(expected.Title, actual.Title);
-            CompareNavigationItemLinks(expected.Link, actual.Link);
+            EpubNavigationItemComparer.CompareNavigationItemLinks(expected.Link, actual.Link);
             Assert.Equal(expected.HtmlContentFileRef, actual.HtmlContentFileRef);
             CompareNavigationItemRefLists(expected.NestedItems, actual.NestedItems);
-        }
-
-        private static void CompareNavigationItemLinks(EpubNavigationItemLink expected, EpubNavigationItemLink actual)
-        {
-            if (expected == null)
-            {
-                Assert.Null(actual);
-            }
-            else
-            {
-                Assert.NotNull(actual);
-                Assert.Equal(expected.ContentFileName, actual.ContentFileName);
-                Assert.Equal(expected.ContentFilePathInEpubArchive, actual.ContentFilePathInEpubArchive);
-                Assert.Equal(expected.Anchor, actual.Anchor);
-            }
         }
     }
 }

@@ -48,13 +48,13 @@ namespace VersOne.Epub
         public List<EpubNavigationItem> Navigation { get; internal set; }
 
         /// <summary>
-        /// Gets the collection of the book's content files.
-        /// </summary>
-        public EpubContent Content { get; internal set; }
-
-        /// <summary>
         /// Gets the parsed EPUB schema of the book.
         /// </summary>
         public EpubSchema Schema { get; internal set; }
+
+        /// <summary>
+        /// Gets the collection of the book's content files.
+        /// </summary>
+        public EpubContent Content { get; internal set; }
     }
 }

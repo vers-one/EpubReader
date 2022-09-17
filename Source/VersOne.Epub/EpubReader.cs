@@ -24,7 +24,7 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static EpubBookRef OpenBook(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            return OpenBookAsync(filePath, epubReaderOptions).Result;
+            return ExecuteAndUnwrapAggregateException(() => OpenBookAsync(filePath, epubReaderOptions));
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static EpubBookRef OpenBook(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
-            return OpenBookAsync(stream, epubReaderOptions).Result;
+            return ExecuteAndUnwrapAggregateException(() => OpenBookAsync(stream, epubReaderOptions));
         }
 
         /// <summary>
@@ -46,8 +46,7 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static Task<EpubBookRef> OpenBookAsync(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            IFileSystem fileSystem = EnvironmentDependencies.FileSystem;
-            if (!fileSystem.FileExists(filePath))
+            if (!FileSystem.FileExists(filePath))
             {
                 throw new FileNotFoundException("Specified EPUB file not found.", filePath);
             }
@@ -73,7 +72,7 @@ namespace VersOne.Epub
         /// <returns>EPUB book with all its content. This object does not retain a handle to the EPUB file.</returns>
         public static EpubBook ReadBook(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            return ReadBookAsync(filePath, epubReaderOptions).Result;
+            return ExecuteAndUnwrapAggregateException(() => ReadBookAsync(filePath, epubReaderOptions));
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace VersOne.Epub
         /// <returns>EPUB book with all its content. This object does not retain a handle to the EPUB file.</returns>
         public static EpubBook ReadBook(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
-            return ReadBookAsync(stream, epubReaderOptions).Result;
+            return ExecuteAndUnwrapAggregateException(() => ReadBookAsync(stream, epubReaderOptions));
         }
 
         /// <summary>
@@ -118,9 +117,9 @@ namespace VersOne.Epub
             {
                 epubReaderOptions = new EpubReaderOptions();
             }
+            result = new EpubBookRef(zipFile);
             try
             {
-                result = new EpubBookRef(zipFile);
                 result.FilePath = filePath;
                 result.Schema = await SchemaReader.ReadSchemaAsync(zipFile, epubReaderOptions).ConfigureAwait(false);
                 result.Title = result.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
@@ -132,7 +131,7 @@ namespace VersOne.Epub
             }
             catch
             {
-                result?.Dispose();
+                result.Dispose();
                 throw;
             }
         }
@@ -188,7 +187,14 @@ namespace VersOne.Epub
             {
                 if (!result.AllFiles.ContainsKey(contentFileRef.Key))
                 {
-                    result.AllFiles.Add(contentFileRef.Key, await ReadByteContentFile(contentFileRef.Value).ConfigureAwait(false));
+                    if (contentFileRef.Value is EpubTextContentFileRef)
+                    {
+                        result.AllFiles.Add(contentFileRef.Key, await ReadTextContentFile(contentFileRef.Value).ConfigureAwait(false));
+                    }
+                    else
+                    {
+                        result.AllFiles.Add(contentFileRef.Key, await ReadByteContentFile(contentFileRef.Value).ConfigureAwait(false));
+                    }
                 }
             }
             if (contentRef.Cover != null)
@@ -207,15 +213,7 @@ namespace VersOne.Epub
             Dictionary<string, EpubTextContentFile> result = new Dictionary<string, EpubTextContentFile>();
             foreach (KeyValuePair<string, EpubTextContentFileRef> textContentFileRef in textContentFileRefs)
             {
-                EpubTextContentFile textContentFile = new EpubTextContentFile
-                {
-                    FileName = textContentFileRef.Value.FileName,
-                    FilePathInEpubArchive = textContentFileRef.Value.FilePathInEpubArchive,
-                    ContentType = textContentFileRef.Value.ContentType,
-                    ContentMimeType = textContentFileRef.Value.ContentMimeType
-                };
-                textContentFile.Content = await textContentFileRef.Value.ReadContentAsTextAsync().ConfigureAwait(false);
-                result.Add(textContentFileRef.Key, textContentFile);
+                result.Add(textContentFileRef.Key, await ReadTextContentFile(textContentFileRef.Value).ConfigureAwait(false));
             }
             return result;
         }
@@ -227,6 +225,19 @@ namespace VersOne.Epub
             {
                 result.Add(byteContentFileRef.Key, await ReadByteContentFile(byteContentFileRef.Value).ConfigureAwait(false));
             }
+            return result;
+        }
+
+        private static async Task<EpubTextContentFile> ReadTextContentFile(EpubContentFileRef contentFileRef)
+        {
+            EpubTextContentFile result = new EpubTextContentFile
+            {
+                FileName = contentFileRef.FileName,
+                FilePathInEpubArchive = contentFileRef.FilePathInEpubArchive,
+                ContentType = contentFileRef.ContentType,
+                ContentMimeType = contentFileRef.ContentMimeType
+            };
+            result.Content = await contentFileRef.ReadContentAsTextAsync().ConfigureAwait(false);
             return result;
         }
 
@@ -266,6 +277,18 @@ namespace VersOne.Epub
                 result.Add(navigationItem);
             }
             return result;
+        }
+
+        private static T ExecuteAndUnwrapAggregateException<T>(Func<Task<T>> asyncOperation)
+        {
+            try
+            {
+                return asyncOperation().Result;
+            }
+            catch (AggregateException aggregateException)
+            {
+                throw aggregateException.InnerException;
+            }
         }
     }
 }
