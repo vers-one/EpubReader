@@ -27,6 +27,8 @@ namespace VersOne.Epub.Test.Unit.Comparers
                 Assert.Equal(expected.GetType(), actual.GetType());
                 Assert.Equal(expected.FileName, actual.FileName);
                 Assert.Equal(expected.FilePathInEpubArchive, actual.FilePathInEpubArchive);
+                Assert.Equal(expected.Href, actual.Href);
+                Assert.Equal(expected.ContentLocation, actual.ContentLocation);
                 Assert.Equal(expected.ContentType, actual.ContentType);
                 Assert.Equal(expected.ContentMimeType, actual.ContentMimeType);
             }

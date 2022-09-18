@@ -116,7 +116,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(COVER_FILE_PATH, coverFileContent);
             EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            epubBookRef.Content.Cover = new EpubByteContentFileRef(epubBookRef, COVER_FILE_NAME, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE);
+            epubBookRef.Content.Cover = new EpubByteContentFileRef(epubBookRef, COVER_FILE_NAME, EpubContentLocation.LOCAL, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE);
             return epubBookRef;
         }
 
@@ -237,7 +237,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
 
         private EpubTextContentFileRef CreateTestHtmlFileRef(EpubBookRef epubBookRef, string fileName)
         {
-            return new(epubBookRef, fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            return new(epubBookRef, fileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml");
         }
 
         private EpubNavigationItemRef CreateTestNavigationLink(string title, string htmlFileUrl, EpubTextContentFileRef htmlFileRef)

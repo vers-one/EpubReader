@@ -7,7 +7,7 @@
     public class EpubByteContentFile : EpubContentFile
     {
         /// <summary>
-        /// Gets the content of the file.
+        /// Gets the content of the file. Returns <c>null</c> if <see cref="EpubContentFile.ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         public byte[] Content { get; internal set; }
     }

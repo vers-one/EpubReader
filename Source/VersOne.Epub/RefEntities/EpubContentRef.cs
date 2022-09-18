@@ -18,27 +18,27 @@ namespace VersOne.Epub
         public EpubTextContentFileRef NavigationHtmlFile { get; internal set; }
 
         /// <summary>
-        /// Gets all HTML/XHTML content file references of the EPUB book keyed by their relative file paths.
+        /// Gets all HTML/XHTML content file references of the EPUB book keyed by their relative file paths (for local content) or absolute URIs (for remote content).
         /// </summary>
         public Dictionary<string, EpubTextContentFileRef> Html { get; internal set; }
 
         /// <summary>
-        /// Gets all CSS file references of the EPUB book keyed by their relative file paths.
+        /// Gets all CSS file references of the EPUB book keyed by their relative file paths (for local content) or absolute URIs (for remote content).
         /// </summary>
         public Dictionary<string, EpubTextContentFileRef> Css { get; internal set; }
 
         /// <summary>
-        /// Gets all image file references of the EPUB book keyed by their relative file paths.
+        /// Gets all image file references of the EPUB book keyed by their relative file paths (for local content) or absolute URIs (for remote content).
         /// </summary>
         public Dictionary<string, EpubByteContentFileRef> Images { get; internal set; }
 
         /// <summary>
-        /// Gets all embedded font file references of the EPUB book keyed by their relative file paths.
+        /// Gets all embedded font file references of the EPUB book keyed by their relative file paths (for local content) or absolute URIs (for remote content).
         /// </summary>
         public Dictionary<string, EpubByteContentFileRef> Fonts { get; internal set; }
 
         /// <summary>
-        /// Gets all content file references of the EPUB book keyed by their relative file paths.
+        /// Gets all content file references of the EPUB book keyed by their relative file paths (for local content) or absolute URIs (for remote content).
         /// </summary>
         public Dictionary<string, EpubContentFileRef> AllFiles { get; internal set; }
     }

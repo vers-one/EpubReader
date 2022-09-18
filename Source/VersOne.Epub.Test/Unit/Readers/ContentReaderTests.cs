@@ -149,27 +149,43 @@ namespace VersOne.Epub.Test.Unit.Readers
                         {
                             EpubManifestProperty.NAV
                         }
+                    },
+                    new EpubManifestItem()
+                    {
+                        Id = "item-19",
+                        Href = "https://example.com/books/123/test.html",
+                        MediaType = "application/xhtml+xml"
+                    },
+                    new EpubManifestItem()
+                    {
+                        Id = "item-20",
+                        Href = "https://example.com/books/123/image.jpg",
+                        MediaType = "image/jpeg"
                     }
                 }
             };
-            EpubTextContentFileRef expectedFileRef1 = new(epubBookRef, "text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubTextContentFileRef expectedFileRef2 = new(epubBookRef, "doc.dtb", EpubContentType.DTBOOK, "application/x-dtbook+xml");
-            EpubTextContentFileRef expectedFileRef3 = new(epubBookRef, "toc.ncx", EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
-            EpubTextContentFileRef expectedFileRef4 = new(epubBookRef, "oeb.html", EpubContentType.OEB1_DOCUMENT, "text/x-oeb1-document");
-            EpubTextContentFileRef expectedFileRef5 = new(epubBookRef, "file.xml", EpubContentType.XML, "application/xml");
-            EpubTextContentFileRef expectedFileRef6 = new(epubBookRef, "styles.css", EpubContentType.CSS, "text/css");
-            EpubTextContentFileRef expectedFileRef7 = new(epubBookRef, "oeb.css", EpubContentType.OEB1_CSS, "text/x-oeb1-css");
-            EpubByteContentFileRef expectedFileRef8 = new(epubBookRef, "image1.gif", EpubContentType.IMAGE_GIF, "image/gif");
-            EpubByteContentFileRef expectedFileRef9 = new(epubBookRef, "image2.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubByteContentFileRef expectedFileRef10 = new(epubBookRef, "image3.png", EpubContentType.IMAGE_PNG, "image/png");
-            EpubByteContentFileRef expectedFileRef11 = new(epubBookRef, "image4.svg", EpubContentType.IMAGE_SVG, "image/svg+xml");
-            EpubByteContentFileRef expectedFileRef12 = new(epubBookRef, "font1.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
-            EpubByteContentFileRef expectedFileRef13 = new(epubBookRef, "font2.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
-            EpubByteContentFileRef expectedFileRef14 = new(epubBookRef, "font3.otf", EpubContentType.FONT_OPENTYPE, "font/opentype");
-            EpubByteContentFileRef expectedFileRef15 = new(epubBookRef, "font4.otf", EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
-            EpubByteContentFileRef expectedFileRef16 = new(epubBookRef, "video.mp4", EpubContentType.OTHER, "video/mp4");
-            EpubByteContentFileRef expectedFileRef17 = new(epubBookRef, "cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubTextContentFileRef expectedFileRef18 = new(epubBookRef, "toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubTextContentFileRef expectedFileRef1 = new(epubBookRef, "text.html", EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubTextContentFileRef expectedFileRef2 = new(epubBookRef, "doc.dtb", EpubContentLocation.LOCAL, EpubContentType.DTBOOK, "application/x-dtbook+xml");
+            EpubTextContentFileRef expectedFileRef3 = new(epubBookRef, "toc.ncx", EpubContentLocation.LOCAL, EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
+            EpubTextContentFileRef expectedFileRef4 = new(epubBookRef, "oeb.html", EpubContentLocation.LOCAL, EpubContentType.OEB1_DOCUMENT, "text/x-oeb1-document");
+            EpubTextContentFileRef expectedFileRef5 = new(epubBookRef, "file.xml", EpubContentLocation.LOCAL, EpubContentType.XML, "application/xml");
+            EpubTextContentFileRef expectedFileRef6 = new(epubBookRef, "styles.css", EpubContentLocation.LOCAL, EpubContentType.CSS, "text/css");
+            EpubTextContentFileRef expectedFileRef7 = new(epubBookRef, "oeb.css", EpubContentLocation.LOCAL, EpubContentType.OEB1_CSS, "text/x-oeb1-css");
+            EpubByteContentFileRef expectedFileRef8 = new(epubBookRef, "image1.gif", EpubContentLocation.LOCAL, EpubContentType.IMAGE_GIF, "image/gif");
+            EpubByteContentFileRef expectedFileRef9 = new(epubBookRef, "image2.jpg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubByteContentFileRef expectedFileRef10 = new(epubBookRef, "image3.png", EpubContentLocation.LOCAL, EpubContentType.IMAGE_PNG, "image/png");
+            EpubByteContentFileRef expectedFileRef11 = new(epubBookRef, "image4.svg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_SVG, "image/svg+xml");
+            EpubByteContentFileRef expectedFileRef12 = new(epubBookRef, "font1.ttf", EpubContentLocation.LOCAL, EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubByteContentFileRef expectedFileRef13 = new(epubBookRef, "font2.ttf", EpubContentLocation.LOCAL, EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
+            EpubByteContentFileRef expectedFileRef14 = new(epubBookRef, "font3.otf", EpubContentLocation.LOCAL, EpubContentType.FONT_OPENTYPE, "font/opentype");
+            EpubByteContentFileRef expectedFileRef15 = new(epubBookRef, "font4.otf", EpubContentLocation.LOCAL, EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
+            EpubByteContentFileRef expectedFileRef16 = new(epubBookRef, "video.mp4", EpubContentLocation.LOCAL, EpubContentType.OTHER, "video/mp4");
+            EpubByteContentFileRef expectedFileRef17 = new(epubBookRef, "cover.jpg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubTextContentFileRef expectedFileRef18 = new(epubBookRef, "toc.html", EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubTextContentFileRef expectedFileRef19 =
+                new(epubBookRef, "https://example.com/books/123/test.html", EpubContentLocation.REMOTE, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubByteContentFileRef expectedFileRef20 =
+                new(epubBookRef, "https://example.com/books/123/image.jpg", EpubContentLocation.REMOTE, EpubContentType.IMAGE_JPEG, "image/jpeg");
             EpubContentRef expectedContentMap = new()
             {
                 Html = new Dictionary<string, EpubTextContentFileRef>()
@@ -181,6 +197,10 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         "toc.html",
                         expectedFileRef18
+                    },
+                    {
+                        "https://example.com/books/123/test.html",
+                        expectedFileRef19
                     }
                 },
                 Css = new Dictionary<string, EpubTextContentFileRef>()
@@ -211,6 +231,10 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         "cover.jpg",
                         expectedFileRef17
+                    },
+                    {
+                        "https://example.com/books/123/image.jpg",
+                        expectedFileRef20
                     }
                 },
                 Fonts = new Dictionary<string, EpubByteContentFileRef>()
@@ -305,6 +329,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         "toc.html",
                         expectedFileRef18
+                    },
+                    {
+                        "https://example.com/books/123/test.html",
+                        expectedFileRef19
+                    },
+                    {
+                        "https://example.com/books/123/image.jpg",
+                        expectedFileRef20
                     }
                 },
                 NavigationHtmlFile = expectedFileRef18,
