@@ -47,6 +47,8 @@ namespace VersOne.Epub.Test.Unit.Root
         private const string AUDIO_MPEG_CONTENT_MIME_TYPE = "audio/mpeg";
         private const string AUDIO_FILE_NAME = "audio.mp3";
         private const string AUDIO_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{AUDIO_FILE_NAME}";
+        private const string REMOTE_TEXT_CONTENT_ITEM_HREF = "https://example.com/books/123/test.html";
+        private const string REMOTE_BYTE_CONTENT_ITEM_HREF = "https://example.com/books/123/image.jpg";
         private const string BOOK_TITLE = "Test title";
         private const string BOOK_AUTHOR = "John Doe";
         private const string BOOK_DESCRIPTION = "Test description";
@@ -85,7 +87,7 @@ namespace VersOne.Epub.Test.Unit.Root
                 <dc:title>{BOOK_TITLE}</dc:title>
                 <dc:creator>{BOOK_AUTHOR}</dc:creator>
                 <dc:description>{BOOK_DESCRIPTION}</dc:description>
-            </metadata>
+              </metadata>
               <manifest>
                 <item id="item-1" href="{CHAPTER1_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />
                 <item id="item-2" href="{CHAPTER2_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />
@@ -96,6 +98,8 @@ namespace VersOne.Epub.Test.Unit.Root
                 <item id="item-7" href="{FONT1_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
                 <item id="item-8" href="{FONT2_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
                 <item id="item-9" href="{AUDIO_FILE_NAME}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
+                <item id="item-10" href="{REMOTE_TEXT_CONTENT_ITEM_HREF}" media-type="{HTML_CONTENT_MIME_TYPE}" />
+                <item id="item-11" href="{REMOTE_BYTE_CONTENT_ITEM_HREF}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
                 <item id="item-toc" href="{NAV_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" properties="nav" />
                 <item id="item-cover" href="{COVER_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" properties="cover-image" />
                 <item id="ncx" href="{NCX_FILE_NAME}" media-type="{NCX_CONTENT_MIME_TYPE}" />
@@ -406,7 +410,7 @@ namespace VersOne.Epub.Test.Unit.Root
                     Cover = null
                 }
             };
-            EpubTextContentFileRef navFileRef = new(result, NAV_FILE_NAME, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef navFileRef = new(result, NAV_FILE_NAME, EpubContentLocation.LOCAL, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
             result.Content.Html[NAV_FILE_NAME] = navFileRef;
             result.Content.AllFiles[NAV_FILE_NAME] = navFileRef;
             result.Content.NavigationHtmlFile = navFileRef;
@@ -419,6 +423,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = NAV_FILE_NAME,
                 FilePathInEpubArchive = NAV_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
                 Content = MINIMAL_NAV_FILE_CONTENT
@@ -528,18 +534,20 @@ namespace VersOne.Epub.Test.Unit.Root
                 Description = BOOK_DESCRIPTION,
                 Schema = CreateFullExpectedEpubSchema()
             };
-            EpubTextContentFileRef chapter1FileRef = new(result, CHAPTER1_FILE_NAME, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
-            EpubTextContentFileRef chapter2FileRef = new(result, CHAPTER2_FILE_NAME, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
-            EpubTextContentFileRef styles1FileRef = new(result, STYLES1_FILE_NAME, CSS_CONTENT_TYPE, CSS_CONTENT_MIME_TYPE);
-            EpubTextContentFileRef styles2FileRef = new(result, STYLES2_FILE_NAME, CSS_CONTENT_TYPE, CSS_CONTENT_MIME_TYPE);
-            EpubByteContentFileRef image1FileRef = new(result, IMAGE1_FILE_NAME, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
-            EpubByteContentFileRef image2FileRef = new(result, IMAGE2_FILE_NAME, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
-            EpubByteContentFileRef font1FileRef = new(result, FONT1_FILE_NAME, FONT_CONTENT_TYPE, FONT_CONTENT_MIME_TYPE);
-            EpubByteContentFileRef font2FileRef = new(result, FONT2_FILE_NAME, FONT_CONTENT_TYPE, FONT_CONTENT_MIME_TYPE);
-            EpubByteContentFileRef audioFileRef = new(result, AUDIO_FILE_NAME, OTHER_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
-            EpubTextContentFileRef navFileRef = new(result, NAV_FILE_NAME, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
-            EpubByteContentFileRef coverFileRef = new(result, COVER_FILE_NAME, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
-            EpubTextContentFileRef ncxFileRef = new(result, NCX_FILE_NAME, NCX_CONTENT_TYPE, NCX_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef chapter1FileRef = new(result, CHAPTER1_FILE_NAME, EpubContentLocation.LOCAL, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef chapter2FileRef = new(result, CHAPTER2_FILE_NAME, EpubContentLocation.LOCAL, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef styles1FileRef = new(result, STYLES1_FILE_NAME, EpubContentLocation.LOCAL, CSS_CONTENT_TYPE, CSS_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef styles2FileRef = new(result, STYLES2_FILE_NAME, EpubContentLocation.LOCAL, CSS_CONTENT_TYPE, CSS_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef image1FileRef = new(result, IMAGE1_FILE_NAME, EpubContentLocation.LOCAL, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef image2FileRef = new(result, IMAGE2_FILE_NAME, EpubContentLocation.LOCAL, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef font1FileRef = new(result, FONT1_FILE_NAME, EpubContentLocation.LOCAL, FONT_CONTENT_TYPE, FONT_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef font2FileRef = new(result, FONT2_FILE_NAME, EpubContentLocation.LOCAL, FONT_CONTENT_TYPE, FONT_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef audioFileRef = new(result, AUDIO_FILE_NAME, EpubContentLocation.LOCAL, OTHER_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef remoteTextContentItemRef = new(result, REMOTE_TEXT_CONTENT_ITEM_HREF, EpubContentLocation.REMOTE, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef remoteByteContentItemRef = new(result, REMOTE_BYTE_CONTENT_ITEM_HREF, EpubContentLocation.REMOTE, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef navFileRef = new(result, NAV_FILE_NAME, EpubContentLocation.LOCAL, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
+            EpubByteContentFileRef coverFileRef = new(result, COVER_FILE_NAME, EpubContentLocation.LOCAL, IMAGE_CONTENT_TYPE, IMAGE_CONTENT_MIME_TYPE);
+            EpubTextContentFileRef ncxFileRef = new(result, NCX_FILE_NAME, EpubContentLocation.LOCAL, NCX_CONTENT_TYPE, NCX_CONTENT_MIME_TYPE);
             result.Content = new EpubContentRef()
             {
                 Html = new Dictionary<string, EpubTextContentFileRef>()
@@ -551,6 +559,10 @@ namespace VersOne.Epub.Test.Unit.Root
                     {
                         CHAPTER2_FILE_NAME,
                         chapter2FileRef
+                    },
+                    {
+                        REMOTE_TEXT_CONTENT_ITEM_HREF,
+                        remoteTextContentItemRef
                     },
                     {
                         NAV_FILE_NAME,
@@ -577,6 +589,10 @@ namespace VersOne.Epub.Test.Unit.Root
                     {
                         IMAGE2_FILE_NAME,
                         image2FileRef
+                    },
+                    {
+                        REMOTE_BYTE_CONTENT_ITEM_HREF,
+                        remoteByteContentItemRef
                     },
                     {
                         COVER_FILE_NAME,
@@ -633,6 +649,14 @@ namespace VersOne.Epub.Test.Unit.Root
                         audioFileRef
                     },
                     {
+                        REMOTE_TEXT_CONTENT_ITEM_HREF,
+                        remoteTextContentItemRef
+                    },
+                    {
+                        REMOTE_BYTE_CONTENT_ITEM_HREF,
+                        remoteByteContentItemRef
+                    },
+                    {
                         NAV_FILE_NAME,
                         navFileRef
                     },
@@ -657,6 +681,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = CHAPTER1_FILE_NAME,
                 FilePathInEpubArchive = CHAPTER1_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
                 Content = CHAPTER1_FILE_CONTENT
@@ -665,6 +691,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = CHAPTER2_FILE_NAME,
                 FilePathInEpubArchive = CHAPTER2_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
                 Content = CHAPTER2_FILE_CONTENT
@@ -673,6 +701,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = STYLES1_FILE_NAME,
                 FilePathInEpubArchive = STYLES1_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = CSS_CONTENT_TYPE,
                 ContentMimeType = CSS_CONTENT_MIME_TYPE,
                 Content = STYLES1_FILE_CONTENT
@@ -681,6 +711,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = STYLES2_FILE_NAME,
                 FilePathInEpubArchive = STYLES2_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = CSS_CONTENT_TYPE,
                 ContentMimeType = CSS_CONTENT_MIME_TYPE,
                 Content = STYLES2_FILE_CONTENT
@@ -689,6 +721,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = IMAGE1_FILE_NAME,
                 FilePathInEpubArchive = IMAGE1_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
                 Content = IMAGE1_FILE_CONTENT
@@ -697,6 +731,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = IMAGE2_FILE_NAME,
                 FilePathInEpubArchive = IMAGE2_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
                 Content = IMAGE2_FILE_CONTENT
@@ -705,6 +741,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = FONT1_FILE_NAME,
                 FilePathInEpubArchive = FONT1_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = FONT_CONTENT_TYPE,
                 ContentMimeType = FONT_CONTENT_MIME_TYPE,
                 Content = FONT1_FILE_CONTENT
@@ -713,6 +751,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = FONT2_FILE_NAME,
                 FilePathInEpubArchive = FONT2_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = FONT_CONTENT_TYPE,
                 ContentMimeType = FONT_CONTENT_MIME_TYPE,
                 Content = FONT2_FILE_CONTENT
@@ -721,14 +761,38 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = AUDIO_FILE_NAME,
                 FilePathInEpubArchive = AUDIO_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = OTHER_CONTENT_TYPE,
                 ContentMimeType = AUDIO_MPEG_CONTENT_MIME_TYPE,
                 Content = AUDIO_FILE_CONTENT
+            };
+            EpubTextContentFile remoteTextContentItem = new()
+            {
+                FileName = null,
+                FilePathInEpubArchive = null,
+                Href = REMOTE_TEXT_CONTENT_ITEM_HREF,
+                ContentLocation = EpubContentLocation.REMOTE,
+                ContentType = HTML_CONTENT_TYPE,
+                ContentMimeType = HTML_CONTENT_MIME_TYPE,
+                Content = null
+            };
+            EpubByteContentFile remoteByteContentItem = new()
+            {
+                FileName = null,
+                FilePathInEpubArchive = null,
+                Href = REMOTE_BYTE_CONTENT_ITEM_HREF,
+                ContentLocation = EpubContentLocation.REMOTE,
+                ContentType = IMAGE_CONTENT_TYPE,
+                ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
+                Content = null
             };
             EpubTextContentFile navFile = new()
             {
                 FileName = NAV_FILE_NAME,
                 FilePathInEpubArchive = NAV_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
                 Content = FULL_NAV_FILE_CONTENT
@@ -737,6 +801,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = COVER_FILE_NAME,
                 FilePathInEpubArchive = COVER_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
                 Content = COVER_FILE_CONTENT
@@ -745,6 +811,8 @@ namespace VersOne.Epub.Test.Unit.Root
             {
                 FileName = NCX_FILE_NAME,
                 FilePathInEpubArchive = NCX_FILE_PATH,
+                Href = null,
+                ContentLocation = EpubContentLocation.LOCAL,
                 ContentType = NCX_CONTENT_TYPE,
                 ContentMimeType = NCX_CONTENT_MIME_TYPE,
                 Content = NCX_FILE_CONTENT
@@ -793,6 +861,10 @@ namespace VersOne.Epub.Test.Unit.Root
                             chapter2File
                         },
                         {
+                            REMOTE_TEXT_CONTENT_ITEM_HREF,
+                            remoteTextContentItem
+                        },
+                        {
                             NAV_FILE_NAME,
                             navFile
                         }
@@ -817,6 +889,10 @@ namespace VersOne.Epub.Test.Unit.Root
                         {
                             IMAGE2_FILE_NAME,
                             image2File
+                        },
+                        {
+                            REMOTE_BYTE_CONTENT_ITEM_HREF,
+                            remoteByteContentItem
                         },
                         {
                             COVER_FILE_NAME,
@@ -871,6 +947,14 @@ namespace VersOne.Epub.Test.Unit.Root
                         {
                             AUDIO_FILE_NAME,
                             audioFile
+                        },
+                        {
+                            REMOTE_TEXT_CONTENT_ITEM_HREF,
+                            remoteTextContentItem
+                        },
+                        {
+                            REMOTE_BYTE_CONTENT_ITEM_HREF,
+                            remoteByteContentItem
                         },
                         {
                             NAV_FILE_NAME,
@@ -984,6 +1068,18 @@ namespace VersOne.Epub.Test.Unit.Root
                                 Id = "item-9",
                                 Href = AUDIO_FILE_NAME,
                                 MediaType = AUDIO_MPEG_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-10",
+                                Href = REMOTE_TEXT_CONTENT_ITEM_HREF,
+                                MediaType = HTML_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-11",
+                                Href = REMOTE_BYTE_CONTENT_ITEM_HREF,
+                                MediaType = IMAGE_CONTENT_MIME_TYPE
                             },
                             new EpubManifestItem()
                             {

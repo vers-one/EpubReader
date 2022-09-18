@@ -18,7 +18,8 @@ namespace VersOne.Epub.Internal
             };
             foreach (EpubManifestItem manifestItem in bookRef.Schema.Package.Manifest.Items)
             {
-                string fileName = manifestItem.Href;
+                string href = manifestItem.Href;
+                EpubContentLocation contentLocation = href.Contains("://") ? EpubContentLocation.REMOTE : EpubContentLocation.LOCAL;
                 string contentMimeType = manifestItem.MediaType;
                 EpubContentType contentType = GetContentTypeByContentMimeType(contentMimeType);
                 switch (contentType)
@@ -30,38 +31,40 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.XML:
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
-                        EpubTextContentFileRef epubTextContentFile = new EpubTextContentFileRef(bookRef, fileName, contentType, contentMimeType, contentReaderOptions);
+                        EpubTextContentFileRef epubTextContentFile =
+                            new EpubTextContentFileRef(bookRef, href, contentLocation, contentType, contentMimeType, contentReaderOptions);
                         switch (contentType)
                         {
                             case EpubContentType.XHTML_1_1:
-                                result.Html[fileName] = epubTextContentFile;
+                                result.Html[href] = epubTextContentFile;
                                 if (result.NavigationHtmlFile == null && manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.NAV))
                                 {
                                     result.NavigationHtmlFile = epubTextContentFile;
                                 }
                                 break;
                             case EpubContentType.CSS:
-                                result.Css[fileName] = epubTextContentFile;
+                                result.Css[href] = epubTextContentFile;
                                 break;
                         }
-                        result.AllFiles[fileName] = epubTextContentFile;
+                        result.AllFiles[href] = epubTextContentFile;
                         break;
                     default:
-                        EpubByteContentFileRef epubByteContentFile = new EpubByteContentFileRef(bookRef, fileName, contentType, contentMimeType, contentReaderOptions);
+                        EpubByteContentFileRef epubByteContentFile =
+                            new EpubByteContentFileRef(bookRef, href, contentLocation, contentType, contentMimeType, contentReaderOptions);
                         switch (contentType)
                         {
                             case EpubContentType.IMAGE_GIF:
                             case EpubContentType.IMAGE_JPEG:
                             case EpubContentType.IMAGE_PNG:
                             case EpubContentType.IMAGE_SVG:
-                                result.Images[fileName] = epubByteContentFile;
+                                result.Images[href] = epubByteContentFile;
                                 break;
                             case EpubContentType.FONT_TRUETYPE:
                             case EpubContentType.FONT_OPENTYPE:
-                                result.Fonts[fileName] = epubByteContentFile;
+                                result.Fonts[href] = epubByteContentFile;
                                 break;
                         }
-                        result.AllFiles[fileName] = epubByteContentFile;
+                        result.AllFiles[href] = epubByteContentFile;
                         break;
                 }
             }

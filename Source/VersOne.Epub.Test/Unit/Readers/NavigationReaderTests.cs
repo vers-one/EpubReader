@@ -573,7 +573,7 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private EpubTextContentFileRef CreateTestHtmlFile(EpubBookRef epubBookRef, string htmlFileName)
         {
-            return new(epubBookRef, htmlFileName, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            return new(epubBookRef, htmlFileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml");
         }
 
         private EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubTextContentFileRef htmlFileRef)

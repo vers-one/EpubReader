@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
+using VersOne.Epub.Utils;
 
 namespace VersOne.Epub
 {
@@ -22,15 +23,28 @@ namespace VersOne.Epub
         /// and a MIME type of the file's content.
         /// </summary>
         /// <param name="epubBookRef">EPUB book reference object which contains this content file reference.</param>
-        /// <param name="fileName">Relative file path of the content file (as it is specified in the EPUB manifest).</param>
+        /// <param name="href">Relative file path or absolute URI of the content item (as it is specified in the EPUB manifest).</param>
+        /// <param name="contentLocation">Location of the content item (local or remote).</param>
         /// <param name="contentType">The type of the content of the file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
         /// <param name="contentReaderOptions">Optional content reader options determining how to handle missing content files.</param>
-        protected EpubContentFileRef(EpubBookRef epubBookRef, string fileName, EpubContentType contentType, string contentMimeType, ContentReaderOptions contentReaderOptions = null)
+        protected EpubContentFileRef(EpubBookRef epubBookRef, string href, EpubContentLocation contentLocation, EpubContentType contentType, string contentMimeType,
+            ContentReaderOptions contentReaderOptions = null)
         {
             this.epubBookRef = epubBookRef;
-            FileName = fileName;
-            FilePathInEpubArchive = ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
+            ContentLocation = contentLocation;
+            if (contentLocation == EpubContentLocation.LOCAL)
+            {
+                FileName = href;
+                FilePathInEpubArchive = ZipPathUtils.Combine(epubBookRef.Schema.ContentDirectoryPath, FileName);
+                Href = null;
+            }
+            else
+            {
+                FileName = null;
+                FilePathInEpubArchive = null;
+                Href = href;
+            }
             ContentType = contentType;
             ContentMimeType = contentMimeType;
             this.contentReaderOptions = contentReaderOptions;
@@ -39,13 +53,26 @@ namespace VersOne.Epub
 
         /// <summary>
         /// Gets the relative file path of the content file (as it is specified in the EPUB manifest).
+        /// Returns <c>null</c> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         public string FileName { get; }
 
         /// <summary>
         /// Gets the absolute file path of the content file in the EPUB archive.
+        /// Returns <c>null</c> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         public string FilePathInEpubArchive { get; }
+
+        /// <summary>
+        /// Gets the absolute URI of the content item (as it is specified in the EPUB manifest).
+        /// Returns <c>null</c> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.LOCAL" />.
+        /// </summary>
+        public string Href { get; internal set; }
+
+        /// <summary>
+        /// Gets the location of the content item (local or remote).
+        /// </summary>
+        public EpubContentLocation ContentLocation { get; internal set; }
 
         /// <summary>
         /// Gets the type of the content of the file.
@@ -59,15 +86,17 @@ namespace VersOne.Epub
 
         /// <summary>
         /// Reads the whole content of the referenced file and returns it as a byte array.
+        /// Throws <see cref="InvalidOperationException" /> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         /// <returns>Content of the referenced file.</returns>
         public byte[] ReadContentAsBytes()
         {
-            return ReadContentAsBytesAsync().Result;
+            return ReadContentAsBytesAsync().ExecuteAndUnwrapAggregateException();
         }
 
         /// <summary>
         /// Asynchronously reads the whole content of the referenced file and returns it as a byte array.
+        /// Throws <see cref="InvalidOperationException" /> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         /// <returns>A task that represents the asynchronous read operation. The value of the TResult parameter contains the content of the referenced file.</returns>
         public async Task<byte[]> ReadContentAsBytesAsync()
@@ -84,15 +113,17 @@ namespace VersOne.Epub
 
         /// <summary>
         /// Reads the whole content of the referenced file and returns it as a string.
+        /// Throws <see cref="InvalidOperationException" /> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         /// <returns>Content of the referenced file.</returns>
         public string ReadContentAsText()
         {
-            return ReadContentAsTextAsync().Result;
+            return ReadContentAsTextAsync().ExecuteAndUnwrapAggregateException();
         }
 
         /// <summary>
         /// Asynchronously reads the whole content of the referenced file and returns it as a string.
+        /// Throws <see cref="InvalidOperationException" /> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         /// <returns>A task that represents the asynchronous read operation. The value of the TResult parameter contains the content of the referenced file.</returns>
         public async Task<string> ReadContentAsTextAsync()
@@ -106,6 +137,7 @@ namespace VersOne.Epub
 
         /// <summary>
         /// Opens the referenced file and returns a <see cref="Stream" /> to access its content.
+        /// Throws <see cref="InvalidOperationException" /> if <see cref="ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         /// <returns>A <see cref="Stream" /> to access the referenced file's content.</returns>
         public Stream GetContentStream()
@@ -115,6 +147,10 @@ namespace VersOne.Epub
 
         private IZipFileEntry GetContentFileEntry()
         {
+            if (ContentLocation == EpubContentLocation.REMOTE)
+            {
+                throw new InvalidOperationException("Content cannot be retrieved for remote content items.");
+            }
             if (replacementContentFileEntry != null)
             {
                 return replacementContentFileEntry;

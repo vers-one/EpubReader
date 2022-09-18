@@ -7,7 +7,7 @@
     public class EpubTextContentFile : EpubContentFile
     {
         /// <summary>
-        /// Gets the content of the file.
+        /// Gets the content of the file. Returns <c>null</c> if <see cref="EpubContentFile.ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
         public string Content { get; internal set; }
     }
