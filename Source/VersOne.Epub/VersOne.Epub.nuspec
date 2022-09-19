@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>VersOne.Epub</id>
-        <version>3.2</version>
+        <version>3.3.0-alpha1</version>
         <title>EPUB reader</title>
         <description>.NET library for reading EPUB files</description>
         <authors>vers</authors>

@@ -6,7 +6,7 @@
         <Product />
         <Description />
         <Copyright>vers, 2015-2022</Copyright>
-        <Version>3.2</Version>
+        <Version>3.3</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<DocumentationFile></DocumentationFile>
@@ -17,7 +17,7 @@
       <AdditionalFiles Include="stylecop.json" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.44.0.52574">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.45.0.54064">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
