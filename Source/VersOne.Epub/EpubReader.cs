@@ -283,10 +283,11 @@ namespace VersOne.Epub
             List<EpubNavigationItem> result = new List<EpubNavigationItem>();
             foreach (EpubNavigationItemRef navigationItemRef in navigationItemRefs)
             {
-                EpubNavigationItem navigationItem = new EpubNavigationItem(navigationItemRef.Type)
+                EpubNavigationItem navigationItem = new EpubNavigationItem()
                 {
+                    Type = navigationItemRef.Type,
                     Title = navigationItemRef.Title,
-                    Link = navigationItemRef.Link,
+                    Link = navigationItemRef.Link
                 };
                 if (navigationItemRef.HtmlContentFileRef != null)
                 {

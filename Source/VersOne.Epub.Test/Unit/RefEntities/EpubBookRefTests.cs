@@ -242,12 +242,14 @@ namespace VersOne.Epub.Test.Unit.RefEntities
 
         private EpubNavigationItemRef CreateTestNavigationLink(string title, string htmlFileUrl, EpubTextContentFileRef htmlFileRef)
         {
-            EpubNavigationItemRef result = EpubNavigationItemRef.CreateAsLink();
-            result.Title = title;
-            result.Link = new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH);
-            result.HtmlContentFileRef = htmlFileRef;
-            result.NestedItems = new List<EpubNavigationItemRef>();
-            return result;
+            return new()
+            {
+                Type = EpubNavigationItemType.LINK,
+                Title = title,
+                Link = new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
+                HtmlContentFileRef = htmlFileRef,
+                NestedItems = new List<EpubNavigationItemRef>()
+            };
         }
     }
 }

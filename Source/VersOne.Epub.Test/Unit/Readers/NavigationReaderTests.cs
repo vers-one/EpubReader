@@ -578,20 +578,24 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubTextContentFileRef htmlFileRef)
         {
-            EpubNavigationItemRef result = EpubNavigationItemRef.CreateAsLink();
-            result.Title = title;
-            result.Link = new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH);
-            result.HtmlContentFileRef = htmlFileRef;
-            result.NestedItems = new List<EpubNavigationItemRef>();
-            return result;
+            return new()
+            {
+                Type = EpubNavigationItemType.LINK,
+                Title = title,
+                Link = new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
+                HtmlContentFileRef = htmlFileRef,
+                NestedItems = new List<EpubNavigationItemRef>()
+            };
         }
 
         private EpubNavigationItemRef CreateNavigationHeader(string title)
         {
-            EpubNavigationItemRef result = EpubNavigationItemRef.CreateAsHeader();
-            result.Title = title;
-            result.NestedItems = new List<EpubNavigationItemRef>();
-            return result;
+            return new()
+            {
+                Type = EpubNavigationItemType.HEADER,
+                Title = title,
+                NestedItems = new List<EpubNavigationItemRef>()
+            };
         }
 
         private EpubContentRef CreateContentRef(EpubTextContentFileRef navigationHtmlFile, params EpubTextContentFileRef[] htmlFiles)

@@ -10,15 +10,10 @@ namespace VersOne.Epub
     /// </summary>
     public class EpubNavigationItem
     {
-        internal EpubNavigationItem(EpubNavigationItemType type)
-        {
-            Type = type;
-        }
-
         /// <summary>
         /// Gets the value determining whether this navigation item acts as a header or as a navigation link.
         /// </summary>
-        public EpubNavigationItemType Type { get; }
+        public EpubNavigationItemType Type { get; internal set; }
 
         /// <summary>
         /// Gets the title of the navigation element (which is either the text of the header or the title of the navigation link).
@@ -39,24 +34,6 @@ namespace VersOne.Epub
         /// <para>Gets a list of child navigation elements constituting the nested navigational hierarchy within the navigation element.</para>
         /// </summary>
         public List<EpubNavigationItem> NestedItems { get; internal set; }
-
-        /// <summary>
-        /// Creates a new instance of <see cref="EpubNavigationItem" /> class with its <see cref="Type" /> property set to <see cref="EpubNavigationItemType.HEADER" />.
-        /// </summary>
-        /// <returns>A new instance of <see cref="EpubNavigationItem" /> class.</returns>
-        public static EpubNavigationItem CreateAsHeader()
-        {
-            return new EpubNavigationItem(EpubNavigationItemType.HEADER);
-        }
-
-        /// <summary>
-        /// Creates a new instance of <see cref="EpubNavigationItem" /> class with its <see cref="Type" /> property set to <see cref="EpubNavigationItemType.LINK" />.
-        /// </summary>
-        /// <returns>A new instance of <see cref="EpubNavigationItem" /> class.</returns>
-        public static EpubNavigationItem CreateAsLink()
-        {
-            return new EpubNavigationItem(EpubNavigationItemType.LINK);
-        }
 
         /// <summary>
         /// Returns a string containing the values of the <see cref="Type" /> and <see cref="Title" /> properties

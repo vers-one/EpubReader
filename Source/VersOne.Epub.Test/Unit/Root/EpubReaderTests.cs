@@ -832,15 +832,17 @@ namespace VersOne.Epub.Test.Unit.Root
                 },
                 Navigation = new List<EpubNavigationItem>()
                 {
-                    new EpubNavigationItem(EpubNavigationItemType.LINK)
+                    new EpubNavigationItem()
                     {
+                        Type = EpubNavigationItemType.LINK,
                         Title = "Chapter 1",
                         Link = new EpubNavigationItemLink(CHAPTER1_FILE_NAME, CONTENT_DIRECTORY_PATH),
                         HtmlContentFile = chapter1File,
                         NestedItems = new List<EpubNavigationItem>()
                     },
-                    new EpubNavigationItem(EpubNavigationItemType.LINK)
+                    new EpubNavigationItem()
                     {
+                        Type = EpubNavigationItemType.LINK,
                         Title = "Chapter 2",
                         Link = new EpubNavigationItemLink(CHAPTER2_FILE_NAME, CONTENT_DIRECTORY_PATH),
                         HtmlContentFile = chapter2File,
