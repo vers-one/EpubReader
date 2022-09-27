@@ -30,8 +30,11 @@ jobs:
     - name: Build test project and its dependencies
       run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
 
-    - name: Run tests
-      run: dotnet test Source\VersOne.Epub.Test --no-restore --collect:"XPlat Code Coverage" --settings Source\VersOne.Epub.Test\coverlet.runsettings
+    - name: Run unit tests
+      run: dotnet test Source\VersOne.Epub.Test --filter Unit --no-restore --collect:"XPlat Code Coverage" --settings Source\VersOne.Epub.Test\coverlet.runsettings
 
     - name: Upload code coverage result to Codecov
       uses: codecov/codecov-action@v3
+
+    - name: Run integration tests
+      run: dotnet test Source\VersOne.Epub.Test --filter Integration --no-restore
