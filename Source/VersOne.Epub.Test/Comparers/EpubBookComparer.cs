@@ -1,6 +1,4 @@
-﻿using VersOne.Epub.Test.Unit.TestUtils;
-
-namespace VersOne.Epub.Test.Unit.Comparers
+﻿namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubBookComparer
     {
@@ -13,7 +11,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             Assert.Equal(expected.AuthorList, actual.AuthorList);
             Assert.Equal(expected.Description, actual.Description);
             Assert.Equal(expected.CoverImage, actual.CoverImage);
-            AssertUtils.CollectionsEqual(expected.ReadingOrder, actual.ReadingOrder, EpubContentComparer.CompareEpubTextContentFiles);
+            CollectionComparer.CompareCollections(expected.ReadingOrder, actual.ReadingOrder, EpubContentComparer.CompareEpubTextContentFiles);
             EpubNavigationItemComparer.CompareNavigationItemLists(expected.Navigation, actual.Navigation);
             EpubContentComparer.CompareEpubContents(expected.Content, actual.Content);
             EpubSchemaComparer.CompareEpubSchemas(expected.Schema, actual.Schema);

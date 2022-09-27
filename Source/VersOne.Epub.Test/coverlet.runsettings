@@ -5,7 +5,7 @@
             <DataCollector friendlyName="XPlat code coverage">
                 <Configuration>
                     <Format>opencover</Format>
-                    <Exclude>[VersOne.Epub]VersOne.Epub.Environment.Implementation.*</Exclude>
+                    <Exclude>[VersOne.Epub]VersOne.Epub.EpubReader,[VersOne.Epub]VersOne.Epub.Environment.Implementation.*</Exclude>
                 </Configuration>
             </DataCollector>
         </DataCollectors>

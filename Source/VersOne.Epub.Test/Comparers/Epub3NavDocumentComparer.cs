@@ -1,15 +1,21 @@
 ﻿using VersOne.Epub.Schema;
-using VersOne.Epub.Test.Unit.TestUtils;
 
-namespace VersOne.Epub.Test.Unit.Comparers
+namespace VersOne.Epub.Test.Comparers
 {
     internal static class Epub3NavDocumentComparer
     {
         public static void CompareEpub3NavDocuments(Epub3NavDocument expected, Epub3NavDocument actual)
         {
-            Assert.NotNull(actual);
-            Assert.NotNull(actual.Navs);
-            AssertUtils.CollectionsEqual(expected.Navs, actual.Navs, CompareEpub3Navs);
+            if (expected == null)
+            {
+                Assert.Null(actual);
+            }
+            else
+            {
+                Assert.NotNull(actual);
+                Assert.NotNull(actual.Navs);
+                CollectionComparer.CompareCollections(expected.Navs, actual.Navs, CompareEpub3Navs);
+            }
         }
 
         private static void CompareEpub3Navs(Epub3Nav expected, Epub3Nav actual)
@@ -31,7 +37,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             {
                 Assert.NotNull(actual);
                 Assert.Equal(expected.IsHidden, actual.IsHidden);
-                AssertUtils.CollectionsEqual(expected.Lis, actual.Lis, CompareEpub3NavLis);
+                CollectionComparer.CompareCollections(expected.Lis, actual.Lis, CompareEpub3NavLis);
             }
         }
 

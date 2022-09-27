@@ -1,5 +1,5 @@
 ﻿using VersOne.Epub.Schema;
-using VersOne.Epub.Test.Unit.Comparers;
+using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
 
 namespace VersOne.Epub.Test.Unit.RefEntities

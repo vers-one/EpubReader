@@ -1,7 +1,6 @@
 ﻿using VersOne.Epub.Schema;
-using VersOne.Epub.Test.Unit.TestUtils;
 
-namespace VersOne.Epub.Test.Unit.Comparers
+namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubPackageComparer
     {
@@ -19,22 +18,22 @@ namespace VersOne.Epub.Test.Unit.Comparers
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Titles, actual.Titles);
-            AssertUtils.CollectionsEqual(expected.Creators, actual.Creators, CompareEpubMetadataCreators);
+            CollectionComparer.CompareCollections(expected.Creators, actual.Creators, CompareEpubMetadataCreators);
             Assert.Equal(expected.Subjects, actual.Subjects);
             Assert.Equal(expected.Description, actual.Description);
             Assert.Equal(expected.Publishers, actual.Publishers);
-            AssertUtils.CollectionsEqual(expected.Contributors, actual.Contributors, CompareEpubMetadataContributors);
-            AssertUtils.CollectionsEqual(expected.Dates, actual.Dates, CompareEpubMetadataDates);
+            CollectionComparer.CompareCollections(expected.Contributors, actual.Contributors, CompareEpubMetadataContributors);
+            CollectionComparer.CompareCollections(expected.Dates, actual.Dates, CompareEpubMetadataDates);
             Assert.Equal(expected.Types, actual.Types);
             Assert.Equal(expected.Formats, actual.Formats);
-            AssertUtils.CollectionsEqual(expected.Identifiers, actual.Identifiers, CompareEpubMetadataIdentifiers);
+            CollectionComparer.CompareCollections(expected.Identifiers, actual.Identifiers, CompareEpubMetadataIdentifiers);
             Assert.Equal(expected.Sources, actual.Sources);
             Assert.Equal(expected.Languages, actual.Languages);
             Assert.Equal(expected.Relations, actual.Relations);
             Assert.Equal(expected.Coverages, actual.Coverages);
             Assert.Equal(expected.Rights, actual.Rights);
-            AssertUtils.CollectionsEqual(expected.Links, actual.Links, CompareEpubMetadataLinks);
-            AssertUtils.CollectionsEqual(expected.MetaItems, actual.MetaItems, CompareEpubMetadataMetas);
+            CollectionComparer.CompareCollections(expected.Links, actual.Links, CompareEpubMetadataLinks);
+            CollectionComparer.CompareCollections(expected.MetaItems, actual.MetaItems, CompareEpubMetadataMetas);
         }
 
         private static void CompareEpubMetadataCreators(EpubMetadataCreator expected, EpubMetadataCreator actual)
@@ -95,7 +94,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
         private static void CompareEpubManifests(EpubManifest expected, EpubManifest actual)
         {
             Assert.NotNull(actual);
-            AssertUtils.CollectionsEqual(expected.Items, actual.Items, CompareEpubManifestItems);
+            CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpubManifestItems);
         }
 
         private static void CompareEpubManifestItems(EpubManifestItem expected, EpubManifestItem actual)
@@ -118,7 +117,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.PageProgressionDirection, actual.PageProgressionDirection);
             Assert.Equal(expected.Toc, actual.Toc);
-            AssertUtils.CollectionsEqual(expected.Items, actual.Items, CompareEpubSpineItemRefs);
+            CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpubSpineItemRefs);
         }
 
         private static void CompareEpubSpineItemRefs(EpubSpineItemRef expected, EpubSpineItemRef actual)
@@ -139,7 +138,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             else
             {
                 Assert.NotNull(actual);
-                AssertUtils.CollectionsEqual(expected.Items, actual.Items, CompareEpubGuideReferences);
+                CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpubGuideReferences);
             }
         }
 

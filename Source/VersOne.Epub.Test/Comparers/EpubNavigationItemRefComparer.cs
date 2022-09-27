@@ -1,6 +1,4 @@
-﻿using VersOne.Epub.Test.Unit.TestUtils;
-
-namespace VersOne.Epub.Test.Unit.Comparers
+﻿namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubNavigationItemRefComparer
     {
@@ -13,7 +11,7 @@ namespace VersOne.Epub.Test.Unit.Comparers
             else
             {
                 Assert.NotNull(actual);
-                AssertUtils.CollectionsEqual(expected, actual, CompareNavigationItemRefs);
+                CollectionComparer.CompareCollections(expected, actual, CompareNavigationItemRefs);
             }
         }
 

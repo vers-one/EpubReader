@@ -1,4 +1,4 @@
-﻿namespace VersOne.Epub.Test.Unit.Comparers
+﻿namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubBookRefComparer
     {

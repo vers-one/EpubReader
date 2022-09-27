@@ -1,6 +1,4 @@
-﻿using VersOne.Epub.Test.Unit.TestUtils;
-
-namespace VersOne.Epub.Test.Unit.Comparers
+﻿namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubContentRefComparer
     {
@@ -8,11 +6,11 @@ namespace VersOne.Epub.Test.Unit.Comparers
         {
             CompareEpubContentFileRefs(expected.Cover, actual.Cover);
             CompareEpubContentFileRefs(expected.NavigationHtmlFile, actual.NavigationHtmlFile);
-            AssertUtils.DictionariesEqual(expected.Html, actual.Html, CompareEpubContentFileRefs);
-            AssertUtils.DictionariesEqual(expected.Css, actual.Css, CompareEpubContentFileRefs);
-            AssertUtils.DictionariesEqual(expected.Images, actual.Images, CompareEpubContentFileRefs);
-            AssertUtils.DictionariesEqual(expected.Fonts, actual.Fonts, CompareEpubContentFileRefs);
-            AssertUtils.DictionariesEqual(expected.AllFiles, actual.AllFiles, CompareEpubContentFileRefs);
+            CollectionComparer.CompareDictionaries(expected.Html, actual.Html, CompareEpubContentFileRefs);
+            CollectionComparer.CompareDictionaries(expected.Css, actual.Css, CompareEpubContentFileRefs);
+            CollectionComparer.CompareDictionaries(expected.Images, actual.Images, CompareEpubContentFileRefs);
+            CollectionComparer.CompareDictionaries(expected.Fonts, actual.Fonts, CompareEpubContentFileRefs);
+            CollectionComparer.CompareDictionaries(expected.AllFiles, actual.AllFiles, CompareEpubContentFileRefs);
         }
 
         private static void CompareEpubContentFileRefs(EpubContentFileRef expected, EpubContentFileRef actual)

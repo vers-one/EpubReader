@@ -1,6 +1,4 @@
-﻿using VersOne.Epub.Test.Unit.TestUtils;
-
-namespace VersOne.Epub.Test.Unit.Comparers
+﻿namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubContentComparer
     {
@@ -8,23 +6,29 @@ namespace VersOne.Epub.Test.Unit.Comparers
         {
             CompareEpubContentFiles(expected.Cover, actual.Cover);
             CompareEpubContentFiles(expected.NavigationHtmlFile, actual.NavigationHtmlFile);
-            AssertUtils.DictionariesEqual(expected.Html, actual.Html, CompareEpubTextContentFiles);
-            AssertUtils.DictionariesEqual(expected.Css, actual.Css, CompareEpubTextContentFiles);
-            AssertUtils.DictionariesEqual(expected.Images, actual.Images, CompareEpubByteContentFiles);
-            AssertUtils.DictionariesEqual(expected.Fonts, actual.Fonts, CompareEpubByteContentFiles);
-            AssertUtils.DictionariesEqual(expected.AllFiles, actual.AllFiles, CompareEpubContentFilesWithContent);
+            CollectionComparer.CompareDictionaries(expected.Html, actual.Html, CompareEpubTextContentFiles);
+            CollectionComparer.CompareDictionaries(expected.Css, actual.Css, CompareEpubTextContentFiles);
+            CollectionComparer.CompareDictionaries(expected.Images, actual.Images, CompareEpubByteContentFiles);
+            CollectionComparer.CompareDictionaries(expected.Fonts, actual.Fonts, CompareEpubByteContentFiles);
+            CollectionComparer.CompareDictionaries(expected.AllFiles, actual.AllFiles, CompareEpubContentFilesWithContent);
         }
 
         public static void CompareEpubTextContentFiles(EpubTextContentFile expected, EpubTextContentFile actual)
         {
             CompareEpubContentFiles(expected, actual);
-            Assert.Equal(expected.Content, actual.Content);
+            if (expected != null)
+            {
+                Assert.Equal(expected.Content, actual.Content);
+            }
         }
 
         public static void CompareEpubByteContentFiles(EpubByteContentFile expected, EpubByteContentFile actual)
         {
             CompareEpubContentFiles(expected, actual);
-            Assert.Equal(expected.Content, actual.Content);
+            if (expected != null)
+            {
+                Assert.Equal(expected.Content, actual.Content);
+            }
         }
 
         private static void CompareEpubContentFilesWithContent(EpubContentFile expected, EpubContentFile actual)

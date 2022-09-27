@@ -1,8 +1,8 @@
-﻿namespace VersOne.Epub.Test.Unit.TestUtils
+﻿namespace VersOne.Epub.Test.Comparers
 {
-    internal static class AssertUtils
+    internal static class CollectionComparer
     {
-        public static void CollectionsEqual<T>(IList<T> expected, IList<T> actual, Action<T, T> elementComparer)
+        public static void CompareCollections<T>(IList<T> expected, IList<T> actual, Action<T, T> elementComparer)
         {
             Assert.Equal(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
@@ -11,7 +11,7 @@
             }
         }
 
-        public static void DictionariesEqual<TKey, TValue>(IDictionary<TKey, TValue> expected, IDictionary<TKey, TValue> actual, Action<TValue, TValue> elementValueComprarer)
+        public static void CompareDictionaries<TKey, TValue>(IDictionary<TKey, TValue> expected, IDictionary<TKey, TValue> actual, Action<TValue, TValue> elementValueComprarer)
         {
             Assert.Equal(expected.Count, actual.Count);
             foreach (KeyValuePair<TKey, TValue> expectedKeyValuePair in expected)
