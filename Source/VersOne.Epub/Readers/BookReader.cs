@@ -48,7 +48,7 @@ namespace VersOne.Epub.Internal
                 List<EpubTextContentFileRef> htmlContentFileRefs = await epubBookRef.GetReadingOrderAsync().ConfigureAwait(false);
                 result.ReadingOrder = ReadReadingOrder(result, htmlContentFileRefs);
                 List<EpubNavigationItemRef> navigationItemRefs = await epubBookRef.GetNavigationAsync().ConfigureAwait(false);
-                result.Navigation = ReadNavigation(result, navigationItemRefs);
+                result.Navigation = navigationItemRefs != null ? ReadNavigation(result, navigationItemRefs) : null;
             }
             return result;
         }

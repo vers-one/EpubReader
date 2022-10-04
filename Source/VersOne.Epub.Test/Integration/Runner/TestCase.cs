@@ -7,5 +7,6 @@ namespace VersOne.Epub.Test.Integration.Runner
         public string Name { get; set; }
         public EpubReaderOptions Options { get; set; }
         public EpubBook ExpectedResult { get; set; }
+        public TestCaseException ExpectedException { get; set; }
     }
 }

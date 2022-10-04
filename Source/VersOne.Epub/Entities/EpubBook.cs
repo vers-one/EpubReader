@@ -43,7 +43,7 @@ namespace VersOne.Epub
         public List<EpubTextContentFile> ReadingOrder { get; internal set; }
 
         /// <summary>
-        /// Gets a list of navigation elements of the book (typically the table of contents).
+        /// Gets a list of navigation elements of the book (typically the table of contents) or <c>null</c> if the book doesn't have navigation information.
         /// </summary>
         public List<EpubNavigationItem> Navigation { get; internal set; }
 

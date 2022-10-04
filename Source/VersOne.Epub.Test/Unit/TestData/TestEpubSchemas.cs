@@ -63,6 +63,49 @@ namespace VersOne.Epub.Test.Unit.TestData
             };
         }
 
+        public static EpubSchema CreateMinimalTestEpub2SchemaWithoutNavigation()
+        {
+            return new()
+            {
+                Package = new EpubPackage()
+                {
+                    EpubVersion = EpubVersion.EPUB_2,
+                    Metadata = new EpubMetadata()
+                    {
+                        Titles = new List<string>(),
+                        Creators = new List<EpubMetadataCreator>(),
+                        Subjects = new List<string>(),
+                        Description = null,
+                        Publishers = new List<string>(),
+                        Contributors = new List<EpubMetadataContributor>(),
+                        Dates = new List<EpubMetadataDate>(),
+                        Types = new List<string>(),
+                        Formats = new List<string>(),
+                        Identifiers = new List<EpubMetadataIdentifier>(),
+                        Sources = new List<string>(),
+                        Languages = new List<string>(),
+                        Relations = new List<string>(),
+                        Coverages = new List<string>(),
+                        Rights = new List<string>(),
+                        Links = new List<EpubMetadataLink>(),
+                        MetaItems = new List<EpubMetadataMeta>()
+                    },
+                    Manifest = new EpubManifest()
+                    {
+                        Items = new List<EpubManifestItem>()
+                    },
+                    Spine = new EpubSpine()
+                    {
+                        Items = new List<EpubSpineItemRef>()
+                    },
+                    Guide = null
+                },
+                Epub2Ncx = null,
+                Epub3NavDocument = null,
+                ContentDirectoryPath = CONTENT_DIRECTORY_PATH
+            };
+        }
+
         public static EpubSchema CreateFullTestEpubSchema()
         {
             return new()

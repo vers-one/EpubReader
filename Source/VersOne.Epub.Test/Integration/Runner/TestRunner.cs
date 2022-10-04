@@ -1,16 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
-using VersOne.Epub.Environment;
-using VersOne.Epub.Environment.Implementation;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Integration.JsonUtils;
-using VersOne.Epub.Test.Unit.TestData;
 
 namespace VersOne.Epub.Test.Integration.Runner
 {
     public class TestRunner
     {
         private const string TEST_CASES_DIRECTORY_NAME = "TestCases";
-        private const string TEST_CASE_FILE_NAME = "testcase.json";
+        private const string TEST_CASES_FILE_NAME = "testcases.json";
         private const string TEST_EPUB_FILE_NAME = "test.epub";
 
         private static readonly string rootTestCasesDirectory;
@@ -25,26 +22,50 @@ namespace VersOne.Epub.Test.Integration.Runner
         public void Run(string testCaseDirectoryPath)
         {
             string testCaseDirectoryAbsolutePath = Path.Combine(rootTestCasesDirectory, testCaseDirectoryPath);
-            string testCasePath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_CASE_FILE_NAME);
+            string testCasesPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_CASES_FILE_NAME);
             string testEpubPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_EPUB_FILE_NAME);
-            TestCase testCase = ReadTestCase(testCasePath, testEpubPath);
-            EpubBook epubBook = EpubReader.ReadBook(testEpubPath);
-            EpubBookComparer.CompareEpubBooks(testCase.ExpectedResult, epubBook);
+            List<TestCase> testCases = ReadTestCases(testCasesPath, testEpubPath);
+            foreach (TestCase testCase in testCases)
+            {
+                if (testCase.ExpectedResult != null)
+                {
+                    EpubBook epubBook = EpubReader.ReadBook(testEpubPath, testCase.Options);
+                    EpubBookComparer.CompareEpubBooks(testCase.ExpectedResult, epubBook);
+                }
+                else
+                {
+                    bool exceptionThrown = false;
+                    try
+                    {
+                        EpubReader.ReadBook(testEpubPath, testCase.Options);
+                    }
+                    catch (Exception actualException)
+                    {
+                        exceptionThrown = true;
+                        Assert.Equal(actualException.GetType().Name, testCase.ExpectedException.Type);
+                        if (testCase.ExpectedException.Message != null)
+                        {
+                            Assert.Equal(actualException.Message, testCase.ExpectedException.Message);
+                        }
+                    }
+                    Assert.True(exceptionThrown, $"Expected exception was not thrown for the test case: {testCase.Name}");
+                }
+            }
         }
 
-        private TestCase ReadTestCase(string testCasePath, string testEpubPath)
+        private List<TestCase> ReadTestCases(string testCasePath, string testEpubPath)
         {
             using TestCaseExtensionDataHandler testCaseExtensionDataHandler = new(testEpubPath);
             using StreamReader streamReader = new(testCasePath);
             TestCaseJsonSerializer testCaseJsonSerializer = new(testCaseExtensionDataHandler);
-            TestCase testCase = testCaseJsonSerializer.Deserialize(streamReader);
-            return testCase;
+            List<TestCase> testCases = testCaseJsonSerializer.Deserialize(streamReader);
+            return testCases;
         }
 
         private void WriteTestCase(string testCasePath, string testEpubPath, EpubBook epubBook)
         {
             TestCase testCase = new()
-            {                                                                                 
+            {
                 Name = "Test case",
                 ExpectedResult = epubBook
             };
@@ -63,7 +84,7 @@ namespace VersOne.Epub.Test.Integration.Runner
 
         private static void GetTestCaseDirectories(string currentDirectory, List<string> directories)
         {
-            if (File.Exists(Path.Combine(currentDirectory, TEST_CASE_FILE_NAME)))
+            if (File.Exists(Path.Combine(currentDirectory, TEST_CASES_FILE_NAME)))
             {
                 directories.Add(currentDirectory[(rootTestCasesDirectory.Length + 1)..]);
             }

@@ -1,0 +1,229 @@
+[
+    {
+        "Name": "EPUB 3 book with invalid manifest items - without options",
+        "Options": null,
+        "ExpectedResult": null,
+        "ExpectedException":
+        {
+            "Type": "EpubPackageException",
+            "Message": "Incorrect EPUB manifest: item ID is missing"
+        }
+    },
+    {
+        "Name": "EPUB 3 book with invalid manifest items - with options",
+        "Options":
+        {
+            "PackageReaderOptions":
+            {
+                "SkipInvalidManifestItems": true
+            }
+        },
+        "ExpectedResult":
+        {
+            "Title": "Test title",
+            "Author": "John Doe",
+            "AuthorList":
+            [
+                "John Doe"
+            ],
+            "Description": null,
+            "ReadingOrder":
+            [
+            ],
+            "Navigation":
+            [
+            ],
+            "Schema":
+            {
+                "Package":
+                {
+                    "EpubVersion": "EPUB_3",
+                    "Metadata":
+                    {
+                        "Titles":
+                        [
+                            "Test title"
+                        ],
+                        "Creators":
+                        [
+                            {
+                                "Creator": "John Doe"
+                            }
+                        ],
+                        "Subjects":
+                        [
+                        ],
+                        "Description": null,
+                        "Publishers":
+                        [
+                        ],
+                        "Contributors":
+                        [
+                        ],
+                        "Dates":
+                        [
+                        ],
+                        "Types":
+                        [
+                        ],
+                        "Formats":
+                        [
+                        ],
+                        "Identifiers":
+                        [
+                        ],
+                        "Sources":
+                        [
+                        ],
+                        "Languages":
+                        [
+                        ],
+                        "Relations":
+                        [
+                        ],
+                        "Coverages":
+                        [
+                        ],
+                        "Rights":
+                        [
+                        ],
+                        "Links":
+                        [
+                        ],
+                        "MetaItems":
+                        [
+                        ]
+                    },
+                    "Manifest":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Id": "item-1",
+                                "Href": "chapter1.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-toc",
+                                "Href": "toc.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties":
+                                [
+                                    "NAV"
+                                ]
+                            }
+                        ]
+                    },
+                    "Spine":
+                    {
+                        "Id": null,
+                        "PageProgressionDirection": null,
+                        "Toc": null,
+                        "Items":
+                        [
+                        ]
+                    },
+                    "Guide": null
+                },
+                "Epub2Ncx": null,
+                "Epub3NavDocument":
+                {
+                    "Navs":
+                    [
+                        {
+                            "Type": "TOC",
+                            "IsHidden": false,
+                            "Head": null,
+                            "Ol": null
+                        }
+                    ]
+                },
+                "ContentDirectoryPath": "Content"
+            },
+            "Content":
+            {
+                "Cover": null,
+                "NavigationHtmlFile":
+                {
+                    "FileName": "toc.html",
+                    "FilePathInEpubArchive": "Content/toc.html",
+                    "Href": null,
+                    "ContentLocation": "LOCAL",
+                    "ContentType": "XHTML_1_1",
+                    "ContentMimeType": "application/xhtml+xml",
+                    "$content": "epub://Content/toc.html"
+                },
+                "Html":
+                {
+                    "chapter1.html":
+                    {
+                        "FileName": "chapter1.html",
+                        "FilePathInEpubArchive": "Content/chapter1.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter1.html"
+                    },
+                    "toc.html":
+                    {
+                        "FileName": "toc.html",
+                        "FilePathInEpubArchive": "Content/toc.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/toc.html"
+                    }
+                },
+                "Css":
+                {
+                },
+                "Images":
+                {
+                },
+                "Fonts":
+                {
+                },
+                "AllFiles":
+                {
+                    "chapter1.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "chapter1.html",
+                        "FilePathInEpubArchive": "Content/chapter1.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter1.html"
+                    },
+                    "toc.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "toc.html",
+                        "FilePathInEpubArchive": "Content/toc.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/toc.html"
+                    }
+                }
+            },
+            "$file": "test.epub"
+        },
+        "ExpectedException": null
+    }
+]

@@ -25,6 +25,15 @@ namespace VersOne.Epub.Test.Unit.TestData
             </package>
             """;
 
+        public const string MINIMAL_EPUB2_OPF_FILE_CONTENT_WITHOUT_NAVIGATION = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
+              <metadata />
+              <manifest />
+              <spine />
+            </package>
+            """;
+
         public const string MINIMAL_NAV_FILE_CONTENT = $"""
             <html xmlns="http://www.w3.org/1999/xhtml">
               <body />
@@ -134,6 +143,14 @@ namespace VersOne.Epub.Test.Unit.TestData
             result.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE_CONTENT);
             result.AddEntry(OPF_FILE_PATH, MINIMAL_OPF_FILE_CONTENT);
             result.AddEntry(NAV_FILE_PATH, MINIMAL_NAV_FILE_CONTENT);
+            return result;
+        }
+
+        public static TestZipFile CreateMinimalTestEpub2FileWithoutNavigation()
+        {
+            TestZipFile result = new();
+            result.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE_CONTENT);
+            result.AddEntry(OPF_FILE_PATH, MINIMAL_EPUB2_OPF_FILE_CONTENT_WITHOUT_NAVIGATION);
             return result;
         }
 

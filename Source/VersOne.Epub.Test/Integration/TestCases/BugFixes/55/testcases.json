@@ -1,0 +1,198 @@
+[
+    {
+        "Name": "Issue #55: EPUB 2 NCX navigation list parsing issues",
+        "Options": null,
+        "ExpectedResult":
+        {
+            "Title": "Test title",
+            "Author": "John Doe",
+            "AuthorList":
+            [
+                "John Doe"
+            ],
+            "Description": null,
+            "ReadingOrder":
+            [
+            ],
+            "Navigation":
+            [
+            ],
+            "Schema":
+            {
+                "Package":
+                {
+                    "EpubVersion": "EPUB_2",
+                    "Metadata":
+                    {
+                        "Titles":
+                        [
+                            "Test title"
+                        ],
+                        "Creators":
+                        [
+                            {
+                                "Id": null,
+                                "Creator": "John Doe",
+                                "FileAs": null,
+                                "Role": null
+                            }
+                        ],
+                        "Subjects":
+                        [
+                        ],
+                        "Description": null,
+                        "Publishers":
+                        [
+                        ],
+                        "Contributors":
+                        [
+                        ],
+                        "Dates":
+                        [
+                        ],
+                        "Types":
+                        [
+                        ],
+                        "Formats":
+                        [
+                        ],
+                        "Identifiers":
+                        [
+                        ],
+                        "Sources":
+                        [
+                        ],
+                        "Languages":
+                        [
+                        ],
+                        "Relations":
+                        [
+                        ],
+                        "Coverages":
+                        [
+                        ],
+                        "Rights":
+                        [
+                        ],
+                        "Links":
+                        [
+                        ],
+                        "MetaItems":
+                        [
+                        ]
+                    },
+                    "Manifest":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Id": "ncx",
+                                "Href": "toc.ncx",
+                                "MediaType": "application/x-dtbncx+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            }
+                        ]
+                    },
+                    "Spine":
+                    {
+                        "Id": null,
+                        "PageProgressionDirection": null,
+                        "Toc": "ncx",
+                        "Items":
+                        [
+                        ]
+                    },
+                    "Guide": null
+                },
+                "Epub2Ncx":
+                {
+                    "Head":
+                    {
+                        "Items":
+                        [
+                        ]
+                    },
+                    "DocTitle": null,
+                    "DocAuthors":
+                    [
+                    ],
+                    "NavMap":
+                    {
+                        "Items":
+                        [
+                        ]
+                    },
+                    "PageList": null,
+                    "NavLists":
+                    [
+                        {
+                            "Id": "navlist-1",
+                            "Class": null,
+                            "NavigationLabels":
+                            [
+                                {
+                                    "Text": "Test label"
+                                }
+                            ],
+                            "NavigationTargets":
+                            [
+                                {
+                                    "Id": "navtarget-1",
+                                    "Class": null,
+                                    "Value": null,
+                                    "PlayOrder": null,
+                                    "NavigationLabels":
+                                    [
+                                        {
+                                            "Text": "Test label"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Epub3NavDocument": null,
+                "ContentDirectoryPath": "Content"
+            },
+            "Content":
+            {
+                "Cover": null,
+                "NavigationHtmlFile": null,
+                "Html":
+                {
+                },
+                "Css":
+                {
+                },
+                "Images":
+                {
+                },
+                "Fonts":
+                {
+                },
+                "AllFiles":
+                {
+                    "toc.ncx":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "toc.ncx",
+                        "FilePathInEpubArchive": "Content/toc.ncx",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "DTBOOK_NCX",
+                        "ContentMimeType": "application/x-dtbncx+xml",
+                        "$content": "epub://Content/toc.ncx"
+                    }
+                }
+            },
+            "$file": "test.epub"
+        },
+        "ExpectedException": null
+    }
+]

@@ -14,15 +14,15 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
             TypeNameHandling = TypeNameHandling.Auto;
         }
 
-        public void Serialize(StreamWriter streamWriter, TestCase testCase)
+        public void Serialize(StreamWriter streamWriter, List<TestCase> testCases)
         {
             using TestCaseJsonTextWriter testCaseJsonTextWriter = new(streamWriter);
-            Serialize(testCaseJsonTextWriter, testCase);
+            Serialize(testCaseJsonTextWriter, testCases);
         }
 
-        public TestCase Deserialize(StreamReader streamReader)
+        public List<TestCase> Deserialize(StreamReader streamReader)
         {
-            return Deserialize(streamReader, typeof(TestCase)) as TestCase;
+            return Deserialize(streamReader, typeof(List<TestCase>)) as List<TestCase>;
         }
     }
 }

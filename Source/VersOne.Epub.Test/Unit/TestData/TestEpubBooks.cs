@@ -52,6 +52,32 @@ namespace VersOne.Epub.Test.Unit.TestData
             };
         }
 
+        public static EpubBook CreateMinimalTestEpub2BookWithoutNavigation(string epubFilePath)
+        {
+            return new()
+            {
+                FilePath = epubFilePath,
+                Title = String.Empty,
+                Author = String.Empty,
+                AuthorList = new List<string>(),
+                Description = null,
+                CoverImage = null,
+                ReadingOrder = new List<EpubTextContentFile>(),
+                Navigation = null,
+                Schema = TestEpubSchemas.CreateMinimalTestEpub2SchemaWithoutNavigation(),
+                Content = new EpubContent()
+                {
+                    Html = new Dictionary<string, EpubTextContentFile>(),
+                    Css = new Dictionary<string, EpubTextContentFile>(),
+                    Images = new Dictionary<string, EpubByteContentFile>(),
+                    Fonts = new Dictionary<string, EpubByteContentFile>(),
+                    AllFiles = new Dictionary<string, EpubContentFile>(),
+                    NavigationHtmlFile = null,
+                    Cover = null
+                }
+            };
+        }
+
         public static EpubBook CreateFullTestEpubBook(string epubFilePath)
         {
             EpubTextContentFile chapter1File = new()

@@ -16,29 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set VersOne.Epub.csproj version
+      - name: Update project versions
         id: update
-        uses: vers-one/dotnet-project-version-updater@v1.0
+        uses: vers-one/dotnet-project-version-updater@v1.2
         with:
-          file: "Source/VersOne.Epub/VersOne.Epub.csproj"
-          version: ${{ github.event.inputs.version }}
-
-      - name: Set VersOne.Epub.nuspec version
-        uses: vers-one/dotnet-project-version-updater@v1.0
-        with:
-          file: "Source/VersOne.Epub/VersOne.Epub.nuspec"
-          version: ${{ github.event.inputs.version }}
-
-      - name: Set VersOne.Epub.ConsoleDemo.csproj version
-        uses: vers-one/dotnet-project-version-updater@v1.0
-        with:
-          file: "Source/VersOne.Epub.ConsoleDemo/VersOne.Epub.ConsoleDemo.csproj"
-          version: ${{ github.event.inputs.version }}
-
-      - name: Set VersOne.Epub.WpfDemo version
-        uses: vers-one/dotnet-project-version-updater@v1.0
-        with:
-          file: "Source/VersOne.Epub.WpfDemo/Properties/AssemblyInfo.cs"
+          file: |
+            "Source/VersOne.Epub/VersOne.Epub.csproj", "Source/VersOne.Epub/VersOne.Epub.nuspec", "Source/VersOne.Epub.ConsoleDemo/VersOne.Epub.ConsoleDemo.csproj", "Source/VersOne.Epub.WpfDemo/Properties/AssemblyInfo.cs"
           version: ${{ github.event.inputs.version }}
 
       - run: |

@@ -119,7 +119,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Processes the navigational information of the EPUB book and returns a list of its navigation elements (typically the table of contents).
         /// </summary>
-        /// <returns>A list of navigation elements of the book.</returns>
+        /// <returns>A list of navigation elements of the book or <c>null</c> if the book doesn't have navigation information.</returns>
         public List<EpubNavigationItemRef> GetNavigation()
         {
             return GetNavigationAsync().Result;
@@ -130,7 +130,7 @@ namespace VersOne.Epub
         /// </summary>
         /// <returns>
         /// A task that represents the asynchronous processing operation.
-        /// The value of the TResult parameter contains a list of navigation elements of the book.
+        /// The value of the TResult parameter contains a list of navigation elements of the book or <c>null</c> if the book doesn't have navigation information.
         /// </returns>
         public async Task<List<EpubNavigationItemRef>> GetNavigationAsync()
         {

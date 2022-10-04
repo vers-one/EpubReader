@@ -15,7 +15,7 @@ namespace VersOne.Epub.Internal
             }
             else
             {
-                return GetNavigationItems(bookRef, bookRef.Schema.Epub3NavDocument);
+                return bookRef.Schema.Epub3NavDocument != null ? GetNavigationItems(bookRef, bookRef.Schema.Epub3NavDocument) : null;
             }
         }
 

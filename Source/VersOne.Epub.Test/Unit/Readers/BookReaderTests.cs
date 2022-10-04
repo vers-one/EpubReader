@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
 using VersOne.Epub.Test.Unit.TestData;
@@ -9,13 +10,30 @@ namespace VersOne.Epub.Test.Unit.Readers
     public class BookReaderTests
     {
 
-        [Fact(DisplayName = "Reading a minimal EPUB book from a file synchronously should succeed")]
+        [Fact(DisplayName = "Reading a minimal EPUB book from a file should succeed")]
         public void ReadMinimalBookFromFileTest()
         {
             TestZipFile testEpubFile = TestEpubFiles.CreateMinimalTestEpubFile();
             TestFileSystem testFileSystem = new(EPUB_FILE_PATH, testEpubFile);
             EpubBook expectedEpubBook = TestEpubBooks.CreateMinimalTestEpubBook(EPUB_FILE_PATH);
             EpubBook actualEpubBook = BookReader.ReadBook(EPUB_FILE_PATH, null, testFileSystem);
+            EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
+        }
+
+        [Fact(DisplayName = "Reading a minimal EPUB 2 book without navigation from a file with IgnoreMissingToc = true should succeed")]
+        public void ReadMinimalEpub2BookWithoutNavigationFromFileTest()
+        {
+            TestZipFile testEpubFile = TestEpubFiles.CreateMinimalTestEpub2FileWithoutNavigation();
+            TestFileSystem testFileSystem = new(EPUB_FILE_PATH, testEpubFile);
+            EpubBook expectedEpubBook = TestEpubBooks.CreateMinimalTestEpub2BookWithoutNavigation(EPUB_FILE_PATH);
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = new PackageReaderOptions()
+                {
+                    IgnoreMissingToc = true
+                }
+            };
+            EpubBook actualEpubBook = BookReader.ReadBook(EPUB_FILE_PATH, epubReaderOptions, testFileSystem);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 

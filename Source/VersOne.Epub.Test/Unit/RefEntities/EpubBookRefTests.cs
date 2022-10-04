@@ -36,7 +36,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         public void ReadCoverWithoutCoverTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
+            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
             byte[] coverContent = epubBookRef.ReadCover();
             Assert.Null(coverContent);
         }
@@ -45,7 +45,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         public async void ReadCoverAsyncWithoutCoverTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
+            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
             byte[] coverContent = await epubBookRef.ReadCoverAsync();
             Assert.Null(coverContent);
         }
@@ -98,31 +98,63 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
+        [Fact(DisplayName = "GetNavigation should return null for EPUB 2 books with no navigation")]
+        public void GetNavigationForEpub2WithNoNavigationTest()
+        {
+            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_2);
+            List<EpubNavigationItemRef> navigationItems = epubBookRef.GetNavigation();
+            Assert.Null(navigationItems);
+        }
+
+        [Fact(DisplayName = "GetNavigation should return null for EPUB 3 books with no navigation")]
+        public void GetNavigationForEpub3WithNoNavigationTest()
+        {
+            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
+            List<EpubNavigationItemRef> navigationItems = epubBookRef.GetNavigation();
+            Assert.Null(navigationItems);
+        }
+
+        [Fact(DisplayName = "GetNavigationAsync should return null for EPUB 2 books with no navigation")]
+        public async void GetNavigationAsyncForEpub2WithNoNavigationTest()
+        {
+            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_2);
+            List<EpubNavigationItemRef> navigationItems = await epubBookRef.GetNavigationAsync();
+            Assert.Null(navigationItems);
+        }
+
+        [Fact(DisplayName = "GetNavigationAsync should return null for EPUB 3 books with no navigation")]
+        public async void GetNavigationAsyncForEpub3WithNoNavigationTest()
+        {
+            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
+            List<EpubNavigationItemRef> navigationItems = await epubBookRef.GetNavigationAsync();
+            Assert.Null(navigationItems);
+        }
+
         [Fact(DisplayName = "Disposing EpubBookRef with EPUB file should succeed")]
         public void DisposeWithEpubFileTest()
         {
             TestZipFile testZipFile = new();
-            using EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
+            using EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
         }
 
         [Fact(DisplayName = "Disposing EpubBookRef without EPUB file should succeed")]
         public void DisposeWithoutEpubFileTest()
         {
-            using EpubBookRef epubBookRef = CreateEpubBookRef(null);
+            using EpubBookRef epubBookRef = CreateEpubBookRef(null, EpubVersion.EPUB_3);
         }
 
         private EpubBookRef CreateEpubBookRefWithCover(byte[] coverFileContent)
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(COVER_FILE_PATH, coverFileContent);
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
+            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
             epubBookRef.Content.Cover = new EpubByteContentFileRef(epubBookRef, COVER_FILE_NAME, EpubContentLocation.LOCAL, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE);
             return epubBookRef;
         }
 
         private EpubBookRef CreateEpubBookRefWithReadingOrder(string htmlFileName)
         {
-            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile());
+            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
             epubBookRef.Schema.Package.Spine = new EpubSpine()
             {
                 Items = new List<EpubSpineItemRef>()
@@ -158,7 +190,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
 
         private EpubBookRef CreateEpubBookRefWithNavigation(string htmlFileName, string anchorText)
         {
-            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile());
+            EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
             epubBookRef.Schema.Epub3NavDocument = new Epub3NavDocument()
             {
                 Navs = new List<Epub3Nav>()
@@ -198,7 +230,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             return epubBookRef;
         }
 
-        private EpubBookRef CreateEpubBookRef(TestZipFile testZipFile)
+        private EpubBookRef CreateEpubBookRef(TestZipFile testZipFile, EpubVersion epubVersion)
         {
             return new(testZipFile)
             {
@@ -207,7 +239,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
                     ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
                     Package = new EpubPackage()
                     {
-                        EpubVersion = EpubVersion.EPUB_3,
+                        EpubVersion = epubVersion,
                         Metadata = new EpubMetadata()
                         {
                             Titles = new List<string>(),

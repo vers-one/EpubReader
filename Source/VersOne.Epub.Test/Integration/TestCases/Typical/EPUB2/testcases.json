@@ -1,0 +1,1069 @@
+[
+    {
+        "Name": "Typical EPUB 2 book",
+        "Options": null,
+        "ExpectedResult":
+        {
+            "Title": "Test title 1",
+            "Author": "John Doe, Jane Doe",
+            "AuthorList":
+            [
+                "John Doe",
+                "Jane Doe"
+            ],
+            "Description": "Test description",
+            "ReadingOrder":
+            [
+                {
+                    "FileName": "front.html",
+                    "FilePathInEpubArchive": "Content/front.html",
+                    "Href": null,
+                    "ContentLocation": "LOCAL",
+                    "ContentType": "XHTML_1_1",
+                    "ContentMimeType": "application/xhtml+xml",
+                    "$content": "epub://Content/front.html"
+                },
+                {
+                    "FileName": "chapter1.html",
+                    "FilePathInEpubArchive": "Content/chapter1.html",
+                    "Href": null,
+                    "ContentLocation": "LOCAL",
+                    "ContentType": "XHTML_1_1",
+                    "ContentMimeType": "application/xhtml+xml",
+                    "$content": "epub://Content/chapter1.html"
+                },
+                {
+                    "FileName": "chapter2.html",
+                    "FilePathInEpubArchive": "Content/chapter2.html",
+                    "Href": null,
+                    "ContentLocation": "LOCAL",
+                    "ContentType": "XHTML_1_1",
+                    "ContentMimeType": "application/xhtml+xml",
+                    "$content": "epub://Content/chapter2.html"
+                },
+                {
+                    "FileName": "chapter3.html",
+                    "FilePathInEpubArchive": "Content/chapter3.html",
+                    "Href": null,
+                    "ContentLocation": "LOCAL",
+                    "ContentType": "XHTML_1_1",
+                    "ContentMimeType": "application/xhtml+xml",
+                    "$content": "epub://Content/chapter3.html"
+                }
+            ],
+            "Navigation":
+            [
+                {
+                    "Type": "LINK",
+                    "Title": "Chapter 1",
+                    "Link":
+                    {
+                        "ContentFileName": "chapter1.html",
+                        "ContentFilePathInEpubArchive": "Content/chapter1.html",
+                        "Anchor": null
+                    },
+                    "HtmlContentFile":
+                    {
+                        "FileName": "chapter1.html",
+                        "FilePathInEpubArchive": "Content/chapter1.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter1.html"
+                    },
+                    "NestedItems":
+                    [
+                        {
+                            "Type": "LINK",
+                            "Title": "Chapter 1.1",
+                            "Link":
+                            {
+                                "ContentFileName": "chapter1.html",
+                                "ContentFilePathInEpubArchive": "Content/chapter1.html",
+                                "Anchor": "section-1"
+                            },
+                            "HtmlContentFile":
+                            {
+                                "FileName": "chapter1.html",
+                                "FilePathInEpubArchive": "Content/chapter1.html",
+                                "Href": null,
+                                "ContentLocation": "LOCAL",
+                                "ContentType": "XHTML_1_1",
+                                "ContentMimeType": "application/xhtml+xml",
+                                "$content": "epub://Content/chapter1.html"
+                            },
+                            "NestedItems":
+                            [
+                            ]
+                        },
+                        {
+                            "Type": "LINK",
+                            "Title": "Chapter 1.2",
+                            "Link":
+                            {
+                                "ContentFileName": "chapter1.html",
+                                "ContentFilePathInEpubArchive": "Content/chapter1.html",
+                                "Anchor": "section-2"
+                            },
+                            "HtmlContentFile":
+                            {
+                                "FileName": "chapter1.html",
+                                "FilePathInEpubArchive": "Content/chapter1.html",
+                                "Href": null,
+                                "ContentLocation": "LOCAL",
+                                "ContentType": "XHTML_1_1",
+                                "ContentMimeType": "application/xhtml+xml",
+                                "$content": "epub://Content/chapter1.html"
+                            },
+                            "NestedItems":
+                            [
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "LINK",
+                    "Title": "Chapter 2",
+                    "Link":
+                    {
+                        "ContentFileName": "chapter2.html",
+                        "ContentFilePathInEpubArchive": "Content/chapter2.html",
+                        "Anchor": null
+                    },
+                    "HtmlContentFile":
+                    {
+                        "FileName": "chapter2.html",
+                        "FilePathInEpubArchive": "Content/chapter2.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter2.html"
+                    },
+                    "NestedItems":
+                    [
+                    ]
+                },
+                {
+                    "Type": "LINK",
+                    "Title": "Chapter 3",
+                    "Link":
+                    {
+                        "ContentFileName": "chapter3.html",
+                        "ContentFilePathInEpubArchive": "Content/chapter3.html",
+                        "Anchor": null
+                    },
+                    "HtmlContentFile":
+                    {
+                        "FileName": "chapter3.html",
+                        "FilePathInEpubArchive": "Content/chapter3.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter3.html"
+                    },
+                    "NestedItems":
+                    [
+                    ]
+                }
+            ],
+            "Schema":
+            {
+                "Package":
+                {
+                    "EpubVersion": "EPUB_2",
+                    "Metadata":
+                    {
+                        "Titles":
+                        [
+                            "Test title 1",
+                            "Test title 2"
+                        ],
+                        "Creators":
+                        [
+                            {
+                                "Id": "creator-1",
+                                "Creator": "John Doe",
+                                "FileAs": "Doe, John",
+                                "Role": "author"
+                            },
+                            {
+                                "Id": "creator-2",
+                                "Creator": "Jane Doe",
+                                "FileAs": "Doe, Jane",
+                                "Role": "author"
+                            }
+                        ],
+                        "Subjects":
+                        [
+                            "Test subject 1",
+                            "Test subject 2"
+                        ],
+                        "Description": "Test description",
+                        "Publishers":
+                        [
+                            "Test publisher 1",
+                            "Test publisher 2"
+                        ],
+                        "Contributors":
+                        [
+                            {
+                                "Id": "contributor-1",
+                                "Contributor": "John Editor",
+                                "FileAs": "Editor, John",
+                                "Role": "editor"
+                            },
+                            {
+                                "Id": "contributor-2",
+                                "Contributor": "Jane Editor",
+                                "FileAs": "Editor, Jane",
+                                "Role": "editor"
+                            }
+                        ],
+                        "Dates":
+                        [
+                            {
+                                "Date": "2021-12-31T23:59:59.123456Z",
+                                "Event": "creation"
+                            },
+                            {
+                                "Date": "2022-01-23",
+                                "Event": "publication"
+                            }
+                        ],
+                        "Types":
+                        [
+                            "dictionary",
+                            "preview"
+                        ],
+                        "Formats":
+                        [
+                            "format-1",
+                            "format-2"
+                        ],
+                        "Identifiers":
+                        [
+                            {
+                                "Id": "identifier-1",
+                                "Scheme": "URI",
+                                "Identifier": "https://example.com/books/123"
+                            },
+                            {
+                                "Id": "identifier-2",
+                                "Scheme": "ISBN",
+                                "Identifier": "9781234567890"
+                            }
+                        ],
+                        "Sources":
+                        [
+                            "https://example.com/books/123/content-1.html",
+                            "https://example.com/books/123/content-2.html"
+                        ],
+                        "Languages":
+                        [
+                            "en",
+                            "is"
+                        ],
+                        "Relations":
+                        [
+                            "https://example.com/books/123/related-1.html",
+                            "https://example.com/books/123/related-2.html"
+                        ],
+                        "Coverages":
+                        [
+                            "New York",
+                            "1700-1850"
+                        ],
+                        "Rights":
+                        [
+                            "Public domain in the USA",
+                            "All rights reserved"
+                        ],
+                        "Links":
+                        [
+                        ],
+                        "MetaItems":
+                        [
+                            {
+                                "Name": "cover",
+                                "Content": "cover-image",
+                                "Id": null,
+                                "Refines": null,
+                                "Property": null,
+                                "Scheme": null
+                            },
+                            {
+                                "Name": "meta-1",
+                                "Content": "meta-1-content",
+                                "Id": null,
+                                "Refines": null,
+                                "Property": null,
+                                "Scheme": null
+                            }
+                        ]
+                    },
+                    "Manifest":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Id": "item-front",
+                                "Href": "front.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "cover",
+                                "Href": "cover.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "cover-image",
+                                "Href": "cover.jpg",
+                                "MediaType": "image/jpeg",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-css",
+                                "Href": "styles.css",
+                                "MediaType": "text/css",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-font",
+                                "Href": "font.ttf",
+                                "MediaType": "application/x-font-truetype",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-1",
+                                "Href": "chapter1.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-1-audio",
+                                "Href": "chapter1-audio.mp3",
+                                "MediaType": "audio/mpeg",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-2",
+                                "Href": "chapter2.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-2-fall",
+                                "Href": "chapter2.xml",
+                                "MediaType": "text/example+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": "http://example.com/ns/example/",
+                                "RequiredModules": "ruby, server-side-image-map",
+                                "Fallback": "item-2",
+                                "FallbackStyle": "item-css",
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-3",
+                                "Href": "chapter3.html",
+                                "MediaType": "application/xhtml+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-3-fall",
+                                "Href": "chapter3.xml",
+                                "MediaType": "application/z3998-auth+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": "item-3",
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-image",
+                                "Href": "image.jpg",
+                                "MediaType": "image/jpeg",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "item-title-audio",
+                                "Href": "title.mp3",
+                                "MediaType": "audio/mpeg",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            },
+                            {
+                                "Id": "ncx",
+                                "Href": "toc.ncx",
+                                "MediaType": "application/x-dtbncx+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            }
+                        ]
+                    },
+                    "Spine":
+                    {
+                        "Id": null,
+                        "PageProgressionDirection": null,
+                        "Toc": "ncx",
+                        "Items":
+                        [
+                            {
+                                "Id": null,
+                                "IdRef": "item-front",
+                                "IsLinear": true,
+                                "Properties": null
+                            },
+                            {
+                                "Id": null,
+                                "IdRef": "item-1",
+                                "IsLinear": true,
+                                "Properties": null
+                            },
+                            {
+                                "Id": null,
+                                "IdRef": "item-2",
+                                "IsLinear": true,
+                                "Properties": null
+                            },
+                            {
+                                "Id": null,
+                                "IdRef": "item-3",
+                                "IsLinear": true,
+                                "Properties": null
+                            }
+                        ]
+                    },
+                    "Guide":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Type": "toc",
+                                "Title": "Contents",
+                                "Href": "toc.html"
+                            }
+                        ]
+                    }
+                },
+                "Epub2Ncx":
+                {
+                    "Head":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Name": "dtb:uid",
+                                "Content": "9781234567890",
+                                "Scheme": null
+                            },
+                            {
+                                "Name": "dtb:depth",
+                                "Content": "1",
+                                "Scheme": null
+                            },
+                            {
+                                "Name": "dtb:generator",
+                                "Content": "EpubWriter",
+                                "Scheme": null
+                            },
+                            {
+                                "Name": "dtb:totalPageCount",
+                                "Content": "0",
+                                "Scheme": null
+                            },
+                            {
+                                "Name": "dtb:maxPageNumber",
+                                "Content": "0",
+                                "Scheme": null
+                            },
+                            {
+                                "Name": "location",
+                                "Content": "https://example.com/books/123/ncx",
+                                "Scheme": "URI"
+                            }
+                        ]
+                    },
+                    "DocTitle": "Test title 1",
+                    "DocAuthors":
+                    [
+                        "John Doe",
+                        "Jane Doe"
+                    ],
+                    "NavMap":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Id": "navpoint-1",
+                                "Class": "chapter",
+                                "PlayOrder": "1",
+                                "NavigationLabels":
+                                [
+                                    {
+                                        "Text": "Chapter 1"
+                                    },
+                                    {
+                                        "Text": "Capitolo 1"
+                                    }
+                                ],
+                                "Content":
+                                {
+                                    "Id": "content-1",
+                                    "Source": "chapter1.html"
+                                },
+                                "ChildNavigationPoints":
+                                [
+                                    {
+                                        "Id": "navpoint-1-1",
+                                        "Class": "section",
+                                        "PlayOrder": null,
+                                        "NavigationLabels":
+                                        [
+                                            {
+                                                "Text": "Chapter 1.1"
+                                            }
+                                        ],
+                                        "Content":
+                                        {
+                                            "Id": "content-1-1",
+                                            "Source": "chapter1.html#section-1"
+                                        },
+                                        "ChildNavigationPoints":
+                                        [
+                                        ]
+                                    },
+                                    {
+                                        "Id": "navpoint-1-2",
+                                        "Class": "section",
+                                        "PlayOrder": null,
+                                        "NavigationLabels":
+                                        [
+                                            {
+                                                "Text": "Chapter 1.2"
+                                            }
+                                        ],
+                                        "Content":
+                                        {
+                                            "Id": "content-1-2",
+                                            "Source": "chapter1.html#section-2"
+                                        },
+                                        "ChildNavigationPoints":
+                                        [
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "Id": "navpoint-2",
+                                "Class": null,
+                                "PlayOrder": null,
+                                "NavigationLabels":
+                                [
+                                    {
+                                        "Text": "Chapter 2"
+                                    }
+                                ],
+                                "Content":
+                                {
+                                    "Id": null,
+                                    "Source": "chapter2.html"
+                                },
+                                "ChildNavigationPoints":
+                                [
+                                ]
+                            },
+                            {
+                                "Id": "navpoint-3",
+                                "Class": null,
+                                "PlayOrder": null,
+                                "NavigationLabels":
+                                [
+                                    {
+                                        "Text": "Chapter 3"
+                                    }
+                                ],
+                                "Content":
+                                {
+                                    "Id": null,
+                                    "Source": "chapter3.html"
+                                },
+                                "ChildNavigationPoints":
+                                [
+                                ]
+                            }
+                        ]
+                    },
+                    "PageList":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Id": "page-target-1",
+                                "Value": "1",
+                                "Type": "FRONT",
+                                "Class": "front-matter",
+                                "PlayOrder": "1",
+                                "NavigationLabels":
+                                [
+                                    {
+                                        "Text": "1"
+                                    },
+                                    {
+                                        "Text": "I"
+                                    }
+                                ],
+                                "Content":
+                                {
+                                    "Id": null,
+                                    "Source": "front.html"
+                                }
+                            },
+                            {
+                                "Id": null,
+                                "Value": null,
+                                "Type": "NORMAL",
+                                "Class": null,
+                                "PlayOrder": null,
+                                "NavigationLabels":
+                                [
+                                    {
+                                        "Text": "2"
+                                    }
+                                ],
+                                "Content":
+                                {
+                                    "Id": "content-2",
+                                    "Source": "chapter1.html#page-2"
+                                }
+                            }
+                        ]
+                    },
+                    "NavLists":
+                    [
+                        {
+                            "Id": "navlist-1",
+                            "Class": "navlist-illustrations",
+                            "NavigationLabels":
+                            [
+                                {
+                                    "Text": "List of Illustrations"
+                                },
+                                {
+                                    "Text": "Illustrazioni"
+                                }
+                            ],
+                            "NavigationTargets":
+                            [
+                                {
+                                    "Id": "navtarget-1",
+                                    "Class": "illustration",
+                                    "Value": "Illustration 1",
+                                    "PlayOrder": "1",
+                                    "NavigationLabels":
+                                    [
+                                        {
+                                            "Text": "Illustration 1"
+                                        },
+                                        {
+                                            "Text": "Illustrazione 1"
+                                        }
+                                    ],
+                                    "Content":
+                                    {
+                                        "Id": null,
+                                        "Source": "chapter1.html#illustration-1"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "Id": "navlist-2",
+                            "Class": "navlist-tables",
+                            "NavigationLabels":
+                            [
+                                {
+                                    "Text": "List of Tables"
+                                }
+                            ],
+                            "NavigationTargets":
+                            [
+                                {
+                                    "Id": "navtarget-2",
+                                    "Class": null,
+                                    "Value": null,
+                                    "PlayOrder": null,
+                                    "NavigationLabels":
+                                    [
+                                        {
+                                            "Text": "Tables"
+                                        }
+                                    ],
+                                    "Content": null
+                                },
+                                {
+                                    "Id": "navtarget-3",
+                                    "Class": null,
+                                    "Value": null,
+                                    "PlayOrder": null,
+                                    "NavigationLabels":
+                                    [
+                                        {
+                                            "Text": "Table 1"
+                                        }
+                                    ],
+                                    "Content":
+                                    {
+                                        "Id": null,
+                                        "Source": "chapter1.html#table-1"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "Epub3NavDocument": null,
+                "ContentDirectoryPath": "Content"
+            },
+            "Content":
+            {
+                "Cover":
+                {
+                    "FileName": "cover.jpg",
+                    "FilePathInEpubArchive": "Content/cover.jpg",
+                    "Href": null,
+                    "ContentLocation": "LOCAL",
+                    "ContentType": "IMAGE_JPEG",
+                    "ContentMimeType": "image/jpeg",
+                    "$content": "epub://Content/cover.jpg"
+                },
+                "NavigationHtmlFile": null,
+                "Html":
+                {
+                    "front.html":
+                    {
+                        "FileName": "front.html",
+                        "FilePathInEpubArchive": "Content/front.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/front.html"
+                    },
+                    "cover.html":
+                    {
+                        "FileName": "cover.html",
+                        "FilePathInEpubArchive": "Content/cover.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/cover.html"
+                    },
+                    "chapter1.html":
+                    {
+                        "FileName": "chapter1.html",
+                        "FilePathInEpubArchive": "Content/chapter1.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter1.html"
+                    },
+                    "chapter2.html":
+                    {
+                        "FileName": "chapter2.html",
+                        "FilePathInEpubArchive": "Content/chapter2.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter2.html"
+                    },
+                    "chapter3.html":
+                    {
+                        "FileName": "chapter3.html",
+                        "FilePathInEpubArchive": "Content/chapter3.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter3.html"
+                    }
+                },
+                "Css":
+                {
+                    "styles.css":
+                    {
+                        "FileName": "styles.css",
+                        "FilePathInEpubArchive": "Content/styles.css",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "CSS",
+                        "ContentMimeType": "text/css",
+                        "$content": "epub://Content/styles.css"
+                    }
+                },
+                "Images":
+                {
+                    "cover.jpg":
+                    {
+                        "FileName": "cover.jpg",
+                        "FilePathInEpubArchive": "Content/cover.jpg",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "IMAGE_JPEG",
+                        "ContentMimeType": "image/jpeg",
+                        "$content": "epub://Content/cover.jpg"
+                    },
+                    "image.jpg":
+                    {
+                        "FileName": "image.jpg",
+                        "FilePathInEpubArchive": "Content/image.jpg",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "IMAGE_JPEG",
+                        "ContentMimeType": "image/jpeg",
+                        "$content": "epub://Content/image.jpg"
+                    }
+                },
+                "Fonts":
+                {
+                    "font.ttf":
+                    {
+                        "FileName": "font.ttf",
+                        "FilePathInEpubArchive": "Content/font.ttf",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "FONT_TRUETYPE",
+                        "ContentMimeType": "application/x-font-truetype",
+                        "$content": "epub://Content/font.ttf"
+                    }
+                },
+                "AllFiles":
+                {
+                    "front.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "front.html",
+                        "FilePathInEpubArchive": "Content/front.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/front.html"
+                    },
+                    "cover.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "cover.html",
+                        "FilePathInEpubArchive": "Content/cover.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/cover.html"
+                    },
+                    "chapter1.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "chapter1.html",
+                        "FilePathInEpubArchive": "Content/chapter1.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter1.html"
+                    },
+                    "chapter2.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "chapter2.html",
+                        "FilePathInEpubArchive": "Content/chapter2.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter2.html"
+                    },
+                    "chapter3.html":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "chapter3.html",
+                        "FilePathInEpubArchive": "Content/chapter3.html",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "XHTML_1_1",
+                        "ContentMimeType": "application/xhtml+xml",
+                        "$content": "epub://Content/chapter3.html"
+                    },
+                    "styles.css":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "styles.css",
+                        "FilePathInEpubArchive": "Content/styles.css",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "CSS",
+                        "ContentMimeType": "text/css",
+                        "$content": "epub://Content/styles.css"
+                    },
+                    "cover.jpg":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "cover.jpg",
+                        "FilePathInEpubArchive": "Content/cover.jpg",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "IMAGE_JPEG",
+                        "ContentMimeType": "image/jpeg",
+                        "$content": "epub://Content/cover.jpg"
+                    },
+                    "image.jpg":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "image.jpg",
+                        "FilePathInEpubArchive": "Content/image.jpg",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "IMAGE_JPEG",
+                        "ContentMimeType": "image/jpeg",
+                        "$content": "epub://Content/image.jpg"
+                    },
+                    "font.ttf":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "font.ttf",
+                        "FilePathInEpubArchive": "Content/font.ttf",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "FONT_TRUETYPE",
+                        "ContentMimeType": "application/x-font-truetype",
+                        "$content": "epub://Content/font.ttf"
+                    },
+                    "chapter1-audio.mp3":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "chapter1-audio.mp3",
+                        "FilePathInEpubArchive": "Content/chapter1-audio.mp3",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "OTHER",
+                        "ContentMimeType": "audio/mpeg",
+                        "$content": "epub://Content/chapter1-audio.mp3"
+                    },
+                    "chapter2.xml":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "chapter2.xml",
+                        "FilePathInEpubArchive": "Content/chapter2.xml",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "OTHER",
+                        "ContentMimeType": "text/example+xml",
+                        "$content": "epub://Content/chapter2.xml"
+                    },
+                    "chapter3.xml":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "chapter3.xml",
+                        "FilePathInEpubArchive": "Content/chapter3.xml",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "OTHER",
+                        "ContentMimeType": "application/z3998-auth+xml",
+                        "$content": "epub://Content/chapter3.xml"
+                    },
+                    "title.mp3":
+                    {
+                        "$type": "EpubByteContentFile",
+                        "FileName": "title.mp3",
+                        "FilePathInEpubArchive": "Content/title.mp3",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "OTHER",
+                        "ContentMimeType": "audio/mpeg",
+                        "$content": "epub://Content/title.mp3"
+                    },
+                    "toc.ncx":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "toc.ncx",
+                        "FilePathInEpubArchive": "Content/toc.ncx",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "DTBOOK_NCX",
+                        "ContentMimeType": "application/x-dtbncx+xml",
+                        "$content": "epub://Content/toc.ncx"
+                    }
+                }
+            },
+            "$file": "test.epub",
+            "$cover": "epub://Content/cover.jpg"
+        },
+        "ExpectedException": null
+    }
+]

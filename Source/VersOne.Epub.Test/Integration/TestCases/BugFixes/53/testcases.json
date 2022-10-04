@@ -1,0 +1,192 @@
+[
+    {
+        "Name": "Issue #53: EPUB schema metadata/date/event and metadata/identifier/scheme attributes are not being parsed",
+        "Options": null,
+        "ExpectedResult":
+        {
+            "Title": "Test title",
+            "Author": "John Doe",
+            "AuthorList":
+            [
+                "John Doe"
+            ],
+            "Description": null,
+            "ReadingOrder":
+            [
+            ],
+            "Navigation":
+            [
+            ],
+            "Schema":
+            {
+                "Package":
+                {
+                    "EpubVersion": "EPUB_2",
+                    "Metadata":
+                    {
+                        "Titles":
+                        [
+                            "Test title"
+                        ],
+                        "Creators":
+                        [
+                            {
+                                "Id": null,
+                                "Creator": "John Doe",
+                                "FileAs": null,
+                                "Role": null
+                            }
+                        ],
+                        "Subjects":
+                        [
+                        ],
+                        "Description": null,
+                        "Publishers":
+                        [
+                        ],
+                        "Contributors":
+                        [
+                        ],
+                        "Dates":
+                        [
+                            {
+                                "Date": "2021-12-31T23:59:59.123456Z",
+                                "Event": "creation"
+                            },
+                            {
+                                "Date": "2022-01-23",
+                                "Event": "publication"
+                            }
+                        ],
+                        "Types":
+                        [
+                        ],
+                        "Formats":
+                        [
+                        ],
+                        "Identifiers":
+                        [
+                            {
+                                "Id": "identifier-1",
+                                "Scheme": "URI",
+                                "Identifier": "https://example.com/books/123"
+                            },
+                            {
+                                "Id": "identifier-2",
+                                "Scheme": "ISBN",
+                                "Identifier": "9781234567890"
+                            }
+                        ],
+                        "Sources":
+                        [
+                        ],
+                        "Languages":
+                        [
+                        ],
+                        "Relations":
+                        [
+                        ],
+                        "Coverages":
+                        [
+                        ],
+                        "Rights":
+                        [
+                        ],
+                        "Links":
+                        [
+                        ],
+                        "MetaItems":
+                        [
+                        ]
+                    },
+                    "Manifest":
+                    {
+                        "Items":
+                        [
+                            {
+                                "Id": "ncx",
+                                "Href": "toc.ncx",
+                                "MediaType": "application/x-dtbncx+xml",
+                                "MediaOverlay": null,
+                                "RequiredNamespace": null,
+                                "RequiredModules": null,
+                                "Fallback": null,
+                                "FallbackStyle": null,
+                                "Properties": null
+                            }
+                        ]
+                    },
+                    "Spine":
+                    {
+                        "Id": null,
+                        "PageProgressionDirection": null,
+                        "Toc": "ncx",
+                        "Items":
+                        [
+                        ]
+                    },
+                    "Guide": null
+                },
+                "Epub2Ncx":
+                {
+                    "Head":
+                    {
+                        "Items":
+                        [
+                        ]
+                    },
+                    "DocTitle": "Test title",
+                    "DocAuthors":
+                    [
+                        "John Doe"
+                    ],
+                    "NavMap":
+                    {
+                        "Items":
+                        [
+                        ]
+                    },
+                    "PageList": null,
+                    "NavLists":
+                    [
+                    ]
+                },
+                "Epub3NavDocument": null,
+                "ContentDirectoryPath": "Content"
+            },
+            "Content":
+            {
+                "Cover": null,
+                "NavigationHtmlFile": null,
+                "Html":
+                {
+                },
+                "Css":
+                {
+                },
+                "Images":
+                {
+                },
+                "Fonts":
+                {
+                },
+                "AllFiles":
+                {
+                    "toc.ncx":
+                    {
+                        "$type": "EpubTextContentFile",
+                        "FileName": "toc.ncx",
+                        "FilePathInEpubArchive": "Content/toc.ncx",
+                        "Href": null,
+                        "ContentLocation": "LOCAL",
+                        "ContentType": "DTBOOK_NCX",
+                        "ContentMimeType": "application/x-dtbncx+xml",
+                        "$content": "epub://Content/toc.ncx"
+                    }
+                }
+            },
+            "$file": "test.epub"
+        },
+        "ExpectedException": null
+    }
+]
