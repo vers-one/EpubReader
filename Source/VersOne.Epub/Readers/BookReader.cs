@@ -42,7 +42,7 @@ namespace VersOne.Epub.Internal
                 result.Title = epubBookRef.Title;
                 result.AuthorList = epubBookRef.AuthorList;
                 result.Author = epubBookRef.Author;
-                result.Content = await ReadContent(epubBookRef.Content).ConfigureAwait(false);
+                result.Content = await ReadContent(epubBookRef.Content, epubBookRef.EpubFile).ConfigureAwait(false);
                 result.CoverImage = await epubBookRef.ReadCoverAsync().ConfigureAwait(false);
                 result.Description = epubBookRef.Description;
                 List<EpubTextContentFileRef> htmlContentFileRefs = await epubBookRef.GetReadingOrderAsync().ConfigureAwait(false);
@@ -53,13 +53,13 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static async Task<EpubContent> ReadContent(EpubContentRef contentRef)
+        private static async Task<EpubContent> ReadContent(EpubContentRef contentRef, IZipFile epubFile)
         {
             EpubContent result = new EpubContent();
-            result.Html = await ReadTextContentFiles(contentRef.Html).ConfigureAwait(false);
-            result.Css = await ReadTextContentFiles(contentRef.Css).ConfigureAwait(false);
-            result.Images = await ReadByteContentFiles(contentRef.Images).ConfigureAwait(false);
-            result.Fonts = await ReadByteContentFiles(contentRef.Fonts).ConfigureAwait(false);
+            result.Html = await ReadTextContentFiles(contentRef.Html, epubFile).ConfigureAwait(false);
+            result.Css = await ReadTextContentFiles(contentRef.Css, epubFile).ConfigureAwait(false);
+            result.Images = await ReadByteContentFiles(contentRef.Images, epubFile).ConfigureAwait(false);
+            result.Fonts = await ReadByteContentFiles(contentRef.Fonts, epubFile).ConfigureAwait(false);
             result.AllFiles = new Dictionary<string, EpubContentFile>();
             foreach (KeyValuePair<string, EpubTextContentFile> textContentFile in result.Html.Concat(result.Css))
             {
@@ -75,11 +75,11 @@ namespace VersOne.Epub.Internal
                 {
                     if (contentFileRef.Value is EpubTextContentFileRef)
                     {
-                        result.AllFiles.Add(contentFileRef.Key, await ReadTextContentFile(contentFileRef.Value).ConfigureAwait(false));
+                        result.AllFiles.Add(contentFileRef.Key, await ReadTextContentFile(contentFileRef.Value, epubFile).ConfigureAwait(false));
                     }
                     else
                     {
-                        result.AllFiles.Add(contentFileRef.Key, await ReadByteContentFile(contentFileRef.Value).ConfigureAwait(false));
+                        result.AllFiles.Add(contentFileRef.Key, await ReadByteContentFile(contentFileRef.Value, epubFile).ConfigureAwait(false));
                     }
                 }
             }
@@ -94,27 +94,27 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static async Task<Dictionary<string, EpubTextContentFile>> ReadTextContentFiles(Dictionary<string, EpubTextContentFileRef> textContentFileRefs)
+        private static async Task<Dictionary<string, EpubTextContentFile>> ReadTextContentFiles(Dictionary<string, EpubTextContentFileRef> textContentFileRefs, IZipFile epubFile)
         {
             Dictionary<string, EpubTextContentFile> result = new Dictionary<string, EpubTextContentFile>();
             foreach (KeyValuePair<string, EpubTextContentFileRef> textContentFileRef in textContentFileRefs)
             {
-                result.Add(textContentFileRef.Key, await ReadTextContentFile(textContentFileRef.Value).ConfigureAwait(false));
+                result.Add(textContentFileRef.Key, await ReadTextContentFile(textContentFileRef.Value, epubFile).ConfigureAwait(false));
             }
             return result;
         }
 
-        private static async Task<Dictionary<string, EpubByteContentFile>> ReadByteContentFiles(Dictionary<string, EpubByteContentFileRef> byteContentFileRefs)
+        private static async Task<Dictionary<string, EpubByteContentFile>> ReadByteContentFiles(Dictionary<string, EpubByteContentFileRef> byteContentFileRefs, IZipFile epubFile)
         {
             Dictionary<string, EpubByteContentFile> result = new Dictionary<string, EpubByteContentFile>();
             foreach (KeyValuePair<string, EpubByteContentFileRef> byteContentFileRef in byteContentFileRefs)
             {
-                result.Add(byteContentFileRef.Key, await ReadByteContentFile(byteContentFileRef.Value).ConfigureAwait(false));
+                result.Add(byteContentFileRef.Key, await ReadByteContentFile(byteContentFileRef.Value, epubFile).ConfigureAwait(false));
             }
             return result;
         }
 
-        private static async Task<EpubTextContentFile> ReadTextContentFile(EpubContentFileRef contentFileRef)
+        private static async Task<EpubTextContentFile> ReadTextContentFile(EpubContentFileRef contentFileRef, IZipFile epubFile)
         {
             EpubTextContentFile result = new EpubTextContentFile
             {
@@ -127,7 +127,7 @@ namespace VersOne.Epub.Internal
             };
             if (result.ContentLocation == EpubContentLocation.LOCAL)
             {
-                result.Content = await contentFileRef.ReadContentAsTextAsync().ConfigureAwait(false);
+                result.Content = await contentFileRef.ReadContentAsTextAsync(epubFile).ConfigureAwait(false);
             }
             else
             {
@@ -136,7 +136,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static async Task<EpubByteContentFile> ReadByteContentFile(EpubContentFileRef contentFileRef)
+        private static async Task<EpubByteContentFile> ReadByteContentFile(EpubContentFileRef contentFileRef, IZipFile epubFile)
         {
             EpubByteContentFile result = new EpubByteContentFile
             {
@@ -149,7 +149,7 @@ namespace VersOne.Epub.Internal
             };
             if (result.ContentLocation == EpubContentLocation.LOCAL)
             {
-                result.Content = await contentFileRef.ReadContentAsBytesAsync().ConfigureAwait(false);
+                result.Content = await contentFileRef.ReadContentAsBytesAsync(epubFile).ConfigureAwait(false);
             }
             else
             {

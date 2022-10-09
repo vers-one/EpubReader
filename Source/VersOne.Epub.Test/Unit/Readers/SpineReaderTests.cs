@@ -51,8 +51,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef(epubBookRef, "chapter1.html");
-            EpubTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef(epubBookRef, "chapter2.html");
+            EpubTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef("chapter1.html");
+            EpubTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef("chapter2.html");
             epubBookRef.Content.Html = new Dictionary<string, EpubTextContentFileRef>()
             {
                 {
@@ -174,9 +174,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
         }
 
-        private EpubTextContentFileRef CreateTestHtmlFileRef(EpubBookRef epubBookRef, string fileName)
+        private EpubTextContentFileRef CreateTestHtmlFileRef(string fileName)
         {
-            return new(epubBookRef, fileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            return new(fileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml", String.Empty);
         }
     }
 }

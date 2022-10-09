@@ -148,7 +148,8 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(COVER_FILE_PATH, coverFileContent);
             EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
-            epubBookRef.Content.Cover = new EpubByteContentFileRef(epubBookRef, COVER_FILE_NAME, EpubContentLocation.LOCAL, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE);
+            epubBookRef.Content.Cover =
+                new EpubByteContentFileRef(COVER_FILE_NAME, EpubContentLocation.LOCAL, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
             return epubBookRef;
         }
 
@@ -177,7 +178,7 @@ namespace VersOne.Epub.Test.Unit.RefEntities
                     }
                 }
             };
-            EpubTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(epubBookRef, htmlFileName);
+            EpubTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName);
             epubBookRef.Content.Html = new Dictionary<string, EpubTextContentFileRef>()
             {
                 {
@@ -215,10 +216,10 @@ namespace VersOne.Epub.Test.Unit.RefEntities
                     }
                 }
             };
-            EpubTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(epubBookRef, htmlFileName);
+            EpubTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName);
             epubBookRef.Content = new EpubContentRef()
             {
-                NavigationHtmlFile = CreateTestHtmlFileRef(epubBookRef, "toc.html"),
+                NavigationHtmlFile = CreateTestHtmlFileRef("toc.html"),
                 Html = new Dictionary<string, EpubTextContentFileRef>()
                 {
                     {
@@ -267,9 +268,9 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             };
         }
 
-        private EpubTextContentFileRef CreateTestHtmlFileRef(EpubBookRef epubBookRef, string fileName)
+        private EpubTextContentFileRef CreateTestHtmlFileRef(string fileName)
         {
-            return new(epubBookRef, fileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            return new(fileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml", CONTENT_DIRECTORY_PATH);
         }
 
         private EpubNavigationItemRef CreateTestNavigationLink(string title, string htmlFileUrl, EpubTextContentFileRef htmlFileRef)
