@@ -35,7 +35,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 Href = "cover.jpg",
                 MediaType = "image/jpeg"
             });
-            EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef(epubBookRef);
+            EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef();
             TestSuccessfulReadOperation(epubBookRef, expectedCoverImageFileRef);
         }
 
@@ -54,7 +54,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef(epubBookRef);
+            EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef();
             TestSuccessfulReadOperation(epubBookRef, expectedCoverImageFileRef);
         }
 
@@ -72,7 +72,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     EpubManifestProperty.COVER_IMAGE
                 }
             });
-            EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef(epubBookRef);
+            EpubByteContentFileRef expectedCoverImageFileRef = CreateTestImageFileRef();
             TestSuccessfulReadOperation(epubBookRef, expectedCoverImageFileRef);
         }
 
@@ -303,9 +303,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
         }
 
-        private EpubByteContentFileRef CreateTestImageFileRef(EpubBookRef epubBookRef)
+        private EpubByteContentFileRef CreateTestImageFileRef()
         {
-            return new(epubBookRef, "cover.jpg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_JPEG, "image/jpeg");
+            return new("cover.jpg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_JPEG, "image/jpeg", String.Empty);
         }
 
         private Dictionary<string, EpubByteContentFileRef> CreateImageContentRefs(EpubByteContentFileRef imageFileRef)

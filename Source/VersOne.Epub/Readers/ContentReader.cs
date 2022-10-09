@@ -22,6 +22,7 @@ namespace VersOne.Epub.Internal
                 EpubContentLocation contentLocation = href.Contains("://") ? EpubContentLocation.REMOTE : EpubContentLocation.LOCAL;
                 string contentMimeType = manifestItem.MediaType;
                 EpubContentType contentType = GetContentTypeByContentMimeType(contentMimeType);
+                string contentDirectoryPath = bookRef.Schema.ContentDirectoryPath;
                 switch (contentType)
                 {
                     case EpubContentType.XHTML_1_1:
@@ -32,7 +33,7 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
                         EpubTextContentFileRef epubTextContentFile =
-                            new EpubTextContentFileRef(bookRef, href, contentLocation, contentType, contentMimeType, contentReaderOptions);
+                            new EpubTextContentFileRef(href, contentLocation, contentType, contentMimeType, contentDirectoryPath, contentReaderOptions);
                         switch (contentType)
                         {
                             case EpubContentType.XHTML_1_1:
@@ -50,7 +51,7 @@ namespace VersOne.Epub.Internal
                         break;
                     default:
                         EpubByteContentFileRef epubByteContentFile =
-                            new EpubByteContentFileRef(bookRef, href, contentLocation, contentType, contentMimeType, contentReaderOptions);
+                            new EpubByteContentFileRef(href, contentLocation, contentType, contentMimeType, contentDirectoryPath, contentReaderOptions);
                         switch (contentType)
                         {
                             case EpubContentType.IMAGE_GIF:

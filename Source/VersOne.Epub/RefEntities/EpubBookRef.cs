@@ -92,7 +92,7 @@ namespace VersOne.Epub
             {
                 return null;
             }
-            return await Content.Cover.ReadContentAsBytesAsync().ConfigureAwait(false);
+            return await Content.Cover.ReadContentAsBytesAsync(EpubFile).ConfigureAwait(false);
         }
 
         /// <summary>

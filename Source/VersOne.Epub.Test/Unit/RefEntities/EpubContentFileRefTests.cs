@@ -24,10 +24,8 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         [Fact(DisplayName = "EpubTextContentFileRef with ContentLocation = LOCAL should have non-null FileName and FilePathInEpubArchive properties and null Href property")]
         public void LocalTextContentItemPropertiesTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
             Assert.Equal(LOCAL_TEXT_FILE_NAME, epubTextContentFileRef.FileName);
             Assert.Equal(TEXT_FILE_PATH, epubTextContentFileRef.FilePathInEpubArchive);
             Assert.Null(epubTextContentFileRef.Href);
@@ -36,10 +34,8 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         [Fact(DisplayName = "EpubByteContentFileRef with ContentLocation = LOCAL should have non-null FileName and FilePathInEpubArchive properties and null Href property")]
         public void LocalByteContentItemPropertiesTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubByteContentFileRef epubByteContentFileRef =
-                new(epubBookRef, LOCAL_BYTE_FILE_NAME, EpubContentLocation.LOCAL, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+                new(LOCAL_BYTE_FILE_NAME, EpubContentLocation.LOCAL, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
             Assert.Equal(LOCAL_BYTE_FILE_NAME, epubByteContentFileRef.FileName);
             Assert.Equal(BYTE_FILE_PATH, epubByteContentFileRef.FilePathInEpubArchive);
             Assert.Null(epubByteContentFileRef.Href);
@@ -48,10 +44,8 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         [Fact(DisplayName = "EpubTextContentFileRef with ContentLocation = REMOTE should have null FileName and FilePathInEpubArchive properties and non-null Href property")]
         public void RemoteTextContentItemPropertiesTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, REMOTE_TEXT_CONTENT_HREF, EpubContentLocation.REMOTE, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+                new(REMOTE_TEXT_CONTENT_HREF, EpubContentLocation.REMOTE, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
             Assert.Equal(REMOTE_TEXT_CONTENT_HREF, epubTextContentFileRef.Href);
             Assert.Null(epubTextContentFileRef.FileName);
             Assert.Null(epubTextContentFileRef.FilePathInEpubArchive);
@@ -60,10 +54,8 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         [Fact(DisplayName = "EpubByteContentFileRef with ContentLocation = REMOTE should have null FileName and FilePathInEpubArchive properties and non-null Href property")]
         public void RemoteByteContentItemPropertiesTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubByteContentFileRef epubByteContentFileRef =
-                new(epubBookRef, REMOTE_BYTE_CONTENT_HREF, EpubContentLocation.REMOTE, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+                new(REMOTE_BYTE_CONTENT_HREF, EpubContentLocation.REMOTE, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
             Assert.Equal(REMOTE_BYTE_CONTENT_HREF, epubByteContentFileRef.Href);
             Assert.Null(epubByteContentFileRef.FileName);
             Assert.Null(epubByteContentFileRef.FilePathInEpubArchive);
@@ -72,32 +64,36 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         [Fact(DisplayName = "Reading content of an existing text file synchronously should succeed")]
         public void ReadTextContentTest()
         {
+            TestZipFile testZipFile = CreateTestZipFileWithTextFile();
             EpubTextContentFileRef epubTextContentFileRef = CreateLocalTextContentFileRef();
-            string textContent = epubTextContentFileRef.ReadContent();
+            string textContent = epubTextContentFileRef.ReadContent(testZipFile);
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
         }
 
         [Fact(DisplayName = "Reading content of an existing text file asynchronously should succeed")]
         public async void ReadTextContentAsyncTest()
         {
+            TestZipFile testZipFile = CreateTestZipFileWithTextFile();
             EpubTextContentFileRef epubTextContentFileRef = CreateLocalTextContentFileRef();
-            string textContent = await epubTextContentFileRef.ReadContentAsync();
+            string textContent = await epubTextContentFileRef.ReadContentAsync(testZipFile);
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
         }
 
         [Fact(DisplayName = "Reading content of an existing byte file synchronously should succeed")]
         public void ReadByteContentTest()
         {
+            TestZipFile testZipFile = CreateTestZipFileWithByteFile();
             EpubByteContentFileRef epubByteContentFileRef = CreateLocalByteContentFileRef();
-            byte[] byteContent = epubByteContentFileRef.ReadContent();
+            byte[] byteContent = epubByteContentFileRef.ReadContent(testZipFile);
             Assert.Equal(BYTE_FILE_CONTENT, byteContent);
         }
 
         [Fact(DisplayName = "Reading content of an existing byte file asynchronously should succeed")]
         public async void ReadByteContentAsyncTest()
         {
+            TestZipFile testZipFile = CreateTestZipFileWithByteFile();
             EpubByteContentFileRef epubByteContentFileRef = CreateLocalByteContentFileRef();
-            byte[] byteContent = await epubByteContentFileRef.ReadContentAsync();
+            byte[] byteContent = await epubByteContentFileRef.ReadContentAsync(testZipFile);
             Assert.Equal(BYTE_FILE_CONTENT, byteContent);
         }
 
@@ -105,18 +101,18 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         public void GetContentStreamWithEmptyFileNameTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            EpubTextContentFileRef epubTextContentFileRef = new(epubBookRef, String.Empty, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
-            Assert.Throws<EpubPackageException>(() => epubTextContentFileRef.GetContentStream());
+            EpubTextContentFileRef epubTextContentFileRef =
+                new(String.Empty, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
+            Assert.Throws<EpubPackageException>(() => epubTextContentFileRef.GetContentStream(testZipFile));
         }
 
         [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is missing in the EPUB archive")]
         public void GetContentStreamWithMissingFileTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            EpubTextContentFileRef epubTextContentFileRef = new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
-            Assert.Throws<EpubContentException>(() => epubTextContentFileRef.GetContentStream());
+            EpubTextContentFileRef epubTextContentFileRef =
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
+            Assert.Throws<EpubContentException>(() => epubTextContentFileRef.GetContentStream(testZipFile));
         }
 
         [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is larger than 2 GB")]
@@ -124,9 +120,9 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            EpubTextContentFileRef epubTextContentFileRef = new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
-            Assert.Throws<EpubContentException>(() => epubTextContentFileRef.GetContentStream());
+            EpubTextContentFileRef epubTextContentFileRef =
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
+            Assert.Throws<EpubContentException>(() => epubTextContentFileRef.GetContentStream(testZipFile));
         }
 
         [Fact(DisplayName = "EpubContentFileRef should return an empty content if the file is missing and SuppressException is true")]
@@ -135,10 +131,9 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             ContentReaderOptions contentReaderOptions = new();
             contentReaderOptions.ContentFileMissing += (sender, e) => e.SuppressException = true;
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, contentReaderOptions);
-            string textContent = epubTextContentFileRef.ReadContent();
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH, contentReaderOptions);
+            string textContent = epubTextContentFileRef.ReadContent(testZipFile);
             Assert.Equal(String.Empty, textContent);
         }
 
@@ -148,10 +143,9 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             ContentReaderOptions contentReaderOptions = new();
             contentReaderOptions.ContentFileMissing += (sender, e) => e.ReplacementContentStream = new MemoryStream(Encoding.UTF8.GetBytes(TEXT_FILE_CONTENT));
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, contentReaderOptions);
-            string textContent = epubTextContentFileRef.ReadContent();
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH, contentReaderOptions);
+            string textContent = epubTextContentFileRef.ReadContent(testZipFile);
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
         }
 
@@ -161,12 +155,11 @@ namespace VersOne.Epub.Test.Unit.RefEntities
             ContentReaderOptions contentReaderOptions = new();
             contentReaderOptions.ContentFileMissing += (sender, e) => e.ReplacementContentStream = new MemoryStream(Encoding.UTF8.GetBytes(TEXT_FILE_CONTENT));
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, contentReaderOptions);
-            string textContent = epubTextContentFileRef.ReadContent();
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH, contentReaderOptions);
+            string textContent = epubTextContentFileRef.ReadContent(testZipFile);
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
-            textContent = epubTextContentFileRef.ReadContent();
+            textContent = epubTextContentFileRef.ReadContent(testZipFile);
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
         }
 
@@ -175,10 +168,9 @@ namespace VersOne.Epub.Test.Unit.RefEntities
         {
             ContentReaderOptions contentReaderOptions = new();
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, contentReaderOptions);
-            Assert.Throws<EpubContentException>(() => epubTextContentFileRef.GetContentStream());
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH, contentReaderOptions);
+            Assert.Throws<EpubContentException>(() => epubTextContentFileRef.GetContentStream(testZipFile));
         }
 
         [Fact(DisplayName = "ContentFileMissingEventArgs should contain details of the missing file")]
@@ -192,79 +184,122 @@ namespace VersOne.Epub.Test.Unit.RefEntities
                 contentFileMissingEventArgs = e;
             };
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
             EpubTextContentFileRef epubTextContentFileRef =
-                new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, contentReaderOptions);
-            epubTextContentFileRef.ReadContent();
+                new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH, contentReaderOptions);
+            epubTextContentFileRef.ReadContent(testZipFile);
             Assert.Equal(LOCAL_TEXT_FILE_NAME, contentFileMissingEventArgs.FileName);
             Assert.Equal(TEXT_FILE_PATH, contentFileMissingEventArgs.FilePathInEpubArchive);
             Assert.Equal(TEXT_FILE_CONTENT_TYPE, contentFileMissingEventArgs.ContentType);
             Assert.Equal(TEXT_FILE_CONTENT_MIME_TYPE, contentFileMissingEventArgs.ContentMimeType);
         }
 
+        [Fact(DisplayName = "ReadContent should throw ArgumentNullException if the supplied EPUB file is null")]
+        public void ReadContentForLocalTextContentItemWithNullEpubFileTest()
+        {
+            EpubTextContentFileRef epubTextContentFileRef = CreateLocalTextContentFileRef();
+            Assert.Throws<ArgumentNullException>(() => epubTextContentFileRef.ReadContent(null));
+        }
+
+        [Fact(DisplayName = "ReadContentAsync should throw ArgumentNullException if the supplied EPUB file is null")]
+        public async void ReadContentAsyncForLocalTextContentItemWithNullEpubFileTest()
+        {
+            EpubTextContentFileRef epubTextContentFileRef = CreateLocalTextContentFileRef();
+            await Assert.ThrowsAsync<ArgumentNullException>(() => epubTextContentFileRef.ReadContentAsync(null));
+        }
+
+        [Fact(DisplayName = "ReadContent should throw ArgumentNullException if the supplied EPUB file is null")]
+        public void ReadContentForLocalByteContentItemWithNullEpubFileTest()
+        {
+            EpubByteContentFileRef epubByteContentFileRef = CreateLocalByteContentFileRef();
+            Assert.Throws<ArgumentNullException>(() => epubByteContentFileRef.ReadContent(null));
+        }
+
+        [Fact(DisplayName = "ReadContentAsync should throw ArgumentNullException if the supplied EPUB file is null")]
+        public async void ReadContentAsyncForLocalByteContentItemWithNullEpubFileTest()
+        {
+            EpubByteContentFileRef epubByteContentFileRef = CreateLocalByteContentFileRef();
+            await Assert.ThrowsAsync<ArgumentNullException>(() => epubByteContentFileRef.ReadContentAsync(null));
+        }
+
+        [Fact(DisplayName = "GetContentStream should throw ArgumentNullException if the supplied EPUB file is null")]
+        public void GetContentStreamForLocalContentItemWithNullEpubFileTest()
+        {
+            EpubTextContentFileRef epubTextContentFileRef = CreateLocalTextContentFileRef();
+            Assert.Throws<ArgumentNullException>(() => epubTextContentFileRef.GetContentStream(null));
+        }
+
         [Fact(DisplayName = "ReadContent should throw InvalidOperationException for remote text content items")]
         public void ReadContentForRemoteTextContentItemTest()
         {
+            TestZipFile testZipFile = new();
             EpubTextContentFileRef epubTextContentFileRef = CreateRemoteTextContentFileRef();
-            Assert.Throws<InvalidOperationException>(() => epubTextContentFileRef.ReadContent());
+            Assert.Throws<InvalidOperationException>(() => epubTextContentFileRef.ReadContent(testZipFile));
         }
 
         [Fact(DisplayName = "ReadContentAsync should throw InvalidOperationException for remote text content items")]
         public async void ReadContentAsyncForRemoteTextContentItemTest()
         {
+            TestZipFile testZipFile = new();
             EpubTextContentFileRef epubTextContentFileRef = CreateRemoteTextContentFileRef();
-            await Assert.ThrowsAsync<InvalidOperationException>(() => epubTextContentFileRef.ReadContentAsync());
+            await Assert.ThrowsAsync<InvalidOperationException>(() => epubTextContentFileRef.ReadContentAsync(testZipFile));
         }
 
         [Fact(DisplayName = "ReadContent should throw InvalidOperationException for remote byte content items")]
         public void ReadContentForRemoteByteContentItemTest()
         {
+            TestZipFile testZipFile = new();
             EpubByteContentFileRef epubByteContentFileRef = CreateRemoteByteContentFileRef();
-            Assert.Throws<InvalidOperationException>(() => epubByteContentFileRef.ReadContent());
+            Assert.Throws<InvalidOperationException>(() => epubByteContentFileRef.ReadContent(testZipFile));
         }
 
         [Fact(DisplayName = "ReadContentAsync should throw InvalidOperationException for remote byte content items")]
         public async void ReadContentAsyncForRemoteByteContentItemTest()
         {
+            TestZipFile testZipFile = new();
             EpubByteContentFileRef epubByteContentFileRef = CreateRemoteByteContentFileRef();
-            await Assert.ThrowsAsync<InvalidOperationException>(() => epubByteContentFileRef.ReadContentAsync());
+            await Assert.ThrowsAsync<InvalidOperationException>(() => epubByteContentFileRef.ReadContentAsync(testZipFile));
         }
 
         [Fact(DisplayName = "GetContentStream should throw InvalidOperationException for remote content items")]
         public void GetContentStreamForRemoteContentItemTest()
         {
+            TestZipFile testZipFile = new();
             EpubTextContentFileRef epubTextContentFileRef = CreateRemoteTextContentFileRef();
-            Assert.Throws<InvalidOperationException>(() => epubTextContentFileRef.GetContentStream());
+            Assert.Throws<InvalidOperationException>(() => epubTextContentFileRef.GetContentStream(testZipFile));
+        }
+
+        private TestZipFile CreateTestZipFileWithTextFile()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(TEXT_FILE_PATH, TEXT_FILE_CONTENT);
+            return testZipFile;
+        }
+
+        private TestZipFile CreateTestZipFileWithByteFile()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(BYTE_FILE_PATH, BYTE_FILE_CONTENT);
+            return testZipFile;
         }
 
         private EpubTextContentFileRef CreateLocalTextContentFileRef()
         {
-            TestZipFile testZipFile = new();
-            testZipFile.AddEntry(TEXT_FILE_PATH, TEXT_FILE_CONTENT);
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            return new(epubBookRef, LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+            return new(LOCAL_TEXT_FILE_NAME, EpubContentLocation.LOCAL, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
         }
 
         private EpubByteContentFileRef CreateLocalByteContentFileRef()
         {
-            TestZipFile testZipFile = new();
-            testZipFile.AddEntry(BYTE_FILE_PATH, BYTE_FILE_CONTENT);
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            return new(epubBookRef, LOCAL_BYTE_FILE_NAME, EpubContentLocation.LOCAL, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+            return new(LOCAL_BYTE_FILE_NAME, EpubContentLocation.LOCAL, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
         }
 
         private EpubTextContentFileRef CreateRemoteTextContentFileRef()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            return new(epubBookRef, REMOTE_TEXT_CONTENT_HREF, EpubContentLocation.REMOTE, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+            return new(REMOTE_TEXT_CONTENT_HREF, EpubContentLocation.REMOTE, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
         }
 
         private EpubByteContentFileRef CreateRemoteByteContentFileRef()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile);
-            return new(epubBookRef, REMOTE_BYTE_CONTENT_HREF, EpubContentLocation.REMOTE, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+            return new(REMOTE_BYTE_CONTENT_HREF, EpubContentLocation.REMOTE, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, CONTENT_DIRECTORY_PATH);
         }
 
         private EpubBookRef CreateEpubBookRef(TestZipFile testZipFile)
