@@ -8,6 +8,11 @@ namespace VersOne.Epub.Environment
     public interface IZipFile : IDisposable
     {
         /// <summary>
+        /// Gets a value indicating whether this file was disposed or not.
+        /// </summary>
+        bool IsDisposed { get; }
+
+        /// <summary>
         /// Retrieves a wrapper for the specified entry in the ZIP archive.
         /// </summary>
         /// <param name="entryName">A path, relative to the root of the archive, that identifies the entry to retrieve.</param>

@@ -303,9 +303,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
         }
 
-        private EpubByteContentFileRef CreateTestImageFileRef()
+        private EpubByteContentFileRef CreateTestImageFileRef(TestZipFile testZipFile = null)
         {
-            return new("cover.jpg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_JPEG, "image/jpeg", String.Empty);
+            return new("cover.jpg", EpubContentLocation.LOCAL, EpubContentType.IMAGE_JPEG, "image/jpeg", testZipFile ?? new TestZipFile(), String.Empty);
         }
 
         private Dictionary<string, EpubByteContentFileRef> CreateImageContentRefs(EpubByteContentFileRef imageFileRef)

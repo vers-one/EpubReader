@@ -4,12 +4,15 @@ namespace VersOne.Epub.Test.Unit.Mocks
 {
     internal class TestZipFile : IZipFile
     {
-        readonly Dictionary<string, IZipFileEntry> entries;
+        private readonly Dictionary<string, IZipFileEntry> entries;
 
         public TestZipFile()
         {
             entries = new Dictionary<string, IZipFileEntry>();
+            IsDisposed = false;
         }
+
+        public bool IsDisposed { get; private set; }
 
         public void AddEntry(string entryName, IZipFileEntry entry)
         {
@@ -33,6 +36,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public void Dispose()
         {
+            IsDisposed = true;
         }
     }
 }

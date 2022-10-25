@@ -19,11 +19,12 @@ namespace VersOne.Epub
         /// <param name="contentLocation">Location of the content item (local or remote).</param>
         /// <param name="contentType">The type of the content of the file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
+        /// <param name="epubFile">The reference to the EPUB file.</param>
         /// <param name="contentDirectoryPath">The content directory path which acts as a root directory for all content files within the EPUB book.</param>
         /// <param name="contentReaderOptions">Optional content reader options determining how to handle missing content files.</param>
-        public EpubTextContentFileRef(string href, EpubContentLocation contentLocation, EpubContentType contentType, string contentMimeType, string contentDirectoryPath,
-            ContentReaderOptions contentReaderOptions = null)
-            : base(href, contentLocation, contentType, contentMimeType, contentDirectoryPath, contentReaderOptions)
+        public EpubTextContentFileRef(string href, EpubContentLocation contentLocation, EpubContentType contentType, string contentMimeType,
+            IZipFile epubFile, string contentDirectoryPath, ContentReaderOptions contentReaderOptions = null)
+            : base(href, contentLocation, contentType, contentMimeType, epubFile, contentDirectoryPath, contentReaderOptions)
         {
         }
 
@@ -31,22 +32,20 @@ namespace VersOne.Epub
         /// Reads the whole content of the referenced file and returns it as a string.
         /// Throws <see cref="InvalidOperationException" /> if <see cref="EpubContentFileRef.ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
-        /// <param name="epubFile">The reference to the EPUB file.</param>
         /// <returns>Content of the referenced file.</returns>
-        public string ReadContent(IZipFile epubFile)
+        public string ReadContent()
         {
-            return ReadContentAsText(epubFile);
+            return ReadContentAsText();
         }
 
         /// <summary>
         /// Asynchronously reads the whole content of the referenced file and returns it as a string.
         /// Throws <see cref="InvalidOperationException" /> if <see cref="EpubContentFileRef.ContentLocation" /> is <see cref="EpubContentLocation.REMOTE" />.
         /// </summary>
-        /// <param name="epubFile">The reference to the EPUB file.</param>
         /// <returns>A task that represents the asynchronous read operation. The value of the TResult parameter contains the content of the referenced file.</returns>
-        public Task<string> ReadContentAsync(IZipFile epubFile)
+        public Task<string> ReadContentAsync()
         {
-            return ReadContentAsTextAsync(epubFile);
+            return ReadContentAsTextAsync();
         }
     }
 }
