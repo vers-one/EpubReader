@@ -11,7 +11,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "Parsing content map from a minimal EPUB book ref should succeed")]
         public void ParseContentMapWithMinimalEpubBookRefTest()
         {
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef();
+            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
             EpubContentRef expectedContentMap = new()
             {
                 Html = new Dictionary<string, EpubTextContentFileRef>(),
@@ -29,7 +29,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "Parsing content map from a full EPUB book ref should succeed")]
         public void ParseContentMapWithFullEpubBookRefTest()
         {
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef();
+            TestZipFile testZipFile = new();
+            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(testZipFile);
             epubBookRef.Schema.Package.Manifest = new EpubManifest()
             {
                 Items = new List<EpubManifestItem>()
@@ -164,28 +165,28 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef expectedFileRef1 = CreateLocalTextFileRef("text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubTextContentFileRef expectedFileRef2 = CreateLocalTextFileRef("doc.dtb", EpubContentType.DTBOOK, "application/x-dtbook+xml");
-            EpubTextContentFileRef expectedFileRef3 = CreateLocalTextFileRef("toc.ncx", EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
-            EpubTextContentFileRef expectedFileRef4 = CreateLocalTextFileRef("oeb.html", EpubContentType.OEB1_DOCUMENT, "text/x-oeb1-document");
-            EpubTextContentFileRef expectedFileRef5 = CreateLocalTextFileRef("file.xml", EpubContentType.XML, "application/xml");
-            EpubTextContentFileRef expectedFileRef6 = CreateLocalTextFileRef("styles.css", EpubContentType.CSS, "text/css");
-            EpubTextContentFileRef expectedFileRef7 = CreateLocalTextFileRef("oeb.css", EpubContentType.OEB1_CSS, "text/x-oeb1-css");
-            EpubByteContentFileRef expectedFileRef8 = CreateLocalByteFileRef("image1.gif", EpubContentType.IMAGE_GIF, "image/gif");
-            EpubByteContentFileRef expectedFileRef9 = CreateLocalByteFileRef("image2.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubByteContentFileRef expectedFileRef10 = CreateLocalByteFileRef("image3.png", EpubContentType.IMAGE_PNG, "image/png");
-            EpubByteContentFileRef expectedFileRef11 = CreateLocalByteFileRef("image4.svg", EpubContentType.IMAGE_SVG, "image/svg+xml");
-            EpubByteContentFileRef expectedFileRef12 = CreateLocalByteFileRef("font1.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
-            EpubByteContentFileRef expectedFileRef13 = CreateLocalByteFileRef("font2.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
-            EpubByteContentFileRef expectedFileRef14 = CreateLocalByteFileRef("font3.otf", EpubContentType.FONT_OPENTYPE, "font/opentype");
-            EpubByteContentFileRef expectedFileRef15 = CreateLocalByteFileRef("font4.otf", EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
-            EpubByteContentFileRef expectedFileRef16 = CreateLocalByteFileRef("video.mp4", EpubContentType.OTHER, "video/mp4");
-            EpubByteContentFileRef expectedFileRef17 = CreateLocalByteFileRef("cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubTextContentFileRef expectedFileRef18 = CreateLocalTextFileRef("toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubTextContentFileRef expectedFileRef1 = CreateLocalTextFileRef(testZipFile, "text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubTextContentFileRef expectedFileRef2 = CreateLocalTextFileRef(testZipFile, "doc.dtb", EpubContentType.DTBOOK, "application/x-dtbook+xml");
+            EpubTextContentFileRef expectedFileRef3 = CreateLocalTextFileRef(testZipFile, "toc.ncx", EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
+            EpubTextContentFileRef expectedFileRef4 = CreateLocalTextFileRef(testZipFile, "oeb.html", EpubContentType.OEB1_DOCUMENT, "text/x-oeb1-document");
+            EpubTextContentFileRef expectedFileRef5 = CreateLocalTextFileRef(testZipFile, "file.xml", EpubContentType.XML, "application/xml");
+            EpubTextContentFileRef expectedFileRef6 = CreateLocalTextFileRef(testZipFile, "styles.css", EpubContentType.CSS, "text/css");
+            EpubTextContentFileRef expectedFileRef7 = CreateLocalTextFileRef(testZipFile, "oeb.css", EpubContentType.OEB1_CSS, "text/x-oeb1-css");
+            EpubByteContentFileRef expectedFileRef8 = CreateLocalByteFileRef(testZipFile, "image1.gif", EpubContentType.IMAGE_GIF, "image/gif");
+            EpubByteContentFileRef expectedFileRef9 = CreateLocalByteFileRef(testZipFile, "image2.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubByteContentFileRef expectedFileRef10 = CreateLocalByteFileRef(testZipFile, "image3.png", EpubContentType.IMAGE_PNG, "image/png");
+            EpubByteContentFileRef expectedFileRef11 = CreateLocalByteFileRef(testZipFile, "image4.svg", EpubContentType.IMAGE_SVG, "image/svg+xml");
+            EpubByteContentFileRef expectedFileRef12 = CreateLocalByteFileRef(testZipFile, "font1.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubByteContentFileRef expectedFileRef13 = CreateLocalByteFileRef(testZipFile, "font2.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
+            EpubByteContentFileRef expectedFileRef14 = CreateLocalByteFileRef(testZipFile, "font3.otf", EpubContentType.FONT_OPENTYPE, "font/opentype");
+            EpubByteContentFileRef expectedFileRef15 = CreateLocalByteFileRef(testZipFile, "font4.otf", EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
+            EpubByteContentFileRef expectedFileRef16 = CreateLocalByteFileRef(testZipFile, "video.mp4", EpubContentType.OTHER, "video/mp4");
+            EpubByteContentFileRef expectedFileRef17 = CreateLocalByteFileRef(testZipFile, "cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubTextContentFileRef expectedFileRef18 = CreateLocalTextFileRef(testZipFile, "toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
             EpubTextContentFileRef expectedFileRef19 =
-                new("https://example.com/books/123/test.html", EpubContentLocation.REMOTE, EpubContentType.XHTML_1_1, "application/xhtml+xml", String.Empty);
+                new("https://example.com/books/123/test.html", EpubContentLocation.REMOTE, EpubContentType.XHTML_1_1, "application/xhtml+xml", testZipFile, String.Empty);
             EpubByteContentFileRef expectedFileRef20 =
-                new("https://example.com/books/123/image.jpg", EpubContentLocation.REMOTE, EpubContentType.IMAGE_JPEG, "image/jpeg", String.Empty);
+                new("https://example.com/books/123/image.jpg", EpubContentLocation.REMOTE, EpubContentType.IMAGE_JPEG, "image/jpeg", testZipFile, String.Empty);
             EpubContentRef expectedContentMap = new()
             {
                 Html = new Dictionary<string, EpubTextContentFileRef>()
@@ -346,9 +347,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
         }
 
-        private EpubBookRef CreateEmptyEpubBookRef()
+        private EpubBookRef CreateEmptyEpubBookRef(TestZipFile testZipFile)
         {
-            return new(new TestZipFile())
+            return new(testZipFile)
             {
                 Schema = new EpubSchema()
                 {
@@ -384,14 +385,14 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
         }
 
-        private EpubTextContentFileRef CreateLocalTextFileRef(string href, EpubContentType contentType, string contentMimeType)
+        private EpubTextContentFileRef CreateLocalTextFileRef(TestZipFile testZipFile, string href, EpubContentType contentType, string contentMimeType)
         {
-            return new(href, EpubContentLocation.LOCAL, contentType, contentMimeType, String.Empty);
+            return new(href, EpubContentLocation.LOCAL, contentType, contentMimeType, testZipFile, String.Empty);
         }
 
-        private EpubByteContentFileRef CreateLocalByteFileRef(string href, EpubContentType contentType, string contentMimeType)
+        private EpubByteContentFileRef CreateLocalByteFileRef(TestZipFile testZipFile, string href, EpubContentType contentType, string contentMimeType)
         {
-            return new(href, EpubContentLocation.LOCAL, contentType, contentMimeType, String.Empty);
+            return new(href, EpubContentLocation.LOCAL, contentType, contentMimeType, testZipFile, String.Empty);
         }
     }
 }

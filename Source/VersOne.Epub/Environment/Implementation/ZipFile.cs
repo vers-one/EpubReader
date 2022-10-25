@@ -6,11 +6,11 @@ namespace VersOne.Epub.Environment.Implementation
     internal class ZipFile : IZipFile
     {
         private readonly ZipArchive zipArchive;
-        private bool isDisposed;
 
         public ZipFile(ZipArchive zipArchive)
         {
             this.zipArchive = zipArchive;
+            IsDisposed = false;
         }
 
         ~ZipFile()
@@ -18,8 +18,14 @@ namespace VersOne.Epub.Environment.Implementation
             Dispose(false);
         }
 
+        public bool IsDisposed { get; private set; }
+
         public IZipFileEntry GetEntry(string entryName)
         {
+            if (IsDisposed)
+            {
+                throw new ObjectDisposedException(nameof(ZipFile));
+            }
             ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
             return zipArchiveEntry != null ? new ZipFileEntry(zipArchiveEntry) : null;
         }
@@ -32,13 +38,13 @@ namespace VersOne.Epub.Environment.Implementation
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!isDisposed)
+            if (!IsDisposed)
             {
                 if (disposing)
                 {
                     zipArchive?.Dispose();
                 }
-                isDisposed = true;
+                IsDisposed = true;
             }
         }
     }
