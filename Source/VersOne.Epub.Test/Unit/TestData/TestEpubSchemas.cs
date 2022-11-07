@@ -203,14 +203,38 @@ namespace VersOne.Epub.Test.Unit.TestData
                             new EpubManifestItem()
                             {
                                 Id = "item-10",
-                                Href = REMOTE_TEXT_CONTENT_ITEM_HREF,
+                                Href = REMOTE_HTML_CONTENT_FILE_HREF,
                                 MediaType = HTML_CONTENT_MIME_TYPE
                             },
                             new EpubManifestItem()
                             {
                                 Id = "item-11",
-                                Href = REMOTE_BYTE_CONTENT_ITEM_HREF,
+                                Href = REMOTE_CSS_CONTENT_FILE_HREF,
+                                MediaType = CSS_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-12",
+                                Href = REMOTE_IMAGE_CONTENT_FILE_HREF,
                                 MediaType = IMAGE_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-13",
+                                Href = REMOTE_FONT_CONTENT_FILE_HREF,
+                                MediaType = FONT_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-14",
+                                Href = REMOTE_XML_CONTENT_FILE_HREF,
+                                MediaType = XML_CONTENT_MIME_TYPE
+                            },
+                            new EpubManifestItem()
+                            {
+                                Id = "item-15",
+                                Href = REMOTE_AUDIO_CONTENT_FILE_HREF,
+                                MediaType = AUDIO_MPEG_CONTENT_MIME_TYPE
                             },
                             new EpubManifestItem()
                             {

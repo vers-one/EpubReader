@@ -56,7 +56,7 @@ namespace VersOne.Epub.Internal
             List<EpubNavigationItemRef> result;
             if (epub3Nav != null)
             {
-                string epub3NavigationBaseDirectoryPath = ZipPathUtils.GetDirectoryPath(bookRef.Content.NavigationHtmlFile.FilePathInEpubArchive);
+                string epub3NavigationBaseDirectoryPath = ZipPathUtils.GetDirectoryPath(bookRef.Content.NavigationHtmlFile.FilePath);
                 if (epub3Nav.Head != null)
                 {
                     result = new List<EpubNavigationItemRef>();
@@ -120,13 +120,17 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubTextContentFileRef GetHtmlContentFileRef(EpubBookRef bookRef, string contentFileName)
+        private static EpubLocalTextContentFileRef GetHtmlContentFileRef(EpubBookRef bookRef, string contentFileKey)
         {
-            if (contentFileName == null)
+            if (contentFileKey == null)
             {
                 return null;
             }
-            if (!bookRef.Content.Html.TryGetValue(contentFileName, out EpubTextContentFileRef htmlContentFileRef))
+            if (bookRef.Content.Html.Remote.ContainsKey(contentFileKey))
+            {
+                throw new EpubPackageException($"Incorrect EPUB manifest: item \"{contentFileKey}\" referenced in the navigation file cannot be a remote resource.");
+            }
+            if (!bookRef.Content.Html.Local.TryGetValue(contentFileKey, out EpubLocalTextContentFileRef htmlContentFileRef))
             {
                 return null;
             }

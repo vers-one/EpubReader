@@ -8,49 +8,56 @@ using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
-    internal static class BookRefReader
+    internal class BookRefReader
     {
-        public static EpubBookRef OpenBook(string filePath, EpubReaderOptions epubReaderOptions, IFileSystem fileSystem)
+        private readonly IEnvironmentDependencies environmentDependencies;
+        private readonly EpubReaderOptions epubReaderOptions;
+
+        public BookRefReader(IEnvironmentDependencies environmentDependencies, EpubReaderOptions epubReaderOptions)
         {
-            return OpenBookAsync(filePath, epubReaderOptions, fileSystem).ExecuteAndUnwrapAggregateException();
+            this.environmentDependencies = environmentDependencies ?? throw new ArgumentNullException(nameof(environmentDependencies));
+            this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
         }
 
-        public static EpubBookRef OpenBook(Stream stream, EpubReaderOptions epubReaderOptions, IFileSystem fileSystem)
+        public EpubBookRef OpenBook(string filePath)
         {
-            return OpenBookAsync(stream, epubReaderOptions, fileSystem).ExecuteAndUnwrapAggregateException();
+            return OpenBookAsync(filePath).ExecuteAndUnwrapAggregateException();
         }
 
-        public static Task<EpubBookRef> OpenBookAsync(string filePath, EpubReaderOptions epubReaderOptions, IFileSystem fileSystem)
+        public EpubBookRef OpenBook(Stream stream)
         {
-            if (!fileSystem.FileExists(filePath))
+            return OpenBookAsync(stream).ExecuteAndUnwrapAggregateException();
+        }
+
+        public Task<EpubBookRef> OpenBookAsync(string filePath)
+        {
+            if (!environmentDependencies.FileSystem.FileExists(filePath))
             {
                 throw new FileNotFoundException("Specified EPUB file not found.", filePath);
             }
-            return OpenBookAsync(GetZipFile(filePath, fileSystem), filePath, epubReaderOptions);
+            return OpenBookAsync(GetZipFile(filePath), filePath);
         }
 
-        public static Task<EpubBookRef> OpenBookAsync(Stream stream, EpubReaderOptions epubReaderOptions, IFileSystem fileSystem)
+        public Task<EpubBookRef> OpenBookAsync(Stream stream)
         {
-            return OpenBookAsync(GetZipFile(stream, fileSystem), null, epubReaderOptions);
+            return OpenBookAsync(GetZipFile(stream), null);
         }
 
-        private static async Task<EpubBookRef> OpenBookAsync(IZipFile zipFile, string filePath, EpubReaderOptions epubReaderOptions)
+        private async Task<EpubBookRef> OpenBookAsync(IZipFile zipFile, string filePath)
         {
             EpubBookRef result = null;
-            if (epubReaderOptions == null)
-            {
-                epubReaderOptions = new EpubReaderOptions();
-            }
             result = new EpubBookRef(zipFile);
             try
             {
                 result.FilePath = filePath;
-                result.Schema = await SchemaReader.ReadSchemaAsync(zipFile, epubReaderOptions).ConfigureAwait(false);
+                SchemaReader schemaReader = new SchemaReader(epubReaderOptions);
+                result.Schema = await schemaReader.ReadSchemaAsync(zipFile).ConfigureAwait(false);
                 result.Title = result.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
                 result.AuthorList = result.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
                 result.Author = String.Join(", ", result.AuthorList);
                 result.Description = result.Schema.Package.Metadata.Description;
-                result.Content = await Task.Run(() => ContentReader.ParseContentMap(result, epubReaderOptions.ContentReaderOptions)).ConfigureAwait(false);
+                ContentReader contentReader = new ContentReader(environmentDependencies, epubReaderOptions);
+                result.Content = await Task.Run(() => contentReader.ParseContentMap(result)).ConfigureAwait(false);
                 return result;
             }
             catch
@@ -60,14 +67,14 @@ namespace VersOne.Epub.Internal
             }
         }
 
-        private static IZipFile GetZipFile(string filePath, IFileSystem fileSystem)
+        private IZipFile GetZipFile(string filePath)
         {
-            return fileSystem.OpenZipFile(filePath);
+            return environmentDependencies.FileSystem.OpenZipFile(filePath);
         }
 
-        private static IZipFile GetZipFile(Stream stream, IFileSystem fileSystem)
+        private IZipFile GetZipFile(Stream stream)
         {
-            return fileSystem.OpenZipFile(stream);
+            return environmentDependencies.FileSystem.OpenZipFile(stream);
         }
     }
 }

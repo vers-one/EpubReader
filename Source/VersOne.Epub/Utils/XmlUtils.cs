@@ -18,7 +18,7 @@ namespace VersOne.Epub.Internal
             {
                 await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
                 memoryStream.Position = 0;
-                if (xmlReaderOptions.SkipXmlHeaders)
+                if (xmlReaderOptions != null && xmlReaderOptions.SkipXmlHeaders)
                 {
                     SkipXmlHeader(memoryStream);
                 }

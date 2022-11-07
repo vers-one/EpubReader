@@ -11,7 +11,7 @@
             Assert.Equal(expected.AuthorList, actual.AuthorList);
             Assert.Equal(expected.Description, actual.Description);
             Assert.Equal(expected.CoverImage, actual.CoverImage);
-            CollectionComparer.CompareCollections(expected.ReadingOrder, actual.ReadingOrder, EpubContentComparer.CompareEpubTextContentFiles);
+            CollectionComparer.CompareCollections(expected.ReadingOrder, actual.ReadingOrder, EpubContentComparer.CompareEpubLocalTextContentFiles);
             EpubNavigationItemComparer.CompareNavigationItemLists(expected.Navigation, actual.Navigation);
             EpubContentComparer.CompareEpubContents(expected.Content, actual.Content);
             EpubSchemaComparer.CompareEpubSchemas(expected.Schema, actual.Schema);

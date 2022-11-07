@@ -12,11 +12,11 @@ namespace VersOne.Epub
     /// </summary>
     public static class EpubReader
     {
-        private static readonly IFileSystem fileSystem;
+        private static readonly IEnvironmentDependencies environmentDependencies;
 
         static EpubReader()
         {
-            fileSystem = new FileSystem();
+            environmentDependencies = new EnvironmentDependencies();
         }
 
         /// <summary>
@@ -27,7 +27,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static EpubBookRef OpenBook(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookRefReader.OpenBook(filePath, epubReaderOptions, fileSystem);
+            BookRefReader bookRefReader = new BookRefReader(environmentDependencies, epubReaderOptions);
+            return bookRefReader.OpenBook(filePath);
         }
 
         /// <summary>
@@ -38,7 +39,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static EpubBookRef OpenBook(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookRefReader.OpenBook(stream, epubReaderOptions, fileSystem);
+            BookRefReader bookRefReader = new BookRefReader(environmentDependencies, epubReaderOptions);
+            return bookRefReader.OpenBook(stream);
         }
 
         /// <summary>
@@ -49,7 +51,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static Task<EpubBookRef> OpenBookAsync(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookRefReader.OpenBookAsync(filePath, epubReaderOptions, fileSystem);
+            BookRefReader bookRefReader = new BookRefReader(environmentDependencies, epubReaderOptions);
+            return bookRefReader.OpenBookAsync(filePath);
         }
 
         /// <summary>
@@ -60,7 +63,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book reference. This object holds a handle to the EPUB file.</returns>
         public static Task<EpubBookRef> OpenBookAsync(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookRefReader.OpenBookAsync(stream, epubReaderOptions, fileSystem);
+            BookRefReader bookRefReader = new BookRefReader(environmentDependencies, epubReaderOptions);
+            return bookRefReader.OpenBookAsync(stream);
         }
 
         /// <summary>
@@ -71,7 +75,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book with all its content. This object does not retain a handle to the EPUB file.</returns>
         public static EpubBook ReadBook(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookReader.ReadBook(filePath, epubReaderOptions, fileSystem);
+            BookReader bookReader = new BookReader(environmentDependencies, epubReaderOptions);
+            return bookReader.ReadBook(filePath);
         }
 
         /// <summary>
@@ -82,7 +87,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book with all its content. This object does not retain a handle to the EPUB file.</returns>
         public static EpubBook ReadBook(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookReader.ReadBook(stream, epubReaderOptions, fileSystem);
+            BookReader bookReader = new BookReader(environmentDependencies, epubReaderOptions);
+            return bookReader.ReadBook(stream);
         }
 
         /// <summary>
@@ -93,7 +99,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book with all its content. This object does not retain a handle to the EPUB file.</returns>
         public static Task<EpubBook> ReadBookAsync(string filePath, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookReader.ReadBookAsync(filePath, epubReaderOptions, fileSystem);
+            BookReader bookReader = new BookReader(environmentDependencies, epubReaderOptions);
+            return bookReader.ReadBookAsync(filePath);
         }
 
         /// <summary>
@@ -104,7 +111,8 @@ namespace VersOne.Epub
         /// <returns>EPUB book with all its content. This object does not retain a handle to the EPUB file.</returns>
         public static Task<EpubBook> ReadBookAsync(Stream stream, EpubReaderOptions epubReaderOptions = null)
         {
-            return BookReader.ReadBookAsync(stream, epubReaderOptions, fileSystem);
+            BookReader bookReader = new BookReader(environmentDependencies, epubReaderOptions);
+            return bookReader.ReadBookAsync(stream);
         }
     }
 }

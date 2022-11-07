@@ -42,8 +42,14 @@
         public const string AUDIO_MPEG_CONTENT_MIME_TYPE = "audio/mpeg";
         public const string AUDIO_FILE_NAME = "audio.mp3";
         public const string AUDIO_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{AUDIO_FILE_NAME}";
-        public const string REMOTE_TEXT_CONTENT_ITEM_HREF = "https://example.com/books/123/test.html";
-        public const string REMOTE_BYTE_CONTENT_ITEM_HREF = "https://example.com/books/123/image.jpg";
+        public const string REMOTE_HTML_CONTENT_FILE_HREF = "https://example.com/books/123/test.css";
+        public const string REMOTE_CSS_CONTENT_FILE_HREF = "https://example.com/books/123/test.html";
+        public const string REMOTE_IMAGE_CONTENT_FILE_HREF = "https://example.com/books/123/image.jpg";
+        public const string REMOTE_FONT_CONTENT_FILE_HREF = "https://example.com/books/123/font.ttf";
+        public const string REMOTE_XML_CONTENT_FILE_HREF = "https://example.com/books/123/book.xml";
+        public const string REMOTE_AUDIO_CONTENT_FILE_HREF = "https://example.com/books/123/chapter1.mp3";
+        public const EpubContentType XML_CONTENT_TYPE = EpubContentType.XML;
+        public const string XML_CONTENT_MIME_TYPE = "application/xml";
         public const string BOOK_TITLE = "Test title";
         public const string BOOK_AUTHOR = "John Doe";
         public const string BOOK_DESCRIPTION = "Test description";

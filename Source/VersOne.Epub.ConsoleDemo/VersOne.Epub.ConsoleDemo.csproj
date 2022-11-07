@@ -4,9 +4,6 @@
         <TargetFramework>net6.0</TargetFramework>
         <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
         <Authors>vers</Authors>
-        <Company />
-        <Product />
-        <Description />
         <Copyright>vers, 2015-2022</Copyright>
         <Version>3.3</Version>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>

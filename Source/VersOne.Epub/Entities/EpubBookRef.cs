@@ -99,7 +99,7 @@ namespace VersOne.Epub
         /// Processes the reading order of the EPUB book and returns a list of text content file references in the order of reading intended by the author.
         /// </summary>
         /// <returns>A list of text content file references in the order of reading.</returns>
-        public List<EpubTextContentFileRef> GetReadingOrder()
+        public List<EpubLocalTextContentFileRef> GetReadingOrder()
         {
             return GetReadingOrderAsync().Result;
         }
@@ -111,7 +111,7 @@ namespace VersOne.Epub
         /// A task that represents the asynchronous processing operation.
         /// The value of the TResult parameter contains a list of text content file references in the order of reading.
         /// </returns>
-        public async Task<List<EpubTextContentFileRef>> GetReadingOrderAsync()
+        public async Task<List<EpubLocalTextContentFileRef>> GetReadingOrderAsync()
         {
             return await Task.Run(() => SpineReader.GetReadingOrder(this)).ConfigureAwait(false);
         }

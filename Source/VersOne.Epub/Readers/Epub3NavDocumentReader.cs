@@ -11,9 +11,16 @@ using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
-    internal static class Epub3NavDocumentReader
+    internal class Epub3NavDocumentReader
     {
-        public static async Task<Epub3NavDocument> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package, EpubReaderOptions epubReaderOptions)
+        private readonly EpubReaderOptions epubReaderOptions;
+
+        public Epub3NavDocumentReader(EpubReaderOptions epubReaderOptions = null)
+        {
+            this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+        }
+
+        public async Task<Epub3NavDocument> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
             Epub3NavDocument result = new Epub3NavDocument();
             EpubManifestItem navManifestItem =

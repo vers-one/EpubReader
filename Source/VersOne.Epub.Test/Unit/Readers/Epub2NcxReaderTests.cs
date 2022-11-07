@@ -727,7 +727,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 Spine = new EpubSpine()
             };
-            Epub2Ncx epub2Ncx = await Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage, new EpubReaderOptions());
+            Epub2NcxReader epub2NcxReader = new();
+            Epub2Ncx epub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
             Assert.Null(epub2Ncx);
         }
 
@@ -746,15 +747,16 @@ namespace VersOne.Epub.Test.Unit.Readers
                     Toc = TOC_ID
                 }
             };
-            await Assert.ThrowsAsync<Epub2NcxException>(() => Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage, new EpubReaderOptions()));
+            Epub2NcxReader epub2NcxReader = new();
+            await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage));
         }
 
         [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if EPUB file is missing the NCX file specified in the EpubPackage")]
         public async void ReadEpub2NcxAsyncWithoutNcxFileTest()
         {
             TestZipFile testZipFile = new();
-            await Assert.ThrowsAsync<Epub2NcxException>(() =>
-                Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx, new EpubReaderOptions()));
+            Epub2NcxReader epub2NcxReader = new();
+            await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
 
         [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file is larger than 2 GB")]
@@ -762,8 +764,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(NCX_FILE_PATH_IN_EPUB_ARCHIVE, new Test4GbZipFileEntry());
-            await Assert.ThrowsAsync<Epub2NcxException>(() =>
-                Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx, new EpubReaderOptions()));
+            Epub2NcxReader epub2NcxReader = new();
+            await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
 
         [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'ncx' XML element")]
@@ -832,6 +834,16 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_CONTENT_ELEMENT);
         }
 
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'content' element and Epub2NcxReaderOptions is null")]
+        public async void ReadEpub2NcxAsyncWithoutNavPointContentAndWithNullEpub2NcxReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = null
+            };
+            await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_CONTENT_ELEMENT, epubReaderOptions);
+        }
+
         [Fact(DisplayName = "Reading an NCX file without 'content' element in a 'navpoint' XML element with IgnoreMissingContentForNavigationPoints = true should succeed")]
         public async void ReadEpub2NcxAsyncWithoutNavPointContentWithIgnoreMissingContentForNavigationPointsTest()
         {
@@ -896,16 +908,16 @@ namespace VersOne.Epub.Test.Unit.Readers
         private async Task TestSuccessfulReadOperation(string ncxFileContent, Epub2Ncx expectedEpub2Ncx, EpubReaderOptions epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNcxFile(ncxFileContent);
-            Epub2Ncx actualEpub2Ncx =
-                await Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx, epubReaderOptions ?? new EpubReaderOptions());
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            Epub2Ncx actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx);
             Epub2NcxComparer.CompareEpub2Ncxes(expectedEpub2Ncx, actualEpub2Ncx);
         }
 
-        private async Task TestFailingReadOperation(string ncxFileContent)
+        private async Task TestFailingReadOperation(string ncxFileContent, EpubReaderOptions epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNcxFile(ncxFileContent);
-            await Assert.ThrowsAsync<Epub2NcxException>(() =>
-                Epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx, new EpubReaderOptions()));
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
 
         private TestZipFile CreateTestZipFileWithNcxFile(string ncxFileContent)

@@ -28,7 +28,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Gets the EPUB content file referenced by the navigation element or <c>null</c> of the value of the <see cref="Link" /> property is <c>null</c>.
         /// </summary>
-        public EpubTextContentFile HtmlContentFile { get; internal set; }
+        public EpubLocalTextContentFile HtmlContentFile { get; internal set; }
 
         /// <summary>
         /// <para>Gets a list of child navigation elements constituting the nested navigational hierarchy within the navigation element.</para>

@@ -35,17 +35,17 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
                 result.ExtensionDataGetter = new ExtensionDataGetter(testCaseExtensionDataHandler.GetEpubBookExtensionData);
                 result.ExtensionDataSetter = new ExtensionDataSetter(testCaseExtensionDataHandler.SetEpubBookExtensionData);
             }
-            else if (objectType == typeof(EpubByteContentFile))
+            else if (objectType == typeof(EpubLocalByteContentFile))
             {
-                result.Properties.Remove(nameof(EpubByteContentFile.Content));
-                result.ExtensionDataGetter = new ExtensionDataGetter(testCaseExtensionDataHandler.GetEpubContentFileExtensionData);
-                result.ExtensionDataSetter = new ExtensionDataSetter(testCaseExtensionDataHandler.SetEpubByteContentFileExtensionData);
+                result.Properties.Remove(nameof(EpubLocalByteContentFile.Content));
+                result.ExtensionDataGetter = new ExtensionDataGetter(testCaseExtensionDataHandler.GetEpubLocalContentFileExtensionData);
+                result.ExtensionDataSetter = new ExtensionDataSetter(testCaseExtensionDataHandler.SetEpubLocalByteContentFileExtensionData);
             }
-            else if (objectType == typeof(EpubTextContentFile))
+            else if (objectType == typeof(EpubLocalTextContentFile))
             {
-                result.Properties.Remove(nameof(EpubTextContentFile.Content));
-                result.ExtensionDataGetter = new ExtensionDataGetter(testCaseExtensionDataHandler.GetEpubContentFileExtensionData);
-                result.ExtensionDataSetter = new ExtensionDataSetter(testCaseExtensionDataHandler.SetEpubTextContentFileExtensionData);
+                result.Properties.Remove(nameof(EpubLocalTextContentFile.Content));
+                result.ExtensionDataGetter = new ExtensionDataGetter(testCaseExtensionDataHandler.GetEpubLocalContentFileExtensionData);
+                result.ExtensionDataSetter = new ExtensionDataSetter(testCaseExtensionDataHandler.SetEpubLocalTextContentFileExtensionData);
             }
             return result;
         }

@@ -1,5 +1,4 @@
 ﻿using VersOne.Epub.Internal;
-using VersOne.Epub.Options;
 using VersOne.Epub.Test.Unit.Mocks;
 
 namespace VersOne.Epub.Test.Unit.Readers
@@ -51,7 +50,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, CORRECT_CONTAINER_FILE);
-            string actualRootFilePath = await RootFilePathReader.GetRootFilePathAsync(testZipFile, new EpubReaderOptions());
+            RootFilePathReader rootFilePathReader = new();
+            string actualRootFilePath = await rootFilePathReader.GetRootFilePathAsync(testZipFile);
             Assert.Equal(ROOT_FILE_PATH_FOR_CORRECT_CONTAINER_FILE, actualRootFilePath);
         }
 
@@ -59,7 +59,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void TestGetRootFilePathAsyncWithNoContainerFile()
         {
             TestZipFile testZipFile = new();
-            await Assert.ThrowsAsync<EpubContainerException>(() => RootFilePathReader.GetRootFilePathAsync(testZipFile, new EpubReaderOptions()));
+            RootFilePathReader rootFilePathReader = new();
+            await Assert.ThrowsAsync<EpubContainerException>(() => rootFilePathReader.GetRootFilePathAsync(testZipFile));
         }
 
         [Theory(DisplayName = "Getting root file path from a ZIP archive with an incorrect container file should throw EpubContainerException")]
@@ -71,7 +72,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, containerFileContent);
-            await Assert.ThrowsAsync<EpubContainerException>(() => RootFilePathReader.GetRootFilePathAsync(testZipFile, new EpubReaderOptions()));
+            RootFilePathReader rootFilePathReader = new();
+            await Assert.ThrowsAsync<EpubContainerException>(() => rootFilePathReader.GetRootFilePathAsync(testZipFile));
         }
     }
 }

@@ -85,8 +85,8 @@ namespace VersOne.Epub.ConsoleDemo
                     filesByVersion[epubVersionString] = 1;
                 }
                 Console.WriteLine($"EPUB version: {epubVersionString}");
-                Console.WriteLine($"Total files: {bookRef.Content.AllFiles.Count}, HTML files: {bookRef.Content.Html.Count}," +
-                    $" CSS files: {bookRef.Content.Css.Count}, image files: {bookRef.Content.Images.Count}, font files: {bookRef.Content.Fonts.Count}.");
+                Console.WriteLine($"Total files: {bookRef.Content.AllFiles.Local.Count}, HTML files: {bookRef.Content.Html.Local.Count}," +
+                    $" CSS files: {bookRef.Content.Css.Local.Count}, image files: {bookRef.Content.Images.Local.Count}, font files: {bookRef.Content.Fonts.Local.Count}.");
                 Console.WriteLine($"Reading order: {bookRef.GetReadingOrder().Count} file(s).");
                 Console.WriteLine("Navigation:");
                 foreach (EpubNavigationItemRef navigationItemRef in bookRef.GetNavigation())

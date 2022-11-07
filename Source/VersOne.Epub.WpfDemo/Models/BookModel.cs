@@ -34,14 +34,14 @@ namespace VersOne.Epub.WpfDemo.Models
 
         public List<HtmlContentFileViewModel> GetReadingOrder(EpubBook epubBook)
         {
-            Dictionary<string, byte[]> images = epubBook.Content.Images.ToDictionary(imageFile => imageFile.Key, imageFile => imageFile.Value.Content);
-            Dictionary<string, string> styleSheets = epubBook.Content.Css.ToDictionary(cssFile => cssFile.Key, cssFile => cssFile.Value.Content);
-            Dictionary<string, byte[]> fonts = epubBook.Content.Fonts.ToDictionary(fontFile => fontFile.Key, fontFile => fontFile.Value.Content);
+            Dictionary<string, byte[]> images = epubBook.Content.Images.Local.ToDictionary(imageFile => imageFile.Key, imageFile => imageFile.Value.Content);
+            Dictionary<string, string> styleSheets = epubBook.Content.Css.Local.ToDictionary(cssFile => cssFile.Key, cssFile => cssFile.Value.Content);
+            Dictionary<string, byte[]> fonts = epubBook.Content.Fonts.Local.ToDictionary(fontFile => fontFile.Key, fontFile => fontFile.Value.Content);
             List<HtmlContentFileViewModel> result = new List<HtmlContentFileViewModel>();
-            foreach (EpubTextContentFile epubHtmlFile in epubBook.ReadingOrder)
+            foreach (EpubLocalTextContentFile epubHtmlFile in epubBook.ReadingOrder)
             {
-                HtmlContentFileViewModel htmlContentFileViewModel = new HtmlContentFileViewModel(epubHtmlFile.FileName, epubHtmlFile.FilePathInEpubArchive,
-                    epubHtmlFile.Content, images, styleSheets, fonts);
+                HtmlContentFileViewModel htmlContentFileViewModel =
+                    new HtmlContentFileViewModel(epubHtmlFile.Key, epubHtmlFile.FilePath, epubHtmlFile.Content, images, styleSheets, fonts);
                 result.Add(htmlContentFileViewModel);
             }
             return result;

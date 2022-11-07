@@ -10,8 +10,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         public void GetReadingOrderForMinimalSpineTest()
         {
             EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
-            List<EpubTextContentFileRef> expectedReadingOrder = new();
-            List<EpubTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubBookRef);
+            List<EpubLocalTextContentFileRef> expectedReadingOrder = new();
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubBookRef);
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
@@ -52,25 +52,29 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef(testZipFile, "chapter1.html");
-            EpubTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef(testZipFile, "chapter2.html");
-            epubBookRef.Content.Html = new Dictionary<string, EpubTextContentFileRef>()
+            EpubLocalTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef("chapter1.html");
+            EpubLocalTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef("chapter2.html");
+            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
             {
+                Local = new Dictionary<string, EpubLocalTextContentFileRef>()
                 {
-                    "chapter1.html",
-                    expectedHtmlFileRef1
+                    {
+                        "chapter1.html",
+                        expectedHtmlFileRef1
+                    },
+                    {
+                        "chapter2.html",
+                        expectedHtmlFileRef2
+                    }
                 },
-                {
-                    "chapter2.html",
-                    expectedHtmlFileRef2
-                }
+                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
             };
-            List<EpubTextContentFileRef> expectedReadingOrder = new()
+            List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
             {
                 expectedHtmlFileRef1,
                 expectedHtmlFileRef2
             };
-            List<EpubTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubBookRef);
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubBookRef);
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
@@ -103,6 +107,47 @@ namespace VersOne.Epub.Test.Unit.Readers
             Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
         }
 
+        [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if the HTML content file referenced by a spine item is a remote resource")]
+        public void GetReadingOrderWithRemoteHtmlContentFileTest()
+        {
+            string remoteFileHref = "https://example.com/books/123/chapter1.html";
+            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
+            epubBookRef.Schema.Package.Spine = new EpubSpine()
+            {
+                Items = new List<EpubSpineItemRef>()
+                {
+                    new EpubSpineItemRef()
+                    {
+                        IdRef = "item-1"
+                    }
+                }
+            };
+            epubBookRef.Schema.Package.Manifest = new EpubManifest()
+            {
+                Items = new List<EpubManifestItem>()
+                {
+                    new EpubManifestItem()
+                    {
+                        Id = "item-1",
+                        Href = remoteFileHref,
+                        MediaType = "application/xhtml+xml"
+                    }
+                }
+            };
+            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
+            {
+                Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
+                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+                {
+                    {
+                        remoteFileHref,
+                        new EpubRemoteTextContentFileRef(new EpubContentFileRefMetadata(remoteFileHref, EpubContentType.XHTML_1_1, "application/xhtml+xml"), new TestEpubContentLoader())
+                    }
+                }
+            };
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
+        }
+
         [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no HTML content file referenced by a manifest item")]
         public void GetReadingOrderWithMissingHtmlContentFileTest()
         {
@@ -129,7 +174,11 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            epubBookRef.Content.Html = new Dictionary<string, EpubTextContentFileRef>();
+            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
+            {
+                Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
+                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+            };
             Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
         }
 
@@ -175,9 +224,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
         }
 
-        private EpubTextContentFileRef CreateTestHtmlFileRef(TestZipFile testZipFile, string fileName)
+        private EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName)
         {
-            return new(fileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml", testZipFile, String.Empty);
+            return new(new EpubContentFileRefMetadata(fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"), fileName, new TestEpubContentLoader());
         }
     }
 }
