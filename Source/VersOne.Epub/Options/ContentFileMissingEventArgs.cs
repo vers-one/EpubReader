@@ -12,14 +12,14 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="ContentFileMissingEventArgs" /> class with a specified file name, an absolute file path, a content type of the file,
         /// and a MIME type of the file's content.
         /// </summary>
-        /// <param name="fileName">Relative file path of the missing content file (as it is specified in the EPUB manifest).</param>
-        /// <param name="filePathInEpubArchive">Absolute file path of the missing content file in the EPUB archive.</param>
+        /// <param name="fileKey">Relative file path of the missing content file (as it is specified in the EPUB manifest).</param>
+        /// <param name="filePath">Absolute file path of the missing content file in the EPUB archive.</param>
         /// <param name="contentType">The type of the content of the missing file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the missing file.</param>
-        public ContentFileMissingEventArgs(string fileName, string filePathInEpubArchive, EpubContentType contentType, string contentMimeType)
+        public ContentFileMissingEventArgs(string fileKey, string filePath, EpubContentType contentType, string contentMimeType)
         {
-            FileName = fileName;
-            FilePathInEpubArchive = filePathInEpubArchive;
+            FileKey = fileKey;
+            FilePath = filePath;
             ContentType = contentType;
             ContentMimeType = contentMimeType;
             SuppressException = false;
@@ -28,12 +28,12 @@ namespace VersOne.Epub.Options
         /// <summary>
         /// Gets the relative file path of the missing content file (as it is specified in the EPUB manifest).
         /// </summary>
-        public string FileName { get; }
+        public string FileKey { get; }
 
         /// <summary>
         /// Gets the absolute file path of the missing content file in the EPUB archive.
         /// </summary>
-        public string FilePathInEpubArchive { get; }
+        public string FilePath { get; }
 
         /// <summary>
         /// Gets the type of the content of the missing file.

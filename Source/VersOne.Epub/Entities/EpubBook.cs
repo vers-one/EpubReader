@@ -40,7 +40,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Gets a list of text content files in the order of reading intended by the author.
         /// </summary>
-        public List<EpubTextContentFile> ReadingOrder { get; internal set; }
+        public List<EpubLocalTextContentFile> ReadingOrder { get; internal set; }
 
         /// <summary>
         /// Gets a list of navigation elements of the book (typically the table of contents) or <c>null</c> if the book doesn't have navigation information.

@@ -5,18 +5,29 @@ using VersOne.Epub.Schema;
 
 namespace VersOne.Epub.Internal
 {
-    internal static class SchemaReader
+    internal class SchemaReader
     {
-        public static async Task<EpubSchema> ReadSchemaAsync(IZipFile epubFile, EpubReaderOptions epubReaderOptions)
+        private readonly EpubReaderOptions epubReaderOptions;
+
+        public SchemaReader(EpubReaderOptions epubReaderOptions = null)
+        {
+            this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+        }
+
+        public async Task<EpubSchema> ReadSchemaAsync(IZipFile epubFile)
         {
             EpubSchema result = new EpubSchema();
-            string rootFilePath = await RootFilePathReader.GetRootFilePathAsync(epubFile, epubReaderOptions).ConfigureAwait(false);
+            RootFilePathReader rootFilePathReader = new RootFilePathReader(epubReaderOptions);
+            string rootFilePath = await rootFilePathReader.GetRootFilePathAsync(epubFile).ConfigureAwait(false);
             string contentDirectoryPath = ZipPathUtils.GetDirectoryPath(rootFilePath);
             result.ContentDirectoryPath = contentDirectoryPath;
-            EpubPackage package = await PackageReader.ReadPackageAsync(epubFile, rootFilePath, epubReaderOptions).ConfigureAwait(false);
+            PackageReader packageReader = new PackageReader(epubReaderOptions);
+            EpubPackage package = await packageReader.ReadPackageAsync(epubFile, rootFilePath).ConfigureAwait(false);
             result.Package = package;
-            result.Epub2Ncx = await Epub2NcxReader.ReadEpub2NcxAsync(epubFile, contentDirectoryPath, package, epubReaderOptions).ConfigureAwait(false);
-            result.Epub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(epubFile, contentDirectoryPath, package, epubReaderOptions).ConfigureAwait(false);
+            Epub2NcxReader epub2NcxReader = new Epub2NcxReader(epubReaderOptions);
+            result.Epub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(epubFile, contentDirectoryPath, package).ConfigureAwait(false);
+            Epub3NavDocumentReader epub3NavDocumentReader = new Epub3NavDocumentReader(epubReaderOptions);
+            result.Epub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(epubFile, contentDirectoryPath, package).ConfigureAwait(false);
             return result;
         }
     }

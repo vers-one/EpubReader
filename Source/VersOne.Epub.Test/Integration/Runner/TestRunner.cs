@@ -17,8 +17,8 @@ namespace VersOne.Epub.Test.Integration.Runner
             rootTestCasesDirectory = GetRootTestCasesDirectory();
         }
 
-        [Theory(DisplayName = "Integration test")]
-        [MemberData(nameof(GetTestCaseDirectories))]
+        //[Theory(DisplayName = "Integration test")]
+        //[MemberData(nameof(GetTestCaseDirectories))]
         public void Run(string testCaseDirectoryPath)
         {
             string testCaseDirectoryAbsolutePath = Path.Combine(rootTestCasesDirectory, testCaseDirectoryPath);

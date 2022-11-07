@@ -11,9 +11,16 @@ using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
-    internal static class Epub2NcxReader
+    internal class Epub2NcxReader
     {
-        public static async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package, EpubReaderOptions epubReaderOptions)
+        private readonly EpubReaderOptions epubReaderOptions;
+
+        public Epub2NcxReader(EpubReaderOptions epubReaderOptions = null)
+        {
+            this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+        }
+
+        public async Task<Epub2Ncx> ReadEpub2NcxAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
             Epub2Ncx result = new Epub2Ncx();
             string tocId = package.Spine.Toc;
@@ -228,7 +235,7 @@ namespace VersOne.Epub.Internal
             }
             if (result.Content == null)
             {
-                if (epub2NcxReaderOptions.IgnoreMissingContentForNavigationPoints)
+                if (epub2NcxReaderOptions != null && epub2NcxReaderOptions.IgnoreMissingContentForNavigationPoints)
                 {
                     return null;
                 }

@@ -1,4 +1,4 @@
-﻿namespace VersOne.Epub.Test.Unit.RefEntities
+﻿namespace VersOne.Epub.Test.Unit.Entities
 {
     public class EpubNavigationItemRefTests
     {

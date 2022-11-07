@@ -9,13 +9,13 @@ namespace VersOne.Epub.ConsoleDemo
         public static void Run(string filePath)
         {
             EpubBook book = EpubReader.ReadBook(filePath);
-            foreach (EpubTextContentFile textContentFile in book.ReadingOrder)
+            foreach (EpubLocalTextContentFile textContentFile in book.ReadingOrder)
             {
                 PrintTextContentFile(textContentFile);
             }
         }
 
-        private static void PrintTextContentFile(EpubTextContentFile textContentFile)
+        private static void PrintTextContentFile(EpubLocalTextContentFile textContentFile)
         {
             HtmlDocument htmlDocument = new();
             htmlDocument.LoadHtml(textContentFile.Content);

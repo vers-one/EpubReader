@@ -825,7 +825,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);
-            await Assert.ThrowsAsync<EpubContainerException>(() => PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, new EpubReaderOptions()));
+            PackageReader packageReader = new();
+            await Assert.ThrowsAsync<EpubContainerException>(() => packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH));
         }
 
         [Fact(DisplayName = "Trying to read OPF package with non-supported EPUB version should fail with EpubPackageException")]
@@ -870,6 +871,26 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM);
         }
 
+        [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestItemIdAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty 'id' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyManifestItemIdAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM, epubReaderOptions);
+        }
+
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
         public async void ReadPackageWithoutManifestItemIdWithSkippingInvalidManifestItemsTest()
         {
@@ -886,6 +907,26 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadPackageWithEmptyManifestItemHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestItemHrefAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty 'href' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyManifestItemHrefAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM, epubReaderOptions);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
@@ -906,6 +947,26 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
+        [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadPackageWithoutManifestItemMediaTypeAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with empty 'media-type' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadPackageWithEmptyManifestItemMediaTypeAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM, epubReaderOptions);
+        }
+
         [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
         public async void ReadPackageWithoutManifestItemMediaTypeWithSkippingInvalidManifestItemsTest()
         {
@@ -922,6 +983,26 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub2PackageWithEmptySpineTocTest()
         {
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
+        }
+
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node and null PackageReaderOptionsshould fail with EpubPackageException")]
+        public async void ReadEpub2PackageWithoutSpineTocAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node and null PackageReaderOptionsshould fail with EpubPackageException")]
+        public async void ReadEpub2PackageWithEmptySpineTocAndWithNullPackageReaderOptionsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null
+            };
+            await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC, epubReaderOptions);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node with IgnoreMissingToc = true should succeed")]
@@ -976,7 +1057,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         private async Task TestSuccessfulReadOperation(string opfFileContent, EpubPackage expectedEpubPackage, EpubReaderOptions epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithOpfFile(opfFileContent);
-            EpubPackage actualEpubPackage = await PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, epubReaderOptions ?? new EpubReaderOptions());
+            PackageReader packageReader = new(epubReaderOptions);
+            EpubPackage actualEpubPackage = await packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH);
             EpubPackageComparer.CompareEpubPackages(expectedEpubPackage, actualEpubPackage);
         }
 
@@ -992,10 +1074,11 @@ namespace VersOne.Epub.Test.Unit.Readers
             return TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage, epubReaderOptions);
         }
 
-        private async Task TestFailingReadOperation(string opfFileContent)
+        private async Task TestFailingReadOperation(string opfFileContent, EpubReaderOptions epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithOpfFile(opfFileContent);
-            await Assert.ThrowsAsync<EpubPackageException>(() => PackageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH, new EpubReaderOptions()));
+            PackageReader packageReader = new(epubReaderOptions);
+            await Assert.ThrowsAsync<EpubPackageException>(() => packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH));
         }
 
         private TestZipFile CreateTestZipFileWithOpfFile(string opfFileContent)

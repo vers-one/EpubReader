@@ -58,8 +58,12 @@ namespace VersOne.Epub.Test.Unit.TestData
                 <item id="item-7" href="{FONT1_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
                 <item id="item-8" href="{FONT2_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
                 <item id="item-9" href="{AUDIO_FILE_NAME}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
-                <item id="item-10" href="{REMOTE_TEXT_CONTENT_ITEM_HREF}" media-type="{HTML_CONTENT_MIME_TYPE}" />
-                <item id="item-11" href="{REMOTE_BYTE_CONTENT_ITEM_HREF}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
+                <item id="item-10" href="{REMOTE_HTML_CONTENT_FILE_HREF}" media-type="{HTML_CONTENT_MIME_TYPE}" />
+                <item id="item-11" href="{REMOTE_CSS_CONTENT_FILE_HREF}" media-type="{CSS_CONTENT_MIME_TYPE}" />
+                <item id="item-12" href="{REMOTE_IMAGE_CONTENT_FILE_HREF}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
+                <item id="item-13" href="{REMOTE_FONT_CONTENT_FILE_HREF}" media-type="{FONT_CONTENT_MIME_TYPE}" />
+                <item id="item-14" href="{REMOTE_XML_CONTENT_FILE_HREF}" media-type="{XML_CONTENT_MIME_TYPE}" />
+                <item id="item-15" href="{REMOTE_AUDIO_CONTENT_FILE_HREF}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
                 <item id="item-toc" href="{NAV_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" properties="nav" />
                 <item id="item-cover" href="{COVER_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" properties="cover-image" />
                 <item id="ncx" href="{NCX_FILE_NAME}" media-type="{NCX_CONTENT_MIME_TYPE}" />
@@ -136,6 +140,18 @@ namespace VersOne.Epub.Test.Unit.TestData
         public static readonly byte[] FONT2_FILE_CONTENT = new byte[] { 0x00, 0x01, 0x00, 0x02 };
 
         public static readonly byte[] AUDIO_FILE_CONTENT = new byte[] { 0x49, 0x44, 0x33, 0x03 };
+
+        public const string REMOTE_HTML_FILE_CONTENT = "<html><head><title>Remote HTML file</title></head><body><h1>Remote HTML file content</h1></body></html>";
+
+        public const string REMOTE_CSS_FILE_CONTENT = ".remote-text{color:#030303}";
+
+        public static readonly byte[] REMOTE_IMAGE_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x03 };
+
+        public static readonly byte[] REMOTE_FONT_FILE_CONTENT = new byte[] { 0x00, 0x01, 0x00, 0x03 };
+
+        public const string REMOTE_XML_FILE_CONTENT = "<test>Remote XML file</test>";
+
+        public static readonly byte[] REMOTE_AUDIO_FILE_CONTENT = new byte[] { 0x49, 0x44, 0x33, 0x04 };
 
         public static TestZipFile CreateMinimalTestEpubFile()
         {

@@ -288,8 +288,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            await Assert.ThrowsAsync<Epub3NavException>(() => Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH,
-                epubPackage, new EpubReaderOptions()));
+            Epub3NavDocumentReader epub3NavDocumentReader = new();
+            await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage));
         }
 
         [Fact(DisplayName = "ReadEpub3NavDocumentAsync should return null if EpubPackage is missing the NAV item and EpubVersion is EPUB_2")]
@@ -304,7 +304,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     Items = new List<EpubManifestItem>()
                 }
             };
-            Epub3NavDocument epub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage, new EpubReaderOptions());
+            Epub3NavDocumentReader epub3NavDocumentReader = new();
+            Epub3NavDocument epub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
             Assert.Null(epub3NavDocument);
         }
 
@@ -312,8 +313,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub3NavDocumentAsyncWithoutNavFileTest()
         {
             TestZipFile testZipFile = new();
-            await Assert.ThrowsAsync<Epub3NavException>(() =>
-                Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav, new EpubReaderOptions()));
+            Epub3NavDocumentReader epub3NavDocumentReader = new();
+            await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav));
         }
 
         [Fact(DisplayName = "ReadEpub3NavDocumentAsync should throw Epub3NavException if the NCX file is larger than 2 GB")]
@@ -321,8 +322,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(NAV_FILE_PATH_IN_EPUB_ARCHIVE, new Test4GbZipFileEntry());
-            await Assert.ThrowsAsync<Epub3NavException>(() =>
-                Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav, new EpubReaderOptions()));
+            Epub3NavDocumentReader epub3NavDocumentReader = new();
+            await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav));
         }
 
         [Fact(DisplayName = "ReadEpub3NavDocumentAsync should throw Epub3NavException if the NAV file is missing the 'html' XML element")]
@@ -340,16 +341,16 @@ namespace VersOne.Epub.Test.Unit.Readers
         private async Task TestSuccessfulReadOperation(string navFileContent, Epub3NavDocument expectedEpub3NavDocument, EpubReaderOptions epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNavFile(navFileContent);
-            Epub3NavDocument actualEpub3NavDocument = await Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH,
-                MinimalEpubPackageWithNav, epubReaderOptions ?? new EpubReaderOptions());
+            Epub3NavDocumentReader epub3NavDocumentReader = new(epubReaderOptions);
+            Epub3NavDocument actualEpub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav);
             Epub3NavDocumentComparer.CompareEpub3NavDocuments(expectedEpub3NavDocument, actualEpub3NavDocument);
         }
 
         private async Task TestFailingReadOperation(string navFileContent)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNavFile(navFileContent);
-            await Assert.ThrowsAsync<Epub3NavException>(() =>
-                Epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav, new EpubReaderOptions()));
+            Epub3NavDocumentReader epub3NavDocumentReader = new();
+            await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav));
         }
 
         private TestZipFile CreateTestZipFileWithNavFile(string navFileContent)

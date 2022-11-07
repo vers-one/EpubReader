@@ -2,9 +2,6 @@
     <PropertyGroup>
         <TargetFrameworks>net46;netstandard1.3;netstandard2.0</TargetFrameworks>
         <Authors>vers</Authors>
-        <Company />
-        <Product />
-        <Description />
         <Copyright>vers, 2015-2022</Copyright>
         <Version>3.3</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -13,9 +10,6 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
-    <ItemGroup>
-      <AdditionalFiles Include="stylecop.json" />
-    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="SonarAnalyzer.CSharp" Version="8.45.0.54064">
           <PrivateAssets>all</PrivateAssets>
@@ -29,8 +23,10 @@
         <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
         <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
         <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
-    </ItemGroup>
-    <ItemGroup>
+        <AdditionalFiles Include="stylecop.json" />
         <InternalsVisibleTo Include="VersOne.Epub.Test" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+        <Reference Include="System.Net.Http" />
     </ItemGroup>
 </Project>

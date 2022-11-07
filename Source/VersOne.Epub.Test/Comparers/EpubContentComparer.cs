@@ -4,42 +4,48 @@
     {
         public static void CompareEpubContents(EpubContent expected, EpubContent actual)
         {
-            CompareEpubContentFiles(expected.Cover, actual.Cover);
-            CompareEpubContentFiles(expected.NavigationHtmlFile, actual.NavigationHtmlFile);
-            CollectionComparer.CompareDictionaries(expected.Html, actual.Html, CompareEpubTextContentFiles);
-            CollectionComparer.CompareDictionaries(expected.Css, actual.Css, CompareEpubTextContentFiles);
-            CollectionComparer.CompareDictionaries(expected.Images, actual.Images, CompareEpubByteContentFiles);
-            CollectionComparer.CompareDictionaries(expected.Fonts, actual.Fonts, CompareEpubByteContentFiles);
-            CollectionComparer.CompareDictionaries(expected.AllFiles, actual.AllFiles, CompareEpubContentFilesWithContent);
+            CompareEpubLocalByteContentFiles(expected.Cover, actual.Cover);
+            CompareEpubLocalTextContentFiles(expected.NavigationHtmlFile, actual.NavigationHtmlFile);
+            CompareContentCollections(expected.Html, actual.Html, CompareEpubLocalTextContentFiles, CompareEpubRemoteTextContentFiles);
+            CompareContentCollections(expected.Css, actual.Css, CompareEpubLocalTextContentFiles, CompareEpubRemoteTextContentFiles);
+            CompareContentCollections(expected.Images, actual.Images, CompareEpubLocalByteContentFiles, CompareEpubRemoteByteContentFiles);
+            CompareContentCollections(expected.Fonts, actual.Fonts, CompareEpubLocalByteContentFiles, CompareEpubRemoteByteContentFiles);
+            CompareContentCollections(expected.AllFiles, actual.AllFiles, CompareLocalEpubContentFilesWithContent, CompareRemoteEpubContentFilesWithContent);
         }
 
-        public static void CompareEpubTextContentFiles(EpubTextContentFile expected, EpubTextContentFile actual)
+        public static void CompareEpubLocalTextContentFiles(EpubLocalTextContentFile expected, EpubLocalTextContentFile actual)
         {
-            CompareEpubContentFiles(expected, actual);
+            CompareEpubLocalContentFiles(expected, actual);
             if (expected != null)
             {
                 Assert.Equal(expected.Content, actual.Content);
             }
         }
 
-        public static void CompareEpubByteContentFiles(EpubByteContentFile expected, EpubByteContentFile actual)
+        public static void CompareEpubLocalByteContentFiles(EpubLocalByteContentFile expected, EpubLocalByteContentFile actual)
         {
-            CompareEpubContentFiles(expected, actual);
+            CompareEpubLocalContentFiles(expected, actual);
             if (expected != null)
             {
                 Assert.Equal(expected.Content, actual.Content);
             }
         }
 
-        private static void CompareEpubContentFilesWithContent(EpubContentFile expected, EpubContentFile actual)
+        public static void CompareEpubRemoteTextContentFiles(EpubRemoteTextContentFile expected, EpubRemoteTextContentFile actual)
         {
-            if (expected is EpubTextContentFile)
+            CompareEpubRemoteContentFiles(expected, actual);
+            if (expected != null)
             {
-                CompareEpubTextContentFiles(expected as EpubTextContentFile, actual as EpubTextContentFile);
+                Assert.Equal(expected.Content, actual.Content);
             }
-            else if (expected is EpubByteContentFile)
+        }
+
+        public static void CompareEpubRemoteByteContentFiles(EpubRemoteByteContentFile expected, EpubRemoteByteContentFile actual)
+        {
+            CompareEpubRemoteContentFiles(expected, actual);
+            if (expected != null)
             {
-                CompareEpubByteContentFiles(expected as EpubByteContentFile, actual as EpubByteContentFile);
+                Assert.Equal(expected.Content, actual.Content);
             }
         }
 
@@ -52,12 +58,65 @@
             else
             {
                 Assert.NotNull(actual);
-                Assert.Equal(expected.FileName, actual.FileName);
-                Assert.Equal(expected.FilePathInEpubArchive, actual.FilePathInEpubArchive);
-                Assert.Equal(expected.Href, actual.Href);
+                Assert.Equal(expected.GetType(), actual.GetType());
+                Assert.Equal(expected.Key, actual.Key);
                 Assert.Equal(expected.ContentLocation, actual.ContentLocation);
                 Assert.Equal(expected.ContentType, actual.ContentType);
                 Assert.Equal(expected.ContentMimeType, actual.ContentMimeType);
+            }
+        }
+
+        private static void CompareContentCollections<TLocalContentFile, TRemoteContentFile>(
+            EpubContentCollection<TLocalContentFile, TRemoteContentFile> expected,
+            EpubContentCollection<TLocalContentFile, TRemoteContentFile> actual,
+            Action<TLocalContentFile, TLocalContentFile> localContentFileComprarer,
+            Action<TRemoteContentFile, TRemoteContentFile> remoteContentFileComparer)
+            where TLocalContentFile : EpubLocalContentFile
+            where TRemoteContentFile : EpubRemoteContentFile
+        {
+            CollectionComparer.CompareDictionaries(expected.Local, actual.Local, localContentFileComprarer);
+            CollectionComparer.CompareDictionaries(expected.Remote, actual.Remote, remoteContentFileComparer);
+        }
+
+        private static void CompareLocalEpubContentFilesWithContent(EpubLocalContentFile expected, EpubLocalContentFile actual)
+        {
+            if (expected is EpubLocalTextContentFile)
+            {
+                CompareEpubLocalTextContentFiles(expected as EpubLocalTextContentFile, actual as EpubLocalTextContentFile);
+            }
+            else if (expected is EpubLocalByteContentFile)
+            {
+                CompareEpubLocalByteContentFiles(expected as EpubLocalByteContentFile, actual as EpubLocalByteContentFile);
+            }
+        }
+
+        private static void CompareRemoteEpubContentFilesWithContent(EpubRemoteContentFile expected, EpubRemoteContentFile actual)
+        {
+            if (expected is EpubRemoteTextContentFile)
+            {
+                CompareEpubRemoteTextContentFiles(expected as EpubRemoteTextContentFile, actual as EpubRemoteTextContentFile);
+            }
+            else if (expected is EpubRemoteByteContentFile)
+            {
+                CompareEpubRemoteByteContentFiles(expected as EpubRemoteByteContentFile, actual as EpubRemoteByteContentFile);
+            }
+        }
+
+        private static void CompareEpubLocalContentFiles(EpubLocalContentFile expected, EpubLocalContentFile actual)
+        {
+            CompareEpubContentFiles(expected, actual);
+            if (expected != null)
+            {
+                Assert.Equal(expected.FilePath, actual.FilePath);
+            }
+        }
+
+        private static void CompareEpubRemoteContentFiles(EpubRemoteContentFile expected, EpubRemoteContentFile actual)
+        {
+            CompareEpubContentFiles(expected, actual);
+            if (expected != null)
+            {
+                Assert.Equal(expected.Url, actual.Url);
             }
         }
     }

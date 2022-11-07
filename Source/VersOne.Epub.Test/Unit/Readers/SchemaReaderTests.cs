@@ -278,7 +278,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubSchema actualEpubSchema = await SchemaReader.ReadSchemaAsync(testZipFile, new EpubReaderOptions());
+            SchemaReader schemaReader = new();
+            EpubSchema actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);
             EpubSchemaComparer.CompareEpubSchemas(expectedEpubSchema, actualEpubSchema);
         }
     }

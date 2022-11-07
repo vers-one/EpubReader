@@ -8,9 +8,10 @@ namespace VersOne.Epub.Internal
 {
     internal static class BookCoverReader
     {
-        public static EpubByteContentFileRef ReadBookCover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
+        public static EpubLocalByteContentFileRef ReadBookCover(
+            EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs)
         {
-            EpubByteContentFileRef result;
+            EpubLocalByteContentFileRef result;
             if (epubSchema.Package.EpubVersion == EpubVersion.EPUB_3 || epubSchema.Package.EpubVersion == EpubVersion.EPUB_3_1)
             {
                 result = ReadEpub3Cover(epubSchema, imageContentRefs);
@@ -26,9 +27,10 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubByteContentFileRef ReadEpub2Cover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
+        private static EpubLocalByteContentFileRef ReadEpub2Cover(
+            EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs)
         {
-            EpubByteContentFileRef result = ReadEpub2CoverFromMetadata(epubSchema, imageContentRefs);
+            EpubLocalByteContentFileRef result = ReadEpub2CoverFromMetadata(epubSchema, imageContentRefs);
             if (result == null)
             {
                 result = ReadEpub2CoverFromGuide(epubSchema, imageContentRefs);
@@ -36,7 +38,8 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubByteContentFileRef ReadEpub2CoverFromMetadata(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
+        private static EpubLocalByteContentFileRef ReadEpub2CoverFromMetadata(
+            EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs)
         {
             List<EpubMetadataMeta> metaItems = epubSchema.Package.Metadata.MetaItems;
             if (metaItems == null || !metaItems.Any())
@@ -62,29 +65,36 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
+            EpubLocalByteContentFileRef result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href);
+            if (result == null)
             {
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
             }
-            return coverImageContentFileRef;
+            return result;
         }
 
-        private static EpubByteContentFileRef ReadEpub2CoverFromGuide(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
+        private static EpubLocalByteContentFileRef ReadEpub2CoverFromGuide(
+            EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs)
         {
             if (epubSchema.Package.Guide != null)
             {
                 foreach (EpubGuideReference guideReference in epubSchema.Package.Guide.Items)
                 {
-                    if (guideReference.Type.ToLowerInvariant() == "cover" && imageContentRefs.TryGetValue(guideReference.Href, out EpubByteContentFileRef coverImageContentFileRef))
+                    if (guideReference.Type.ToLowerInvariant() == "cover")
                     {
-                        return coverImageContentFileRef;
+                        EpubLocalByteContentFileRef coverImageContentFileRef = GetCoverImageContentRef(imageContentRefs, guideReference.Href);
+                        if (coverImageContentFileRef != null)
+                        {
+                            return coverImageContentFileRef;
+                        }
                     }
                 }
             }
             return null;
         }
 
-        private static EpubByteContentFileRef ReadEpub3Cover(EpubSchema epubSchema, Dictionary<string, EpubByteContentFileRef> imageContentRefs)
+        private static EpubLocalByteContentFileRef ReadEpub3Cover(
+            EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs)
         {
             EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Properties != null &&
                 manifestItem.Properties.Contains(EpubManifestProperty.COVER_IMAGE));
@@ -92,9 +102,24 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            if (!imageContentRefs.TryGetValue(coverManifestItem.Href, out EpubByteContentFileRef coverImageContentFileRef))
+            EpubLocalByteContentFileRef result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href);
+            if (result == null)
             {
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
+            }
+            return result;
+        }
+
+        private static EpubLocalByteContentFileRef GetCoverImageContentRef(
+            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs, string coverImageContentFileKey)
+        {
+            if (imageContentRefs.Remote.ContainsKey(coverImageContentFileKey))
+            {
+                throw new EpubPackageException($"Incorrect EPUB manifest: EPUB cover image \"{coverImageContentFileKey}\" cannot be a remote resource.");
+            }
+            if (!imageContentRefs.Local.TryGetValue(coverImageContentFileKey, out EpubLocalByteContentFileRef coverImageContentFileRef))
+            {
+                return null;
             }
             return coverImageContentFileRef;
         }

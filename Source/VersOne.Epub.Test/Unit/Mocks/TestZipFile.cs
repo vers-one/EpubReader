@@ -29,6 +29,11 @@ namespace VersOne.Epub.Test.Unit.Mocks
             entries.Add(entryName, new TestZipFileEntry(entryContent));
         }
 
+        public void AddEntry(string entryName, MemoryStream entryContentStream)
+        {
+            entries.Add(entryName, new TestZipFileEntry(entryContentStream));
+        }
+
         public IZipFileEntry GetEntry(string entryName)
         {
             return entries.TryGetValue(entryName, out IZipFileEntry value) ? value : null;

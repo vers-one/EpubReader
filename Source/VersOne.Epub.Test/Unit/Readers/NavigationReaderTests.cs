@@ -110,7 +110,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef testTextContentFileRef = CreateTestHtmlFile(testZipFile, "chapter1.html");
+            EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
             epubBookRef.Content = CreateContentRef(null, testTextContentFileRef);
             EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationLink("Test label 1", "chapter1.html", testTextContentFileRef);
             EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Test label 3", "chapter1.html#section-1", testTextContentFileRef);
@@ -229,9 +229,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile(testZipFile);
-            EpubTextContentFileRef testTextContentFileRef1 = CreateTestHtmlFile(testZipFile, "chapter1.html");
-            EpubTextContentFileRef testTextContentFileRef2 = CreateTestHtmlFile(testZipFile, "chapter2.html");
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
+            EpubLocalTextContentFileRef testTextContentFileRef1 = CreateTestHtmlFile("chapter1.html");
+            EpubLocalTextContentFileRef testTextContentFileRef2 = CreateTestHtmlFile("chapter2.html");
             epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef1, testTextContentFileRef2);
             EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationHeader("Test header");
             EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Test text 1", "chapter1.html", testTextContentFileRef1);
@@ -289,8 +289,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile(testZipFile);
-            EpubTextContentFileRef testTextContentFileRef = CreateTestHtmlFile(testZipFile, "chapter1.html");
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
+            EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
             epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
@@ -336,7 +336,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile(testZipFile);
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new();
             List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
@@ -391,7 +391,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile(testZipFile);
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
@@ -544,8 +544,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 }
             };
-            EpubTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile(testZipFile);
-            EpubTextContentFileRef testTextContentFileRef = CreateTestHtmlFile(testZipFile, "chapter1.html");
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
+            EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
             epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
@@ -566,17 +566,86 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        private EpubTextContentFileRef CreateTestNavigationFile(TestZipFile testZipFile)
+        [Fact(DisplayName = "GetNavigationItems should throw EpubPackageException if the content file referenced by a navigation item is a remote resource")]
+        public void GetNavigationItemsWithRemoteContentFileTest()
         {
-            return CreateTestHtmlFile(testZipFile, "toc.html");
+            string remoteFileHref = "https://example.com/books/123/chapter1.html";
+            TestZipFile testZipFile = new();
+            EpubBookRef epubBookRef = new(testZipFile)
+            {
+                Schema = new EpubSchema()
+                {
+                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
+                    Package = new EpubPackage()
+                    {
+                        EpubVersion = EpubVersion.EPUB_3
+                    },
+                    Epub3NavDocument = new Epub3NavDocument()
+                    {
+                        Navs = new List<Epub3Nav>()
+                        {
+                            new Epub3Nav()
+                            {
+                                Type = Epub3NavStructuralSemanticsProperty.TOC,
+                                Head = null,
+                                Ol = new Epub3NavOl()
+                                {
+                                    Lis = new List<Epub3NavLi>()
+                                    {
+                                        new Epub3NavLi()
+                                        {
+                                            Anchor = new Epub3NavAnchor()
+                                            {
+                                                Text = "Test text",
+                                                Href = remoteFileHref
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
+            EpubContentFileRefMetadata testTextContentFileRefMetadata = new(remoteFileHref, EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubRemoteTextContentFileRef testTextContentFileRef = new(testTextContentFileRefMetadata, new TestEpubContentLoader());
+            epubBookRef.Content = new EpubContentRef()
+            {
+                NavigationHtmlFile = testNavigationHtmlFileRef,
+                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
+                {
+                    Local = new Dictionary<string, EpubLocalTextContentFileRef>()
+                    {
+                        {
+                            testNavigationHtmlFileRef.Key,
+                            testNavigationHtmlFileRef
+                        }
+                    },
+                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+                    {
+                        {
+                            testTextContentFileRef.Key,
+                            testTextContentFileRef
+                        }
+                    }
+                }
+            };
+            Assert.Throws<EpubPackageException>(() => NavigationReader.GetNavigationItems(epubBookRef));
         }
 
-        private EpubTextContentFileRef CreateTestHtmlFile(TestZipFile testZipFile, string htmlFileName)
+        private EpubLocalTextContentFileRef CreateTestNavigationFile()
         {
-            return new(htmlFileName, EpubContentLocation.LOCAL, EpubContentType.XHTML_1_1, "application/xhtml+xml", testZipFile, CONTENT_DIRECTORY_PATH);
+            return CreateTestHtmlFile("toc.html");
         }
 
-        private EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubTextContentFileRef htmlFileRef)
+        private EpubLocalTextContentFileRef CreateTestHtmlFile(string htmlFileName)
+        {
+            return new(new EpubContentFileRefMetadata(htmlFileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"),
+                $"{CONTENT_DIRECTORY_PATH}/{htmlFileName}", new TestEpubContentLoader());
+        }
+
+        private EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
         {
             return new()
             {
@@ -598,20 +667,24 @@ namespace VersOne.Epub.Test.Unit.Readers
             };
         }
 
-        private EpubContentRef CreateContentRef(EpubTextContentFileRef navigationHtmlFile, params EpubTextContentFileRef[] htmlFiles)
+        private EpubContentRef CreateContentRef(EpubLocalTextContentFileRef navigationHtmlFile, params EpubLocalTextContentFileRef[] htmlFiles)
         {
             EpubContentRef result = new()
             {
-                Html = new Dictionary<string, EpubTextContentFileRef>()
+                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
+                {
+                    Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
+                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+                }
             };
             if (navigationHtmlFile != null)
             {
                 result.NavigationHtmlFile = navigationHtmlFile;
-                result.Html[navigationHtmlFile.FileName] = navigationHtmlFile;
+                result.Html.Local[navigationHtmlFile.Key] = navigationHtmlFile;
             }
-            foreach (EpubTextContentFileRef htmlFile in htmlFiles)
+            foreach (EpubLocalTextContentFileRef htmlFile in htmlFiles)
             {
-                result.Html[htmlFile.FileName] = htmlFile;
+                result.Html.Local[htmlFile.Key] = htmlFile;
             }
             return result;
         }

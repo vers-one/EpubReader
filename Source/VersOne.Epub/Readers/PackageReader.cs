@@ -10,9 +10,16 @@ using VersOne.Epub.Utils;
 
 namespace VersOne.Epub.Internal
 {
-    internal static class PackageReader
+    internal class PackageReader
     {
-        public static async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath, EpubReaderOptions epubReaderOptions)
+        private readonly EpubReaderOptions epubReaderOptions;
+
+        public PackageReader(EpubReaderOptions epubReaderOptions = null)
+        {
+            this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+        }
+
+        public async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
         {
             IZipFileEntry rootFileEntry = epubFile.GetEntry(rootFilePath);
             if (rootFileEntry == null)
@@ -357,7 +364,7 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.Id))
                     {
-                        if (packageReaderOptions.SkipInvalidManifestItems)
+                        if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
                         {
                             continue;
                         }
@@ -365,7 +372,7 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.Href))
                     {
-                        if (packageReaderOptions.SkipInvalidManifestItems)
+                        if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
                         {
                             continue;
                         }
@@ -373,7 +380,7 @@ namespace VersOne.Epub.Internal
                     }
                     if (String.IsNullOrWhiteSpace(manifestItem.MediaType))
                     {
-                        if (packageReaderOptions.SkipInvalidManifestItems)
+                        if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
                         {
                             continue;
                         }
@@ -407,7 +414,7 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
-            if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(result.Toc) && !packageReaderOptions.IgnoreMissingToc)
+            if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(result.Toc) && (packageReaderOptions == null || !packageReaderOptions.IgnoreMissingToc))
             {
                 throw new EpubPackageException("Incorrect EPUB spine: TOC is missing");
             }

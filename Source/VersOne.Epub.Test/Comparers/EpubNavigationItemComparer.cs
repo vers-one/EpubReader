@@ -36,7 +36,7 @@
             Assert.Equal(expected.Type, actual.Type);
             Assert.Equal(expected.Title, actual.Title);
             CompareNavigationItemLinks(expected.Link, actual.Link);
-            EpubContentComparer.CompareEpubTextContentFiles(expected.HtmlContentFile, actual.HtmlContentFile);
+            EpubContentComparer.CompareEpubLocalTextContentFiles(expected.HtmlContentFile, actual.HtmlContentFile);
             CompareNavigationItemLists(expected.NestedItems, actual.NestedItems);
         }
     }

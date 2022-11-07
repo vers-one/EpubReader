@@ -6,9 +6,16 @@ using VersOne.Epub.Options;
 
 namespace VersOne.Epub.Internal
 {
-    internal static class RootFilePathReader
+    internal class RootFilePathReader
     {
-        public static async Task<string> GetRootFilePathAsync(IZipFile epubFile, EpubReaderOptions epubReaderOptions)
+        private readonly EpubReaderOptions epubReaderOptions;
+
+        public RootFilePathReader(EpubReaderOptions epubReaderOptions = null)
+        {
+            this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+        }
+
+        public async Task<string> GetRootFilePathAsync(IZipFile epubFile)
         {
             const string EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
             IZipFileEntry containerFileEntry = epubFile.GetEntry(EPUB_CONTAINER_FILE_PATH);

@@ -26,7 +26,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
             yield return new KeyValuePair<object, object>("$file", Path.GetFileName(epubBook.FilePath));
             if (epubBook.CoverImage != null)
             {
-                yield return new KeyValuePair<object, object>("$cover", FILE_PATH_IN_EPUB_PREFIX + epubBook.Content.Cover.FilePathInEpubArchive);
+                yield return new KeyValuePair<object, object>("$cover", FILE_PATH_IN_EPUB_PREFIX + epubBook.Content.Cover.FilePath);
             }
         }
 
@@ -48,28 +48,28 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
             }
         }
 
-        public IEnumerable<KeyValuePair<object, object>> GetEpubContentFileExtensionData(object serializingObject)
+        public IEnumerable<KeyValuePair<object, object>> GetEpubLocalContentFileExtensionData(object serializingObject)
         {
-            EpubContentFile epubContentFile = (EpubContentFile)serializingObject;
-            if (!String.IsNullOrEmpty(epubContentFile.FilePathInEpubArchive))
+            EpubLocalContentFile epubLocalContentFile = (EpubLocalContentFile)serializingObject;
+            if (!String.IsNullOrEmpty(epubLocalContentFile.FilePath))
             {
-                yield return new KeyValuePair<object, object>("$content", FILE_PATH_IN_EPUB_PREFIX + epubContentFile.FilePathInEpubArchive);
+                yield return new KeyValuePair<object, object>("$content", FILE_PATH_IN_EPUB_PREFIX + epubLocalContentFile.FilePath);
             }
         }
 
-        public void SetEpubByteContentFileExtensionData(object deserializingObject, string key, object value)
+        public void SetEpubLocalByteContentFileExtensionData(object deserializingObject, string key, object value)
         {
             if (key == "$content" && value != null && value.ToString().StartsWith(FILE_PATH_IN_EPUB_PREFIX))
             {
-                (deserializingObject as EpubByteContentFile).Content = ReadFileAsBytes(value.ToString()[FILE_PATH_IN_EPUB_PREFIX.Length..]);
+                (deserializingObject as EpubLocalByteContentFile).Content = ReadFileAsBytes(value.ToString()[FILE_PATH_IN_EPUB_PREFIX.Length..]);
             }
         }
 
-        public void SetEpubTextContentFileExtensionData(object deserializingObject, string key, object value)
+        public void SetEpubLocalTextContentFileExtensionData(object deserializingObject, string key, object value)
         {
             if (key == "$content" && value != null && value.ToString().StartsWith(FILE_PATH_IN_EPUB_PREFIX))
             {
-                (deserializingObject as EpubTextContentFile).Content = ReadFileAsText(value.ToString()[FILE_PATH_IN_EPUB_PREFIX.Length..]);
+                (deserializingObject as EpubLocalTextContentFile).Content = ReadFileAsText(value.ToString()[FILE_PATH_IN_EPUB_PREFIX.Length..]);
             }
         }
 

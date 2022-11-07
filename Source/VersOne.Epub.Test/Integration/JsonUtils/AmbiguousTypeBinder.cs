@@ -10,8 +10,8 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
         {
             ambiguousTypes = new List<Type>
             {
-                typeof(EpubByteContentFile),
-                typeof(EpubTextContentFile)
+                typeof(EpubLocalByteContentFile),
+                typeof(EpubLocalTextContentFile)
             };
         }
 

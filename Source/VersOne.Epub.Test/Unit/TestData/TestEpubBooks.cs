@@ -6,14 +6,12 @@ namespace VersOne.Epub.Test.Unit.TestData
     {
         public static EpubBook CreateMinimalTestEpubBook(string epubFilePath)
         {
-            EpubTextContentFile navFile = new()
+            EpubLocalTextContentFile navFile = new()
             {
-                FileName = NAV_FILE_NAME,
-                FilePathInEpubArchive = NAV_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = NAV_FILE_NAME,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
+                FilePath = NAV_FILE_PATH,
                 Content = TestEpubFiles.MINIMAL_NAV_FILE_CONTENT
             };
             return new()
@@ -24,27 +22,47 @@ namespace VersOne.Epub.Test.Unit.TestData
                 AuthorList = new List<string>(),
                 Description = null,
                 CoverImage = null,
-                ReadingOrder = new List<EpubTextContentFile>(),
+                ReadingOrder = new List<EpubLocalTextContentFile>(),
                 Navigation = new List<EpubNavigationItem>(),
                 Schema = TestEpubSchemas.CreateMinimalTestEpubSchema(),
                 Content = new EpubContent()
                 {
-                    Html = new Dictionary<string, EpubTextContentFile>()
+                    Html = new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalTextContentFile>()
                         {
-                            NAV_FILE_NAME,
-                            navFile
-                        }
+                            {
+                                NAV_FILE_NAME,
+                                navFile
+                            }
+                        },
+                        Remote = new Dictionary<string, EpubRemoteTextContentFile>()
                     },
-                    Css = new Dictionary<string, EpubTextContentFile>(),
-                    Images = new Dictionary<string, EpubByteContentFile>(),
-                    Fonts = new Dictionary<string, EpubByteContentFile>(),
-                    AllFiles = new Dictionary<string, EpubContentFile>()
+                    Css = new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalTextContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteTextContentFile>()
+                    },
+                    Images = new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalByteContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteByteContentFile>()
+                    },
+                    Fonts = new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalByteContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteByteContentFile>()
+                    },
+                    AllFiles = new EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalContentFile>()
                         {
-                            NAV_FILE_NAME,
-                            navFile
-                        }
+                            {
+                                NAV_FILE_NAME,
+                                navFile
+                            }
+                        },
+                        Remote = new Dictionary<string, EpubRemoteContentFile>()
                     },
                     NavigationHtmlFile = navFile,
                     Cover = null
@@ -62,162 +80,186 @@ namespace VersOne.Epub.Test.Unit.TestData
                 AuthorList = new List<string>(),
                 Description = null,
                 CoverImage = null,
-                ReadingOrder = new List<EpubTextContentFile>(),
+                ReadingOrder = new List<EpubLocalTextContentFile>(),
                 Navigation = null,
                 Schema = TestEpubSchemas.CreateMinimalTestEpub2SchemaWithoutNavigation(),
                 Content = new EpubContent()
                 {
-                    Html = new Dictionary<string, EpubTextContentFile>(),
-                    Css = new Dictionary<string, EpubTextContentFile>(),
-                    Images = new Dictionary<string, EpubByteContentFile>(),
-                    Fonts = new Dictionary<string, EpubByteContentFile>(),
-                    AllFiles = new Dictionary<string, EpubContentFile>(),
+                    Html = new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalTextContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteTextContentFile>()
+                    },
+                    Css = new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalTextContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteTextContentFile>()
+                    },
+                    Images = new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalByteContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteByteContentFile>()
+                    },
+                    Fonts = new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalByteContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteByteContentFile>()
+                    },
+                    AllFiles = new EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>()
+                    {
+                        Local = new Dictionary<string, EpubLocalContentFile>(),
+                        Remote = new Dictionary<string, EpubRemoteContentFile>()
+                    },
                     NavigationHtmlFile = null,
                     Cover = null
                 }
             };
         }
 
-        public static EpubBook CreateFullTestEpubBook(string epubFilePath)
+        public static EpubBook CreateFullTestEpubBook(string epubFilePath, bool populateRemoteFilesContents)
         {
-            EpubTextContentFile chapter1File = new()
+            EpubLocalTextContentFile chapter1File = new()
             {
-                FileName = CHAPTER1_FILE_NAME,
-                FilePathInEpubArchive = CHAPTER1_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = CHAPTER1_FILE_NAME,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
+                FilePath = CHAPTER1_FILE_PATH,
                 Content = TestEpubFiles.CHAPTER1_FILE_CONTENT
             };
-            EpubTextContentFile chapter2File = new()
+            EpubLocalTextContentFile chapter2File = new()
             {
-                FileName = CHAPTER2_FILE_NAME,
-                FilePathInEpubArchive = CHAPTER2_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = CHAPTER2_FILE_NAME,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
+                FilePath = CHAPTER2_FILE_PATH,
                 Content = TestEpubFiles.CHAPTER2_FILE_CONTENT
             };
-            EpubTextContentFile styles1File = new()
+            EpubLocalTextContentFile styles1File = new()
             {
-                FileName = STYLES1_FILE_NAME,
-                FilePathInEpubArchive = STYLES1_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = STYLES1_FILE_NAME,
                 ContentType = CSS_CONTENT_TYPE,
                 ContentMimeType = CSS_CONTENT_MIME_TYPE,
+                FilePath = STYLES1_FILE_PATH,
                 Content = TestEpubFiles.STYLES1_FILE_CONTENT
             };
-            EpubTextContentFile styles2File = new()
+            EpubLocalTextContentFile styles2File = new()
             {
-                FileName = STYLES2_FILE_NAME,
-                FilePathInEpubArchive = STYLES2_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = STYLES2_FILE_NAME,
                 ContentType = CSS_CONTENT_TYPE,
                 ContentMimeType = CSS_CONTENT_MIME_TYPE,
+                FilePath = STYLES2_FILE_PATH,
                 Content = TestEpubFiles.STYLES2_FILE_CONTENT
             };
-            EpubByteContentFile image1File = new()
+            EpubLocalByteContentFile image1File = new()
             {
-                FileName = IMAGE1_FILE_NAME,
-                FilePathInEpubArchive = IMAGE1_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = IMAGE1_FILE_NAME,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
+                FilePath = IMAGE1_FILE_PATH,
                 Content = TestEpubFiles.IMAGE1_FILE_CONTENT
             };
-            EpubByteContentFile image2File = new()
+            EpubLocalByteContentFile image2File = new()
             {
-                FileName = IMAGE2_FILE_NAME,
-                FilePathInEpubArchive = IMAGE2_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = IMAGE2_FILE_NAME,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
+                FilePath = IMAGE2_FILE_PATH,
                 Content = TestEpubFiles.IMAGE2_FILE_CONTENT
             };
-            EpubByteContentFile font1File = new()
+            EpubLocalByteContentFile font1File = new()
             {
-                FileName = FONT1_FILE_NAME,
-                FilePathInEpubArchive = FONT1_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = FONT1_FILE_NAME,
                 ContentType = FONT_CONTENT_TYPE,
                 ContentMimeType = FONT_CONTENT_MIME_TYPE,
+                FilePath = FONT1_FILE_PATH,
                 Content = TestEpubFiles.FONT1_FILE_CONTENT
             };
-            EpubByteContentFile font2File = new()
+            EpubLocalByteContentFile font2File = new()
             {
-                FileName = FONT2_FILE_NAME,
-                FilePathInEpubArchive = FONT2_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = FONT2_FILE_NAME,
                 ContentType = FONT_CONTENT_TYPE,
                 ContentMimeType = FONT_CONTENT_MIME_TYPE,
+                FilePath = FONT2_FILE_PATH,
                 Content = TestEpubFiles.FONT2_FILE_CONTENT
             };
-            EpubByteContentFile audioFile = new()
+            EpubLocalByteContentFile audioFile = new()
             {
-                FileName = AUDIO_FILE_NAME,
-                FilePathInEpubArchive = AUDIO_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = AUDIO_FILE_NAME,
                 ContentType = OTHER_CONTENT_TYPE,
                 ContentMimeType = AUDIO_MPEG_CONTENT_MIME_TYPE,
+                FilePath = AUDIO_FILE_PATH,
                 Content = TestEpubFiles.AUDIO_FILE_CONTENT
             };
-            EpubTextContentFile remoteTextContentItem = new()
+            EpubRemoteTextContentFile remoteHtmlContentFile = new()
             {
-                FileName = null,
-                FilePathInEpubArchive = null,
-                Href = REMOTE_TEXT_CONTENT_ITEM_HREF,
-                ContentLocation = EpubContentLocation.REMOTE,
+                Key = REMOTE_HTML_CONTENT_FILE_HREF,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
-                Content = null
+                Url = REMOTE_HTML_CONTENT_FILE_HREF,
+                Content = populateRemoteFilesContents ? TestEpubFiles.REMOTE_HTML_FILE_CONTENT : null
             };
-            EpubByteContentFile remoteByteContentItem = new()
+            EpubRemoteTextContentFile remoteCssContentFile = new()
             {
-                FileName = null,
-                FilePathInEpubArchive = null,
-                Href = REMOTE_BYTE_CONTENT_ITEM_HREF,
-                ContentLocation = EpubContentLocation.REMOTE,
+                Key = REMOTE_CSS_CONTENT_FILE_HREF,
+                ContentType = CSS_CONTENT_TYPE,
+                ContentMimeType = CSS_CONTENT_MIME_TYPE,
+                Url = REMOTE_CSS_CONTENT_FILE_HREF,
+                Content = populateRemoteFilesContents ? TestEpubFiles.REMOTE_CSS_FILE_CONTENT : null
+            };
+            EpubRemoteByteContentFile remoteImageContentFile = new()
+            {
+                Key = REMOTE_IMAGE_CONTENT_FILE_HREF,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
-                Content = null
+                Url = REMOTE_IMAGE_CONTENT_FILE_HREF,
+                Content = populateRemoteFilesContents ? TestEpubFiles.REMOTE_IMAGE_FILE_CONTENT : null
             };
-            EpubTextContentFile navFile = new()
+            EpubRemoteByteContentFile remoteFontContentFile = new()
             {
-                FileName = NAV_FILE_NAME,
-                FilePathInEpubArchive = NAV_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = REMOTE_FONT_CONTENT_FILE_HREF,
+                ContentType = FONT_CONTENT_TYPE,
+                ContentMimeType = FONT_CONTENT_MIME_TYPE,
+                Url = REMOTE_FONT_CONTENT_FILE_HREF,
+                Content = populateRemoteFilesContents ? TestEpubFiles.REMOTE_FONT_FILE_CONTENT : null
+            };
+            EpubRemoteTextContentFile remoteXmlContentFile = new()
+            {
+                Key = REMOTE_XML_CONTENT_FILE_HREF,
+                ContentType = XML_CONTENT_TYPE,
+                ContentMimeType = XML_CONTENT_MIME_TYPE,
+                Url = REMOTE_XML_CONTENT_FILE_HREF,
+                Content = populateRemoteFilesContents ? TestEpubFiles.REMOTE_XML_FILE_CONTENT : null
+            };
+            EpubRemoteByteContentFile remoteAudioContentFile = new()
+            {
+                Key = REMOTE_AUDIO_CONTENT_FILE_HREF,
+                ContentType = OTHER_CONTENT_TYPE,
+                ContentMimeType = AUDIO_MPEG_CONTENT_MIME_TYPE,
+                Url = REMOTE_AUDIO_CONTENT_FILE_HREF,
+                Content = populateRemoteFilesContents ? TestEpubFiles.REMOTE_AUDIO_FILE_CONTENT : null
+            };
+            EpubLocalTextContentFile navFile = new()
+            {
+                Key = NAV_FILE_NAME,
                 ContentType = HTML_CONTENT_TYPE,
                 ContentMimeType = HTML_CONTENT_MIME_TYPE,
+                FilePath = NAV_FILE_PATH,
                 Content = TestEpubFiles.FULL_NAV_FILE_CONTENT
             };
-            EpubByteContentFile coverFile = new()
+            EpubLocalByteContentFile coverFile = new()
             {
-                FileName = COVER_FILE_NAME,
-                FilePathInEpubArchive = COVER_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = COVER_FILE_NAME,
                 ContentType = IMAGE_CONTENT_TYPE,
                 ContentMimeType = IMAGE_CONTENT_MIME_TYPE,
+                FilePath = COVER_FILE_PATH,
                 Content = TestEpubFiles.COVER_FILE_CONTENT
             };
-            EpubTextContentFile ncxFile = new()
+            EpubLocalTextContentFile ncxFile = new()
             {
-                FileName = NCX_FILE_NAME,
-                FilePathInEpubArchive = NCX_FILE_PATH,
-                Href = null,
-                ContentLocation = EpubContentLocation.LOCAL,
+                Key = NCX_FILE_NAME,
                 ContentType = NCX_CONTENT_TYPE,
                 ContentMimeType = NCX_CONTENT_MIME_TYPE,
+                FilePath = NCX_FILE_PATH,
                 Content = TestEpubFiles.NCX_FILE_CONTENT
             };
             return new()
@@ -228,7 +270,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 AuthorList = new List<string> { BOOK_AUTHOR },
                 Description = BOOK_DESCRIPTION,
                 CoverImage = TestEpubFiles.COVER_FILE_CONTENT,
-                ReadingOrder = new List<EpubTextContentFile>()
+                ReadingOrder = new List<EpubLocalTextContentFile>()
                 {
                     chapter1File,
                     chapter2File
@@ -255,123 +297,177 @@ namespace VersOne.Epub.Test.Unit.TestData
                 Schema = TestEpubSchemas.CreateFullTestEpubSchema(),
                 Content = new EpubContent()
                 {
-                    Html = new Dictionary<string, EpubTextContentFile>()
+                    Html = new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalTextContentFile>()
                         {
-                            CHAPTER1_FILE_NAME,
-                            chapter1File
+                            {
+                                CHAPTER1_FILE_NAME,
+                                chapter1File
+                            },
+                            {
+                                CHAPTER2_FILE_NAME,
+                                chapter2File
+                            },
+                            {
+                                NAV_FILE_NAME,
+                                navFile
+                            }
                         },
+                        Remote = new Dictionary<string, EpubRemoteTextContentFile>()
                         {
-                            CHAPTER2_FILE_NAME,
-                            chapter2File
-                        },
-                        {
-                            REMOTE_TEXT_CONTENT_ITEM_HREF,
-                            remoteTextContentItem
-                        },
-                        {
-                            NAV_FILE_NAME,
-                            navFile
+                            {
+                                REMOTE_HTML_CONTENT_FILE_HREF,
+                                remoteHtmlContentFile
+                            }
                         }
                     },
-                    Css = new Dictionary<string, EpubTextContentFile>()
+                    Css = new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalTextContentFile>()
                         {
-                            STYLES1_FILE_NAME,
-                            styles1File
+                            {
+                                STYLES1_FILE_NAME,
+                                styles1File
+                            },
+                            {
+                                STYLES2_FILE_NAME,
+                                styles2File
+                            }
                         },
+                        Remote = new Dictionary<string, EpubRemoteTextContentFile>()
                         {
-                            STYLES2_FILE_NAME,
-                            styles2File
+                            {
+                                REMOTE_CSS_CONTENT_FILE_HREF,
+                                remoteCssContentFile
+                            }
                         }
                     },
-                    Images = new Dictionary<string, EpubByteContentFile>()
+                    Images = new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalByteContentFile>()
                         {
-                            IMAGE1_FILE_NAME,
-                            image1File
+                            {
+                                IMAGE1_FILE_NAME,
+                                image1File
+                            },
+                            {
+                                IMAGE2_FILE_NAME,
+                                image2File
+                            },
+                            {
+                                COVER_FILE_NAME,
+                                coverFile
+                            }
                         },
+                        Remote = new Dictionary<string, EpubRemoteByteContentFile>()
                         {
-                            IMAGE2_FILE_NAME,
-                            image2File
-                        },
-                        {
-                            REMOTE_BYTE_CONTENT_ITEM_HREF,
-                            remoteByteContentItem
-                        },
-                        {
-                            COVER_FILE_NAME,
-                            coverFile
+                            {
+                                REMOTE_IMAGE_CONTENT_FILE_HREF,
+                                remoteImageContentFile
+                            }
                         }
                     },
-                    Fonts = new Dictionary<string, EpubByteContentFile>()
+                    Fonts = new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalByteContentFile>()
                         {
-                            FONT1_FILE_NAME,
-                            font1File
+                            {
+                                FONT1_FILE_NAME,
+                                font1File
+                            },
+                            {
+                                FONT2_FILE_NAME,
+                                font2File
+                            }
                         },
+                        Remote = new Dictionary<string, EpubRemoteByteContentFile>()
                         {
-                            FONT2_FILE_NAME,
-                            font2File
+                            {
+                                REMOTE_FONT_CONTENT_FILE_HREF,
+                                remoteFontContentFile
+                            }
                         }
                     },
-                    AllFiles = new Dictionary<string, EpubContentFile>()
+                    AllFiles = new EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>()
                     {
+                        Local = new Dictionary<string, EpubLocalContentFile>()
                         {
-                            CHAPTER1_FILE_NAME,
-                            chapter1File
+                            {
+                                CHAPTER1_FILE_NAME,
+                                chapter1File
+                            },
+                            {
+                                CHAPTER2_FILE_NAME,
+                                chapter2File
+                            },
+                            {
+                                STYLES1_FILE_NAME,
+                                styles1File
+                            },
+                            {
+                                STYLES2_FILE_NAME,
+                                styles2File
+                            },
+                            {
+                                IMAGE1_FILE_NAME,
+                                image1File
+                            },
+                            {
+                                IMAGE2_FILE_NAME,
+                                image2File
+                            },
+                            {
+                                FONT1_FILE_NAME,
+                                font1File
+                            },
+                            {
+                                FONT2_FILE_NAME,
+                                font2File
+                            },
+                            {
+                                AUDIO_FILE_NAME,
+                                audioFile
+                            },
+                            {
+                                NAV_FILE_NAME,
+                                navFile
+                            },
+                            {
+                                COVER_FILE_NAME,
+                                coverFile
+                            },
+                            {
+                                NCX_FILE_NAME,
+                                ncxFile
+                            }
                         },
+                        Remote = new Dictionary<string, EpubRemoteContentFile>()
                         {
-                            CHAPTER2_FILE_NAME,
-                            chapter2File
-                        },
-                        {
-                            STYLES1_FILE_NAME,
-                            styles1File
-                        },
-                        {
-                            STYLES2_FILE_NAME,
-                            styles2File
-                        },
-                        {
-                            IMAGE1_FILE_NAME,
-                            image1File
-                        },
-                        {
-                            IMAGE2_FILE_NAME,
-                            image2File
-                        },
-                        {
-                            FONT1_FILE_NAME,
-                            font1File
-                        },
-                        {
-                            FONT2_FILE_NAME,
-                            font2File
-                        },
-                        {
-                            AUDIO_FILE_NAME,
-                            audioFile
-                        },
-                        {
-                            REMOTE_TEXT_CONTENT_ITEM_HREF,
-                            remoteTextContentItem
-                        },
-                        {
-                            REMOTE_BYTE_CONTENT_ITEM_HREF,
-                            remoteByteContentItem
-                        },
-                        {
-                            NAV_FILE_NAME,
-                            navFile
-                        },
-                        {
-                            COVER_FILE_NAME,
-                            coverFile
-                        },
-                        {
-                            NCX_FILE_NAME,
-                            ncxFile
+                            {
+                                REMOTE_HTML_CONTENT_FILE_HREF,
+                                remoteHtmlContentFile
+                            },
+                            {
+                                REMOTE_CSS_CONTENT_FILE_HREF,
+                                remoteCssContentFile
+                            },
+                            {
+                                REMOTE_IMAGE_CONTENT_FILE_HREF,
+                                remoteImageContentFile
+                            },
+                            {
+                                REMOTE_FONT_CONTENT_FILE_HREF,
+                                remoteFontContentFile
+                            },
+                            {
+                                REMOTE_XML_CONTENT_FILE_HREF,
+                                remoteXmlContentFile
+                            },
+                            {
+                                REMOTE_AUDIO_CONTENT_FILE_HREF,
+                                remoteAudioContentFile
+                            }
                         }
                     },
                     NavigationHtmlFile = navFile,
