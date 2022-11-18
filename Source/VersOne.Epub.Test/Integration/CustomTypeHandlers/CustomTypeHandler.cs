@@ -19,7 +19,7 @@
         public List<ICustomPropertyHandler> CustomPropertyHandlers { get; }
         public CustomPropertyDependencies CustomPropertyDependencies { get; }
 
-        protected void AddCustomPropertyHandler(string typePropertyName, string jsonPropertyName, Func<T, string?> propertySerializer, Func<string, object?> propertyDeserializer)
+        protected void AddCustomPropertyHandler(string typePropertyName, string jsonPropertyName, Func<T, string?> propertySerializer, Func<string?, object?> propertyDeserializer)
         {
             CustomPropertyHandlers.Add(new CustomPropertyHandler<T>(typePropertyName, jsonPropertyName, propertySerializer, propertyDeserializer));
         }

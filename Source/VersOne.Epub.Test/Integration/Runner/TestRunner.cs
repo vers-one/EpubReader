@@ -56,7 +56,7 @@ namespace VersOne.Epub.Test.Integration.Runner
             }
         }
 
-        // [Fact]
+        [Fact(Skip = "This method should be run manually")]
         public void GenerateTestCaseTemplate()
         {
             string testCaseDirectoryPath = "Features\\RemoteContent";

@@ -8,15 +8,15 @@
             AddCustomPropertyHandler(nameof(EpubLocalByteContentFile.Content), "$content", SerializeContent, DeserializeContent);
         }
 
-        public string? SerializeContent(EpubLocalByteContentFile serializingObject)
+        private string? SerializeContent(EpubLocalByteContentFile serializingObject)
         {
             string? filePath = serializingObject.FilePath;
             return filePath != null ? CustomPropertyDependencies.GetFilePathInEpub(filePath) : null;
         }
 
-        public object DeserializeContent(string serializedValue)
+        private object? DeserializeContent(string? serializedValue)
         {
-            return CustomPropertyDependencies.ReadFileAsBytes(serializedValue);
+            return serializedValue != null ? CustomPropertyDependencies.ReadFileAsBytes(serializedValue) : null;
         }
     }
 }
