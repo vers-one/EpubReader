@@ -40,17 +40,13 @@ namespace VersOne.Epub.Schema
             {
                 return EpubPageProgressionDirection.UNKNOWN;
             }
-            switch (stringValue.ToLowerInvariant())
+            return stringValue.ToLowerInvariant() switch
             {
-                case "default":
-                    return EpubPageProgressionDirection.DEFAULT;
-                case "ltr":
-                    return EpubPageProgressionDirection.LEFT_TO_RIGHT;
-                case "rtl":
-                    return EpubPageProgressionDirection.RIGHT_TO_LEFT;
-                default:
-                    return EpubPageProgressionDirection.UNKNOWN;
-            }
+                "default" => EpubPageProgressionDirection.DEFAULT,
+                "ltr" => EpubPageProgressionDirection.LEFT_TO_RIGHT,
+                "rtl" => EpubPageProgressionDirection.RIGHT_TO_LEFT,
+                _ => EpubPageProgressionDirection.UNKNOWN,
+            };
         }
     }
 }

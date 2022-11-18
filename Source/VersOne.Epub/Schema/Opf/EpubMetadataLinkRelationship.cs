@@ -102,29 +102,19 @@ namespace VersOne.Epub.Schema
 
         public static EpubMetadataLinkRelationship ParseRelationship(string stringValue)
         {
-            switch (stringValue.ToLowerInvariant())
+            return stringValue.ToLowerInvariant() switch
             {
-                case "acquire":
-                    return EpubMetadataLinkRelationship.ACQUIRE;
-                case "alternate":
-                    return EpubMetadataLinkRelationship.ALTERNATE;
-                case "marc21xml-record":
-                    return EpubMetadataLinkRelationship.MARC21XML_RECORD;
-                case "mods-record":
-                    return EpubMetadataLinkRelationship.MODS_RECORD;
-                case "onix-record":
-                    return EpubMetadataLinkRelationship.ONIX_RECORD;
-                case "record":
-                    return EpubMetadataLinkRelationship.RECORD;
-                case "voicing":
-                    return EpubMetadataLinkRelationship.VOICING;
-                case "xml-signature":
-                    return EpubMetadataLinkRelationship.XML_SIGNATURE;
-                case "xmp-record":
-                    return EpubMetadataLinkRelationship.XMP_RECORD;
-                default:
-                    return EpubMetadataLinkRelationship.UNKNOWN;
-            }
+                "acquire" => EpubMetadataLinkRelationship.ACQUIRE,
+                "alternate" => EpubMetadataLinkRelationship.ALTERNATE,
+                "marc21xml-record" => EpubMetadataLinkRelationship.MARC21XML_RECORD,
+                "mods-record" => EpubMetadataLinkRelationship.MODS_RECORD,
+                "onix-record" => EpubMetadataLinkRelationship.ONIX_RECORD,
+                "record" => EpubMetadataLinkRelationship.RECORD,
+                "voicing" => EpubMetadataLinkRelationship.VOICING,
+                "xml-signature" => EpubMetadataLinkRelationship.XML_SIGNATURE,
+                "xmp-record" => EpubMetadataLinkRelationship.XMP_RECORD,
+                _ => EpubMetadataLinkRelationship.UNKNOWN,
+            };
         }
     }
 }

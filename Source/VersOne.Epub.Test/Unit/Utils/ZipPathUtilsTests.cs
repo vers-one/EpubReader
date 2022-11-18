@@ -30,6 +30,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData("Directory", "../../File.html", "File.html")]
         [InlineData("", "../File.html", "../File.html")]
         [InlineData(null, "../File.html", "../File.html")]
+        [InlineData("Directory", null, "Directory")]
         [InlineData(null, null, null)]
         public void CombineTest(string directory, string fileName, string expectedResult)
         {

@@ -33,7 +33,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
             AddStream(url, stream);
         }
 
-        public string LastUserAgent { get; private set; }
+        public string? LastUserAgent { get; private set; }
 
         public void AddTextRemoteFile(string url, string content)
         {
@@ -53,8 +53,8 @@ namespace VersOne.Epub.Test.Unit.Mocks
         public Task<Stream> DownloadAsync(string url, string userAgent)
         {
             LastUserAgent = userAgent;
-            Stream result;
-            if (remoteFiles.TryGetValue(url, out byte[] fileContent))
+            Stream? result;
+            if (remoteFiles.TryGetValue(url, out byte[]? fileContent))
             {
                 result = new MemoryStream(fileContent);
             }

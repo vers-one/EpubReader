@@ -20,13 +20,13 @@ namespace VersOne.Epub.Options
         /// If this value is set to <c>null</c>, then the following user agent value will be used: "EpubReader/version" where "version" is the current version of the EpubReader library.
         /// Default value is <c>null</c>.
         /// </summary>
-        public string DownloaderUserAgent { get; set; }
+        public string? DownloaderUserAgent { get; set; }
 
         /// <summary>
         /// Gets or sets a reference to the custom content downloader.
         /// If it's set to <c>null</c>, the built-in content downloader will be used to download remote content files.
         /// Default value is <c>null</c>.
         /// </summary>
-        public IContentDownloader CustomContentDownloader { get; set; }
+        public IContentDownloader? CustomContentDownloader { get; set; }
     }
 }

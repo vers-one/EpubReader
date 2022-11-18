@@ -29,6 +29,5 @@
             Assert.Equal(innerException, epubContentDownloaderException.InnerException);
             Assert.Equal(TEST_REMOTE_CONTENT_FILE_URL, epubContentDownloaderException.RemoteContentFileUrl);
         }
-
     }
 }

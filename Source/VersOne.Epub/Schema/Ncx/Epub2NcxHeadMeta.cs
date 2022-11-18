@@ -1,4 +1,6 @@
-﻿namespace VersOne.Epub.Schema
+﻿using System;
+
+namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>NCX document metadata item.</para>
@@ -11,21 +13,36 @@
     public class Epub2NcxHeadMeta
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2NcxHeadMeta" /> class.
+        /// </summary>
+        /// <param name="name">The name of the NCX metadata item.</param>
+        /// <param name="content">The content (i.e. the value) of the NCX metadata item.</param>
+        /// <param name="scheme">The name of the scheme for the <see cref="Name" /> property or <c>null</c> if the scheme is not specified.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="name"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        public Epub2NcxHeadMeta(string name, string content, string? scheme = null)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Content = content ?? throw new ArgumentNullException(nameof(content));
+            Scheme = scheme;
+        }
+
+        /// <summary>
         /// <para>Gets the name of the NCX metadata item.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Name { get; internal set; }
+        public string Name { get; }
 
         /// <summary>
         /// <para>Gets the content (i.e. the value) of the NCX metadata item.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Content { get; internal set; }
+        public string Content { get; }
 
         /// <summary>
-        /// <para>Gets the name of the scheme for the <see cref="Name" /> property.</para>
+        /// <para>Gets the name of the scheme for the <see cref="Name" /> property or <c>null</c> if the scheme is not specified.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Scheme { get; internal set; }
+        public string? Scheme { get; }
     }
 }

@@ -14,12 +14,12 @@ namespace VersOne.Epub.Internal
         private readonly string contentDirectoryPath;
         private readonly Dictionary<string, ReplacementContentFileEntry> replacementContentFileEntries;
 
-        public EpubLocalContentLoader(IEnvironmentDependencies environmentDependencies, ContentReaderOptions contentReaderOptions, IZipFile epubFile, string contentDirectoryPath)
+        public EpubLocalContentLoader(IEnvironmentDependencies environmentDependencies, IZipFile epubFile, string contentDirectoryPath, ContentReaderOptions? contentReaderOptions = null)
             : base(environmentDependencies)
         {
-            this.contentReaderOptions = contentReaderOptions ?? new ContentReaderOptions();
             this.epubFile = epubFile ?? throw new ArgumentNullException(nameof(epubFile));
             this.contentDirectoryPath = contentDirectoryPath ?? throw new ArgumentNullException(nameof(contentDirectoryPath));
+            this.contentReaderOptions = contentReaderOptions ?? new ContentReaderOptions();
             replacementContentFileEntries = new Dictionary<string, ReplacementContentFileEntry>();
         }
 
@@ -28,7 +28,7 @@ namespace VersOne.Epub.Internal
             IZipFileEntry contentFileEntry = GetContentFileEntry(contentFileRefMetadata);
             byte[] content = new byte[(int)contentFileEntry.Length];
             using (Stream contentStream = contentFileEntry.Open())
-            using (MemoryStream memoryStream = new MemoryStream(content))
+            using (MemoryStream memoryStream = new(content))
             {
                 await contentStream.CopyToAsync(memoryStream).ConfigureAwait(false);
             }
@@ -37,11 +37,9 @@ namespace VersOne.Epub.Internal
 
         public override async Task<string> LoadContentAsTextAsync(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            using (Stream contentStream = GetContentFileEntry(contentFileRefMetadata).Open())
-            using (StreamReader streamReader = new StreamReader(contentStream))
-            {
-                return await streamReader.ReadToEndAsync().ConfigureAwait(false);
-            }
+            using Stream contentStream = GetContentFileEntry(contentFileRefMetadata).Open();
+            using StreamReader streamReader = new(contentStream);
+            return await streamReader.ReadToEndAsync().ConfigureAwait(false);
         }
 
         public override Task<Stream> GetContentStreamAsync(EpubContentFileRefMetadata contentFileRefMetadata)
@@ -51,48 +49,51 @@ namespace VersOne.Epub.Internal
 
         private IZipFileEntry GetContentFileEntry(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            if (replacementContentFileEntries.TryGetValue(contentFileRefMetadata.Key, out ReplacementContentFileEntry replacementContentFileEntry))
+            if (replacementContentFileEntries.TryGetValue(contentFileRefMetadata.Key, out ReplacementContentFileEntry existingReplacementContentFileEntry))
             {
-                return replacementContentFileEntry;
+                return existingReplacementContentFileEntry;
             }
             if (epubFile.IsDisposed)
             {
                 throw new ObjectDisposedException(nameof(epubFile), "EPUB file stored within this local content file loader has been disposed.");
             }
+            ReplacementContentFileEntry? newReplacementContentFileEntry = null;
             string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, contentFileRefMetadata.Key);
-            IZipFileEntry contentFileEntry = epubFile.GetEntry(contentFilePath);
+            IZipFileEntry? contentFileEntry = epubFile.GetEntry(contentFilePath);
             if (contentFileEntry == null)
             {
-                bool throwMissingFileException = true;
-                ContentFileMissingEventArgs contentFileMissingEventArgs =
-                    new ContentFileMissingEventArgs(contentFileRefMetadata.Key, contentFilePath, contentFileRefMetadata.ContentType, contentFileRefMetadata.ContentMimeType);
-                contentReaderOptions.RaiseContentFileMissingEvent(contentFileMissingEventArgs);
-                if (contentFileMissingEventArgs.ReplacementContentStream != null)
-                {
-                    replacementContentFileEntry = new ReplacementContentFileEntry(contentFileMissingEventArgs.ReplacementContentStream);
-                    contentFileEntry = replacementContentFileEntry;
-                    throwMissingFileException = false;
-                }
-                else if (contentFileMissingEventArgs.SuppressException)
-                {
-                    replacementContentFileEntry = new ReplacementContentFileEntry(new MemoryStream());
-                    contentFileEntry = replacementContentFileEntry;
-                    throwMissingFileException = false;
-                }
-                if (throwMissingFileException)
-                {
-                    throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.", contentFilePath);
-                }
+                newReplacementContentFileEntry = RequestReplacementContentFileEntry(contentFileRefMetadata, contentFilePath);
+                contentFileEntry = newReplacementContentFileEntry;
+            }
+            if (contentFileEntry == null)
+            {
+                throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" was not found in the EPUB file.", contentFilePath);
             }
             if (contentFileEntry.Length > Int32.MaxValue)
             {
                 throw new EpubContentException($"EPUB parsing error: file \"{contentFilePath}\" is larger than 2 GB.", contentFilePath);
             }
-            if (replacementContentFileEntry != null)
+            if (newReplacementContentFileEntry != null)
             {
-                replacementContentFileEntries.Add(contentFileRefMetadata.Key, replacementContentFileEntry);
+                replacementContentFileEntries.Add(contentFileRefMetadata.Key, newReplacementContentFileEntry);
             }
             return contentFileEntry;
+        }
+
+        private ReplacementContentFileEntry? RequestReplacementContentFileEntry(EpubContentFileRefMetadata contentFileRefMetadata, string contentFilePath)
+        {
+            ContentFileMissingEventArgs contentFileMissingEventArgs =
+                new(contentFileRefMetadata.Key, contentFilePath, contentFileRefMetadata.ContentType, contentFileRefMetadata.ContentMimeType);
+            contentReaderOptions.RaiseContentFileMissingEvent(contentFileMissingEventArgs);
+            if (contentFileMissingEventArgs.ReplacementContentStream != null)
+            {
+                return new ReplacementContentFileEntry(contentFileMissingEventArgs.ReplacementContentStream);
+            }
+            else if (contentFileMissingEventArgs.SuppressException)
+            {
+                return new ReplacementContentFileEntry(new MemoryStream());
+            }
+            return null;
         }
     }
 }

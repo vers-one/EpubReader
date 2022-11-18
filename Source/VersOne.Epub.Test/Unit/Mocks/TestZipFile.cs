@@ -34,9 +34,9 @@ namespace VersOne.Epub.Test.Unit.Mocks
             entries.Add(entryName, new TestZipFileEntry(entryContentStream));
         }
 
-        public IZipFileEntry GetEntry(string entryName)
+        public IZipFileEntry? GetEntry(string entryName)
         {
-            return entries.TryGetValue(entryName, out IZipFileEntry value) ? value : null;
+            return entries.TryGetValue(entryName, out IZipFileEntry? value) ? value : null;
         }
 
         public void Dispose()

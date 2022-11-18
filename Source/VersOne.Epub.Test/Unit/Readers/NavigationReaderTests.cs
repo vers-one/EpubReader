@@ -8,110 +8,116 @@ namespace VersOne.Epub.Test.Unit.Readers
     public class NavigationReaderTests
     {
         private const string CONTENT_DIRECTORY_PATH = "Content";
+        private const string NCX_FILE_NAME = "toc.ncx";
+        private const string NCX_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NCX_FILE_NAME}";
+        private const string NAV_FILE_NAME = "toc.html";
+        private const string NAV_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NAV_FILE_NAME}";
 
-        [Fact(DisplayName = "GetNavigationItems should return null for EPUB 2 books without NCX file")]
+        [Fact(DisplayName = "GetNavigationItems should return null for EPUB 2 schemas without NCX file")]
         public void GetNavigationItemsForEpub2WithoutNcxTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    Package = new EpubPackage()
-                    {
-                        EpubVersion = EpubVersion.EPUB_2
-                    },
-                    Epub2Ncx = null
-                }
-            };
-            List<EpubNavigationItemRef> navigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: null,
+                epub3NavDocument: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
+            List<EpubNavigationItemRef>? navigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             Assert.Null(navigationItems);
         }
 
-        [Fact(DisplayName = "Getting navigation items for EPUB 2 books with minimal NCX file should succeed")]
+        [Fact(DisplayName = "Getting navigation items for EPUB 2 schemas with minimal NCX file should succeed")]
         public void GetNavigationItemsForEpub2WithMinimalNcxTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    Package = new EpubPackage()
-                    {
-                        EpubVersion = EpubVersion.EPUB_2
-                    },
-                    Epub2Ncx = new Epub2Ncx()
-                    {
-                        NavMap = new Epub2NcxNavigationMap()
-                    }
-                }
-            };
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new Epub2Ncx
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new Epub2NcxHead(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new Epub2NcxNavigationMap(),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
             List<EpubNavigationItemRef> expectedNavigationItems = new();
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        [Fact(DisplayName = "Getting navigation items for EPUB 2 books with full NCX file should succeed")]
+        [Fact(DisplayName = "Getting navigation items for EPUB 2 schemas with full NCX file should succeed")]
         public void GetNavigationItemsForEpub2WithFullNcxTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
-                    {
-                        EpubVersion = EpubVersion.EPUB_2
-                    },
-                    Epub2Ncx = new Epub2Ncx()
-                    {
-                        NavMap = new Epub2NcxNavigationMap()
+            EpubSchema epubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new Epub2Ncx
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new Epub2NcxHead(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new Epub2NcxNavigationMap
+                    (
+                        items: new List<Epub2NcxNavigationPoint>()
                         {
-                            Items = new List<Epub2NcxNavigationPoint>()
-                            {
-                                new Epub2NcxNavigationPoint()
+                            new Epub2NcxNavigationPoint
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                                    {
-                                        new Epub2NcxNavigationLabel()
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Test label 1"
+                                    ),
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Test label 2"
+                                    )
+                                },
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter1.html"
+                                ),
+                                childNavigationPoints: new List<Epub2NcxNavigationPoint>()
+                                {
+                                    new Epub2NcxNavigationPoint
+                                    (
+                                        id: String.Empty,
+                                        navigationLabels: new List<Epub2NcxNavigationLabel>()
                                         {
-                                            Text = "Test label 1"
+                                            new Epub2NcxNavigationLabel
+                                            (
+                                                text: "Test label 3"
+                                            )
                                         },
-                                        new Epub2NcxNavigationLabel()
-                                        {
-                                            Text = "Test label 2"
-                                        }
-                                    },
-                                    Content = new Epub2NcxContent()
-                                    {
-                                        Source = "chapter1.html"
-                                    },
-                                    ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                                    {
-                                        new Epub2NcxNavigationPoint()
-                                        {
-                                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                                            {
-                                                new Epub2NcxNavigationLabel()
-                                                {
-                                                    Text = "Test label 3"
-                                                }
-                                            },
-                                            Content = new Epub2NcxContent()
-                                            {
-                                                Source = "chapter1.html#section-1"
-                                            }
-                                        }
-                                    }
+                                        content: new Epub2NcxContent
+                                        (
+                                            source: "chapter1.html#section-1"
+                                        )
+                                    )
                                 }
-                            }
+                            )
                         }
-                    }
-                }
-            };
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null
+            );
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
-            epubBookRef.Content = CreateContentRef(null, testTextContentFileRef);
+            EpubContentRef epubContentRef = CreateContentRef(null, testTextContentFileRef);
             EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationLink("Test label 1", "chapter1.html", testTextContentFileRef);
             EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Test label 3", "chapter1.html#section-1", testTextContentFileRef);
             expectedNavigationItem1.NestedItems.Add(expectedNavigationItem2);
@@ -119,120 +125,198 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 expectedNavigationItem1
             };
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        [Fact(DisplayName = "Getting navigation items for EPUB 3 books with minimal NAV file should succeed")]
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point has no navigation labels")]
+        public void GetNavigationItemsForEpub2WithoutNavigationLabelsFile()
+        {
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new Epub2Ncx
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new Epub2NcxHead(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new Epub2NcxNavigationMap
+                    (
+                        items: new List<Epub2NcxNavigationPoint>()
+                        {
+                            new Epub2NcxNavigationPoint
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels: new List<Epub2NcxNavigationLabel>(),
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter1.html"
+                                ),
+                                childNavigationPoints: null
+                            )
+                        }
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
+            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if the file referenced by an NCX navigation point is missing in the EpubContentRef")]
+        public void GetNavigationItemsForEpub2WithMissingContentFile()
+        {
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new Epub2Ncx
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new Epub2NcxHead(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new Epub2NcxNavigationMap
+                    (
+                        items: new List<Epub2NcxNavigationPoint>()
+                        {
+                            new Epub2NcxNavigationPoint
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
+                                {
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Test label"
+                                    )
+                                },
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter1.html"
+                                ),
+                                childNavigationPoints: null
+                            )
+                        }
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
+            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+        }
+
+        [Fact(DisplayName = "Getting navigation items for EPUB 3 schemas with minimal NAV file should succeed")]
         public void GetNavigationItemsForEpub3WithMinimalNavTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    Package = new EpubPackage()
-                    {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                    }
-                }
-            };
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH
+                ),
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
             List<EpubNavigationItemRef> expectedNavigationItems = new();
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        [Fact(DisplayName = "Getting navigation items for EPUB 3 books with full NAV file should succeed")]
+        [Fact(DisplayName = "Getting navigation items for EPUB 3 schemas with full NAV file should succeed")]
         public void GetNavigationItemsForEpub3WithFullNavTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                        {
-                            new Epub3Nav()
-                            {
-                                Type = Epub3NavStructuralSemanticsProperty.TOC,
-                                Head = "Test header",
-                                Ol = new Epub3NavOl()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            isHidden: false,
+                            head: "Test header",
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    Lis = new List<Epub3NavLi>()
-                                    {
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: "Test text 1",
+                                            title: "Test title 1",
+                                            alt: "Test alt 1",
+                                            href: "chapter1.html"
+                                        ),
+                                        childOl: new Epub3NavOl
+                                        (
+                                            lis: new List<Epub3NavLi>()
                                             {
-                                                Text = "Test text 1",
-                                                Title = "Test title 1",
-                                                Alt = "Test alt 1",
-                                                Href = "chapter1.html"
-                                            },
-                                            ChildOl = new Epub3NavOl()
-                                            {
-                                                Lis = new List<Epub3NavLi>()
-                                                {
-                                                    new Epub3NavLi()
-                                                    {
-                                                        Anchor = new Epub3NavAnchor()
-                                                        {
-                                                            Text = "Test text 2",
-                                                            Title = "Test title 2",
-                                                            Alt = "Test alt 2",
-                                                            Href = "chapter1.html#section-1"
-                                                        }
-                                                    }
-                                                }
+                                                new Epub3NavLi
+                                                (
+                                                    anchor: new Epub3NavAnchor
+                                                    (
+                                                        text: "Test text 2",
+                                                        title: "Test title 2",
+                                                        alt: "Test alt 2",
+                                                        href: "chapter1.html#section-1"
+                                                    )
+                                                )
                                             }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        span: new Epub3NavSpan
+                                        (
+                                            text: "Test text 3",
+                                            title: "Test title 3",
+                                            alt: "Test alt 3"
+                                        ),
+                                        childOl: new Epub3NavOl
+                                        (
+                                            lis: new List<Epub3NavLi>()
                                             {
-                                                Text = "Test text 3",
-                                                Title = "Test title 3",
-                                                Alt = "Test alt 3"
-                                            },
-                                            ChildOl = new Epub3NavOl()
-                                            {
-                                                Lis = new List<Epub3NavLi>()
-                                                {
-                                                    new Epub3NavLi()
-                                                    {
-                                                        Anchor = new Epub3NavAnchor()
-                                                        {
-                                                            Text = "Test text 4",
-                                                            Title = "Test title 4",
-                                                            Alt = "Test alt 4",
-                                                            Href = "chapter2.html"
-                                                        }
-                                                    }
-                                                }
+                                                new Epub3NavLi
+                                                (
+                                                    anchor: new Epub3NavAnchor
+                                                    (
+                                                        text: "Test text 4",
+                                                        title: "Test title 4",
+                                                        alt: "Test alt 4",
+                                                        href: "chapter2.html"
+                                                    )
+                                                )
                                             }
-                                        }
-                                    }
+                                        )
+                                    )
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                ),
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef1 = CreateTestHtmlFile("chapter1.html");
             EpubLocalTextContentFileRef testTextContentFileRef2 = CreateTestHtmlFile("chapter2.html");
-            epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef1, testTextContentFileRef2);
+            EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef1, testTextContentFileRef2);
             EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationHeader("Test header");
             EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Test text 1", "chapter1.html", testTextContentFileRef1);
             EpubNavigationItemRef expectedNavigationItem3 = CreateNavigationLink("Test text 2", "chapter1.html#section-1", testTextContentFileRef1);
@@ -245,441 +329,432 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 expectedNavigationItem1
             };
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file without a header should succeed")]
         public void GetNavigationItemsForEpub3NavWithoutHeaderTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubSchema epubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                        {
-                            new Epub3Nav()
-                            {
-                                Type = Epub3NavStructuralSemanticsProperty.TOC,
-                                Head = null,
-                                Ol = new Epub3NavOl()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            isHidden: false,
+                            head: null,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    Lis = new List<Epub3NavLi>()
-                                    {
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = "Test text",
-                                                Href = "chapter1.html"
-                                            }
-                                        }
-                                    }
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: "Test text",
+                                            href: "chapter1.html"
+                                        )
+                                    )
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
-            epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
+            EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
                 CreateNavigationLink("Test text", "chapter1.html", testTextContentFileRef)
             };
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or empty Lis should succeed")]
-        public void GetNavigationItemsForEpub3NavWithNullOrEmptyLisTest()
+        [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with empty Lis should succeed")]
+        public void GetNavigationItemsForEpub3NavWithEmptyLisTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubSchema epubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                        {
-                            new Epub3Nav()
-                            {
-                                Type = Epub3NavStructuralSemanticsProperty.TOC,
-                                Head = null,
-                                Ol = new Epub3NavOl()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    Lis = new List<Epub3NavLi>()
-                                    {
-                                        new Epub3NavLi()
-                                        {
-                                        },
-                                        null
-                                    }
+                                    new Epub3NavLi()
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
-            epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef);
+            EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new();
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or non-existent anchor hrefs should succeed")]
-        public void GetNavigationItemsForEpub3NavWithNullOrNonExistentAnchorHrefsTest()
+        [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null anchor href should succeed")]
+        public void GetNavigationItemsForEpub3NavWithNullAnchorHrefTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubSchema epubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                        {
-                            new Epub3Nav()
-                            {
-                                Type = Epub3NavStructuralSemanticsProperty.TOC,
-                                Head = null,
-                                Ol = new Epub3NavOl()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    Lis = new List<Epub3NavLi>()
-                                    {
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = "Null href test",
-                                                Href = null
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = "Non-existent href test",
-                                                Href = "non-existent.html"
-                                            }
-                                        }
-                                    }
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: "Null href test",
+                                            href: null
+                                        )
+                                    )
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
-            epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef);
+            EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
-                CreateNavigationLink("Null href test", null, null),
-                CreateNavigationLink("Non-existent href test", "non-existent.html", null)
+                CreateNavigationHeader("Null href test")
             };
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or empty titles should succeed")]
         public void GetNavigationItemsForEpub3NavWithNullOrEmptyTitlesTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubSchema epubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                        {
-                            new Epub3Nav()
-                            {
-                                Type = Epub3NavStructuralSemanticsProperty.TOC,
-                                Head = null,
-                                Ol = new Epub3NavOl()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    Lis = new List<Epub3NavLi>()
-                                    {
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = null,
-                                                Title = "Test title 1",
-                                                Href = "chapter1.html"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = String.Empty,
-                                                Title = "Test title 2",
-                                                Href = "chapter1.html"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = null,
-                                                Title = null,
-                                                Alt = "Test alt 3",
-                                                Href = "chapter1.html"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = null,
-                                                Title = String.Empty,
-                                                Alt = "Test alt 4",
-                                                Href = "chapter1.html"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = null,
-                                                Title = null,
-                                                Alt = null,
-                                                Href = "chapter1.html"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = null,
-                                                Title = null,
-                                                Alt = String.Empty,
-                                                Href = "chapter1.html"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
-                                            {
-                                                Text = null,
-                                                Title = "Test title 7"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
-                                            {
-                                                Text = String.Empty,
-                                                Title = "Test title 8"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
-                                            {
-                                                Text = null,
-                                                Title = null,
-                                                Alt = "Test alt 9"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
-                                            {
-                                                Text = null,
-                                                Title = String.Empty,
-                                                Alt = "Test alt 10"
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
-                                            {
-                                                Text = null,
-                                                Title = null,
-                                                Alt = null
-                                            }
-                                        },
-                                        new Epub3NavLi()
-                                        {
-                                            Span = new Epub3NavSpan()
-                                            {
-                                                Text = null,
-                                                Title = null,
-                                                Alt = String.Empty
-                                            }
-                                        }
-                                    }
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: String.Empty,
+                                            title: "Test title 1",
+                                            href: "chapter1.html"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: String.Empty,
+                                            title: null,
+                                            alt: "Test alt 2",
+                                            href: "chapter1.html"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: String.Empty,
+                                            title: String.Empty,
+                                            alt: "Test alt 3",
+                                            href: "chapter1.html"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: String.Empty,
+                                            title: null,
+                                            alt: null,
+                                            href: "chapter1.html"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: String.Empty,
+                                            title: null,
+                                            alt: String.Empty,
+                                            href: "chapter1.html"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        span: new Epub3NavSpan
+                                        (
+                                            text: String.Empty,
+                                            title: "Test title 6"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        span: new Epub3NavSpan
+                                        (
+                                            text: String.Empty,
+                                            title: null,
+                                            alt: "Test alt 7"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        span: new Epub3NavSpan
+                                        (
+                                            text: String.Empty,
+                                            title: String.Empty,
+                                            alt: "Test alt 8"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        span: new Epub3NavSpan
+                                        (
+                                            text: String.Empty,
+                                            title: null,
+                                            alt: null
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        span: new Epub3NavSpan
+                                        (
+                                            text: String.Empty,
+                                            title: null,
+                                            alt: String.Empty
+                                        )
+                                    )
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
-            epubBookRef.Content = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
+            EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
                 CreateNavigationLink("Test title 1", "chapter1.html", testTextContentFileRef),
-                CreateNavigationLink("Test title 2", "chapter1.html", testTextContentFileRef),
+                CreateNavigationLink("Test alt 2", "chapter1.html", testTextContentFileRef),
                 CreateNavigationLink("Test alt 3", "chapter1.html", testTextContentFileRef),
-                CreateNavigationLink("Test alt 4", "chapter1.html", testTextContentFileRef),
                 CreateNavigationLink(String.Empty, "chapter1.html", testTextContentFileRef),
                 CreateNavigationLink(String.Empty, "chapter1.html", testTextContentFileRef),
-                CreateNavigationHeader("Test title 7"),
-                CreateNavigationHeader("Test title 8"),
-                CreateNavigationHeader("Test alt 9"),
-                CreateNavigationHeader("Test alt 10"),
+                CreateNavigationHeader("Test title 6"),
+                CreateNavigationHeader("Test alt 7"),
+                CreateNavigationHeader("Test alt 8"),
                 CreateNavigationHeader(String.Empty),
                 CreateNavigationHeader(String.Empty),
             };
-            List<EpubNavigationItemRef> actualNavigationItems = NavigationReader.GetNavigationItems(epubBookRef);
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub3NavException if the file referenced by a EPUB 3 navigational Li item is missing in the EpubContentRef")]
+        public void GetNavigationItemsForEpub3WithMissingContentFile()
+        {
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
+                    {
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            isHidden: false,
+                            head: null,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
+                                {
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: "Test text",
+                                            href: "chapter1.html"
+                                        )
+                                    )
+                                }
+                            )
+                        )
+                    }
+                ),
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
+            Assert.Throws<Epub3NavException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
         }
 
         [Fact(DisplayName = "GetNavigationItems should throw EpubPackageException if the content file referenced by a navigation item is a remote resource")]
         public void GetNavigationItemsWithRemoteContentFileTest()
         {
             string remoteFileHref = "https://example.com/books/123/chapter1.html";
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubSchema epubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = EpubVersion.EPUB_3
-                    },
-                    Epub3NavDocument = new Epub3NavDocument()
-                    {
-                        Navs = new List<Epub3Nav>()
-                        {
-                            new Epub3Nav()
-                            {
-                                Type = Epub3NavStructuralSemanticsProperty.TOC,
-                                Head = null,
-                                Ol = new Epub3NavOl()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    Lis = new List<Epub3NavLi>()
-                                    {
-                                        new Epub3NavLi()
-                                        {
-                                            Anchor = new Epub3NavAnchor()
-                                            {
-                                                Text = "Test text",
-                                                Href = remoteFileHref
-                                            }
-                                        }
-                                    }
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: "Test text",
+                                            href: remoteFileHref
+                                        )
+                                    )
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentFileRefMetadata testTextContentFileRefMetadata = new(remoteFileHref, EpubContentType.XHTML_1_1, "application/xhtml+xml");
             EpubRemoteTextContentFileRef testTextContentFileRef = new(testTextContentFileRefMetadata, new TestEpubContentLoader());
-            epubBookRef.Content = new EpubContentRef()
-            {
-                NavigationHtmlFile = testNavigationHtmlFileRef,
-                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>()
+            EpubContentRef epubContentRef = new
+            (
+                navigationHtmlFile: testNavigationHtmlFileRef,
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
                     {
                         {
                             testNavigationHtmlFileRef.Key,
                             testNavigationHtmlFileRef
                         }
                     },
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
                         {
                             testTextContentFileRef.Key,
                             testTextContentFileRef
                         }
                     }
-                }
-            };
-            Assert.Throws<EpubPackageException>(() => NavigationReader.GetNavigationItems(epubBookRef));
+                )
+            );
+            Assert.Throws<EpubPackageException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
         }
 
-        private EpubLocalTextContentFileRef CreateTestNavigationFile()
+        private static EpubLocalTextContentFileRef CreateTestNavigationFile()
         {
             return CreateTestHtmlFile("toc.html");
         }
 
-        private EpubLocalTextContentFileRef CreateTestHtmlFile(string htmlFileName)
+        private static EpubLocalTextContentFileRef CreateTestHtmlFile(string htmlFileName)
         {
             return new(new EpubContentFileRefMetadata(htmlFileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"),
                 $"{CONTENT_DIRECTORY_PATH}/{htmlFileName}", new TestEpubContentLoader());
         }
 
-        private EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
+        private static EpubPackage CreateEmptyPackage(EpubVersion epubVersion)
         {
-            return new()
-            {
-                Type = EpubNavigationItemType.LINK,
-                Title = title,
-                Link = new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
-                HtmlContentFileRef = htmlFileRef,
-                NestedItems = new List<EpubNavigationItemRef>()
-            };
+            return new
+            (
+                epubVersion: epubVersion,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine(),
+                guide: null
+            );
         }
 
-        private EpubNavigationItemRef CreateNavigationHeader(string title)
+        private static EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
         {
-            return new()
-            {
-                Type = EpubNavigationItemType.HEADER,
-                Title = title,
-                NestedItems = new List<EpubNavigationItemRef>()
-            };
+            return new
+            (
+                type: EpubNavigationItemType.LINK,
+                title: title,
+                link: new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
+                htmlContentFileRef: htmlFileRef,
+                nestedItems: null
+            );
         }
 
-        private EpubContentRef CreateContentRef(EpubLocalTextContentFileRef navigationHtmlFile, params EpubLocalTextContentFileRef[] htmlFiles)
+        private static EpubNavigationItemRef CreateNavigationHeader(string title)
         {
-            EpubContentRef result = new()
-            {
-                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-                }
-            };
+            return new
+            (
+                type: EpubNavigationItemType.HEADER,
+                title: title,
+                link: null,
+                htmlContentFileRef: null,
+                nestedItems: null
+            );
+        }
+
+        private static EpubContentRef CreateContentRef(EpubLocalTextContentFileRef? navigationHtmlFile, params EpubLocalTextContentFileRef[] htmlFiles)
+        {
+            EpubContentRef result = new
+            (
+                navigationHtmlFile: navigationHtmlFile,
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
+            );
             if (navigationHtmlFile != null)
             {
-                result.NavigationHtmlFile = navigationHtmlFile;
                 result.Html.Local[navigationHtmlFile.Key] = navigationHtmlFile;
             }
             foreach (EpubLocalTextContentFileRef htmlFile in htmlFiles)

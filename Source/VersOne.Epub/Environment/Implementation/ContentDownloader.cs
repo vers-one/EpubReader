@@ -18,13 +18,11 @@ namespace VersOne.Epub.Environment.Implementation
         {
             try
             {
-                using (HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url))
-                {
-                    httpRequestMessage.Headers.Add("User-Agent", userAgent);
-                    HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead);
-                    httpResponseMessage.EnsureSuccessStatusCode();
-                    return await httpResponseMessage.Content.ReadAsStreamAsync();
-                }
+                using HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, url);
+                httpRequestMessage.Headers.Add("User-Agent", userAgent);
+                HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead);
+                httpResponseMessage.EnsureSuccessStatusCode();
+                return await httpResponseMessage.Content.ReadAsStreamAsync();
             }
             catch (Exception exception)
             {

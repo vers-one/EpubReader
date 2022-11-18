@@ -59,11 +59,15 @@
                                         </Style>
                                     </ToggleButton.Style>
                                 </ToggleButton>
-                                <Border x:Name="Bd" HorizontalAlignment="Stretch" BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}"
-                                        Padding="{TemplateBinding Control.Padding}" Background="{TemplateBinding Panel.Background}" SnapsToDevicePixels="True" Grid.Column="1">
-                                    <ContentPresenter x:Name="PART_Header" Content="{TemplateBinding HeaderedContentControl.Header}" ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
-                                                      ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}" ContentTemplateSelector="{TemplateBinding HeaderedItemsControl.HeaderTemplateSelector}"
-                                                      ContentSource="Header" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                                <Border x:Name="Bd" HorizontalAlignment="Stretch" BorderThickness="{TemplateBinding Border.BorderThickness}"
+                                        BorderBrush="{TemplateBinding Border.BorderBrush}" Padding="{TemplateBinding Control.Padding}"
+                                        Background="{TemplateBinding Panel.Background}" SnapsToDevicePixels="True" Grid.Column="1">
+                                    <ContentPresenter x:Name="PART_Header" Content="{TemplateBinding HeaderedContentControl.Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
+                                                      ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}"
+                                                      ContentTemplateSelector="{TemplateBinding HeaderedItemsControl.HeaderTemplateSelector}"
+                                                      ContentSource="Header" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                                                      SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
                                 </Border>
                                 <ItemsPresenter x:Name="ItemsHost" Grid.Column="1" Grid.Row="1" />
                             </Grid>

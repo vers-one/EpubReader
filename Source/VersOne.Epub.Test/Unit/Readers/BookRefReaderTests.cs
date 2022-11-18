@@ -25,7 +25,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if environmentDependencies parameter is null")]
         public void ConstructorWithNullEnvironmentDependenciesTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new BookRefReader(null, new EpubReaderOptions()));
+            Assert.Throws<ArgumentNullException>(() => new BookRefReader(null!, new EpubReaderOptions()));
         }
 
         [Fact(DisplayName = "Constructing a BookRefReader instance with a null epubReaderOptions parameter should succeed")]

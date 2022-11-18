@@ -19,13 +19,13 @@ namespace VersOne.Epub.Test.Unit.Content
 
         private static readonly byte[] BYTE_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46 };
 
-        private EpubContentFileRefMetadata LocalTextFileRefMetadata => new(LOCAL_TEXT_FILE_NAME, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata LocalTextFileRefMetadata => new(LOCAL_TEXT_FILE_NAME, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
 
-        private EpubContentFileRefMetadata LocalByteFileRefMetadata => new(LOCAL_BYTE_FILE_NAME, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata LocalByteFileRefMetadata => new(LOCAL_BYTE_FILE_NAME, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
 
-        private EpubContentFileRefMetadata RemoteTextFileRefMetadata => new(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata RemoteTextFileRefMetadata => new(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
 
-        private EpubContentFileRefMetadata RemoteByteFileRefMetadata => new(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata RemoteByteFileRefMetadata => new(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
 
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should set correct property values")]
         public void LocalTextContentFileRefConstructorTest()
@@ -78,61 +78,61 @@ namespace VersOne.Epub.Test.Unit.Content
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
         public void CreateEpubLocalTextContentFileRefWithNullMetadataTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(null, LOCAL_TEXT_FILE_PATH, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(null!, LOCAL_TEXT_FILE_PATH, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
         public void CreateEpubLocalByteContentFileRefWithNullMetadataTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(null, LOCAL_BYTE_FILE_PATH, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(null!, LOCAL_BYTE_FILE_PATH, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubRemoteTextContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
         public void CreateEpubRemoteTextContentFileRefWithNullMetadataTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubRemoteTextContentFileRef(null, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubRemoteTextContentFileRef(null!, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubRemoteByteContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
         public void CreateEpubRemoteByteContentFileRefWithNullMetadataTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubRemoteByteContentFileRef(null, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubRemoteByteContentFileRef(null!, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
         public void CreateEpubLocalTextContentFileRefWithNullContentLoaderTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, null));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, null!));
         }
 
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
         public void CreateEpubLocalByteContentFileRefWithNullContentLoaderTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, null));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, null!));
         }
 
         [Fact(DisplayName = "EpubRemoteTextContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
         public void CreateEpubRemoteTextContentFileRefWithNullContentLoaderTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubRemoteTextContentFileRef(RemoteTextFileRefMetadata, null));
+            Assert.Throws<ArgumentNullException>(() => new EpubRemoteTextContentFileRef(RemoteTextFileRefMetadata, null!));
         }
 
         [Fact(DisplayName = "EpubRemoteByteContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
         public void CreateEpubRemoteByteContentFileRefWithNullContentLoaderTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubRemoteByteContentFileRef(RemoteByteFileRefMetadata, null));
+            Assert.Throws<ArgumentNullException>(() => new EpubRemoteByteContentFileRef(RemoteByteFileRefMetadata, null!));
         }
 
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should throw ArgumentNullException if the supplied file path is null")]
         public void CreateEpubLocalTextContentFileRefWithNullFilePathTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, null, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, null!, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should throw ArgumentNullException if the supplied file path is null")]
         public void CreateEpubLocalByteContentFileRefWithNullFilePathTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, null, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, null!, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "Reading local text content file synchronously should succeed")]

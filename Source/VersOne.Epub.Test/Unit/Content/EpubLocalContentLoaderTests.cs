@@ -20,38 +20,38 @@ namespace VersOne.Epub.Test.Unit.Content
 
         private static readonly byte[] BYTE_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46 };
 
-        private EpubContentFileRefMetadata TextFileRefMetadata => new(TEXT_FILE_NAME, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata TextFileRefMetadata => new(TEXT_FILE_NAME, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
 
-        private EpubContentFileRefMetadata ByteFileRefMetadata => new(BYTE_FILE_NAME, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata ByteFileRefMetadata => new(BYTE_FILE_NAME, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
 
         [Fact(DisplayName = "Constructing a local content loader with non-null constructor parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
         {
-            _ = new EpubLocalContentLoader(new TestEnvironmentDependencies(), new ContentReaderOptions(), new TestZipFile(), CONTENT_DIRECTORY_PATH);
+            _ = new EpubLocalContentLoader(new TestEnvironmentDependencies(), new TestZipFile(), CONTENT_DIRECTORY_PATH, new ContentReaderOptions());
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if environmentDependencies parameter is null")]
         public void ConstructorWithNullEnvironmentDependenciesTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalContentLoader(null, new ContentReaderOptions(), new TestZipFile(), CONTENT_DIRECTORY_PATH));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalContentLoader(null!, new TestZipFile(), CONTENT_DIRECTORY_PATH, new ContentReaderOptions()));
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if epubFile parameter is null")]
         public void ConstructorWithNullEpubFileTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalContentLoader(new TestEnvironmentDependencies(), new ContentReaderOptions(), null, CONTENT_DIRECTORY_PATH));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalContentLoader(new TestEnvironmentDependencies(), null!, CONTENT_DIRECTORY_PATH, new ContentReaderOptions()));
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if contentDirectoryPath parameter is null")]
         public void ConstructorWithNullContentDirectoryPathTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalContentLoader(new TestEnvironmentDependencies(), new ContentReaderOptions(), new TestZipFile(), null));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalContentLoader(new TestEnvironmentDependencies(), new TestZipFile(), null!, new ContentReaderOptions()));
         }
 
         [Fact(DisplayName = "Constructing a local content loader with null contentReaderOptions parameter should succeed")]
         public void ConstructorWithNullContentReaderOptionsTest()
         {
-            _ = new EpubLocalContentLoader(new TestEnvironmentDependencies(), null, new TestZipFile(), CONTENT_DIRECTORY_PATH);
+            _ = new EpubLocalContentLoader(new TestEnvironmentDependencies(), new TestZipFile(), CONTENT_DIRECTORY_PATH, null);
         }
 
         [Fact(DisplayName = "Loading content of an existing text file synchronously should succeed")]
@@ -333,7 +333,7 @@ namespace VersOne.Epub.Test.Unit.Content
         public void ContentFileMissingEventArgsTest()
         {
             ContentReaderOptions contentReaderOptions = new();
-            ContentFileMissingEventArgs contentFileMissingEventArgs = null;
+            ContentFileMissingEventArgs? contentFileMissingEventArgs = null;
             contentReaderOptions.ContentFileMissing += (sender, e) =>
             {
                 e.SuppressException = true;
@@ -342,15 +342,16 @@ namespace VersOne.Epub.Test.Unit.Content
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
             epubLocalContentLoader.LoadContentAsText(TextFileRefMetadata);
+            Assert.NotNull(contentFileMissingEventArgs);
             Assert.Equal(TEXT_FILE_NAME, contentFileMissingEventArgs.FileKey);
             Assert.Equal(TEXT_FILE_PATH, contentFileMissingEventArgs.FilePath);
             Assert.Equal(TEXT_FILE_CONTENT_TYPE, contentFileMissingEventArgs.ContentType);
             Assert.Equal(TEXT_FILE_CONTENT_MIME_TYPE, contentFileMissingEventArgs.ContentMimeType);
         }
 
-        private EpubLocalContentLoader CreateEpubLocalContentLoader(TestZipFile testZipFile, ContentReaderOptions contentReaderOptions = null)
+        private static EpubLocalContentLoader CreateEpubLocalContentLoader(TestZipFile testZipFile, ContentReaderOptions? contentReaderOptions = null)
         {
-            return new(new TestEnvironmentDependencies(), contentReaderOptions, testZipFile, CONTENT_DIRECTORY_PATH);
+            return new(new TestEnvironmentDependencies(), testZipFile, CONTENT_DIRECTORY_PATH, contentReaderOptions);
         }
     }
 }

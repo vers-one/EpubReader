@@ -1,4 +1,6 @@
-﻿namespace VersOne.Epub.Schema
+﻿using System;
+
+namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>Pointer to the book's content associated with a navigational element.</para>
@@ -11,16 +13,38 @@
     public class Epub2NcxContent
     {
         /// <summary>
-        /// <para>Gets the optional unique identifier of the content pointer.</para>
+        /// Initializes a new instance of the <see cref="Epub2NcxContent" /> class with the specified source.
+        /// </summary>
+        /// <param name="source">An IRI that resolves to a content document or a fragment within the EPUB book.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="source"/> argument is <c>null</c>.</exception>
+        public Epub2NcxContent(string source)
+            : this(null, source)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2NcxContent" /> class with specified ID and source.
+        /// </summary>
+        /// <param name="id">The unique identifier of the content pointer or <c>null</c> if the identifier is not specified.</param>
+        /// <param name="source">An IRI that resolves to a content document or a fragment within the EPUB book.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="source"/> argument is <c>null</c>.</exception>
+        public Epub2NcxContent(string? id, string source)
+        {
+            Id = id;
+            Source = source ?? throw new ArgumentNullException(nameof(source));
+        }
+
+        /// <summary>
+        /// <para>Gets the unique identifier of the content pointer or <c>null</c> if the identifier is not specified.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Id { get; internal set; }
+        public string? Id { get; }
 
         /// <summary>
         /// <para>Gets an IRI that resolves to a content document or a fragment within the EPUB book.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Source { get; internal set; }
+        public string Source { get; }
 
         /// <summary>
         /// Returns a string containing the value of the <see cref="Source" /> property for debugging purposes.

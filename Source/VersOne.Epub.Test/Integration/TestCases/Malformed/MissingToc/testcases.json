@@ -26,11 +26,6 @@
             [
                 "John Doe"
             ],
-            "Description": null,
-            "ReadingOrder":
-            [
-            ],
-            "Navigation": null,
             "Schema":
             {
                 "Package":
@@ -47,91 +42,19 @@
                             {
                                 "Creator": "John Doe"
                             }
-                        ],
-                        "Subjects":
-                        [
-                        ],
-                        "Description": null,
-                        "Publishers":
-                        [
-                        ],
-                        "Contributors":
-                        [
-                        ],
-                        "Dates":
-                        [
-                        ],
-                        "Types":
-                        [
-                        ],
-                        "Formats":
-                        [
-                        ],
-                        "Identifiers":
-                        [
-                        ],
-                        "Sources":
-                        [
-                        ],
-                        "Languages":
-                        [
-                        ],
-                        "Relations":
-                        [
-                        ],
-                        "Coverages":
-                        [
-                        ],
-                        "Rights":
-                        [
-                        ],
-                        "Links":
-                        [
-                        ],
-                        "MetaItems":
-                        [
                         ]
                     },
                     "Manifest":
                     {
-                        "Items":
-                        [
-                        ]
                     },
                     "Spine":
                     {
-                        "Id": null,
-                        "PageProgressionDirection": null,
-                        "Toc": null,
-                        "Items":
-                        [
-                        ]
-                    },
-                    "Guide": null
+                    }
                 },
-                "Epub2Ncx": null,
-                "Epub3NavDocument": null,
                 "ContentDirectoryPath": "Content"
             },
             "Content":
             {
-                "Cover": null,
-                "NavigationHtmlFile": null,
-                "Html":
-                {
-                },
-                "Css":
-                {
-                },
-                "Images":
-                {
-                },
-                "Fonts":
-                {
-                },
-                "AllFiles":
-                {
-                }
             },
             "$file": "test.epub"
         },

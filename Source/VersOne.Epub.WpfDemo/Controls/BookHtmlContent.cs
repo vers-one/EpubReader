@@ -25,7 +25,8 @@ namespace VersOne.Epub.WpfDemo.Controls
         /// <summary>
         /// Identifies the <see cref="HtmlContentFile" /> dependency property.
         /// </summary>
-        public static readonly DependencyProperty HtmlContentFileProperty = DependencyProperty.Register("HtmlContentFile", typeof(HtmlContentFileViewModel), typeof(BookHtmlContent), new PropertyMetadata(OnHtmlContentFileChanged));
+        public static readonly DependencyProperty HtmlContentFileProperty =
+            DependencyProperty.Register("HtmlContentFile", typeof(HtmlContentFileViewModel), typeof(BookHtmlContent), new PropertyMetadata(OnHtmlContentFileChanged));
 
         /// <summary>
         /// Identifies the <see cref="Anchor" /> dependency property.

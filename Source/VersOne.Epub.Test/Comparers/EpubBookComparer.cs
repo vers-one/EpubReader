@@ -11,10 +11,10 @@
             Assert.Equal(expected.AuthorList, actual.AuthorList);
             Assert.Equal(expected.Description, actual.Description);
             Assert.Equal(expected.CoverImage, actual.CoverImage);
-            CollectionComparer.CompareCollections(expected.ReadingOrder, actual.ReadingOrder, EpubContentComparer.CompareEpubLocalTextContentFiles);
+            EpubContentComparer.CompareEpubLocalTextContentFileLists(expected.ReadingOrder, actual.ReadingOrder);
             EpubNavigationItemComparer.CompareNavigationItemLists(expected.Navigation, actual.Navigation);
-            EpubContentComparer.CompareEpubContents(expected.Content, actual.Content);
             EpubSchemaComparer.CompareEpubSchemas(expected.Schema, actual.Schema);
+            EpubContentComparer.CompareEpubContents(expected.Content, actual.Content);
         }
     }
 }

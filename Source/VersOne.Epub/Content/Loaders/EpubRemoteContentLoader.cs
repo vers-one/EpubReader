@@ -12,7 +12,7 @@ namespace VersOne.Epub.Internal
         private readonly IContentDownloader contentDownloader;
         private readonly string userAgent;
 
-        public EpubRemoteContentLoader(IEnvironmentDependencies environmentDependencies, ContentDownloaderOptions contentDownloaderOptions)
+        public EpubRemoteContentLoader(IEnvironmentDependencies environmentDependencies, ContentDownloaderOptions? contentDownloaderOptions = null)
             : base(environmentDependencies)
         {
             this.contentDownloaderOptions = contentDownloaderOptions ?? new ContentDownloaderOptions();
@@ -23,21 +23,17 @@ namespace VersOne.Epub.Internal
 
         public override async Task<byte[]> LoadContentAsBytesAsync(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            using (Stream contentStream = await GetContentStreamAsync(contentFileRefMetadata))
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                await contentStream.CopyToAsync(memoryStream).ConfigureAwait(false);
-                return memoryStream.ToArray();
-            }
+            using Stream contentStream = await GetContentStreamAsync(contentFileRefMetadata);
+            using MemoryStream memoryStream = new();
+            await contentStream.CopyToAsync(memoryStream).ConfigureAwait(false);
+            return memoryStream.ToArray();
         }
 
         public override async Task<string> LoadContentAsTextAsync(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            using (Stream contentStream = await GetContentStreamAsync(contentFileRefMetadata))
-            using (StreamReader streamReader = new StreamReader(contentStream))
-            {
-                return await streamReader.ReadToEndAsync().ConfigureAwait(false);
-            }
+            using Stream contentStream = await GetContentStreamAsync(contentFileRefMetadata);
+            using StreamReader streamReader = new(contentStream);
+            return await streamReader.ReadToEndAsync().ConfigureAwait(false);
         }
 
         public override Task<Stream> GetContentStreamAsync(EpubContentFileRefMetadata contentFileRefMetadata)

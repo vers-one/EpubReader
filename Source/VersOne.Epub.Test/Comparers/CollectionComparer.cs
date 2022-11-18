@@ -18,7 +18,7 @@
             {
                 TKey expectedKey = expectedKeyValuePair.Key;
                 TValue expectedValue = expectedKeyValuePair.Value;
-                if (actual.TryGetValue(expectedKey, out TValue actualValue))
+                if (actual.TryGetValue(expectedKey, out TValue? actualValue))
                 {
                     elementValueComprarer(expectedValue, actualValue);
                 }

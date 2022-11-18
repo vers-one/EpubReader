@@ -1,6 +1,8 @@
 ﻿using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
+using VersOne.Epub.Test.Unit.TestData;
+using static VersOne.Epub.Test.Unit.TestData.TestEpubData;
 
 namespace VersOne.Epub.Test.Unit.Entities
 {
@@ -17,11 +19,111 @@ namespace VersOne.Epub.Test.Unit.Entities
 
         private static readonly byte[] COVER_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46 };
 
+        private static List<string> AuthorList =>
+            new()
+            {
+                BOOK_AUTHOR
+            };
+
+        private static EpubSchema Schema => TestEpubSchemas.CreateFullTestEpubSchema();
+
+        private static EpubContentRef Content => TestEpubContentRef.CreateFullTestEpubContentRef();
+
+        [Fact(DisplayName = "Constructing a EpubBookRef instance with non-null parameters should succeed")]
+        public void ConstructorWithNonNullParametersTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, Content);
+            Assert.Equal(testZipFile, epubBookRef.EpubFile);
+            Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
+            Assert.Equal(BOOK_TITLE, epubBookRef.Title);
+            Assert.Equal(BOOK_AUTHOR, epubBookRef.Author);
+            Assert.Equal(AuthorList, epubBookRef.AuthorList);
+            Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
+            EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
+            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+        }
+
+        [Fact(DisplayName = "Constructor should throw ArgumentNullException if epubFile parameter is null")]
+        public void ConstructorWithNullEpubFileTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EpubBookRef(null!, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, Content));
+        }
+
+        [Fact(DisplayName = "Constructor should throw ArgumentNullException if title parameter is null")]
+        public void ConstructorWithNullTitleTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EpubBookRef(new TestZipFile(), EPUB_FILE_PATH, null!, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, Content));
+        }
+
+        [Fact(DisplayName = "Constructor should throw ArgumentNullException if author parameter is null")]
+        public void ConstructorWithNullAuthorTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EpubBookRef(new TestZipFile(), EPUB_FILE_PATH, BOOK_TITLE, null!, AuthorList, BOOK_DESCRIPTION, Schema, Content));
+        }
+
+        [Fact(DisplayName = "Constructor should throw ArgumentNullException if schema parameter is null")]
+        public void ConstructorWithNullSchemaTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EpubBookRef(new TestZipFile(), EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, null!, Content));
+        }
+
+        [Fact(DisplayName = "Constructor should throw ArgumentNullException if content parameter is null")]
+        public void ConstructorWithNullContentTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EpubBookRef(new TestZipFile(), EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, null!));
+        }
+
+        [Fact(DisplayName = "Constructing a EpubBookRef instance with null filePath parameter should succeed")]
+        public void ConstructorWithNullFilePathTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubBookRef epubBookRef = new(testZipFile, null, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, Content);
+            Assert.Equal(testZipFile, epubBookRef.EpubFile);
+            Assert.Null(epubBookRef.FilePath);
+            Assert.Equal(BOOK_TITLE, epubBookRef.Title);
+            Assert.Equal(BOOK_AUTHOR, epubBookRef.Author);
+            Assert.Equal(AuthorList, epubBookRef.AuthorList);
+            Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
+            EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
+            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+        }
+
+        [Fact(DisplayName = "Constructing a EpubBookRef instance with null authorList parameter should succeed")]
+        public void ConstructorWithNullAuthorListTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, null, BOOK_DESCRIPTION, Schema, Content);
+            Assert.Equal(testZipFile, epubBookRef.EpubFile);
+            Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
+            Assert.Equal(BOOK_TITLE, epubBookRef.Title);
+            Assert.Equal(BOOK_AUTHOR, epubBookRef.Author);
+            Assert.Equal(new List<string>(), epubBookRef.AuthorList);
+            Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
+            EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
+            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+        }
+
+        [Fact(DisplayName = "Constructing a EpubBookRef instance with null description parameter should succeed")]
+        public void ConstructorWithNullDescriptionTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, null, Schema, Content);
+            Assert.Equal(testZipFile, epubBookRef.EpubFile);
+            Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
+            Assert.Equal(BOOK_TITLE, epubBookRef.Title);
+            Assert.Equal(BOOK_AUTHOR, epubBookRef.Author);
+            Assert.Equal(AuthorList, epubBookRef.AuthorList);
+            Assert.Null(epubBookRef.Description);
+            EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
+            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+        }
+
         [Fact(DisplayName = "Reading the existing cover synchronously should succeed")]
         public void ReadCoverTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithCover(COVER_FILE_CONTENT);
-            byte[] coverContent = epubBookRef.ReadCover();
+            byte[]? coverContent = epubBookRef.ReadCover();
             Assert.Equal(COVER_FILE_CONTENT, coverContent);
         }
 
@@ -29,7 +131,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         public async void ReadCoverAsyncTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithCover(COVER_FILE_CONTENT);
-            byte[] coverContent = await epubBookRef.ReadCoverAsync();
+            byte[]? coverContent = await epubBookRef.ReadCoverAsync();
             Assert.Equal(COVER_FILE_CONTENT, coverContent);
         }
 
@@ -38,7 +140,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         {
             TestZipFile testZipFile = new();
             EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
-            byte[] coverContent = epubBookRef.ReadCover();
+            byte[]? coverContent = epubBookRef.ReadCover();
             Assert.Null(coverContent);
         }
 
@@ -47,7 +149,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         {
             TestZipFile testZipFile = new();
             EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
-            byte[] coverContent = await epubBookRef.ReadCoverAsync();
+            byte[]? coverContent = await epubBookRef.ReadCoverAsync();
             Assert.Null(coverContent);
         }
 
@@ -83,7 +185,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             {
                 CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.Local[HTML_FILE_NAME])
             };
-            List<EpubNavigationItemRef> actualNavigationItems = epubBookRef.GetNavigation();
+            List<EpubNavigationItemRef>? actualNavigationItems = epubBookRef.GetNavigation();
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
@@ -95,7 +197,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             {
                 CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.Local[HTML_FILE_NAME])
             };
-            List<EpubNavigationItemRef> actualNavigationItems = await epubBookRef.GetNavigationAsync();
+            List<EpubNavigationItemRef>? actualNavigationItems = await epubBookRef.GetNavigationAsync();
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
@@ -103,7 +205,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         public void GetNavigationForEpub2WithNoNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_2);
-            List<EpubNavigationItemRef> navigationItems = epubBookRef.GetNavigation();
+            List<EpubNavigationItemRef>? navigationItems = epubBookRef.GetNavigation();
             Assert.Null(navigationItems);
         }
 
@@ -111,7 +213,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         public void GetNavigationForEpub3WithNoNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
-            List<EpubNavigationItemRef> navigationItems = epubBookRef.GetNavigation();
+            List<EpubNavigationItemRef>? navigationItems = epubBookRef.GetNavigation();
             Assert.Null(navigationItems);
         }
 
@@ -119,7 +221,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         public async void GetNavigationAsyncForEpub2WithNoNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_2);
-            List<EpubNavigationItemRef> navigationItems = await epubBookRef.GetNavigationAsync();
+            List<EpubNavigationItemRef>? navigationItems = await epubBookRef.GetNavigationAsync();
             Assert.Null(navigationItems);
         }
 
@@ -127,7 +229,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         public async void GetNavigationAsyncForEpub3WithNoNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
-            List<EpubNavigationItemRef> navigationItems = await epubBookRef.GetNavigationAsync();
+            List<EpubNavigationItemRef>? navigationItems = await epubBookRef.GetNavigationAsync();
             Assert.Null(navigationItems);
         }
 
@@ -138,163 +240,166 @@ namespace VersOne.Epub.Test.Unit.Entities
             using EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
         }
 
-        [Fact(DisplayName = "Disposing EpubBookRef without EPUB file should succeed")]
-        public void DisposeWithoutEpubFileTest()
-        {
-            using EpubBookRef epubBookRef = CreateEpubBookRef(null, EpubVersion.EPUB_3);
-        }
-
-        private EpubBookRef CreateEpubBookRefWithCover(byte[] coverFileContent)
+        private static EpubBookRef CreateEpubBookRefWithCover(byte[] coverFileContent)
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(COVER_FILE_PATH, coverFileContent);
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
-            EpubContentFileRefMetadata coverFileRefMetadata = new(COVER_FILE_NAME, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE);
-            epubBookRef.Content.Cover = new EpubLocalByteContentFileRef(coverFileRefMetadata, COVER_FILE_PATH, new TestEpubContentLoader(coverFileContent));
-            return epubBookRef;
+            return CreateEpubBookRef
+            (
+                epubFile: testZipFile,
+                epubVersion: EpubVersion.EPUB_3,
+                content: new EpubContentRef
+                (
+                    cover: new EpubLocalByteContentFileRef
+                    (
+                        metadata: new EpubContentFileRefMetadata(COVER_FILE_NAME, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE),
+                        filePath: COVER_FILE_PATH,
+                        epubContentLoader: new TestEpubContentLoader(coverFileContent)
+                    )
+                )
+            );
         }
 
-        private EpubBookRef CreateEpubBookRefWithReadingOrder(string htmlFileName, string htmlFilePath)
+        private static EpubBookRef CreateEpubBookRefWithReadingOrder(string htmlFileName, string htmlFilePath)
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
-            epubBookRef.Schema.Package.Spine = new EpubSpine()
-            {
-                Items = new List<EpubSpineItemRef>()
-                {
-                    new EpubSpineItemRef()
-                    {
-                        IdRef = "item-1"
-                    }
-                }
-            };
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
-                    {
-                        Id = "item-1",
-                        Href = htmlFileName,
-                        MediaType = "application/xhtml+xml"
-                    }
-                }
-            };
             EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
-            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-            {
-                Local = new Dictionary<string, EpubLocalTextContentFileRef>()
-                {
+            return CreateEpubBookRef
+            (
+                epubFile: new TestZipFile(),
+                epubVersion: EpubVersion.EPUB_3,
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        htmlFileName,
-                        htmlFileRef
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: htmlFileName,
+                            mediaType: "application/xhtml+xml"
+                        )
                     }
-                },
-                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-            };
-            return epubBookRef;
-        }
-
-        private EpubBookRef CreateEpubBookRefWithNavigation(string htmlFileName, string htmlFilePath, string anchorText)
-        {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
-            epubBookRef.Schema.Epub3NavDocument = new Epub3NavDocument()
-            {
-                Navs = new List<Epub3Nav>()
-                {
-                    new Epub3Nav()
+                ),
+                spine: new EpubSpine
+                (
+                    items: new List<EpubSpineItemRef>()
                     {
-                        Type = Epub3NavStructuralSemanticsProperty.TOC,
-                        Ol = new Epub3NavOl()
+                        new EpubSpineItemRef
+                        (
+                            idRef: "item-1"
+                        )
+                    }
+                ),
+                content: new EpubContentRef
+                (
+                    html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                    (
+                        local: new Dictionary<string, EpubLocalTextContentFileRef>()
                         {
-                            Lis = new List<Epub3NavLi>()
                             {
-                                new Epub3NavLi()
-                                {
-                                    Anchor = new Epub3NavAnchor()
-                                    {
-                                        Text = anchorText,
-                                        Href = htmlFileName
-                                    }
-                                }
+                                htmlFileName,
+                                htmlFileRef
                             }
                         }
-                    }
-                }
-            };
-            EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
-            epubBookRef.Content = new EpubContentRef()
-            {
-                NavigationHtmlFile = CreateTestHtmlFileRef("toc.html", $"{CONTENT_DIRECTORY_PATH}/toc.html"),
-                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            htmlFileName,
-                            htmlFileRef
-                        }
-                    },
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-                }
-            };
-            return epubBookRef;
+                    )
+                )
+            );
         }
 
-        private EpubBookRef CreateEpubBookRef(TestZipFile testZipFile, EpubVersion epubVersion)
+        private static EpubBookRef CreateEpubBookRefWithNavigation(string htmlFileName, string htmlFilePath, string anchorText)
         {
-            return new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                    Package = new EpubPackage()
+            EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
+            EpubLocalTextContentFileRef navigationFileRef = CreateTestHtmlFileRef("toc.html", $"{CONTENT_DIRECTORY_PATH}/toc.html");
+            return CreateEpubBookRef
+            (
+                epubFile: new TestZipFile(),
+                epubVersion: EpubVersion.EPUB_3,
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: navigationFileRef.FilePath,
+                    navs: new List<Epub3Nav>()
                     {
-                        EpubVersion = epubVersion,
-                        Metadata = new EpubMetadata()
-                        {
-                            Titles = new List<string>(),
-                            Creators = new List<EpubMetadataCreator>(),
-                            Subjects = new List<string>(),
-                            Publishers = new List<string>(),
-                            Contributors = new List<EpubMetadataContributor>(),
-                            Dates = new List<EpubMetadataDate>(),
-                            Types = new List<string>(),
-                            Formats = new List<string>(),
-                            Identifiers = new List<EpubMetadataIdentifier>(),
-                            Sources = new List<string>(),
-                            Languages = new List<string>(),
-                            Relations = new List<string>(),
-                            Coverages = new List<string>(),
-                            Rights = new List<string>(),
-                            Links = new List<EpubMetadataLink>(),
-                            MetaItems = new List<EpubMetadataMeta>()
-                        },
-                        Manifest = new EpubManifest(),
-                        Spine = new EpubSpine()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
+                                {
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            text: anchorText,
+                                            href: htmlFileName
+                                        )
+                                    )
+                                }
+                            )
+                        )
                     }
-                },
-                Content = new EpubContentRef()
-            };
+                ),
+                content: new EpubContentRef
+                (
+                    navigationHtmlFile: navigationFileRef,
+                    html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                    (
+                        local: new Dictionary<string, EpubLocalTextContentFileRef>()
+                        {
+                            {
+                                htmlFileName,
+                                htmlFileRef
+                            }
+                        }
+                    )
+                )
+            );
         }
 
-        private EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName, string filePath)
+        private static EpubBookRef CreateEpubBookRef(TestZipFile epubFile, EpubVersion epubVersion, EpubManifest? manifest = null, EpubSpine? spine = null,
+            Epub3NavDocument? epub3NavDocument = null, EpubContentRef? content = null)
+        {
+            return new
+            (
+                epubFile: epubFile,
+                filePath: null,
+                title: String.Empty,
+                author: String.Empty,
+                authorList: null,
+                description: null,
+                schema: new EpubSchema
+                (
+                    contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                    package: new EpubPackage
+                    (
+                        epubVersion: epubVersion,
+                        metadata: new EpubMetadata(),
+                        manifest: manifest ?? new EpubManifest(),
+                        spine: spine ?? new EpubSpine(),
+                        guide: null
+                    ),
+                    epub2Ncx: null,
+                    epub3NavDocument: epub3NavDocument
+                ),
+                content: content ?? new EpubContentRef()
+            );
+        }
+
+        private static EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName, string filePath)
         {
             EpubContentFileRefMetadata htmlFileRefMetadata = new(fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml");
             return new(htmlFileRefMetadata, filePath, new TestEpubContentLoader());
         }
 
-        private EpubNavigationItemRef CreateTestNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
+        private static EpubNavigationItemRef CreateTestNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
         {
-            return new()
-            {
-                Type = EpubNavigationItemType.LINK,
-                Title = title,
-                Link = new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
-                HtmlContentFileRef = htmlFileRef,
-                NestedItems = new List<EpubNavigationItemRef>()
-            };
+            return new
+            (
+                type: EpubNavigationItemType.LINK,
+                title: title,
+                link: new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
+                htmlContentFileRef: htmlFileRef,
+                nestedItems: null
+            );
         }
     }
 }

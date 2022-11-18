@@ -165,23 +165,34 @@ namespace VersOne.Epub.Test.Unit.Readers
             </package>
             """;
 
+        private const string OPF_FILE_WITHOUT_HREF_IN_METADATA_LINK = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata>
+                <link rel="record" />
+              </metadata>
+              <manifest />
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITHOUT_REL_IN_METADATA_LINK = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata>
+                <link href="chapter.html" />
+              </metadata>
+              <manifest />
+              <spine />
+            </package>
+            """;
+
         private const string OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM = $"""
             <?xml version='1.0' encoding='UTF-8'?>
             <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
               <metadata />
               <manifest>
                 <item href="chapter1.html" media-type="application/xhtml+xml" />
-              </manifest>
-              <spine />
-            </package>
-            """;
-
-        private const string OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM = $"""
-            <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
-              <metadata />
-              <manifest>
-                <item id=" " href="chapter1.html" media-type="application/xhtml+xml" />
               </manifest>
               <spine />
             </package>
@@ -198,34 +209,12 @@ namespace VersOne.Epub.Test.Unit.Readers
             </package>
             """;
 
-        private const string OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM = $"""
-            <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
-              <metadata />
-              <manifest>
-                <item id="item-1" href=" " media-type="application/xhtml+xml" />
-              </manifest>
-              <spine />
-            </package>
-            """;
-
         private const string OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM = $"""
             <?xml version='1.0' encoding='UTF-8'?>
             <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
               <metadata />
               <manifest>
                 <item id="item-1" href="chapter1.html" />
-              </manifest>
-              <spine />
-            </package>
-            """;
-
-        private const string OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM = $"""
-            <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
-              <metadata />
-              <manifest>
-                <item id="item-1" href="chapter1.html" media-type=" " />
               </manifest>
               <spine />
             </package>
@@ -260,17 +249,6 @@ namespace VersOne.Epub.Test.Unit.Readers
             </package>
             """;
 
-        private const string OPF_FILE_WITH_EMPTY_IDREF_IN_SPINE_ITEMREF = $"""
-            <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
-              <metadata />
-              <manifest />
-              <spine>
-                <itemref idref=" " />
-              </spine>
-            </package>
-            """;
-
         private const string OPF_FILE_WITHOUT_TYPE_IN_GUIDE_REFERENCE = $"""
             <?xml version='1.0' encoding='UTF-8'?>
             <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
@@ -279,18 +257,6 @@ namespace VersOne.Epub.Test.Unit.Readers
               <spine toc="ncx" />
               <guide>
                 <reference href="toc.html" />
-              </guide>
-            </package>
-            """;
-
-        private const string OPF_FILE_WITH_EMPTY_TYPE_IN_GUIDE_REFERENCE = $"""
-            <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
-              <metadata />
-              <manifest />
-              <spine toc="ncx" />
-              <guide>
-                <reference type=" " href="toc.html" />
               </guide>
             </package>
             """;
@@ -307,486 +273,458 @@ namespace VersOne.Epub.Test.Unit.Readers
             </package>
             """;
 
-        private const string OPF_FILE_WITH_EMPTY_HREF_IN_GUIDE_REFERENCE = $"""
-            <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
-              <metadata />
-              <manifest />
-              <spine toc="ncx" />
-              <guide>
-                <reference type="toc" href=" " />
-              </guide>
-            </package>
-            """;
-
-        private static EpubMetadata EmptyMetadata =>
-            new()
-            {
-                Titles = new List<string>(),
-                Creators = new List<EpubMetadataCreator>(),
-                Subjects = new List<string>(),
-                Publishers = new List<string>(),
-                Contributors = new List<EpubMetadataContributor>(),
-                Dates = new List<EpubMetadataDate>(),
-                Types = new List<string>(),
-                Formats = new List<string>(),
-                Identifiers = new List<EpubMetadataIdentifier>(),
-                Sources = new List<string>(),
-                Languages = new List<string>(),
-                Relations = new List<string>(),
-                Coverages = new List<string>(),
-                Rights = new List<string>(),
-                Links = new List<EpubMetadataLink>(),
-                MetaItems = new List<EpubMetadataMeta>()
-            };
-
         private static EpubPackage MinimalEpub2Package =>
-            new()
-            {
-                EpubVersion = EpubVersion.EPUB_2,
-                Metadata = EmptyMetadata,
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
-                },
-                Spine = new EpubSpine()
-                {
-                    Toc = "ncx",
-                    Items = new List<EpubSpineItemRef>()
-                }
-            };
+            new
+            (
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine
+                (
+                    toc: "ncx"
+                ),
+                guide: null
+            );
 
         private static EpubPackage MinimalEpub3Package =>
-            new()
-            {
-                EpubVersion = EpubVersion.EPUB_3,
-                Metadata = EmptyMetadata,
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
-                },
-                Spine = new EpubSpine()
-                {
-                    Items = new List<EpubSpineItemRef>()
-                }
-            };
+            new
+            (
+                epubVersion: EpubVersion.EPUB_3,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine(),
+                guide: null
+            );
 
         private static EpubPackage MinimalEpub31Package =>
-            new()
-            {
-                EpubVersion = EpubVersion.EPUB_3_1,
-                Metadata = EmptyMetadata,
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
-                },
-                Spine = new EpubSpine()
-                {
-                    Items = new List<EpubSpineItemRef>()
-                }
-            };
+            new
+            (
+                epubVersion: EpubVersion.EPUB_3_1,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine(),
+                guide: null
+            );
 
         private static EpubPackage FullPackage
         {
             get
             {
-                return new()
-                {
-                    EpubVersion = EpubVersion.EPUB_3,
-                    Metadata = new EpubMetadata()
-                    {
-                        Titles = new List<string>()
+                return new
+                (
+                    epubVersion: EpubVersion.EPUB_3,
+                    metadata: new EpubMetadata
+                    (
+                        titles: new List<string>()
                         {
                             "Test title 1",
                             "Test title 2"
                         },
-                        Creators = new List<EpubMetadataCreator>()
+                        creators: new List<EpubMetadataCreator>()
                         {
-                            new EpubMetadataCreator()
-                            {
-                                Id = "creator-1",
-                                Role = "author",
-                                FileAs = "Doe, John",
-                                Creator = "John Doe"
-                            },
-                            new EpubMetadataCreator()
-                            {
-                                Id = "creator-2",
-                                Role = "author",
-                                FileAs = "Doe, Jane",
-                                Creator = "Jane Doe"
-                            }
+                            new EpubMetadataCreator
+                            (
+                                id: "creator-1",
+                                role: "author",
+                                fileAs: "Doe, John",
+                                creator: "John Doe"
+                            ),
+                            new EpubMetadataCreator
+                            (
+                                id: "creator-2",
+                                role: "author",
+                                fileAs: "Doe, Jane",
+                                creator: "Jane Doe"
+                            )
                         },
-                        Subjects = new List<string>()
+                        subjects: new List<string>()
                         {
                             "Test subject 1",
                             "Test subject 2"
                         },
-                        Description = "Test description",
-                        Publishers = new List<string>()
+                        description: "Test description",
+                        publishers: new List<string>()
                         {
                             "Test publisher 1",
                             "Test publisher 2"
                         },
-                        Contributors = new List<EpubMetadataContributor>()
+                        contributors: new List<EpubMetadataContributor>()
                         {
-                            new EpubMetadataContributor()
-                            {
-                                Id = "contributor-1",
-                                Role = "editor",
-                                FileAs = "Editor, John",
-                                Contributor = "John Editor"
-                            },
-                            new EpubMetadataContributor()
-                            {
-                                Id = "contributor-2",
-                                Role = "editor",
-                                FileAs = "Editor, Jane",
-                                Contributor = "Jane Editor"
-                            }
+                            new EpubMetadataContributor
+                            (
+                                id: "contributor-1",
+                                role: "editor",
+                                fileAs: "Editor, John",
+                                contributor: "John Editor"
+                            ),
+                            new EpubMetadataContributor
+                            (
+                                id: "contributor-2",
+                                role: "editor",
+                                fileAs: "Editor, Jane",
+                                contributor: "Jane Editor"
+                            )
                         },
-                        Dates = new List<EpubMetadataDate>()
+                        dates: new List<EpubMetadataDate>()
                         {
-                            new EpubMetadataDate()
-                            {
-                                Event = "creation",
-                                Date = "2021-12-31T23:59:59.123456Z"
-                            },
-                            new EpubMetadataDate()
-                            {
-                                Event = "publication",
-                                Date = "2022-01-23"
-                            }
+                            new EpubMetadataDate
+                            (
+                                @event: "creation",
+                                date: "2021-12-31T23:59:59.123456Z"
+                            ),
+                            new EpubMetadataDate
+                            (
+                                @event: "publication",
+                                date: "2022-01-23"
+                            )
                         },
-                        Types = new List<string>()
+                        types: new List<string>()
                         {
                             "dictionary",
                             "preview"
                         },
-                        Formats = new List<string>()
+                        formats: new List<string>()
                         {
                             "format-1",
                             "format-2"
                         },
-                        Identifiers = new List<EpubMetadataIdentifier>()
+                        identifiers: new List<EpubMetadataIdentifier>()
                         {
-                            new EpubMetadataIdentifier()
-                            {
-                                Id = "identifier-1",
-                                Scheme = "URI",
-                                Identifier = "https://example.com/books/123"
-                            },
-                            new EpubMetadataIdentifier()
-                            {
-                                Id = "identifier-2",
-                                Scheme = "ISBN",
-                                Identifier = "9781234567890"
-                            }
+                            new EpubMetadataIdentifier
+                            (
+                                id: "identifier-1",
+                                scheme: "URI",
+                                identifier: "https://example.com/books/123"
+                            ),
+                            new EpubMetadataIdentifier
+                            (
+                                id: "identifier-2",
+                                scheme: "ISBN",
+                                identifier: "9781234567890"
+                            )
                         },
-                        Sources = new List<string>()
+                        sources: new List<string>()
                         {
                             "https://example.com/books/123/content-1.html",
                             "https://example.com/books/123/content-2.html"
                         },
-                        Languages = new List<string>()
+                        languages: new List<string>()
                         {
                             "en",
                             "is"
                         },
-                        Relations = new List<string>()
+                        relations: new List<string>()
                         {
                             "https://example.com/books/123/related-1.html",
                             "https://example.com/books/123/related-2.html"
                         },
-                        Coverages = new List<string>()
+                        coverages: new List<string>()
                         {
                             "New York",
                             "1700-1850"
                         },
-                        Rights = new List<string>()
+                        rights: new List<string>()
                         {
                             "Public domain in the USA",
                             "All rights reserved"
                         },
-                        Links = new List<EpubMetadataLink>()
+                        links: new List<EpubMetadataLink>()
                         {
-                            new EpubMetadataLink()
-                            {
-                                Id = "link-1",
-                                Relationships = new List<EpubMetadataLinkRelationship>()
+                            new EpubMetadataLink
+                            (
+                                id: "link-1",
+                                href: "front.html#meta-json",
+                                mediaType: "application/xhtml+xml",
+                                properties: null,
+                                refines: null,
+                                relationships: new List<EpubMetadataLinkRelationship>()
                                 {
                                     EpubMetadataLinkRelationship.RECORD
+                                }
+                            ),
+                            new EpubMetadataLink
+                            (
+                                id: "link-2",
+                                href: "https://example.com/onix/123",
+                                mediaType: "application/xml",
+                                properties: new List<EpubMetadataLinkProperty>()
+                                {
+                                    EpubMetadataLinkProperty.ONIX
                                 },
-                                Href = "front.html#meta-json",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubMetadataLink()
-                            {
-                                Id = "link-2",
-                                Relationships = new List<EpubMetadataLinkRelationship>()
+                                refines: null,
+                                relationships: new List<EpubMetadataLinkRelationship>()
                                 {
                                     EpubMetadataLinkRelationship.RECORD,
                                     EpubMetadataLinkRelationship.ONIX_RECORD
-                                },
-                                Href = "https://example.com/onix/123",
-                                MediaType = "application/xml",
-                                Properties = new List<EpubMetadataLinkProperty>()
-                                {
-                                    EpubMetadataLinkProperty.ONIX
                                 }
-                            },
-                            new EpubMetadataLink()
-                            {
-                                Id = "link-3",
-                                Relationships = new List<EpubMetadataLinkRelationship>()
+                            ),
+                            new EpubMetadataLink
+                            (
+                                id: "link-3",
+                                href: "book.atom",
+                                mediaType: "application/atom+xml;type=entry;profile=opds-catalog",
+                                properties: null,
+                                refines: null,
+                                relationships: new List<EpubMetadataLinkRelationship>()
                                 {
                                     EpubMetadataLinkRelationship.RECORD
-                                },
-                                Href = "book.atom",
-                                MediaType = "application/atom+xml;type=entry;profile=opds-catalog"
-                            },
-                            new EpubMetadataLink()
-                            {
-                                Id = "link-4",
-                                Relationships = new List<EpubMetadataLinkRelationship>()
+                                }
+                            ),
+                            new EpubMetadataLink
+                            (
+                                id: "link-4",
+                                href: "title.mp3",
+                                mediaType: "audio/mpeg",
+                                properties: null,
+                                refines: "#title",
+                                relationships: new List<EpubMetadataLinkRelationship>()
                                 {
                                     EpubMetadataLinkRelationship.VOICING
-                                },
-                                Refines = "#title",
-                                Href = "title.mp3",
-                                MediaType = "audio/mpeg"
-                            }
+                                }
+                            )
                         },
-                        MetaItems = new List<EpubMetadataMeta>()
+                        metaItems: new List<EpubMetadataMeta>()
                         {
-                            new EpubMetadataMeta()
-                            {
-                                Name = "cover",
-                                Content = "cover-image"
-                            },
-                            new EpubMetadataMeta()
-                            {
-                                Id = "meta-1",
-                                Property = "rendition:orientation",
-                                Content = "landscape"
-                            },
-                            new EpubMetadataMeta()
-                            {
-                                Id = "meta-2",
-                                Property = "identifier-type",
-                                Refines = "#identifier-2",
-                                Scheme = "onix:codelist5",
-                                Content = "123"
-                            },
-                            new EpubMetadataMeta()
-                            {
-                                Id = "meta-3",
-                                Property = "alternate-script",
-                                Refines = "#creator-1",
-                                Content = "Brynjólfur Sveinsson"
-                            }
+                            new EpubMetadataMeta
+                            (
+                                name: "cover",
+                                content: "cover-image"
+                            ),
+                            new EpubMetadataMeta
+                            (
+                                name: null,
+                                content: "landscape",
+                                id: "meta-1",
+                                refines: null,
+                                property: "rendition:orientation",
+                                scheme: null
+                            ),
+                            new EpubMetadataMeta
+                            (
+                                name: null,
+                                content: "123",
+                                id: "meta-2",
+                                refines: "#identifier-2",
+                                property: "identifier-type",
+                                scheme: "onix:codelist5"
+                            ),
+                            new EpubMetadataMeta
+                            (
+                                name: null,
+                                content: "Brynjólfur Sveinsson",
+                                id: "meta-3",
+                                refines: "#creator-1",
+                                property: "alternate-script",
+                                scheme: null
+                            )
                         }
-                    },
-                    Manifest = new EpubManifest()
-                    {
-                        Items = new List<EpubManifestItem>()
+                    ),
+                    manifest: new EpubManifest
+                    (
+                        items: new List<EpubManifestItem>()
                         {
-                            new EpubManifestItem()
-                            {
-                                Id = "item-front",
-                                Href = "front.html",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "cover",
-                                Href = "cover.html",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "cover-image",
-                                Href = "cover.jpg",
-                                MediaType = "image/jpeg",
-                                Properties = new List<EpubManifestProperty>()
+                            new EpubManifestItem
+                            (
+                                id: "item-front",
+                                href: "front.html",
+                                mediaType: "application/xhtml+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "cover",
+                                href: "cover.html",
+                                mediaType: "application/xhtml+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "cover-image",
+                                href: "cover.jpg",
+                                mediaType: "image/jpeg",
+                                properties: new List<EpubManifestProperty>()
                                 {
                                     EpubManifestProperty.COVER_IMAGE
                                 }
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-css",
-                                Href = "styles.css",
-                                MediaType = "text/css"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-font",
-                                Href = "font.ttf",
-                                MediaType = "application/x-font-truetype"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-1",
-                                Href = "chapter1.html",
-                                MediaType = "application/xhtml+xml",
-                                MediaOverlay = "item-1-audio"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-1-audio",
-                                Href = "chapter1-audio.smil",
-                                MediaType = "application/smil+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-2",
-                                Href = "chapter2.html",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-2-fall",
-                                Href = "chapter2.xml",
-                                MediaType = "text/example+xml",
-                                RequiredNamespace = "http://example.com/ns/example/",
-                                RequiredModules = "ruby, server-side-image-map",
-                                Fallback = "item-2",
-                                FallbackStyle = "item-css"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-3",
-                                Href = "chapter3.html",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-3-fall",
-                                Href = "chapter3.xml",
-                                MediaType = "application/z3998-auth+xml",
-                                Fallback = "item-3"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-3-remote-audio",
-                                Href = "http://example.com/audio/123/chapter3.mp4",
-                                MediaType = "audio/mp4"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-image",
-                                Href = "image.jpg",
-                                MediaType = "image/jpeg"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-title-audio",
-                                Href = "title.mp3",
-                                MediaType = "audio/mpeg"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-atom",
-                                Href = "book.atom",
-                                MediaType = "application/atom+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-toc",
-                                Href = "toc.html",
-                                MediaType = "application/xhtml+xml",
-                                Properties = new List<EpubManifestProperty>()
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-css",
+                                href: "styles.css",
+                                mediaType: "text/css"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-font",
+                                href: "font.ttf",
+                                mediaType: "application/x-font-truetype"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-1",
+                                href: "chapter1.html",
+                                mediaType: "application/xhtml+xml",
+                                mediaOverlay: "item-1-audio",
+                                requiredNamespace: null,
+                                requiredModules: null,
+                                fallback: null,
+                                fallbackStyle: null,
+                                properties: null
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-1-audio",
+                                href: "chapter1-audio.smil",
+                                mediaType: "application/smil+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-2",
+                                href: "chapter2.html",
+                                mediaType: "application/xhtml+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-2-fall",
+                                href: "chapter2.xml",
+                                mediaType: "text/example+xml",
+                                mediaOverlay: null,
+                                requiredNamespace: "http://example.com/ns/example/",
+                                requiredModules: "ruby, server-side-image-map",
+                                fallback: "item-2",
+                                fallbackStyle: "item-css",
+                                properties: null
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-3",
+                                href: "chapter3.html",
+                                mediaType: "application/xhtml+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-3-fall",
+                                href: "chapter3.xml",
+                                mediaType: "application/z3998-auth+xml",
+                                mediaOverlay: null,
+                                requiredNamespace: null,
+                                requiredModules: null,
+                                fallback: "item-3",
+                                fallbackStyle: null,
+                                properties: null
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-3-remote-audio",
+                                href: "http://example.com/audio/123/chapter3.mp4",
+                                mediaType: "audio/mp4"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-image",
+                                href: "image.jpg",
+                                mediaType: "image/jpeg"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-title-audio",
+                                href: "title.mp3",
+                                mediaType: "audio/mpeg"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-atom",
+                                href: "book.atom",
+                                mediaType: "application/atom+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-toc",
+                                href: "toc.html",
+                                mediaType: "application/xhtml+xml",
+                                properties: new List<EpubManifestProperty>
                                 {
                                     EpubManifestProperty.NAV
                                 }
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "ncx",
-                                Href = "toc.ncx",
-                                MediaType = "application/x-dtbncx+xml"
-                            }
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "ncx",
+                                href: "toc.ncx",
+                                mediaType: "application/x-dtbncx+xml"
+                            )
                         }
-                    },
-                    Spine = new EpubSpine()
-                    {
-                        Id = "spine",
-                        PageProgressionDirection = EpubPageProgressionDirection.LEFT_TO_RIGHT,
-                        Toc = "ncx",
-                        Items = new List<EpubSpineItemRef>()
+                    ),
+                    spine: new EpubSpine
+                    (
+                        id: "spine",
+                        pageProgressionDirection: EpubPageProgressionDirection.LEFT_TO_RIGHT,
+                        toc: "ncx",
+                        items: new List<EpubSpineItemRef>()
                         {
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-1",
-                                IdRef = "item-front",
-                                IsLinear = true
-                            },
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-2",
-                                IdRef = "item-toc",
-                                IsLinear = false
-                            },
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-3",
-                                IdRef = "item-1",
-                                IsLinear = true
-                            },
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-4",
-                                IdRef = "item-2",
-                                IsLinear = true,
-                                Properties = new List<EpubSpineProperty>()
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-1",
+                                idRef: "item-front",
+                                isLinear: true
+                            ),
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-2",
+                                idRef: "item-toc",
+                                isLinear: false
+                            ),
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-3",
+                                idRef: "item-1",
+                                isLinear: true
+                            ),
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-4",
+                                idRef: "item-2",
+                                isLinear: true,
+                                properties: new List<EpubSpineProperty>()
                                 {
                                     EpubSpineProperty.PAGE_SPREAD_LEFT
                                 }
-                            },
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-5",
-                                IdRef = "item-3",
-                                IsLinear = true,
-                                Properties = new List<EpubSpineProperty>()
+                            ),
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-5",
+                                idRef: "item-3",
+                                isLinear: true,
+                                properties: new List<EpubSpineProperty>()
                                 {
                                     EpubSpineProperty.PAGE_SPREAD_RIGHT
                                 }
-                            }
+                            )
                         }
-                    },
-                    Guide = new EpubGuide()
-                    {
-                        Items = new List<EpubGuideReference>()
+                    ),
+                    guide: new EpubGuide
+                    (
+                        items: new List<EpubGuideReference>()
                         {
-                            new EpubGuideReference()
-                            {
-                                Type = "toc",
-                                Title = "Contents",
-                                Href = "toc.html"
-                            }
+                            new EpubGuideReference
+                            (
+                                type: "toc",
+                                title: "Contents",
+                                href: "toc.html"
+                            )
                         }
-                    }
-                };
+                    )
+                );
             }
         }
 
         private static EpubPackage Epub2PackageWithoutSpineToc =>
-            new()
-            {
-                EpubVersion = EpubVersion.EPUB_2,
-                Metadata = EmptyMetadata,
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
-                },
-                Spine = new EpubSpine()
-                {
-                    Items = new List<EpubSpineItemRef>()
-                }
-            };
-
+            new
+            (
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine(),
+                guide: null
+            );
 
         public static IEnumerable<object[]> ReadMinimalPackageAsyncTestData
         {
@@ -859,36 +797,28 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITHOUT_SPINE);
         }
 
+        [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a metadata link XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutMetadataLinkHrefTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_METADATA_LINK);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package without 'rel' attribute in a metadata link XML node should fail with EpubPackageException")]
+        public async void ReadPackageWithoutMetadataLinkRelTest()
+        {
+            await TestFailingReadOperation(OPF_FILE_WITHOUT_REL_IN_METADATA_LINK);
+        }
+
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutManifestItemIdTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty 'id' attribute in a manifest item XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyManifestItemIdTest()
-        {
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM);
-        }
-
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemIdAndWithNullPackageReaderOptionsTest()
+        public async void ReadPackageWithoutManifestItemIdWithNullPackageReaderOptionsTest()
         {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM, epubReaderOptions);
-        }
-
-        [Fact(DisplayName = "Trying to read OPF package with empty 'id' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyManifestItemIdAndWithNullPackageReaderOptionsTest()
-        {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_ID_IN_MANIFEST_ITEM, epubReaderOptions);
+            await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
@@ -903,30 +833,10 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty 'href' attribute in a manifest item XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyManifestItemHrefTest()
-        {
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM);
-        }
-
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemHrefAndWithNullPackageReaderOptionsTest()
+        public async void ReadPackageWithoutManifestItemHrefWithNullPackageReaderOptionsTest()
         {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM, epubReaderOptions);
-        }
-
-        [Fact(DisplayName = "Trying to read OPF package with empty 'href' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyManifestItemHrefAndWithNullPackageReaderOptionsTest()
-        {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_MANIFEST_ITEM, epubReaderOptions);
+            await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
@@ -941,30 +851,10 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty 'media-type' attribute in a manifest item XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyManifestItemMediaTypeTest()
-        {
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM);
-        }
-
         [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemMediaTypeAndWithNullPackageReaderOptionsTest()
+        public async void ReadPackageWithoutManifestItemMediaTypeWithNullPackageReaderOptionsTest()
         {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM, epubReaderOptions);
-        }
-
-        [Fact(DisplayName = "Trying to read OPF package with empty 'media-type' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyManifestItemMediaTypeAndWithNullPackageReaderOptionsTest()
-        {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_MEDIA_TYPE_IN_MANIFEST_ITEM, epubReaderOptions);
+            await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
@@ -979,30 +869,22 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC);
         }
 
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadEpub2PackageWithoutSpineTocWithNullPackageReaderOptionsTest()
+        {
+            await TestFailingReadOperationWithNullPackageReaderOptions(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC);
+        }
+
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node should fail with EpubPackageException")]
         public async void ReadEpub2PackageWithEmptySpineTocTest()
         {
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
         }
 
-        [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node and null PackageReaderOptionsshould fail with EpubPackageException")]
-        public async void ReadEpub2PackageWithoutSpineTocAndWithNullPackageReaderOptionsTest()
+        [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node and null PackageReaderOptions should fail with EpubPackageException")]
+        public async void ReadEpub2PackageWithEmptySpineTocWithNullPackageReaderOptionsTest()
         {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC, epubReaderOptions);
-        }
-
-        [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node and null PackageReaderOptionsshould fail with EpubPackageException")]
-        public async void ReadEpub2PackageWithEmptySpineTocAndWithNullPackageReaderOptionsTest()
-        {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                PackageReaderOptions = null
-            };
-            await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC, epubReaderOptions);
+            await TestFailingReadOperationWithNullPackageReaderOptions(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node with IgnoreMissingToc = true should succeed")]
@@ -1024,22 +906,10 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITHOUT_IDREF_IN_SPINE_ITEMREF);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty 'idref' attribute in a spine item ref XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptySpineItemRefIdRefTest()
-        {
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_IDREF_IN_SPINE_ITEMREF);
-        }
-
         [Fact(DisplayName = "Trying to read OPF package without 'type' attribute in a guide reference XML node should fail with EpubPackageException")]
         public async void ReadPackageWithoutGuideReferenceTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_TYPE_IN_GUIDE_REFERENCE);
-        }
-
-        [Fact(DisplayName = "Trying to read OPF package with empty 'type' attribute in a guide reference XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyGuideReferenceTypeTest()
-        {
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_TYPE_IN_GUIDE_REFERENCE);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a guide reference XML node should fail with EpubPackageException")]
@@ -1048,21 +918,15 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_GUIDE_REFERENCE);
         }
 
-        [Fact(DisplayName = "Trying to read OPF package with empty 'href' attribute in a guide reference XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithEmptyGuideReferenceHrefTest()
-        {
-            await TestFailingReadOperation(OPF_FILE_WITH_EMPTY_HREF_IN_GUIDE_REFERENCE);
-        }
-
-        private async Task TestSuccessfulReadOperation(string opfFileContent, EpubPackage expectedEpubPackage, EpubReaderOptions epubReaderOptions = null)
+        private static async Task TestSuccessfulReadOperation(string opfFileContent, EpubPackage expectedEpubPackage, EpubReaderOptions? epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithOpfFile(opfFileContent);
-            PackageReader packageReader = new(epubReaderOptions);
+            PackageReader packageReader = new(epubReaderOptions ?? new EpubReaderOptions());
             EpubPackage actualEpubPackage = await packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH);
             EpubPackageComparer.CompareEpubPackages(expectedEpubPackage, actualEpubPackage);
         }
 
-        private Task TestSuccessfulReadOperationWithSkippingInvalidManifestItems(string opfFileContent, EpubPackage expectedEpubPackage)
+        private static Task TestSuccessfulReadOperationWithSkippingInvalidManifestItems(string opfFileContent, EpubPackage expectedEpubPackage)
         {
             EpubReaderOptions epubReaderOptions = new()
             {
@@ -1074,14 +938,23 @@ namespace VersOne.Epub.Test.Unit.Readers
             return TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage, epubReaderOptions);
         }
 
-        private async Task TestFailingReadOperation(string opfFileContent, EpubReaderOptions epubReaderOptions = null)
+        private static async Task TestFailingReadOperation(string opfFileContent, EpubReaderOptions? epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithOpfFile(opfFileContent);
-            PackageReader packageReader = new(epubReaderOptions);
+            PackageReader packageReader = new(epubReaderOptions ?? new EpubReaderOptions());
             await Assert.ThrowsAsync<EpubPackageException>(() => packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH));
         }
 
-        private TestZipFile CreateTestZipFileWithOpfFile(string opfFileContent)
+        private static Task TestFailingReadOperationWithNullPackageReaderOptions(string opfFileContent)
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = null!
+            };
+            return TestFailingReadOperation(opfFileContent, epubReaderOptions);
+        }
+
+        private static TestZipFile CreateTestZipFileWithOpfFile(string opfFileContent)
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);

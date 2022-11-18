@@ -9,7 +9,7 @@ namespace VersOne.Epub.Environment.Implementation
 
         public ZipFile(ZipArchive zipArchive)
         {
-            this.zipArchive = zipArchive;
+            this.zipArchive = zipArchive ?? throw new ArgumentNullException(nameof(zipArchive));
             IsDisposed = false;
         }
 
@@ -20,7 +20,7 @@ namespace VersOne.Epub.Environment.Implementation
 
         public bool IsDisposed { get; private set; }
 
-        public IZipFileEntry GetEntry(string entryName)
+        public IZipFileEntry? GetEntry(string entryName)
         {
             if (IsDisposed)
             {
@@ -42,7 +42,7 @@ namespace VersOne.Epub.Environment.Implementation
             {
                 if (disposing)
                 {
-                    zipArchive?.Dispose();
+                    zipArchive.Dispose();
                 }
                 IsDisposed = true;
             }

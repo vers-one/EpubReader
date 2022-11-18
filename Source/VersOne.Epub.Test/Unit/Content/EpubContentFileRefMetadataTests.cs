@@ -18,7 +18,7 @@
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if key parameter is null")]
         public void ConstructorWithNullKeyTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubContentFileRefMetadata(null, CONTENT_TYPE, CONTENT_MIME_TYPE));
+            Assert.Throws<ArgumentNullException>(() => new EpubContentFileRefMetadata(null!, CONTENT_TYPE, CONTENT_MIME_TYPE));
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentException if key parameter is empty")]
@@ -30,7 +30,7 @@
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if contentMimeType parameter is null")]
         public void ConstructorWithNullContentMimeTypeTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubContentFileRefMetadata(KEY, CONTENT_TYPE, null));
+            Assert.Throws<ArgumentNullException>(() => new EpubContentFileRefMetadata(KEY, CONTENT_TYPE, null!));
         }
     }
 }
