@@ -78,7 +78,8 @@
     </Button.Template>
     <Button.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="Remove from library" Style="{StaticResource ptSansTextStyle}" Command="{Binding DataContext.RemoveFromLibraryCommand, Source={StaticResource libraryViewModelContext}}" CommandParameter="{Binding}" />
+            <MenuItem Header="Remove from library" Style="{StaticResource ptSansTextStyle}"
+                      Command="{Binding DataContext.RemoveFromLibraryCommand, Source={StaticResource libraryViewModelContext}}" CommandParameter="{Binding}" />
         </ContextMenu>
     </Button.ContextMenu>
 </Button>

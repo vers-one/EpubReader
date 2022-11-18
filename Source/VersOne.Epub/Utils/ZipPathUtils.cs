@@ -27,7 +27,7 @@ namespace VersOne.Epub.Internal
             }
             else if (String.IsNullOrEmpty(fileName))
             {
-                return fileName;
+                return directory;
             }
             else
             {
@@ -37,7 +37,6 @@ namespace VersOne.Epub.Internal
                     directory = lastDirectorySlashIndex != -1 ? directory.Substring(0, lastDirectorySlashIndex) : String.Empty;
                     fileName = fileName.Substring(DIRECTORY_UP.Length);
                 }
-
                 return String.IsNullOrEmpty(directory) ? fileName : String.Concat(directory, '/', fileName);
             }
         }

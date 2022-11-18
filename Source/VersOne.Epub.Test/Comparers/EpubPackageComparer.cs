@@ -14,7 +14,7 @@ namespace VersOne.Epub.Test.Comparers
             CompareEpubGuides(expected.Guide, actual.Guide);
         }
 
-        private static void CompareEpubMetadatas(EpubMetadata expected, EpubMetadata actual)
+        public static void CompareEpubMetadatas(EpubMetadata expected, EpubMetadata actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Titles, actual.Titles);
@@ -36,7 +36,7 @@ namespace VersOne.Epub.Test.Comparers
             CollectionComparer.CompareCollections(expected.MetaItems, actual.MetaItems, CompareEpubMetadataMetas);
         }
 
-        private static void CompareEpubMetadataCreators(EpubMetadataCreator expected, EpubMetadataCreator actual)
+        public static void CompareEpubMetadataCreators(EpubMetadataCreator expected, EpubMetadataCreator actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -45,7 +45,7 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Role, actual.Role);
         }
 
-        private static void CompareEpubMetadataContributors(EpubMetadataContributor expected, EpubMetadataContributor actual)
+        public static void CompareEpubMetadataContributors(EpubMetadataContributor expected, EpubMetadataContributor actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -54,14 +54,14 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Role, actual.Role);
         }
 
-        private static void CompareEpubMetadataDates(EpubMetadataDate expected, EpubMetadataDate actual)
+        public static void CompareEpubMetadataDates(EpubMetadataDate expected, EpubMetadataDate actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Date, actual.Date);
             Assert.Equal(expected.Event, actual.Event);
         }
 
-        private static void CompareEpubMetadataIdentifiers(EpubMetadataIdentifier expected, EpubMetadataIdentifier actual)
+        public static void CompareEpubMetadataIdentifiers(EpubMetadataIdentifier expected, EpubMetadataIdentifier actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -69,7 +69,7 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Identifier, actual.Identifier);
         }
 
-        private static void CompareEpubMetadataLinks(EpubMetadataLink expected, EpubMetadataLink actual)
+        public static void CompareEpubMetadataLinks(EpubMetadataLink expected, EpubMetadataLink actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -80,7 +80,7 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Relationships, actual.Relationships);
         }
 
-        private static void CompareEpubMetadataMetas(EpubMetadataMeta expected, EpubMetadataMeta actual)
+        public static void CompareEpubMetadataMetas(EpubMetadataMeta expected, EpubMetadataMeta actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Name, actual.Name);
@@ -91,13 +91,13 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Scheme, actual.Scheme);
         }
 
-        private static void CompareEpubManifests(EpubManifest expected, EpubManifest actual)
+        public static void CompareEpubManifests(EpubManifest expected, EpubManifest actual)
         {
             Assert.NotNull(actual);
             CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpubManifestItems);
         }
 
-        private static void CompareEpubManifestItems(EpubManifestItem expected, EpubManifestItem actual)
+        public static void CompareEpubManifestItems(EpubManifestItem expected, EpubManifestItem actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -111,7 +111,7 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Properties, actual.Properties);
         }
 
-        private static void CompareEpubSpines(EpubSpine expected, EpubSpine actual)
+        public static void CompareEpubSpines(EpubSpine expected, EpubSpine actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -120,7 +120,7 @@ namespace VersOne.Epub.Test.Comparers
             CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpubSpineItemRefs);
         }
 
-        private static void CompareEpubSpineItemRefs(EpubSpineItemRef expected, EpubSpineItemRef actual)
+        public static void CompareEpubSpineItemRefs(EpubSpineItemRef expected, EpubSpineItemRef actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -129,7 +129,7 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Properties, actual.Properties);
         }
 
-        private static void CompareEpubGuides(EpubGuide expected, EpubGuide actual)
+        public static void CompareEpubGuides(EpubGuide? expected, EpubGuide? actual)
         {
             if (expected == null)
             {
@@ -138,11 +138,16 @@ namespace VersOne.Epub.Test.Comparers
             else
             {
                 Assert.NotNull(actual);
-                CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpubGuideReferences);
+                CompareEpubGuideReferenceLists(expected.Items, actual.Items);
             }
         }
 
-        private static void CompareEpubGuideReferences(EpubGuideReference expected, EpubGuideReference actual)
+        public static void CompareEpubGuideReferenceLists(List<EpubGuideReference> expected, List<EpubGuideReference> actual)
+        {
+            CollectionComparer.CompareCollections(expected, actual, CompareEpubGuideReferences);
+        }
+
+        public static void CompareEpubGuideReferences(EpubGuideReference expected, EpubGuideReference actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Type, actual.Type);

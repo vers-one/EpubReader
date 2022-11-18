@@ -10,7 +10,7 @@ namespace VersOne.Epub.Test.Unit.Readers
     {
         private const string CONTENT_DIRECTORY_PATH = "Content";
         private const string NCX_FILE_NAME = "toc.ncx";
-        private const string NCX_FILE_PATH_IN_EPUB_ARCHIVE = $"{CONTENT_DIRECTORY_PATH}/{NCX_FILE_NAME}";
+        private const string NCX_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NCX_FILE_NAME}";
         private const string TOC_ID = "ncx";
 
         private const string MINIMAL_NCX_FILE = """
@@ -370,342 +370,337 @@ namespace VersOne.Epub.Test.Unit.Readers
             </ncx>
             """;
 
-        private EpubPackage MinimalEpubPackageWithNcx =>
-            new()
-            {
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
+        private static EpubPackage MinimalEpubPackageWithNcx =>
+            new
+            (
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem()
-                        {
-                            Id = TOC_ID,
-                            Href = NCX_FILE_NAME,
-                            MediaType = "application/x-dtbncx+xml"
-                        }
+                        new EpubManifestItem
+                        (
+                            id: TOC_ID,
+                            href: NCX_FILE_NAME,
+                            mediaType: "application/x-dtbncx+xml"
+                        )
                     }
-                },
-                Spine = new EpubSpine()
-                {
-                    Toc = TOC_ID
-                }
-            };
+                ),
+                spine: new EpubSpine
+                (
+                    toc: TOC_ID
+                ),
+                guide: null
+            );
 
-        private Epub2Ncx MinimalEpub2Ncx =>
-            new()
-            {
-                Head = new Epub2NcxHead()
-                {
-                    Items = new List<Epub2NcxHeadMeta>()
-                },
-                DocTitle = null,
-                DocAuthors = new List<string>(),
-                NavMap = new Epub2NcxNavigationMap()
-                {
-                    Items = new List<Epub2NcxNavigationPoint>()
-                },
-                PageList = null,
-                NavLists = new List<Epub2NcxNavigationList>()
-            };
+        private static Epub2Ncx MinimalEpub2Ncx =>
+            new
+            (
+                filePath: NCX_FILE_PATH,
+                head: new Epub2NcxHead(),
+                docTitle: null,
+                docAuthors: null,
+                navMap: new Epub2NcxNavigationMap(),
+                pageList: null,
+                navLists: null
+            );
 
-        private Epub2Ncx FullEpub2Ncx =>
-            new()
-            {
-                Head = new Epub2NcxHead()
-                {
-                    Items = new List<Epub2NcxHeadMeta>()
+        private static Epub2Ncx FullEpub2Ncx =>
+            new
+            (
+                filePath: NCX_FILE_PATH,
+                head: new Epub2NcxHead
+                (
+                    items: new List<Epub2NcxHeadMeta>
                     {
-                        new Epub2NcxHeadMeta()
-                        {
-                            Name = "dtb:uid",
-                            Content = "9781234567890"
-                        },
-                        new Epub2NcxHeadMeta()
-                        {
-                            Name = "dtb:depth",
-                            Content = "1"
-                        },
-                        new Epub2NcxHeadMeta()
-                        {
-                            Name = "dtb:generator",
-                            Content = "EpubWriter"
-                        },
-                        new Epub2NcxHeadMeta()
-                        {
-                            Name = "dtb:totalPageCount",
-                            Content = "0"
-                        },
-                        new Epub2NcxHeadMeta()
-                        {
-                            Name = "dtb:maxPageNumber",
-                            Content = "0"
-                        },
-                        new Epub2NcxHeadMeta()
-                        {
-                            Name = "location",
-                            Content = "https://example.com/books/123/ncx",
-                            Scheme = "URI"
-                        }
+                        new Epub2NcxHeadMeta
+                        (
+                            name: "dtb:uid",
+                            content: "9781234567890"
+                        ),
+                        new Epub2NcxHeadMeta
+                        (
+                            name: "dtb:depth",
+                            content: "1"
+                        ),
+                        new Epub2NcxHeadMeta
+                        (
+                            name: "dtb:generator",
+                            content: "EpubWriter"
+                        ),
+                        new Epub2NcxHeadMeta
+                        (
+                            name: "dtb:totalPageCount",
+                            content: "0"
+                        ),
+                        new Epub2NcxHeadMeta
+                        (
+                            name: "dtb:maxPageNumber",
+                            content: "0"
+                        ),
+                        new Epub2NcxHeadMeta
+                        (
+                            name: "location",
+                            content: "https://example.com/books/123/ncx",
+                            scheme: "URI"
+                        )
                     }
-                },
-                DocTitle = "Test title",
-                DocAuthors = new List<string>()
+                ),
+                docTitle: "Test title",
+                docAuthors: new List<string>()
                 {
                     "John Doe",
                     "Jane Doe"
                 },
-                NavMap = new Epub2NcxNavigationMap()
-                {
-                    Items = new List<Epub2NcxNavigationPoint>()
+                navMap: new Epub2NcxNavigationMap
+                (
+                    items: new List<Epub2NcxNavigationPoint>()
                     {
-                        new Epub2NcxNavigationPoint()
-                        {
-                            Id = "navpoint-1",
-                            Class = "chapter",
-                            PlayOrder = "1",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                        new Epub2NcxNavigationPoint
+                        (
+                            id: "navpoint-1",
+                            @class: "chapter",
+                            playOrder: "1",
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
                             {
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "Chapter 1"
-                                },
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "Capitolo 1"
-                                }
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "Chapter 1"
+                                ),
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "Capitolo 1"
+                                )
                             },
-                            Content = new Epub2NcxContent()
+                            content: new Epub2NcxContent
+                            (
+                                id: "content-1",
+                                source: "chapter1.html"
+                            ),
+                            childNavigationPoints: new List<Epub2NcxNavigationPoint>()
                             {
-                                Id = "content-1",
-                                Source = "chapter1.html"
-                            },
-                            ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                            {
-                                new Epub2NcxNavigationPoint()
-                                {
-                                    Id = "navpoint-1-1",
-                                    Class = "section",
-                                    NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                                new Epub2NcxNavigationPoint
+                                (
+                                    id: "navpoint-1-1",
+                                    @class: "section",
+                                    playOrder: null,
+                                    navigationLabels: new List<Epub2NcxNavigationLabel>()
                                     {
-                                        new Epub2NcxNavigationLabel()
-                                        {
-                                            Text = "Chapter 1.1"
-                                        }
+                                        new Epub2NcxNavigationLabel
+                                        (
+                                            text: "Chapter 1.1"
+                                        )
                                     },
-                                    Content = new Epub2NcxContent()
+                                    content: new Epub2NcxContent
+                                    (
+                                        id: "content-1-1",
+                                        source: "chapter1.html#section-1"
+                                    ),
+                                    childNavigationPoints: null
+                                ),
+                                new Epub2NcxNavigationPoint
+                                (
+                                    id: "navpoint-1-2",
+                                    @class: "section",
+                                    playOrder: null,
+                                    navigationLabels: new List<Epub2NcxNavigationLabel>()
                                     {
-                                        Id = "content-1-1",
-                                        Source = "chapter1.html#section-1"
+                                        new Epub2NcxNavigationLabel
+                                        (
+                                            text: "Chapter 1.2"
+                                        )
                                     },
-                                    ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                                },
-                                new Epub2NcxNavigationPoint()
-                                {
-                                    Id = "navpoint-1-2",
-                                    Class = "section",
-                                    NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                                    {
-                                        new Epub2NcxNavigationLabel()
-                                        {
-                                            Text = "Chapter 1.2"
-                                        }
-                                    },
-                                    Content = new Epub2NcxContent()
-                                    {
-                                        Id = "content-1-2",
-                                        Source = "chapter1.html#section-2"
-                                    },
-                                    ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                                }
+                                    content: new Epub2NcxContent
+                                    (
+                                        id: "content-1-2",
+                                        source: "chapter1.html#section-2"
+                                    ),
+                                    childNavigationPoints: null
+                                )
                             }
-                        },
-                        new Epub2NcxNavigationPoint()
-                        {
-                            Id = "navpoint-2",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                        ),
+                        new Epub2NcxNavigationPoint
+                        (
+                            id: "navpoint-2",
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
                             {
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "Chapter 2"
-                                }
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "Chapter 2"
+                                )
                             },
-                            Content = new Epub2NcxContent()
-                            {
-                                Source = "chapter2.html"
-                            },
-                            ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                        }
+                            content: new Epub2NcxContent
+                            (
+                                source: "chapter2.html"
+                            )
+                        )
                     }
-                },
-                PageList = new Epub2NcxPageList()
-                {
-                    Items = new List<Epub2NcxPageTarget>()
+                ),
+                pageList: new Epub2NcxPageList
+                (
+                    items: new List<Epub2NcxPageTarget>()
                     {
-                        new Epub2NcxPageTarget()
-                        {
-                            Id = "page-target-1",
-                            Value = "1",
-                            Type = Epub2NcxPageTargetType.FRONT,
-                            Class = "front-matter",
-                            PlayOrder = "1",
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                        new Epub2NcxPageTarget
+                        (
+                            id: "page-target-1",
+                            value: "1",
+                            type: Epub2NcxPageTargetType.FRONT,
+                            @class: "front-matter",
+                            playOrder: "1",
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
                             {
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "1"
-                                },
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "I"
-                                }
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "1"
+                                ),
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "I"
+                                )
                             },
-                            Content = new Epub2NcxContent()
+                            content: new Epub2NcxContent
+                            (
+                                source: "front.html"
+                            )
+                        ),
+                        new Epub2NcxPageTarget
+                        (
+                            type: Epub2NcxPageTargetType.NORMAL,
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
                             {
-                                Source = "front.html"
-                            }
-                        },
-                        new Epub2NcxPageTarget()
-                        {
-                            Type = Epub2NcxPageTargetType.NORMAL,
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                            {
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "2"
-                                }
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "2"
+                                )
                             },
-                            Content = new Epub2NcxContent
-                            {
-                                Id = "content-2",
-                                Source = "chapter1.html#page-2"
-                            }
-                        }
+                            content: new Epub2NcxContent
+                            (
+                                id: "content-2",
+                                source: "chapter1.html#page-2"
+                            )
+                        )
                     }
-                },
-                NavLists = new List<Epub2NcxNavigationList>()
+                ),
+                navLists: new List<Epub2NcxNavigationList>()
                 {
-                    new Epub2NcxNavigationList()
-                    {
-                        Id = "navlist-1",
-                        Class = "navlist-illustrations",
-                        NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                    new Epub2NcxNavigationList
+                    (
+                        id: "navlist-1",
+                        @class: "navlist-illustrations",
+                        navigationLabels: new List<Epub2NcxNavigationLabel>()
                         {
-                            new Epub2NcxNavigationLabel()
-                            {
-                                Text = "List of Illustrations"
-                            },
-                            new Epub2NcxNavigationLabel()
-                            {
-                                Text = "Illustrazioni"
-                            }
+                            new Epub2NcxNavigationLabel
+                            (
+                                text: "List of Illustrations"
+                            ),
+                            new Epub2NcxNavigationLabel
+                            (
+                                text: "Illustrazioni"
+                            )
                         },
-                        NavigationTargets = new List<Epub2NcxNavigationTarget>()
+                        navigationTargets: new List<Epub2NcxNavigationTarget>()
                         {
-                            new Epub2NcxNavigationTarget()
-                            {
-                                Id = "navtarget-1",
-                                Value = "Illustration 1",
-                                Class = "illustration",
-                                PlayOrder = "1",
-                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                            new Epub2NcxNavigationTarget
+                            (
+                                id: "navtarget-1",
+                                value: "Illustration 1",
+                                @class: "illustration",
+                                playOrder: "1",
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Illustration 1"
-                                    },
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Illustrazione 1"
-                                    }
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Illustration 1"
+                                    ),
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Illustrazione 1"
+                                    )
                                 },
-                                Content = new Epub2NcxContent()
-                                {
-                                    Source = "chapter1.html#illustration-1"
-                                }
-                            }
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter1.html#illustration-1"
+                                )
+                            )
                         }
-                    },
-                    new Epub2NcxNavigationList()
-                    {
-                        Id = "navlist-2",
-                        Class = "navlist-tables",
-                        NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                    ),
+                    new Epub2NcxNavigationList
+                    (
+                        id: "navlist-2",
+                        @class: "navlist-tables",
+                        navigationLabels: new List<Epub2NcxNavigationLabel>()
                         {
-                            new Epub2NcxNavigationLabel()
-                            {
-                                Text = "List of Tables"
-                            }
+                            new Epub2NcxNavigationLabel
+                            (
+                                text: "List of Tables"
+                            )
                         },
-                        NavigationTargets = new List<Epub2NcxNavigationTarget>()
+                        navigationTargets: new List<Epub2NcxNavigationTarget>()
                         {
-                            new Epub2NcxNavigationTarget()
-                            {
-                                Id = "navtarget-2",
-                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                            new Epub2NcxNavigationTarget
+                            (
+                                id: "navtarget-2",
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Tables"
-                                    }
-                                }
-                            },
-                            new Epub2NcxNavigationTarget()
-                            {
-                                Id = "navtarget-3",
-                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                                {
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Table 1"
-                                    }
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Tables"
+                                    )
                                 },
-                                Content = new Epub2NcxContent()
+                                content: null
+                            ),
+                            new Epub2NcxNavigationTarget
+                            (
+                                id: "navtarget-3",
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    Source = "chapter1.html#table-1"
-                                }
-                            }
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Table 1"
+                                    )
+                                },
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter1.html#table-1"
+                                )
+                            )
                         }
-                    }
+                    )
                 }
-            };
+            );
 
-        private Epub2Ncx MinimalEpub2NcxWithUnknownPageTargetType =>
-            new()
-            {
-                Head = new Epub2NcxHead()
-                {
-                    Items = new List<Epub2NcxHeadMeta>()
-                },
-                DocTitle = null,
-                DocAuthors = new List<string>(),
-                NavMap = new Epub2NcxNavigationMap()
-                {
-                    Items = new List<Epub2NcxNavigationPoint>()
-                },
-                PageList = new Epub2NcxPageList()
-                {
-                    Items = new List<Epub2NcxPageTarget>()
+        private static Epub2Ncx MinimalEpub2NcxWithUnknownPageTargetType =>
+            new
+            (
+                filePath: NCX_FILE_PATH,
+                head: new Epub2NcxHead(),
+                docTitle: null,
+                docAuthors: null,
+                navMap: new Epub2NcxNavigationMap(),
+                pageList: new Epub2NcxPageList
+                (
+                    items: new List<Epub2NcxPageTarget>()
                     {
-                        new Epub2NcxPageTarget()
-                        {
-                            Type = Epub2NcxPageTargetType.UNKNOWN,
-                            NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                        new Epub2NcxPageTarget
+                        (
+                            type: Epub2NcxPageTargetType.UNKNOWN,
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
                             {
-                                new Epub2NcxNavigationLabel()
-                                {
-                                    Text = "1"
-                                }
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "1"
+                                )
                             },
-                            Content = new Epub2NcxContent()
-                            {
-                                Source = "chapter1.html#page-1"
-                            }
-                        }
+                            content: new Epub2NcxContent
+                            (
+                                source: "chapter1.html#page-1"
+                            )
+                        )
                     }
-                },
-                NavLists = new List<Epub2NcxNavigationList>()
-            };
-
+                ),
+                navLists: null
+            );
 
         [Fact(DisplayName = "Reading a minimal NCX file should succeed")]
         public async void ReadEpub2NcxAsyncWithMinimalNcxFileTest()
@@ -723,12 +718,16 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub2NcxAsyncWithoutTocTest()
         {
             TestZipFile testZipFile = new();
-            EpubPackage epubPackage = new()
-            {
-                Spine = new EpubSpine()
-            };
+            EpubPackage epubPackage = new
+            (
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine(),
+                guide: null
+            );
             Epub2NcxReader epub2NcxReader = new();
-            Epub2Ncx epub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
+            Epub2Ncx? epub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
             Assert.Null(epub2Ncx);
         }
 
@@ -736,17 +735,17 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub2NcxAsyncWithoutTocManifestItemTest()
         {
             TestZipFile testZipFile = new();
-            EpubPackage epubPackage = new()
-            {
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
-                },
-                Spine = new EpubSpine()
-                {
-                    Toc = TOC_ID
-                }
-            };
+            EpubPackage epubPackage = new
+            (
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine
+                (
+                    toc: TOC_ID
+                ),
+                guide: null
+            );
             Epub2NcxReader epub2NcxReader = new();
             await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage));
         }
@@ -763,7 +762,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub2NcxAsyncWithLargeNcxFileTest()
         {
             TestZipFile testZipFile = new();
-            testZipFile.AddEntry(NCX_FILE_PATH_IN_EPUB_ARCHIVE, new Test4GbZipFileEntry());
+            testZipFile.AddEntry(NCX_FILE_PATH, new Test4GbZipFileEntry());
             Epub2NcxReader epub2NcxReader = new();
             await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
@@ -839,7 +838,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubReaderOptions epubReaderOptions = new()
             {
-                Epub2NcxReaderOptions = null
+                Epub2NcxReaderOptions = null!
             };
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_CONTENT_ELEMENT, epubReaderOptions);
         }
@@ -905,25 +904,25 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVTARGET_NAVLABEL_ELEMENTS);
         }
 
-        private async Task TestSuccessfulReadOperation(string ncxFileContent, Epub2Ncx expectedEpub2Ncx, EpubReaderOptions epubReaderOptions = null)
+        private static async Task TestSuccessfulReadOperation(string ncxFileContent, Epub2Ncx expectedEpub2Ncx, EpubReaderOptions? epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNcxFile(ncxFileContent);
-            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
-            Epub2Ncx actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx);
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions ?? new EpubReaderOptions());
+            Epub2Ncx? actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx);
             Epub2NcxComparer.CompareEpub2Ncxes(expectedEpub2Ncx, actualEpub2Ncx);
         }
 
-        private async Task TestFailingReadOperation(string ncxFileContent, EpubReaderOptions epubReaderOptions = null)
+        private static async Task TestFailingReadOperation(string ncxFileContent, EpubReaderOptions? epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNcxFile(ncxFileContent);
-            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions ?? new EpubReaderOptions());
             await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
 
-        private TestZipFile CreateTestZipFileWithNcxFile(string ncxFileContent)
+        private static TestZipFile CreateTestZipFileWithNcxFile(string ncxFileContent)
         {
             TestZipFile testZipFile = new();
-            testZipFile.AddEntry(NCX_FILE_PATH_IN_EPUB_ARCHIVE, new TestZipFileEntry(ncxFileContent));
+            testZipFile.AddEntry(NCX_FILE_PATH, new TestZipFileEntry(ncxFileContent));
             return testZipFile;
         }
     }

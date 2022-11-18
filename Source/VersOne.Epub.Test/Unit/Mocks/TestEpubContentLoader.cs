@@ -4,8 +4,8 @@ namespace VersOne.Epub.Test.Unit.Mocks
 {
     internal class TestEpubContentLoader : IEpubContentLoader
     {
-        private readonly byte[] byteContent;
-        private readonly Stream stream;
+        private readonly byte[]? byteContent;
+        private readonly Stream? stream;
 
         public TestEpubContentLoader()
         {
@@ -33,7 +33,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public byte[] LoadContentAsBytes(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            return byteContent;
+            return byteContent ?? Array.Empty<byte>();
         }
 
         public Task<byte[]> LoadContentAsBytesAsync(EpubContentFileRefMetadata contentFileRefMetadata)
@@ -43,7 +43,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public string LoadContentAsText(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            return Encoding.UTF8.GetString(byteContent);
+            return byteContent != null ? Encoding.UTF8.GetString(byteContent) : String.Empty;
         }
 
         public Task<string> LoadContentAsTextAsync(EpubContentFileRefMetadata contentFileRefMetadata)
@@ -53,7 +53,18 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public Stream GetContentStream(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            return stream ?? new MemoryStream(byteContent);
+            if (stream != null)
+            {
+                return stream;
+            }
+            else if (byteContent != null)
+            {
+                return new MemoryStream(byteContent);
+            }
+            else
+            {
+                return new MemoryStream();
+            }
         }
 
         public Task<Stream> GetContentStreamAsync(EpubContentFileRefMetadata contentFileRefMetadata)

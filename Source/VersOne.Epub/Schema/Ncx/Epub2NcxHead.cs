@@ -13,6 +13,15 @@ namespace VersOne.Epub.Schema
     public class Epub2NcxHead
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2NcxHead" /> class.
+        /// </summary>
+        /// <param name="items">A list of NCX metadata items.</param>
+        public Epub2NcxHead(List<Epub2NcxHeadMeta>? items = null)
+        {
+            Items = items ?? new List<Epub2NcxHeadMeta>();
+        }
+
+        /// <summary>
         /// <para>Gets a list of NCX metadata items.</para>
         /// <para>
         /// See <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4.1" />,
@@ -20,6 +29,6 @@ namespace VersOne.Epub.Schema
         /// and <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.
         /// </para>
         /// </summary>
-        public List<Epub2NcxHeadMeta> Items { get; internal set; }
+        public List<Epub2NcxHeadMeta> Items { get; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using VersOne.Epub.Internal;
-using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -99,185 +98,171 @@ namespace VersOne.Epub.Test.Unit.Readers
             testZipFile.AddEntry(OPF_PACKAGE_FILE_PATH, OPF_PACKAGE_FILE);
             testZipFile.AddEntry(NCX_FILE_PATH, NCX_FILE);
             testZipFile.AddEntry(NAV_FILE_PATH, NAV_FILE);
-            EpubSchema expectedEpubSchema = new()
-            {
-                ContentDirectoryPath = CONTENT_DIRECTORY_PATH,
-                Package = new EpubPackage()
-                {
-                    EpubVersion = EpubVersion.EPUB_3,
-                    Metadata = new EpubMetadata()
-                    {
-                        Titles = new List<string>()
+            EpubSchema expectedEpubSchema = new
+            (
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
+                package: new EpubPackage
+                (
+                    epubVersion: EpubVersion.EPUB_3,
+                    metadata: new EpubMetadata
+                    (
+                        titles: new List<string>()
                         {
                             "Test title"
                         },
-                        Creators = new List<EpubMetadataCreator>()
+                        creators: new List<EpubMetadataCreator>()
                         {
-                            new EpubMetadataCreator()
-                            {
-                                Creator = "John Doe"
-                            }
-                        },
-                        Subjects = new List<string>(),
-                        Publishers = new List<string>(),
-                        Contributors = new List<EpubMetadataContributor>(),
-                        Dates = new List<EpubMetadataDate>(),
-                        Types = new List<string>(),
-                        Formats = new List<string>(),
-                        Identifiers = new List<EpubMetadataIdentifier>(),
-                        Sources = new List<string>(),
-                        Languages = new List<string>(),
-                        Relations = new List<string>(),
-                        Coverages = new List<string>(),
-                        Rights = new List<string>(),
-                        Links = new List<EpubMetadataLink>(),
-                        MetaItems = new List<EpubMetadataMeta>()
-                    },
-                    Manifest = new EpubManifest()
-                    {
-                        Items = new List<EpubManifestItem>()
+                            new EpubMetadataCreator
+                            (
+                                creator: "John Doe"
+                            )
+                        }
+                    ),
+                    manifest: new EpubManifest
+                    (
+                        items: new List<EpubManifestItem>()
                         {
-                            new EpubManifestItem()
-                            {
-                                Id = "item-1",
-                                Href = "chapter1.html",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-2",
-                                Href = "chapter2.html",
-                                MediaType = "application/xhtml+xml"
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "item-toc",
-                                Href = NAV_FILE_NAME,
-                                MediaType = "application/xhtml+xml",
-                                Properties = new List<EpubManifestProperty>()
+                            new EpubManifestItem
+                            (
+                                id: "item-1",
+                                href: "chapter1.html",
+                                mediaType: "application/xhtml+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-2",
+                                href: "chapter2.html",
+                                mediaType: "application/xhtml+xml"
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "item-toc",
+                                href: NAV_FILE_NAME,
+                                mediaType: "application/xhtml+xml",
+                                properties: new List<EpubManifestProperty>()
                                 {
                                     EpubManifestProperty.NAV
                                 }
-                            },
-                            new EpubManifestItem()
-                            {
-                                Id = "ncx",
-                                Href = NCX_FILE_NAME,
-                                MediaType = "application/x-dtbncx+xml"
-                            }
+                            ),
+                            new EpubManifestItem
+                            (
+                                id: "ncx",
+                                href: NCX_FILE_NAME,
+                                mediaType: "application/x-dtbncx+xml"
+                            )
                         }
-                    },
-                    Spine = new EpubSpine()
-                    {
-                        Toc = "ncx",
-                        Items = new List<EpubSpineItemRef>()
+                    ),
+                    spine: new EpubSpine
+                    (
+                        toc: "ncx",
+                        items: new List<EpubSpineItemRef>()
                         {
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-1",
-                                IdRef = "item-1",
-                                IsLinear = true
-                            },
-                            new EpubSpineItemRef()
-                            {
-                                Id = "itemref-2",
-                                IdRef = "item-2",
-                                IsLinear = true
-                            }
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-1",
+                                idRef: "item-1",
+                                isLinear: true
+                            ),
+                            new EpubSpineItemRef
+                            (
+                                id: "itemref-2",
+                                idRef: "item-2",
+                                isLinear: true
+                            )
                         }
-                    }
-                },
-                Epub2Ncx = new Epub2Ncx()
-                {
-                    Head = new Epub2NcxHead()
-                    {
-                        Items = new List<Epub2NcxHeadMeta>()
+                    ),
+                    guide: null
+                ),
+                epub2Ncx: new Epub2Ncx
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new Epub2NcxHead
+                    (
+                        items: new List<Epub2NcxHeadMeta>()
                         {
-                            new Epub2NcxHeadMeta()
-                            {
-                                Name = "dtb:uid",
-                                Content = "9781234567890"
-                            }
+                            new Epub2NcxHeadMeta
+                            (
+                                name: "dtb:uid",
+                                content: "9781234567890"
+                            )
                         }
-                    },
-                    DocTitle = "Test title",
-                    DocAuthors = new List<string>()
+                    ),
+                    docTitle: "Test title",
+                    docAuthors: new List<string>()
                     {
                         "John Doe"
                     },
-                    NavMap = new Epub2NcxNavigationMap()
-                    {
-                        Items = new List<Epub2NcxNavigationPoint>()
+                    navMap: new Epub2NcxNavigationMap
+                    (
+                        items: new List<Epub2NcxNavigationPoint>()
                         {
-                            new Epub2NcxNavigationPoint()
-                            {
-                                Id = "navpoint-1",
-                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
+                            new Epub2NcxNavigationPoint
+                            (
+                                id: "navpoint-1",
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Chapter 1"
-                                    }
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Chapter 1"
+                                    )
                                 },
-                                Content = new Epub2NcxContent()
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter1.html"
+                                )
+                            ),
+                            new Epub2NcxNavigationPoint
+                            (
+                                id: "navpoint-2",
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    Source = "chapter1.html"
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Chapter 2"
+                                    )
                                 },
-                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                            },
-                            new Epub2NcxNavigationPoint()
-                            {
-                                Id = "navpoint-2",
-                                NavigationLabels = new List<Epub2NcxNavigationLabel>()
-                                {
-                                    new Epub2NcxNavigationLabel()
-                                    {
-                                        Text = "Chapter 2"
-                                    }
-                                },
-                                Content = new Epub2NcxContent()
-                                {
-                                    Source = "chapter2.html"
-                                },
-                                ChildNavigationPoints = new List<Epub2NcxNavigationPoint>()
-                            }
+                                content: new Epub2NcxContent
+                                (
+                                    source: "chapter2.html"
+                                )
+                            )
                         }
-                    },
-                    NavLists = new List<Epub2NcxNavigationList>()
-                },
-                Epub3NavDocument = new Epub3NavDocument()
-                {
-                    Navs = new List<Epub3Nav>()
+                    )
+                ),
+                epub3NavDocument: new Epub3NavDocument
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs: new List<Epub3Nav>()
                     {
-                        new Epub3Nav()
-                        {
-                            Type = Epub3NavStructuralSemanticsProperty.TOC,
-                            Ol = new Epub3NavOl()
-                            {
-                                Lis = new List<Epub3NavLi>()
+                        new Epub3Nav
+                        (
+                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            ol: new Epub3NavOl
+                            (
+                                lis: new List<Epub3NavLi>()
                                 {
-                                    new Epub3NavLi()
-                                    {
-                                        Anchor = new Epub3NavAnchor()
-                                        {
-                                            Href = "chapter1.html",
-                                            Text = "Chapter 1"
-                                        }
-                                    },
-                                    new Epub3NavLi()
-                                    {
-                                        Anchor = new Epub3NavAnchor()
-                                        {
-                                            Href = "chapter2.html",
-                                            Text = "Chapter 2"
-                                        }
-                                    }
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            href: "chapter1.html",
+                                            text: "Chapter 1"
+                                        )
+                                    ),
+                                    new Epub3NavLi
+                                    (
+                                        anchor: new Epub3NavAnchor
+                                        (
+                                            href: "chapter2.html",
+                                            text: "Chapter 2"
+                                        )
+                                    )
                                 }
-                            }
-                        }
+                            )
+                        )
                     }
-                }
-            };
+                )
+            );
             SchemaReader schemaReader = new();
             EpubSchema actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);
             EpubSchemaComparer.CompareEpubSchemas(expectedEpubSchema, actualEpubSchema);

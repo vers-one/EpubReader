@@ -10,7 +10,7 @@ namespace VersOne.Epub.Test.Unit.Readers
     {
         private const string CONTENT_DIRECTORY_PATH = "Content";
         private const string NAV_FILE_NAME = "toc.html";
-        private const string NAV_FILE_PATH_IN_EPUB_ARCHIVE = $"{CONTENT_DIRECTORY_PATH}/{NAV_FILE_NAME}";
+        private const string NAV_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NAV_FILE_NAME}";
 
         private const string MINIMAL_NAV_FILE = """
             <html xmlns="http://www.w3.org/1999/xhtml">
@@ -54,6 +54,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <body>
                 <nav>
                   <h1>Test header</h1>
+                  <ol />
                 </nav>
               </body>
             </html>
@@ -64,6 +65,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <body>
                 <nav>
                   <h2>Test header</h2>
+                  <ol />
                 </nav>
               </body>
             </html>
@@ -74,6 +76,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <body>
                 <nav>
                   <h3>Test header</h3>
+                  <ol />
                 </nav>
               </body>
             </html>
@@ -84,6 +87,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <body>
                 <nav>
                   <h4>Test header</h4>
+                  <ol />
                 </nav>
               </body>
             </html>
@@ -94,6 +98,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <body>
                 <nav>
                   <h5>Test header</h5>
+                  <ol />
                 </nav>
               </body>
             </html>
@@ -104,6 +109,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <body>
                 <nav>
                   <h6>Test header</h6>
+                  <ol />
                 </nav>
               </body>
             </html>
@@ -119,121 +125,150 @@ namespace VersOne.Epub.Test.Unit.Readers
             </html>
             """;
 
-        private EpubPackage MinimalEpubPackageWithNav =>
-            new()
-            {
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
+        private const string NAV_FILE_WITHOUT_TOP_OL_ELEMENT = """
+            <html xmlns="http://www.w3.org/1999/xhtml">
+              <body>
+                <nav />
+              </body>
+            </html>
+            """;
+
+        private const string NAV_FILE_WITH_EMPTY_LI_ELEMENT = """
+            <html xmlns="http://www.w3.org/1999/xhtml">
+              <body>
+                <nav>
+                  <ol>
+                    <li />
+                  </ol>
+                </nav>
+              </body>
+            </html>
+            """;
+
+        private static EpubPackage MinimalEpubPackageWithNav =>
+            new
+            (
+                epubVersion: EpubVersion.EPUB_3,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem()
-                        {
-                            Id = "nav",
-                            Href = NAV_FILE_NAME,
-                            MediaType = "application/xhtml+xml",
-                            Properties = new List<EpubManifestProperty>()
+                        new EpubManifestItem
+                        (
+                            id: "nav",
+                            href: NAV_FILE_NAME,
+                            mediaType: "application/xhtml+xml",
+                            properties: new List<EpubManifestProperty>()
                             {
                                 EpubManifestProperty.NAV
                             }
-                        }
+                        )
                     }
-                }
-            };
+                ),
+                spine: new EpubSpine(),
+                guide: null
+            );
 
-        private Epub3NavDocument MinimalEpub3NavDocument =>
-            new()
-            {
-                Navs = new List<Epub3Nav>()
-            };
+        private static Epub3NavDocument MinimalEpub3NavDocument =>
+            new
+            (
+                filePath: NAV_FILE_PATH
+            );
 
-        private Epub3NavDocument FullEpub3NavDocument =>
-            new()
-            {
-                Navs = new List<Epub3Nav>()
+        private static Epub3NavDocument FullEpub3NavDocument =>
+            new
+            (
+                filePath: NAV_FILE_PATH,
+                navs: new List<Epub3Nav>()
                 {
-                    new Epub3Nav()
-                    {
-                        Type = Epub3NavStructuralSemanticsProperty.TOC,
-                        IsHidden = false,
-                        Head = "Table of Contents",
-                        Ol = new Epub3NavOl()
-                        {
-                            IsHidden = false,
-                            Lis = new List<Epub3NavLi>()
+                    new Epub3Nav
+                    (
+                        type: Epub3NavStructuralSemanticsProperty.TOC,
+                        isHidden: false,
+                        head: "Table of Contents",
+                        ol: new Epub3NavOl
+                        (
+                            isHidden: false,
+                            lis: new List<Epub3NavLi>()
                             {
-                                new Epub3NavLi()
-                                {
-                                    Span = new Epub3NavSpan()
-                                    {
-                                        Title = "Test span title",
-                                        Alt = "Test span alt",
-                                        Text = "Test span header"
-                                    },
-                                    ChildOl = new Epub3NavOl()
-                                    {
-                                        IsHidden = false,
-                                        Lis = new List<Epub3NavLi>()
+                                new Epub3NavLi
+                                (
+                                    span: new Epub3NavSpan
+                                    (
+                                        title: "Test span title",
+                                        alt: "Test span alt",
+                                        text: "Test span header"
+                                    ),
+                                    childOl: new Epub3NavOl
+                                    (
+                                        isHidden: false,
+                                        lis: new List<Epub3NavLi>()
                                         {
-                                            new Epub3NavLi()
-                                            {
-                                                Anchor = new Epub3NavAnchor()
-                                                {
-                                                    Href = "chapter1.html",
-                                                    Title = "Test anchor title",
-                                                    Alt = "Test anchor alt",
-                                                    Text = "Chapter 1"
-                                                }
-                                            }
+                                            new Epub3NavLi
+                                            (
+                                                anchor: new Epub3NavAnchor
+                                                (
+                                                    href: "chapter1.html",
+                                                    title: "Test anchor title",
+                                                    alt: "Test anchor alt",
+                                                    text: "Chapter 1"
+                                                )
+                                            )
                                         }
-                                    }
-                                },
-                                new Epub3NavLi()
-                                {
-                                    Anchor = new Epub3NavAnchor()
-                                    {
-                                        Type = Epub3NavStructuralSemanticsProperty.LOI,
-                                        Href = "illustrations.html",
-                                        Text = "List of illustrations"
-                                    }
-                                }
+                                    )
+                                ),
+                                new Epub3NavLi
+                                (
+                                    anchor: new Epub3NavAnchor
+                                    (
+                                        type: Epub3NavStructuralSemanticsProperty.LOI,
+                                        href: "illustrations.html",
+                                        text: "List of illustrations"
+                                    )
+                                )
                             }
-                        }
-                    },
-                    new Epub3Nav()
-                    {
-                        Type = Epub3NavStructuralSemanticsProperty.PAGE_LIST,
-                        IsHidden = true,
-                        Head = "Page list",
-                        Ol = new Epub3NavOl()
-                        {
-                            IsHidden = true,
-                            Lis = new List<Epub3NavLi>()
+                        )
+                    ),
+                    new Epub3Nav
+                    (
+                        type: Epub3NavStructuralSemanticsProperty.PAGE_LIST,
+                        isHidden: true,
+                        head: "Page list",
+                        ol: new Epub3NavOl
+                        (
+                            isHidden: true,
+                            lis: new List<Epub3NavLi>()
                             {
-                                new Epub3NavLi()
-                                {
-                                    Anchor = new Epub3NavAnchor()
-                                    {
-                                        Href = "chapter1.html#page-1",
-                                        Text = "1"
-                                    }
-                                }
+                                new Epub3NavLi
+                                (
+                                    anchor: new Epub3NavAnchor
+                                    (
+                                        href: "chapter1.html#page-1",
+                                        text: "1"
+                                    )
+                                )
                             }
-                        }
-                    }
+                        )
+                    )
                 }
-            };
+            );
 
         private static Epub3NavDocument MinimalEpub3NavDocumentWithHeader =>
-            new()
-            {
-                Navs = new List<Epub3Nav>()
+            new
+            (
+                filePath: NAV_FILE_PATH,
+                navs: new List<Epub3Nav>()
                 {
-                    new Epub3Nav()
-                    {
-                        Head = "Test header"
-                    }
+                    new Epub3Nav
+                    (
+                        type: null,
+                        isHidden: false,
+                        head: "Test header",
+                        ol: new Epub3NavOl()
+                    )
                 }
-            };
+            );
 
         public static IEnumerable<object[]> ReadEpub3NavDocumentAsyncWithMinimalNavFileWithHeaderTestData
         {
@@ -272,22 +307,25 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub3NavDocumentAsyncForEpub3WithoutNavManifestItemTest()
         {
             TestZipFile testZipFile = new();
-            EpubPackage epubPackage = new()
-            {
-                EpubVersion = EpubVersion.EPUB_3,
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
+            EpubPackage epubPackage = new
+            (
+                epubVersion: EpubVersion.EPUB_3,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem()
-                        {
-                            Id = "test",
-                            Href = "test.html",
-                            MediaType = "application/xhtml+xml"
-                        }
+                        new EpubManifestItem
+                        (
+                            id: "test",
+                            href: "test.html",
+                            mediaType: "application/xhtml+xml"
+                        )
                     }
-                }
-            };
+                ),
+                spine: new EpubSpine(),
+                guide: null
+            );
             Epub3NavDocumentReader epub3NavDocumentReader = new();
             await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage));
         }
@@ -296,16 +334,16 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub3NavDocumentAsyncForEpub2WithoutNavManifestItemTest()
         {
             TestZipFile testZipFile = new();
-            EpubPackage epubPackage = new()
-            {
-                EpubVersion = EpubVersion.EPUB_2,
-                Manifest = new EpubManifest()
-                {
-                    Items = new List<EpubManifestItem>()
-                }
-            };
+            EpubPackage epubPackage = new
+            (
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine(),
+                guide: null
+            );
             Epub3NavDocumentReader epub3NavDocumentReader = new();
-            Epub3NavDocument epub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
+            Epub3NavDocument? epub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
             Assert.Null(epub3NavDocument);
         }
 
@@ -321,7 +359,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub3NavDocumentAsyncWithLargeNavFileTest()
         {
             TestZipFile testZipFile = new();
-            testZipFile.AddEntry(NAV_FILE_PATH_IN_EPUB_ARCHIVE, new Test4GbZipFileEntry());
+            testZipFile.AddEntry(NAV_FILE_PATH, new Test4GbZipFileEntry());
             Epub3NavDocumentReader epub3NavDocumentReader = new();
             await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav));
         }
@@ -338,25 +376,37 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestFailingReadOperation(NAV_FILE_WITHOUT_BODY_ELEMENT);
         }
 
-        private async Task TestSuccessfulReadOperation(string navFileContent, Epub3NavDocument expectedEpub3NavDocument, EpubReaderOptions epubReaderOptions = null)
+        [Fact(DisplayName = "ReadEpub3NavDocumentAsync should throw Epub3NavException if the NAV file is missing the top 'ol' XML element")]
+        public async void ReadEpub3NavDocumentAsyncWithoutTopOlElement()
+        {
+            await TestFailingReadOperation(NAV_FILE_WITHOUT_TOP_OL_ELEMENT);
+        }
+
+        [Fact(DisplayName = "ReadEpub3NavDocumentAsync should throw Epub3NavException if the NAV file has an empty 'li' XML element")]
+        public async void ReadEpub3NavDocumentAsyncWithEmptyLiElement()
+        {
+            await TestFailingReadOperation(NAV_FILE_WITH_EMPTY_LI_ELEMENT);
+        }
+
+        private static async Task TestSuccessfulReadOperation(string navFileContent, Epub3NavDocument expectedEpub3NavDocument, EpubReaderOptions? epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNavFile(navFileContent);
-            Epub3NavDocumentReader epub3NavDocumentReader = new(epubReaderOptions);
-            Epub3NavDocument actualEpub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav);
+            Epub3NavDocumentReader epub3NavDocumentReader = new(epubReaderOptions ?? new EpubReaderOptions());
+            Epub3NavDocument? actualEpub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav);
             Epub3NavDocumentComparer.CompareEpub3NavDocuments(expectedEpub3NavDocument, actualEpub3NavDocument);
         }
 
-        private async Task TestFailingReadOperation(string navFileContent)
+        private static async Task TestFailingReadOperation(string navFileContent)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNavFile(navFileContent);
             Epub3NavDocumentReader epub3NavDocumentReader = new();
             await Assert.ThrowsAsync<Epub3NavException>(() => epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav));
         }
 
-        private TestZipFile CreateTestZipFileWithNavFile(string navFileContent)
+        private static TestZipFile CreateTestZipFileWithNavFile(string navFileContent)
         {
             TestZipFile testZipFile = new();
-            testZipFile.AddEntry(NAV_FILE_PATH_IN_EPUB_ARCHIVE, new TestZipFileEntry(navFileContent));
+            testZipFile.AddEntry(NAV_FILE_PATH, new TestZipFileEntry(navFileContent));
             return testZipFile;
         }
     }

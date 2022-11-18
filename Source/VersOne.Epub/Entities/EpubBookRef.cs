@@ -17,9 +17,28 @@ namespace VersOne.Epub
         /// Initializes a new instance of the <see cref="EpubBookRef" /> class.
         /// </summary>
         /// <param name="epubFile">Reference to the EPUB file.</param>
-        public EpubBookRef(IZipFile epubFile)
+        /// <param name="filePath">The path to the EPUB file or <c>null</c> if the EPUB file is being loaded from a stream.</param>
+        /// <param name="title">The title of the book.</param>
+        /// <param name="author">The comma separated list of the book's authors.</param>
+        /// <param name="authorList">The list of book's authors names.</param>
+        /// <param name="description">The book's description or <c>null</c> if the description is not present in the book.</param>
+        /// <param name="schema">The parsed EPUB schema of the book.</param>
+        /// <param name="content">The collection of references to the book's content files within the EPUB archive.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="epubFile"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="title"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="author"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="schema"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content"/> parameter is <c>null</c>.</exception>
+        public EpubBookRef(IZipFile epubFile, string? filePath, string title, string author, List<string>? authorList, string? description, EpubSchema schema, EpubContentRef content)
         {
-            EpubFile = epubFile;
+            EpubFile = epubFile ?? throw new ArgumentNullException(nameof(epubFile));
+            FilePath = filePath;
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Author = author ?? throw new ArgumentNullException(nameof(author));
+            AuthorList = authorList ?? new List<string>();
+            Description = description;
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Content = content ?? throw new ArgumentNullException(nameof(content));
             isDisposed = false;
         }
 
@@ -32,50 +51,50 @@ namespace VersOne.Epub
         }
 
         /// <summary>
-        /// Gets the path to the EPUB file.
+        /// Gets the path to the EPUB file or <c>null</c> if the EPUB file was loaded from a stream.
         /// </summary>
-        public string FilePath { get; internal set; }
+        public string? FilePath { get; }
 
         /// <summary>
         /// Gets the title of the book.
         /// </summary>
-        public string Title { get; internal set; }
+        public string Title { get; }
 
         /// <summary>
         /// Gets the comma separated list of the book's authors.
         /// </summary>
-        public string Author { get; internal set; }
+        public string Author { get; }
 
         /// <summary>
         /// Gets the list of book's authors names.
         /// </summary>
-        public List<string> AuthorList { get; internal set; }
+        public List<string> AuthorList { get; }
 
         /// <summary>
         /// Gets the book's description or <c>null</c> if the description is not present in the book.
         /// </summary>
-        public string Description { get; internal set; }
+        public string? Description { get; }
 
         /// <summary>
         /// Gets the parsed EPUB schema of the book.
         /// </summary>
-        public EpubSchema Schema { get; internal set; }
+        public EpubSchema Schema { get; }
 
         /// <summary>
         /// Gets the collection of references to the book's content files within the EPUB archive.
         /// </summary>
-        public EpubContentRef Content { get; internal set; }
+        public EpubContentRef Content { get; }
 
         /// <summary>
         /// Gets the reference to the EPUB file.
         /// </summary>
-        public IZipFile EpubFile { get; private set; }
+        public IZipFile EpubFile { get; }
 
         /// <summary>
         /// Loads the book's cover image from the EPUB file.
         /// </summary>
         /// <returns>Book's cover image or <c>null</c> if there is no cover.</returns>
-        public byte[] ReadCover()
+        public byte[]? ReadCover()
         {
             return ReadCoverAsync().Result;
         }
@@ -86,7 +105,7 @@ namespace VersOne.Epub
         /// <returns>
         /// A task that represents the asynchronous load operation. The value of the TResult parameter contains the book's cover image or <c>null</c> if there is no cover.
         /// </returns>
-        public async Task<byte[]> ReadCoverAsync()
+        public async Task<byte[]?> ReadCoverAsync()
         {
             if (Content.Cover == null)
             {
@@ -113,14 +132,14 @@ namespace VersOne.Epub
         /// </returns>
         public async Task<List<EpubLocalTextContentFileRef>> GetReadingOrderAsync()
         {
-            return await Task.Run(() => SpineReader.GetReadingOrder(this)).ConfigureAwait(false);
+            return await Task.Run(() => SpineReader.GetReadingOrder(Schema, Content)).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Processes the navigational information of the EPUB book and returns a list of its navigation elements (typically the table of contents).
         /// </summary>
         /// <returns>A list of navigation elements of the book or <c>null</c> if the book doesn't have navigation information.</returns>
-        public List<EpubNavigationItemRef> GetNavigation()
+        public List<EpubNavigationItemRef>? GetNavigation()
         {
             return GetNavigationAsync().Result;
         }
@@ -132,9 +151,9 @@ namespace VersOne.Epub
         /// A task that represents the asynchronous processing operation.
         /// The value of the TResult parameter contains a list of navigation elements of the book or <c>null</c> if the book doesn't have navigation information.
         /// </returns>
-        public async Task<List<EpubNavigationItemRef>> GetNavigationAsync()
+        public async Task<List<EpubNavigationItemRef>?> GetNavigationAsync()
         {
-            return await Task.Run(() => NavigationReader.GetNavigationItems(this)).ConfigureAwait(false);
+            return await Task.Run(() => NavigationReader.GetNavigationItems(Schema, Content)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -159,7 +178,7 @@ namespace VersOne.Epub
             {
                 if (disposing)
                 {
-                    EpubFile?.Dispose();
+                    EpubFile.Dispose();
                 }
                 isDisposed = true;
             }

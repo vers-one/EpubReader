@@ -12,26 +12,22 @@ namespace VersOne.Epub.Internal
     {
         private const string XML_DECLARATION_FIRST_CHARS = "<?xml";
 
-        public static async Task<XDocument> LoadDocumentAsync(Stream stream, XmlReaderOptions xmlReaderOptions)
+        public static async Task<XDocument> LoadDocumentAsync(Stream stream, XmlReaderOptions? xmlReaderOptions = null)
         {
-            using (MemoryStream memoryStream = new MemoryStream())
+            using MemoryStream memoryStream = new();
+            await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
+            memoryStream.Position = 0;
+            if (xmlReaderOptions != null && xmlReaderOptions.SkipXmlHeaders)
             {
-                await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
-                memoryStream.Position = 0;
-                if (xmlReaderOptions != null && xmlReaderOptions.SkipXmlHeaders)
-                {
-                    SkipXmlHeader(memoryStream);
-                }
-                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
-                {
-                    DtdProcessing = DtdProcessing.Ignore,
-                    Async = true
-                };
-                using (XmlReader xmlReader = XmlReader.Create(memoryStream, xmlReaderSettings))
-                {
-                    return await Task.Run(() => XDocument.Load(xmlReader)).ConfigureAwait(false);
-                }
+                SkipXmlHeader(memoryStream);
             }
+            XmlReaderSettings xmlReaderSettings = new()
+            {
+                DtdProcessing = DtdProcessing.Ignore,
+                Async = true
+            };
+            using XmlReader xmlReader = XmlReader.Create(memoryStream, xmlReaderSettings);
+            return await Task.Run(() => XDocument.Load(xmlReader)).ConfigureAwait(false);
         }
 
         // This is a workaround for an issue that XML 1.1 files are not supported in .NET.

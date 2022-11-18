@@ -42,15 +42,12 @@ namespace VersOne.Epub.Schema
 
         public static EpubSpineProperty ParseProperty(string stringValue)
         {
-            switch (stringValue.ToLowerInvariant())
+            return stringValue.ToLowerInvariant() switch
             {
-                case "page-spread-left":
-                    return EpubSpineProperty.PAGE_SPREAD_LEFT;
-                case "page-spread-right":
-                    return EpubSpineProperty.PAGE_SPREAD_RIGHT;
-                default:
-                    return EpubSpineProperty.UNKNOWN;
-            }
+                "page-spread-left" => EpubSpineProperty.PAGE_SPREAD_LEFT,
+                "page-spread-right" => EpubSpineProperty.PAGE_SPREAD_RIGHT,
+                _ => EpubSpineProperty.UNKNOWN,
+            };
         }
     }
 }

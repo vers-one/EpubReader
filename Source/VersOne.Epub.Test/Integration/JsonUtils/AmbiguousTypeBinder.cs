@@ -10,17 +10,21 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
         {
             ambiguousTypes = new List<Type>
             {
+                typeof(EpubLocalTextContentFile),
                 typeof(EpubLocalByteContentFile),
-                typeof(EpubLocalTextContentFile)
+                typeof(EpubRemoteTextContentFile),
+                typeof(EpubRemoteByteContentFile)
             };
         }
 
-        public Type BindToType(string assemblyName, string typeName)
+        public Type BindToType(string? assemblyName, string typeName)
         {
-            return ambiguousTypes.SingleOrDefault(t => t.Name == typeName);
+            Type? result = ambiguousTypes.SingleOrDefault(t => t.Name == typeName);
+            Assert.NotNull(result);
+            return result;
         }
 
-        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        public void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
         {
             assemblyName = null;
             typeName = serializedType.Name;

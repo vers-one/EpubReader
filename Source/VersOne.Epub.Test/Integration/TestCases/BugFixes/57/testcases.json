@@ -10,10 +10,6 @@
             [
                 "John Doe"
             ],
-            "Description": null,
-            "ReadingOrder":
-            [
-            ],
             "Navigation":
             [
             ],
@@ -31,54 +27,8 @@
                         "Creators":
                         [
                             {
-                                "Id": null,
-                                "Creator": "John Doe",
-                                "FileAs": null,
-                                "Role": null
+                                "Creator": "John Doe"
                             }
-                        ],
-                        "Subjects":
-                        [
-                        ],
-                        "Description": null,
-                        "Publishers":
-                        [
-                        ],
-                        "Contributors":
-                        [
-                        ],
-                        "Dates":
-                        [
-                        ],
-                        "Types":
-                        [
-                        ],
-                        "Formats":
-                        [
-                        ],
-                        "Identifiers":
-                        [
-                        ],
-                        "Sources":
-                        [
-                        ],
-                        "Languages":
-                        [
-                        ],
-                        "Relations":
-                        [
-                        ],
-                        "Coverages":
-                        [
-                        ],
-                        "Rights":
-                        [
-                        ],
-                        "Links":
-                        [
-                        ],
-                        "MetaItems":
-                        [
                         ]
                     },
                     "Manifest":
@@ -88,34 +38,21 @@
                             {
                                 "Id": "ncx",
                                 "Href": "toc.ncx",
-                                "MediaType": "application/x-dtbncx+xml",
-                                "MediaOverlay": null,
-                                "RequiredNamespace": null,
-                                "RequiredModules": null,
-                                "Fallback": null,
-                                "FallbackStyle": null,
-                                "Properties": null
+                                "MediaType": "application/x-dtbncx+xml"
                             }
                         ]
                     },
                     "Spine":
                     {
-                        "Id": null,
-                        "PageProgressionDirection": null,
-                        "Toc": "ncx",
-                        "Items":
-                        [
-                        ]
+                        "Toc": "ncx"
                     },
                     "Guide": null
                 },
                 "Epub2Ncx":
                 {
+                    "FilePath": "Content/toc.ncx",
                     "Head":
                     {
-                        "Items":
-                        [
-                        ]
                     },
                     "DocTitle": "Test title",
                     "DocAuthors":
@@ -124,46 +61,26 @@
                     ],
                     "NavMap":
                     {
-                        "Items":
-                        [
-                        ]
-                    },
-                    "PageList": null,
-                    "NavLists":
-                    [
-                    ]
+                    }
                 },
-                "Epub3NavDocument": null,
                 "ContentDirectoryPath": "Content"
             },
             "Content":
             {
                 "Cover": null,
-                "NavigationHtmlFile": null,
-                "Html":
-                {
-                },
-                "Css":
-                {
-                },
-                "Images":
-                {
-                },
-                "Fonts":
-                {
-                },
                 "AllFiles":
                 {
-                    "toc.ncx":
+                    "Local":
                     {
-                        "$type": "EpubTextContentFile",
-                        "FileName": "toc.ncx",
-                        "FilePathInEpubArchive": "Content/toc.ncx",
-                        "Href": null,
-                        "ContentLocation": "LOCAL",
-                        "ContentType": "DTBOOK_NCX",
-                        "ContentMimeType": "application/x-dtbncx+xml",
-                        "$content": "epub://Content/toc.ncx"
+                        "toc.ncx":
+                        {
+                            "$type": "EpubLocalTextContentFile",
+                            "Key": "toc.ncx",
+                            "ContentType": "DTBOOK_NCX",
+                            "ContentMimeType": "application/x-dtbncx+xml",
+                            "FilePath": "Content/toc.ncx",
+                            "$content": "epub://Content/toc.ncx"
+                        }
                     }
                 }
             },

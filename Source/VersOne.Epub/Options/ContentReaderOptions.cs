@@ -11,7 +11,7 @@ namespace VersOne.Epub.Options
         /// Occurs when a local content file is listed in the EPUB manifest but the content reader is unable to find it in the EPUB archive.
         /// This event lets the application to be notified of such errors and to decide how EPUB content reader should handle the missing file.
         /// </summary>
-        public event EventHandler<ContentFileMissingEventArgs> ContentFileMissing;
+        public event EventHandler<ContentFileMissingEventArgs>? ContentFileMissing;
 
         internal void RaiseContentFileMissingEvent(ContentFileMissingEventArgs contentFileMissingEventArgs)
         {

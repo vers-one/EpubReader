@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace VersOne.Epub.Schema
 {
@@ -16,22 +17,60 @@ namespace VersOne.Epub.Schema
     public class Epub2Ncx
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2Ncx" /> class.
+        /// </summary>
+        /// <param name="filePath">The absolute path of the EPUB 2 NCX document file in the EPUB archive.</param>
+        /// <param name="head">The NCX document head which contains all NCX metadata.</param>
+        /// <param name="docTitle">The title of the EPUB book or <c>null</c> if the title is not provided.</param>
+        /// <param name="docAuthors">The list of authors of the EPUB book.</param>
+        /// <param name="navMap">
+        /// The NCX navigation map which acts as a container for one or more NCX navigation points for the primary navigation within the book (e.g. table of contents).
+        /// </param>
+        /// <param name="pageList">
+        /// The NCX page list containing one or more NCX page targets which provide pagination information
+        /// or <c>null</c> if the NCX document doesn't have a page list.
+        /// </param>
+        /// <param name="navLists">
+        /// A list of NCX navigation lists which contain distinct, flat sets of navigable elements for the secondary navigation within the book
+        /// (e.g., lists of notes, figures, tables, etc.).
+        /// </param>
+        /// <exception cref="ArgumentNullException">The <paramref name="filePath"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="head"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="navMap"/> argument is <c>null</c>.</exception>
+        public Epub2Ncx(string filePath, Epub2NcxHead head, string? docTitle, List<string>? docAuthors, Epub2NcxNavigationMap navMap,
+            Epub2NcxPageList? pageList = null, List<Epub2NcxNavigationList>? navLists = null)
+        {
+            FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+            Head = head ?? throw new ArgumentNullException(nameof(head));
+            DocTitle = docTitle;
+            DocAuthors = docAuthors ?? new List<string>();
+            NavMap = navMap ?? throw new ArgumentNullException(nameof(navMap));
+            PageList = pageList;
+            NavLists = navLists ?? new List<Epub2NcxNavigationList>();
+        }
+
+        /// <summary>
+        /// Gets the absolute path of the EPUB 2 NCX document file in the EPUB archive.
+        /// </summary>
+        public string FilePath { get; }
+
+        /// <summary>
         /// <para>Gets the NCX document head which contains all NCX metadata.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public Epub2NcxHead Head { get; internal set; }
+        public Epub2NcxHead Head { get; }
 
         /// <summary>
         /// <para>Gets the title of the EPUB book or <c>null</c> if the title is not provided.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string DocTitle { get; internal set; }
+        public string? DocTitle { get; }
 
         /// <summary>
         /// <para>Gets the list of authors of the EPUB book.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public List<string> DocAuthors { get; internal set; }
+        public List<string> DocAuthors { get; }
 
         /// <summary>
         /// <para>
@@ -39,13 +78,16 @@ namespace VersOne.Epub.Schema
         /// </para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public Epub2NcxNavigationMap NavMap { get; internal set; }
+        public Epub2NcxNavigationMap NavMap { get; }
 
         /// <summary>
-        /// <para>Gets the NCX page list containing one or more NCX page targets which provide pagination information.</para>
+        /// <para>
+        /// Gets the NCX page list containing one or more NCX page targets which provide pagination information
+        /// or <c>null</c> if the NCX document doesn't have a page list.
+        /// </para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public Epub2NcxPageList PageList { get; internal set; }
+        public Epub2NcxPageList? PageList { get; }
 
         /// <summary>
         /// <para>
@@ -54,6 +96,6 @@ namespace VersOne.Epub.Schema
         /// </para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public List<Epub2NcxNavigationList> NavLists { get; internal set; }
+        public List<Epub2NcxNavigationList> NavLists { get; }
     }
 }

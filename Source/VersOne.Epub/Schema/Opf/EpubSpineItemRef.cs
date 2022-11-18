@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace VersOne.Epub.Schema
@@ -15,10 +16,43 @@ namespace VersOne.Epub.Schema
     public class EpubSpineItemRef
     {
         /// <summary>
-        /// <para>Gets the unique ID of this EPUB spine element.</para>
+        /// Initializes a new instance of the <see cref="EpubSpineItemRef" /> class with the specified ID ref.
+        /// </summary>
+        /// <param name="idRef">
+        /// The value of the <see cref="EpubManifestItem.Id" /> property of an item declared in the <see cref="EpubManifest" /> this EPUB spine element is referencing to.
+        /// </param>
+        /// <exception cref="ArgumentNullException">The <paramref name="idRef"/> argument is <c>null</c>.</exception>
+        public EpubSpineItemRef(string idRef)
+            : this(null, idRef, true, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EpubSpineItemRef" /> class with specified ID, ID ref, linear indicator, and properties.
+        /// </summary>
+        /// <param name="id">The unique ID of this EPUB spine element or <c>null</c> if the spine doesn't have an ID.</param>
+        /// <param name="idRef">
+        /// The value of the <see cref="EpubManifestItem.Id" /> property of an item declared in the <see cref="EpubManifest" /> this EPUB spine element is referencing to.
+        /// </param>
+        /// <param name="isLinear">
+        /// A value indicating whether the referenced <see cref="EpubManifestItem" /> contains content that contributes to the primary reading order
+        /// and has to be read sequentially (<c>true</c>) or auxiliary content that enhances or augments the primary content and can be accessed out of sequence (<c>false</c>).
+        /// </param>
+        /// <param name="properties">A list of additional EPUB spine element properties or <c>null</c> if the spine doesn't specify properties.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="idRef"/> argument is <c>null</c>.</exception>
+        public EpubSpineItemRef(string? id, string idRef, bool isLinear, List<EpubSpineProperty>? properties = null)
+        {
+            Id = id;
+            IdRef = idRef ?? throw new ArgumentNullException(nameof(idRef));
+            IsLinear = isLinear;
+            Properties = properties;
+        }
+
+        /// <summary>
+        /// <para>Gets the unique ID of this EPUB spine element or <c>null</c> if the spine doesn't have an ID.</para>
         /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.</para>
         /// </summary>
-        public string Id { get; internal set; }
+        public string? Id { get; }
 
         /// <summary>
         /// <para>
@@ -29,7 +63,7 @@ namespace VersOne.Epub.Schema
         /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4" /> for more information.
         /// </para>
         /// </summary>
-        public string IdRef { get; internal set; }
+        public string IdRef { get; }
 
         /// <summary>
         /// <para>
@@ -41,13 +75,13 @@ namespace VersOne.Epub.Schema
         /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4" /> for more information.
         /// </para>
         /// </summary>
-        public bool IsLinear { get; internal set; }
+        public bool IsLinear { get; }
 
         /// <summary>
-        /// <para>Gets a list of additional EPUB spine element properties.</para>
+        /// <para>Gets a list of additional EPUB spine element properties or <c>null</c> if the spine doesn't specify properties.</para>
         /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-itemref-property-values" /> for more information.</para>
         /// </summary>
-        public List<EpubSpineProperty> Properties { get; internal set; }
+        public List<EpubSpineProperty>? Properties { get; }
 
         /// <summary>
         /// Returns a string containing the values of the <see cref="Id" /> and <see cref="IdRef" /> properties for debugging purposes.
@@ -55,7 +89,7 @@ namespace VersOne.Epub.Schema
         /// <returns>A string containing the values of the <see cref="Id" /> and <see cref="IdRef" /> properties.</returns>
         public override string ToString()
         {
-            StringBuilder resultBuilder = new StringBuilder();
+            StringBuilder resultBuilder = new();
             if (Id != null)
             {
                 resultBuilder.Append("Id: ");
@@ -63,7 +97,7 @@ namespace VersOne.Epub.Schema
                 resultBuilder.Append("; ");
             }
             resultBuilder.Append("IdRef: ");
-            resultBuilder.Append(IdRef ?? "(null)");
+            resultBuilder.Append(IdRef);
             return resultBuilder.ToString();
         }
     }

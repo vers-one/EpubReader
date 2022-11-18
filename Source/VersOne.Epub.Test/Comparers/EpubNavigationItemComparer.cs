@@ -2,7 +2,7 @@
 {
     internal static class EpubNavigationItemComparer
     {
-        public static void CompareNavigationItemLists(List<EpubNavigationItem> expected, List<EpubNavigationItem> actual)
+        public static void CompareNavigationItemLists(List<EpubNavigationItem>? expected, List<EpubNavigationItem>? actual)
         {
             if (expected == null)
             {
@@ -15,7 +15,7 @@
             }
         }
 
-        public static void CompareNavigationItemLinks(EpubNavigationItemLink expected, EpubNavigationItemLink actual)
+        public static void CompareNavigationItemLinks(EpubNavigationItemLink? expected, EpubNavigationItemLink? actual)
         {
             if (expected == null)
             {
@@ -25,7 +25,7 @@
             {
                 Assert.NotNull(actual);
                 Assert.Equal(expected.ContentFileName, actual.ContentFileName);
-                Assert.Equal(expected.ContentFilePathInEpubArchive, actual.ContentFilePathInEpubArchive);
+                Assert.Equal(expected.ContentFilePath, actual.ContentFilePath);
                 Assert.Equal(expected.Anchor, actual.Anchor);
             }
         }

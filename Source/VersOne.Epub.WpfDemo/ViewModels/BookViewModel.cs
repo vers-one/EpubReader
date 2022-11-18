@@ -213,10 +213,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
         private void BookOpened(Task<EpubBook> task)
         {
             EpubBook epubBook = task.Result;
-            if (currentEpubArchive != null)
-            {
-                currentEpubArchive.Dispose();
-            }
+            currentEpubArchive?.Dispose();
             CurrentEpubArchive = ZipFile.OpenRead(epubBook.FilePath);
             Navigation = new ObservableCollection<NavigationItemViewModel>(bookModel.GetNavigation(epubBook));
             ReadingOrder = new ObservableCollection<HtmlContentFileViewModel>(bookModel.GetReadingOrder(epubBook));

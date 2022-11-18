@@ -60,8 +60,7 @@ namespace VersOne.Epub.WpfDemo.Models
                 }
                 else
                 {
-                    navigationItemViewModel = new NavigationItemViewModel(epubNavigationItem.Title, epubNavigationItem.Link.ContentFilePathInEpubArchive,
-                        epubNavigationItem.Link.Anchor, nestedItems);
+                    navigationItemViewModel = new NavigationItemViewModel(epubNavigationItem.Title, epubNavigationItem.Link.ContentFilePath, epubNavigationItem.Link.Anchor, nestedItems);
                 }
                 result.Add(navigationItemViewModel);
             }

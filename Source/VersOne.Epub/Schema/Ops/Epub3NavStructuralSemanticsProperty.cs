@@ -827,273 +827,141 @@ namespace VersOne.Epub.Schema
             {
                 return Epub3NavStructuralSemanticsProperty.UNKNOWN;
             }
-            switch (stringValue.ToLowerInvariant())
+            return stringValue.ToLowerInvariant() switch
             {
-                case "cover":
-                    return Epub3NavStructuralSemanticsProperty.COVER;
-                case "frontmatter":
-                    return Epub3NavStructuralSemanticsProperty.FRONTMATTER;
-                case "bodymatter":
-                    return Epub3NavStructuralSemanticsProperty.BODYMATTER;
-                case "backmatter":
-                    return Epub3NavStructuralSemanticsProperty.BACKMATTER;
-                case "volume":
-                    return Epub3NavStructuralSemanticsProperty.VOLUME;
-                case "part":
-                    return Epub3NavStructuralSemanticsProperty.PART;
-                case "chapter":
-                    return Epub3NavStructuralSemanticsProperty.CHAPTER;
-                case "subchapter":
-                    return Epub3NavStructuralSemanticsProperty.SUBCHAPTER;
-                case "division":
-                    return Epub3NavStructuralSemanticsProperty.DIVISION;
-                case "abstract":
-                    return Epub3NavStructuralSemanticsProperty.ABSTRACT;
-                case "foreword":
-                    return Epub3NavStructuralSemanticsProperty.FOREWORD;
-                case "preface":
-                    return Epub3NavStructuralSemanticsProperty.PREFACE;
-                case "prologue":
-                    return Epub3NavStructuralSemanticsProperty.PROLOGUE;
-                case "introduction":
-                    return Epub3NavStructuralSemanticsProperty.INTRODUCTION;
-                case "preamble":
-                    return Epub3NavStructuralSemanticsProperty.PREAMBLE;
-                case "conclusion":
-                    return Epub3NavStructuralSemanticsProperty.CONCLUSION;
-                case "epilogue":
-                    return Epub3NavStructuralSemanticsProperty.EPILOGUE;
-                case "afterword":
-                    return Epub3NavStructuralSemanticsProperty.AFTERWORD;
-                case "epigraph":
-                    return Epub3NavStructuralSemanticsProperty.EPIGRAPH;
-                case "toc":
-                    return Epub3NavStructuralSemanticsProperty.TOC;
-                case "toc-brief":
-                    return Epub3NavStructuralSemanticsProperty.TOC_BRIEF;
-                case "landmarks":
-                    return Epub3NavStructuralSemanticsProperty.LANDMARKS;
-                case "loa":
-                    return Epub3NavStructuralSemanticsProperty.LOA;
-                case "loi":
-                    return Epub3NavStructuralSemanticsProperty.LOI;
-                case "lot":
-                    return Epub3NavStructuralSemanticsProperty.LOT;
-                case "lov":
-                    return Epub3NavStructuralSemanticsProperty.LOV;
-                case "appendix":
-                    return Epub3NavStructuralSemanticsProperty.APPENDIX;
-                case "colophon":
-                    return Epub3NavStructuralSemanticsProperty.COLOPHON;
-                case "credits":
-                    return Epub3NavStructuralSemanticsProperty.CREDITS;
-                case "keywords":
-                    return Epub3NavStructuralSemanticsProperty.KEYWORDS;
-                case "index":
-                    return Epub3NavStructuralSemanticsProperty.INDEX;
-                case "index-headnotes":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_HEADNOTES;
-                case "index-legend":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_LEGEND;
-                case "index-group":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_GROUP;
-                case "index-entry-list":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_ENTRY_LIST;
-                case "index-entry":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_ENTRY;
-                case "index-term":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_TERM;
-                case "index-editor-note":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_EDITOR_NOTE;
-                case "index-locator":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_LOCATOR;
-                case "index-locator-list":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_LOCATOR_LIST;
-                case "index-locator-range":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_LOCATOR_RANGE;
-                case "index-xref-preferred":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_XREF_PREFERRED;
-                case "index-xref-related":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_XREF_RELATED;
-                case "index-term-category":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_TERM_CATEGORY;
-                case "index-term-categories":
-                    return Epub3NavStructuralSemanticsProperty.INDEX_TERM_CATEGORIES;
-                case "glossary":
-                    return Epub3NavStructuralSemanticsProperty.GLOSSARY;
-                case "glossterm":
-                    return Epub3NavStructuralSemanticsProperty.GLOSSTERM;
-                case "glossdef":
-                    return Epub3NavStructuralSemanticsProperty.GLOSSDEF;
-                case "bibliography":
-                    return Epub3NavStructuralSemanticsProperty.BIBLIOGRAPHY;
-                case "biblioentry":
-                    return Epub3NavStructuralSemanticsProperty.BIBLIOENTRY;
-                case "titlepage":
-                    return Epub3NavStructuralSemanticsProperty.TITLEPAGE;
-                case "halftitlepage":
-                    return Epub3NavStructuralSemanticsProperty.HALFTITLEPAGE;
-                case "copyright-page":
-                    return Epub3NavStructuralSemanticsProperty.COPYRIGHT_PAGE;
-                case "seriespage":
-                    return Epub3NavStructuralSemanticsProperty.SERIESPAGE;
-                case "acknowledgments":
-                    return Epub3NavStructuralSemanticsProperty.ACKNOWLEDGMENTS;
-                case "imprint":
-                    return Epub3NavStructuralSemanticsProperty.IMPRINT;
-                case "imprimatur":
-                    return Epub3NavStructuralSemanticsProperty.IMPRIMATUR;
-                case "contributors":
-                    return Epub3NavStructuralSemanticsProperty.CONTRIBUTORS;
-                case "other-credits":
-                    return Epub3NavStructuralSemanticsProperty.OTHER_CREDITS;
-                case "errata":
-                    return Epub3NavStructuralSemanticsProperty.ERRATA;
-                case "dedication":
-                    return Epub3NavStructuralSemanticsProperty.DEDICATION;
-                case "revision-history":
-                    return Epub3NavStructuralSemanticsProperty.REVISION_HISTORY;
-                case "case-study":
-                    return Epub3NavStructuralSemanticsProperty.CASE_STUDY;
-                case "help":
-                    return Epub3NavStructuralSemanticsProperty.HELP;
-                case "marginalia":
-                    return Epub3NavStructuralSemanticsProperty.MARGINALIA;
-                case "notice":
-                    return Epub3NavStructuralSemanticsProperty.NOTICE;
-                case "pullquote":
-                    return Epub3NavStructuralSemanticsProperty.PULLQUOTE;
-                case "sidebar":
-                    return Epub3NavStructuralSemanticsProperty.SIDEBAR;
-                case "tip":
-                    return Epub3NavStructuralSemanticsProperty.TIP;
-                case "warning":
-                    return Epub3NavStructuralSemanticsProperty.WARNING;
-                case "halftitle":
-                    return Epub3NavStructuralSemanticsProperty.HALFTITLE;
-                case "fulltitle":
-                    return Epub3NavStructuralSemanticsProperty.FULLTITLE;
-                case "covertitle":
-                    return Epub3NavStructuralSemanticsProperty.COVERTITLE;
-                case "title":
-                    return Epub3NavStructuralSemanticsProperty.TITLE;
-                case "subtitle":
-                    return Epub3NavStructuralSemanticsProperty.SUBTITLE;
-                case "label":
-                    return Epub3NavStructuralSemanticsProperty.LABEL;
-                case "ordinal":
-                    return Epub3NavStructuralSemanticsProperty.ORDINAL;
-                case "bridgehead":
-                    return Epub3NavStructuralSemanticsProperty.BRIDGEHEAD;
-                case "learning-objective":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_OBJECTIVE;
-                case "learning-objectives":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_OBJECTIVES;
-                case "learning-outcome":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_OUTCOME;
-                case "learning-outcomes":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_OUTCOMES;
-                case "learning-resource":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_RESOURCE;
-                case "learning-resources":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_RESOURCES;
-                case "learning-standard":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_STANDARD;
-                case "learning-standards":
-                    return Epub3NavStructuralSemanticsProperty.LEARNING_STANDARDS;
-                case "answer":
-                    return Epub3NavStructuralSemanticsProperty.ANSWER;
-                case "answers":
-                    return Epub3NavStructuralSemanticsProperty.ANSWERS;
-                case "assessment":
-                    return Epub3NavStructuralSemanticsProperty.ASSESSMENT;
-                case "assessments":
-                    return Epub3NavStructuralSemanticsProperty.ASSESSMENTS;
-                case "feedback":
-                    return Epub3NavStructuralSemanticsProperty.FEEDBACK;
-                case "fill-in-the-blank-problem":
-                    return Epub3NavStructuralSemanticsProperty.FILL_IN_THE_BLANK_PROBLEM;
-                case "general-problem":
-                    return Epub3NavStructuralSemanticsProperty.GENERAL_PROBLEM;
-                case "qna":
-                    return Epub3NavStructuralSemanticsProperty.QNA;
-                case "match-problem":
-                    return Epub3NavStructuralSemanticsProperty.MATCH_PROBLEM;
-                case "multiple-choice-problem":
-                    return Epub3NavStructuralSemanticsProperty.MULTIPLE_CHOICE_PROBLEM;
-                case "practice":
-                    return Epub3NavStructuralSemanticsProperty.PRACTICE;
-                case "question":
-                    return Epub3NavStructuralSemanticsProperty.QUESTION;
-                case "practices":
-                    return Epub3NavStructuralSemanticsProperty.PRACTICES;
-                case "true-false-problem":
-                    return Epub3NavStructuralSemanticsProperty.TRUE_FALSE_PROBLEM;
-                case "panel":
-                    return Epub3NavStructuralSemanticsProperty.PANEL;
-                case "panel-group":
-                    return Epub3NavStructuralSemanticsProperty.PANEL_GROUP;
-                case "balloon":
-                    return Epub3NavStructuralSemanticsProperty.BALLOON;
-                case "text-area":
-                    return Epub3NavStructuralSemanticsProperty.TEXT_AREA;
-                case "sound-area":
-                    return Epub3NavStructuralSemanticsProperty.SOUND_AREA;
-                case "annotation":
-                    return Epub3NavStructuralSemanticsProperty.ANNOTATION;
-                case "note":
-                    return Epub3NavStructuralSemanticsProperty.NOTE;
-                case "footnote":
-                    return Epub3NavStructuralSemanticsProperty.FOOTNOTE;
-                case "endnote":
-                    return Epub3NavStructuralSemanticsProperty.ENDNOTE;
-                case "rearnote":
-                    return Epub3NavStructuralSemanticsProperty.REARNOTE;
-                case "footnotes":
-                    return Epub3NavStructuralSemanticsProperty.FOOTNOTES;
-                case "endnotes":
-                    return Epub3NavStructuralSemanticsProperty.ENDNOTES;
-                case "rearnotes":
-                    return Epub3NavStructuralSemanticsProperty.REARNOTES;
-                case "annoref":
-                    return Epub3NavStructuralSemanticsProperty.ANNOREF;
-                case "biblioref":
-                    return Epub3NavStructuralSemanticsProperty.BIBLIOREF;
-                case "glossref":
-                    return Epub3NavStructuralSemanticsProperty.GLOSSREF;
-                case "noteref":
-                    return Epub3NavStructuralSemanticsProperty.NOTEREF;
-                case "backlink":
-                    return Epub3NavStructuralSemanticsProperty.BACKLINK;
-                case "credit":
-                    return Epub3NavStructuralSemanticsProperty.CREDIT;
-                case "keyword":
-                    return Epub3NavStructuralSemanticsProperty.KEYWORD;
-                case "topic-sentence":
-                    return Epub3NavStructuralSemanticsProperty.TOPIC_SENTENCE;
-                case "concluding-sentence":
-                    return Epub3NavStructuralSemanticsProperty.CONCLUDING_SENTENCE;
-                case "pagebreak":
-                    return Epub3NavStructuralSemanticsProperty.PAGEBREAK;
-                case "page-list":
-                    return Epub3NavStructuralSemanticsProperty.PAGE_LIST;
-                case "table":
-                    return Epub3NavStructuralSemanticsProperty.TABLE;
-                case "table-row":
-                    return Epub3NavStructuralSemanticsProperty.TABLE_ROW;
-                case "table-cell":
-                    return Epub3NavStructuralSemanticsProperty.TABLE_CELL;
-                case "list":
-                    return Epub3NavStructuralSemanticsProperty.LIST;
-                case "list-item":
-                    return Epub3NavStructuralSemanticsProperty.LIST_ITEM;
-                case "figure":
-                    return Epub3NavStructuralSemanticsProperty.FIGURE;
-                case "aside":
-                    return Epub3NavStructuralSemanticsProperty.ASIDE;
-                default:
-                    return Epub3NavStructuralSemanticsProperty.UNKNOWN;
-            }
+                "cover" => Epub3NavStructuralSemanticsProperty.COVER,
+                "frontmatter" => Epub3NavStructuralSemanticsProperty.FRONTMATTER,
+                "bodymatter" => Epub3NavStructuralSemanticsProperty.BODYMATTER,
+                "backmatter" => Epub3NavStructuralSemanticsProperty.BACKMATTER,
+                "volume" => Epub3NavStructuralSemanticsProperty.VOLUME,
+                "part" => Epub3NavStructuralSemanticsProperty.PART,
+                "chapter" => Epub3NavStructuralSemanticsProperty.CHAPTER,
+                "subchapter" => Epub3NavStructuralSemanticsProperty.SUBCHAPTER,
+                "division" => Epub3NavStructuralSemanticsProperty.DIVISION,
+                "abstract" => Epub3NavStructuralSemanticsProperty.ABSTRACT,
+                "foreword" => Epub3NavStructuralSemanticsProperty.FOREWORD,
+                "preface" => Epub3NavStructuralSemanticsProperty.PREFACE,
+                "prologue" => Epub3NavStructuralSemanticsProperty.PROLOGUE,
+                "introduction" => Epub3NavStructuralSemanticsProperty.INTRODUCTION,
+                "preamble" => Epub3NavStructuralSemanticsProperty.PREAMBLE,
+                "conclusion" => Epub3NavStructuralSemanticsProperty.CONCLUSION,
+                "epilogue" => Epub3NavStructuralSemanticsProperty.EPILOGUE,
+                "afterword" => Epub3NavStructuralSemanticsProperty.AFTERWORD,
+                "epigraph" => Epub3NavStructuralSemanticsProperty.EPIGRAPH,
+                "toc" => Epub3NavStructuralSemanticsProperty.TOC,
+                "toc-brief" => Epub3NavStructuralSemanticsProperty.TOC_BRIEF,
+                "landmarks" => Epub3NavStructuralSemanticsProperty.LANDMARKS,
+                "loa" => Epub3NavStructuralSemanticsProperty.LOA,
+                "loi" => Epub3NavStructuralSemanticsProperty.LOI,
+                "lot" => Epub3NavStructuralSemanticsProperty.LOT,
+                "lov" => Epub3NavStructuralSemanticsProperty.LOV,
+                "appendix" => Epub3NavStructuralSemanticsProperty.APPENDIX,
+                "colophon" => Epub3NavStructuralSemanticsProperty.COLOPHON,
+                "credits" => Epub3NavStructuralSemanticsProperty.CREDITS,
+                "keywords" => Epub3NavStructuralSemanticsProperty.KEYWORDS,
+                "index" => Epub3NavStructuralSemanticsProperty.INDEX,
+                "index-headnotes" => Epub3NavStructuralSemanticsProperty.INDEX_HEADNOTES,
+                "index-legend" => Epub3NavStructuralSemanticsProperty.INDEX_LEGEND,
+                "index-group" => Epub3NavStructuralSemanticsProperty.INDEX_GROUP,
+                "index-entry-list" => Epub3NavStructuralSemanticsProperty.INDEX_ENTRY_LIST,
+                "index-entry" => Epub3NavStructuralSemanticsProperty.INDEX_ENTRY,
+                "index-term" => Epub3NavStructuralSemanticsProperty.INDEX_TERM,
+                "index-editor-note" => Epub3NavStructuralSemanticsProperty.INDEX_EDITOR_NOTE,
+                "index-locator" => Epub3NavStructuralSemanticsProperty.INDEX_LOCATOR,
+                "index-locator-list" => Epub3NavStructuralSemanticsProperty.INDEX_LOCATOR_LIST,
+                "index-locator-range" => Epub3NavStructuralSemanticsProperty.INDEX_LOCATOR_RANGE,
+                "index-xref-preferred" => Epub3NavStructuralSemanticsProperty.INDEX_XREF_PREFERRED,
+                "index-xref-related" => Epub3NavStructuralSemanticsProperty.INDEX_XREF_RELATED,
+                "index-term-category" => Epub3NavStructuralSemanticsProperty.INDEX_TERM_CATEGORY,
+                "index-term-categories" => Epub3NavStructuralSemanticsProperty.INDEX_TERM_CATEGORIES,
+                "glossary" => Epub3NavStructuralSemanticsProperty.GLOSSARY,
+                "glossterm" => Epub3NavStructuralSemanticsProperty.GLOSSTERM,
+                "glossdef" => Epub3NavStructuralSemanticsProperty.GLOSSDEF,
+                "bibliography" => Epub3NavStructuralSemanticsProperty.BIBLIOGRAPHY,
+                "biblioentry" => Epub3NavStructuralSemanticsProperty.BIBLIOENTRY,
+                "titlepage" => Epub3NavStructuralSemanticsProperty.TITLEPAGE,
+                "halftitlepage" => Epub3NavStructuralSemanticsProperty.HALFTITLEPAGE,
+                "copyright-page" => Epub3NavStructuralSemanticsProperty.COPYRIGHT_PAGE,
+                "seriespage" => Epub3NavStructuralSemanticsProperty.SERIESPAGE,
+                "acknowledgments" => Epub3NavStructuralSemanticsProperty.ACKNOWLEDGMENTS,
+                "imprint" => Epub3NavStructuralSemanticsProperty.IMPRINT,
+                "imprimatur" => Epub3NavStructuralSemanticsProperty.IMPRIMATUR,
+                "contributors" => Epub3NavStructuralSemanticsProperty.CONTRIBUTORS,
+                "other-credits" => Epub3NavStructuralSemanticsProperty.OTHER_CREDITS,
+                "errata" => Epub3NavStructuralSemanticsProperty.ERRATA,
+                "dedication" => Epub3NavStructuralSemanticsProperty.DEDICATION,
+                "revision-history" => Epub3NavStructuralSemanticsProperty.REVISION_HISTORY,
+                "case-study" => Epub3NavStructuralSemanticsProperty.CASE_STUDY,
+                "help" => Epub3NavStructuralSemanticsProperty.HELP,
+                "marginalia" => Epub3NavStructuralSemanticsProperty.MARGINALIA,
+                "notice" => Epub3NavStructuralSemanticsProperty.NOTICE,
+                "pullquote" => Epub3NavStructuralSemanticsProperty.PULLQUOTE,
+                "sidebar" => Epub3NavStructuralSemanticsProperty.SIDEBAR,
+                "tip" => Epub3NavStructuralSemanticsProperty.TIP,
+                "warning" => Epub3NavStructuralSemanticsProperty.WARNING,
+                "halftitle" => Epub3NavStructuralSemanticsProperty.HALFTITLE,
+                "fulltitle" => Epub3NavStructuralSemanticsProperty.FULLTITLE,
+                "covertitle" => Epub3NavStructuralSemanticsProperty.COVERTITLE,
+                "title" => Epub3NavStructuralSemanticsProperty.TITLE,
+                "subtitle" => Epub3NavStructuralSemanticsProperty.SUBTITLE,
+                "label" => Epub3NavStructuralSemanticsProperty.LABEL,
+                "ordinal" => Epub3NavStructuralSemanticsProperty.ORDINAL,
+                "bridgehead" => Epub3NavStructuralSemanticsProperty.BRIDGEHEAD,
+                "learning-objective" => Epub3NavStructuralSemanticsProperty.LEARNING_OBJECTIVE,
+                "learning-objectives" => Epub3NavStructuralSemanticsProperty.LEARNING_OBJECTIVES,
+                "learning-outcome" => Epub3NavStructuralSemanticsProperty.LEARNING_OUTCOME,
+                "learning-outcomes" => Epub3NavStructuralSemanticsProperty.LEARNING_OUTCOMES,
+                "learning-resource" => Epub3NavStructuralSemanticsProperty.LEARNING_RESOURCE,
+                "learning-resources" => Epub3NavStructuralSemanticsProperty.LEARNING_RESOURCES,
+                "learning-standard" => Epub3NavStructuralSemanticsProperty.LEARNING_STANDARD,
+                "learning-standards" => Epub3NavStructuralSemanticsProperty.LEARNING_STANDARDS,
+                "answer" => Epub3NavStructuralSemanticsProperty.ANSWER,
+                "answers" => Epub3NavStructuralSemanticsProperty.ANSWERS,
+                "assessment" => Epub3NavStructuralSemanticsProperty.ASSESSMENT,
+                "assessments" => Epub3NavStructuralSemanticsProperty.ASSESSMENTS,
+                "feedback" => Epub3NavStructuralSemanticsProperty.FEEDBACK,
+                "fill-in-the-blank-problem" => Epub3NavStructuralSemanticsProperty.FILL_IN_THE_BLANK_PROBLEM,
+                "general-problem" => Epub3NavStructuralSemanticsProperty.GENERAL_PROBLEM,
+                "qna" => Epub3NavStructuralSemanticsProperty.QNA,
+                "match-problem" => Epub3NavStructuralSemanticsProperty.MATCH_PROBLEM,
+                "multiple-choice-problem" => Epub3NavStructuralSemanticsProperty.MULTIPLE_CHOICE_PROBLEM,
+                "practice" => Epub3NavStructuralSemanticsProperty.PRACTICE,
+                "question" => Epub3NavStructuralSemanticsProperty.QUESTION,
+                "practices" => Epub3NavStructuralSemanticsProperty.PRACTICES,
+                "true-false-problem" => Epub3NavStructuralSemanticsProperty.TRUE_FALSE_PROBLEM,
+                "panel" => Epub3NavStructuralSemanticsProperty.PANEL,
+                "panel-group" => Epub3NavStructuralSemanticsProperty.PANEL_GROUP,
+                "balloon" => Epub3NavStructuralSemanticsProperty.BALLOON,
+                "text-area" => Epub3NavStructuralSemanticsProperty.TEXT_AREA,
+                "sound-area" => Epub3NavStructuralSemanticsProperty.SOUND_AREA,
+                "annotation" => Epub3NavStructuralSemanticsProperty.ANNOTATION,
+                "note" => Epub3NavStructuralSemanticsProperty.NOTE,
+                "footnote" => Epub3NavStructuralSemanticsProperty.FOOTNOTE,
+                "endnote" => Epub3NavStructuralSemanticsProperty.ENDNOTE,
+                "rearnote" => Epub3NavStructuralSemanticsProperty.REARNOTE,
+                "footnotes" => Epub3NavStructuralSemanticsProperty.FOOTNOTES,
+                "endnotes" => Epub3NavStructuralSemanticsProperty.ENDNOTES,
+                "rearnotes" => Epub3NavStructuralSemanticsProperty.REARNOTES,
+                "annoref" => Epub3NavStructuralSemanticsProperty.ANNOREF,
+                "biblioref" => Epub3NavStructuralSemanticsProperty.BIBLIOREF,
+                "glossref" => Epub3NavStructuralSemanticsProperty.GLOSSREF,
+                "noteref" => Epub3NavStructuralSemanticsProperty.NOTEREF,
+                "backlink" => Epub3NavStructuralSemanticsProperty.BACKLINK,
+                "credit" => Epub3NavStructuralSemanticsProperty.CREDIT,
+                "keyword" => Epub3NavStructuralSemanticsProperty.KEYWORD,
+                "topic-sentence" => Epub3NavStructuralSemanticsProperty.TOPIC_SENTENCE,
+                "concluding-sentence" => Epub3NavStructuralSemanticsProperty.CONCLUDING_SENTENCE,
+                "pagebreak" => Epub3NavStructuralSemanticsProperty.PAGEBREAK,
+                "page-list" => Epub3NavStructuralSemanticsProperty.PAGE_LIST,
+                "table" => Epub3NavStructuralSemanticsProperty.TABLE,
+                "table-row" => Epub3NavStructuralSemanticsProperty.TABLE_ROW,
+                "table-cell" => Epub3NavStructuralSemanticsProperty.TABLE_CELL,
+                "list" => Epub3NavStructuralSemanticsProperty.LIST,
+                "list-item" => Epub3NavStructuralSemanticsProperty.LIST_ITEM,
+                "figure" => Epub3NavStructuralSemanticsProperty.FIGURE,
+                "aside" => Epub3NavStructuralSemanticsProperty.ASIDE,
+                _ => Epub3NavStructuralSemanticsProperty.UNKNOWN,
+            };
         }
     }
 }

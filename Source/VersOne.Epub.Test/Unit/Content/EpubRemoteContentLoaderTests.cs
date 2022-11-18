@@ -17,9 +17,9 @@ namespace VersOne.Epub.Test.Unit.Content
 
         private static readonly byte[] BYTE_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46 };
 
-        private EpubContentFileRefMetadata TextFileRefMetadata => new(TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata TextFileRefMetadata => new(TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
 
-        private EpubContentFileRefMetadata ByteFileRefMetadata => new(BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
+        private static EpubContentFileRefMetadata ByteFileRefMetadata => new(BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE);
 
         [Fact(DisplayName = "Constructing a remote content loader with non-null constructor parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
@@ -30,7 +30,7 @@ namespace VersOne.Epub.Test.Unit.Content
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if environmentDependencies parameter is null")]
         public void ConstructorWithNullEnvironmentDependenciesTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubRemoteContentLoader(null, new ContentDownloaderOptions()));
+            Assert.Throws<ArgumentNullException>(() => new EpubRemoteContentLoader(null!, new ContentDownloaderOptions()));
         }
 
         [Fact(DisplayName = "Constructing a remote content loader with null contentReaderOptions parameter should succeed")]
@@ -193,7 +193,10 @@ namespace VersOne.Epub.Test.Unit.Content
         public void LoadContentWithNonSpecifiedUserAgentTest()
         {
             TestContentDownloader testContentDownloader = new(TEXT_FILE_HREF, TEXT_FILE_CONTENT);
-            string expectedUserAgent = "EpubReader/" + typeof(EpubRemoteContentLoaderTests).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            AssemblyInformationalVersionAttribute? assemblyInformationalVersionAttribute =
+                typeof(EpubRemoteContentLoaderTests).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            Assert.NotNull(assemblyInformationalVersionAttribute);
+            string expectedUserAgent = "EpubReader/" + assemblyInformationalVersionAttribute.InformationalVersion;
             ContentDownloaderOptions contentDownloaderOptions = new()
             {
                 DownloadContent = true,
@@ -219,7 +222,7 @@ namespace VersOne.Epub.Test.Unit.Content
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
         }
 
-        private EpubRemoteContentLoader CreateEpubRemoteContentLoader(TestContentDownloader testContentDownloader = null, ContentDownloaderOptions contentDownloaderOptions = null)
+        private static EpubRemoteContentLoader CreateEpubRemoteContentLoader(TestContentDownloader? testContentDownloader = null, ContentDownloaderOptions? contentDownloaderOptions = null)
         {
             TestEnvironmentDependencies testEnvironmentDependencies = new(contentDownloader: testContentDownloader ?? new TestContentDownloader());
             contentDownloaderOptions ??= new()

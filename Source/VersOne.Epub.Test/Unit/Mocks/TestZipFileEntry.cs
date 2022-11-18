@@ -5,8 +5,8 @@ namespace VersOne.Epub.Test.Unit.Mocks
 {
     internal class TestZipFileEntry : IZipFileEntry
     {
-        private readonly byte[] byteContent;
-        private readonly MemoryStream memoryStream;
+        private readonly byte[]? byteContent;
+        private readonly MemoryStream? memoryStream;
 
         public TestZipFileEntry(string textContent)
         {
@@ -26,11 +26,39 @@ namespace VersOne.Epub.Test.Unit.Mocks
             this.memoryStream = memoryStream;
         }
 
-        public long Length => memoryStream != null ? memoryStream.Length : byteContent.Length;
+        public long Length
+        {
+            get
+            {
+                if (memoryStream != null)
+                {
+                    return memoryStream.Length;
+                }
+                else if (byteContent != null)
+                {
+                    return byteContent.Length;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
 
         public Stream Open()
         {
-            return memoryStream ?? new MemoryStream(byteContent);
+            if (memoryStream != null)
+            {
+                return memoryStream;
+            }
+            else if (byteContent != null)
+            {
+                return new MemoryStream(byteContent);
+            }
+            else
+            {
+                return new MemoryStream();
+            }
         }
     }
 }

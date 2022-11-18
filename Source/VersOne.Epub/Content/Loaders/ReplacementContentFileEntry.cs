@@ -10,7 +10,7 @@ namespace VersOne.Epub
         public ReplacementContentFileEntry(Stream replacementStream)
         {
             using (replacementStream)
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (MemoryStream memoryStream = new())
             {
                 replacementStream.CopyTo(memoryStream);
                 replacementStreamContent = memoryStream.ToArray();

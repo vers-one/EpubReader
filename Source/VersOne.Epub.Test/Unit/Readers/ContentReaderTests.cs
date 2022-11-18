@@ -24,7 +24,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if environmentDependencies parameter is null")]
         public void ConstructorWithNullEnvironmentDependenciesTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new ContentReader(null, new EpubReaderOptions()));
+            Assert.Throws<ArgumentNullException>(() => new ContentReader(null!, new EpubReaderOptions()));
         }
 
         [Fact(DisplayName = "Constructing a content reader with null EpubReaderOptions should succeed")]
@@ -33,196 +33,168 @@ namespace VersOne.Epub.Test.Unit.Readers
             _ = new ContentReader(environmentDependencies, null);
         }
 
-        [Fact(DisplayName = "Parsing content map from a minimal EPUB book ref should succeed")]
-        public void ParseContentMapWithMinimalEpubBookRefTest()
+        [Fact(DisplayName = "Parsing content map from a minimal EPUB schema should succeed")]
+        public void ParseContentMapWithMinimalEpubSchemaTest()
         {
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
-            EpubContentRef expectedContentMap = new()
-            {
-                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-                },
-                Css = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-                },
-                Images = new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalByteContentFileRef>(),
-                    Remote = new Dictionary<string, EpubRemoteByteContentFileRef>()
-                },
-                Fonts = new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalByteContentFileRef>(),
-                    Remote = new Dictionary<string, EpubRemoteByteContentFileRef>()
-                },
-                AllFiles = new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalContentFileRef>(),
-                    Remote = new Dictionary<string, EpubRemoteContentFileRef>()
-                },
-                NavigationHtmlFile = null,
-                Cover = null
-            };
-            ContentReader contentReader = new(environmentDependencies, new EpubReaderOptions());
-            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubBookRef);
+            EpubSchema epubSchema = CreateEpubSchema();
+            EpubContentRef expectedContentMap = new();
+            ContentReader contentReader = new(environmentDependencies);
+            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
             EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
         }
 
-        [Fact(DisplayName = "Parsing content map from a full EPUB book ref should succeed")]
-        public void ParseContentMapWithFullEpubBookRefTest()
+        [Fact(DisplayName = "Parsing content map from a full EPUB schema should succeed")]
+        public void ParseContentMapWithFullEpubSchemaTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(testZipFile);
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        Id = "item-1",
-                        Href = "text.html",
-                        MediaType = "application/xhtml+xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-2",
-                        Href = "doc.dtb",
-                        MediaType = "application/x-dtbook+xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-3",
-                        Href = "toc.ncx",
-                        MediaType = "application/x-dtbncx+xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-4",
-                        Href = "oeb.html",
-                        MediaType = "text/x-oeb1-document"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-5",
-                        Href = "file.xml",
-                        MediaType = "application/xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-6",
-                        Href = "styles.css",
-                        MediaType = "text/css"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-7",
-                        Href = "oeb.css",
-                        MediaType = "text/x-oeb1-css"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-8",
-                        Href = "image1.gif",
-                        MediaType = "image/gif"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-9",
-                        Href = "image2.jpg",
-                        MediaType = "image/jpeg"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-10",
-                        Href = "image3.png",
-                        MediaType = "image/png"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-11",
-                        Href = "image4.svg",
-                        MediaType = "image/svg+xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-12",
-                        Href = "font1.ttf",
-                        MediaType = "font/truetype"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-13",
-                        Href = "font2.ttf",
-                        MediaType = "application/x-font-truetype"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-14",
-                        Href = "font3.otf",
-                        MediaType = "font/opentype"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-15",
-                        Href = "font4.otf",
-                        MediaType = "application/vnd.ms-opentype"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-16",
-                        Href = "video.mp4",
-                        MediaType = "video/mp4"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-17",
-                        Href = "cover.jpg",
-                        MediaType = "image/jpeg",
-                        Properties = new List<EpubManifestProperty>()
-                        {
-                            EpubManifestProperty.COVER_IMAGE
-                        }
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-18",
-                        Href = "toc.html",
-                        MediaType = "application/xhtml+xml",
-                        Properties = new List<EpubManifestProperty>()
-                        {
-                            EpubManifestProperty.NAV
-                        }
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-19",
-                        Href = "https://example.com/books/123/test.html",
-                        MediaType = "application/xhtml+xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-20",
-                        Href = "https://example.com/books/123/test.css",
-                        MediaType = "text/css"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-21",
-                        Href = "https://example.com/books/123/image.jpg",
-                        MediaType = "image/jpeg"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-22",
-                        Href = "https://example.com/books/123/font.ttf",
-                        MediaType = "font/truetype"
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: "text.html",
+                            mediaType: "application/xhtml+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-2",
+                            href: "doc.dtb",
+                            mediaType: "application/x-dtbook+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-3",
+                            href: "toc.ncx",
+                            mediaType: "application/x-dtbncx+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-4",
+                            href: "oeb.html",
+                            mediaType: "text/x-oeb1-document"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-5",
+                            href: "file.xml",
+                            mediaType: "application/xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-6",
+                            href: "styles.css",
+                            mediaType: "text/css"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-7",
+                            href: "oeb.css",
+                            mediaType: "text/x-oeb1-css"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-8",
+                            href: "image1.gif",
+                            mediaType: "image/gif"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-9",
+                            href: "image2.jpg",
+                            mediaType: "image/jpeg"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-10",
+                            href: "image3.png",
+                            mediaType: "image/png"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-11",
+                            href: "image4.svg",
+                            mediaType: "image/svg+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-12",
+                            href: "font1.ttf",
+                            mediaType: "font/truetype"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-13",
+                            href: "font2.ttf",
+                            mediaType: "application/x-font-truetype"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-14",
+                            href: "font3.otf",
+                            mediaType: "font/opentype"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-15",
+                            href: "font4.otf",
+                            mediaType: "application/vnd.ms-opentype"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-16",
+                            href: "video.mp4",
+                            mediaType: "video/mp4"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-17",
+                            href: "cover.jpg",
+                            mediaType: "image/jpeg",
+                            properties: new List<EpubManifestProperty>
+                            {
+                                EpubManifestProperty.COVER_IMAGE
+                            }
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-18",
+                            href: "toc.html",
+                            mediaType: "application/xhtml+xml",
+                            properties: new List<EpubManifestProperty>
+                            {
+                                EpubManifestProperty.NAV
+                            }
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-19",
+                            href: "https://example.com/books/123/test.html",
+                            mediaType: "application/xhtml+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-20",
+                            href: "https://example.com/books/123/test.css",
+                            mediaType: "text/css"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-21",
+                            href: "https://example.com/books/123/image.jpg",
+                            mediaType: "image/jpeg"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-22",
+                            href: "https://example.com/books/123/font.ttf",
+                            mediaType: "font/truetype"
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef expectedFileRef1 = CreateLocalTextFileRef("text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
             EpubLocalTextContentFileRef expectedFileRef2 = CreateLocalTextFileRef("doc.dtb", EpubContentType.DTBOOK, "application/x-dtbook+xml");
             EpubLocalTextContentFileRef expectedFileRef3 = CreateLocalTextFileRef("toc.ncx", EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
@@ -245,11 +217,13 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubRemoteTextContentFileRef expectedFileRef20 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
             EpubRemoteByteContentFileRef expectedFileRef21 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
             EpubRemoteByteContentFileRef expectedFileRef22 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
-            EpubContentRef expectedContentMap = new()
-            {
-                Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>()
+            EpubContentRef expectedContentMap = new
+            (
+                cover: expectedFileRef17,
+                navigationHtmlFile: expectedFileRef18,
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
                     {
                         {
                             "text.html",
@@ -260,34 +234,34 @@ namespace VersOne.Epub.Test.Unit.Readers
                             expectedFileRef18
                         }
                     },
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.html",
                             expectedFileRef19
                         }
                     }
-                },
-                Css = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalTextContentFileRef>()
+                ),
+                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
                     {
                         {
                             "styles.css",
                             expectedFileRef6
                         }
                     },
-                    Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
+                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.css",
                             expectedFileRef20
                         }
                     }
-                },
-                Images = new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalByteContentFileRef>()
+                ),
+                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
                     {
                         {
                             "image1.gif",
@@ -310,17 +284,17 @@ namespace VersOne.Epub.Test.Unit.Readers
                             expectedFileRef17
                         }
                     },
-                    Remote = new Dictionary<string, EpubRemoteByteContentFileRef>()
+                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/image.jpg",
                             expectedFileRef21
                         }
                     }
-                },
-                Fonts = new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalByteContentFileRef>()
+                ),
+                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
                     {
                         {
                             "font1.ttf",
@@ -339,17 +313,17 @@ namespace VersOne.Epub.Test.Unit.Readers
                             expectedFileRef15
                         }
                     },
-                    Remote = new Dictionary<string, EpubRemoteByteContentFileRef>()
+                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/font.ttf",
                             expectedFileRef22
                         }
                     }
-                },
-                AllFiles = new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>()
-                {
-                    Local = new Dictionary<string, EpubLocalContentFileRef>()
+                ),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalContentFileRef>()
                     {
                         {
                             "text.html",
@@ -424,7 +398,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                             expectedFileRef18
                         }
                     },
-                    Remote = new Dictionary<string, EpubRemoteContentFileRef>()
+                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.html",
@@ -443,95 +417,209 @@ namespace VersOne.Epub.Test.Unit.Readers
                             expectedFileRef22
                         }
                     }
-                },
-                NavigationHtmlFile = expectedFileRef18,
-                Cover = expectedFileRef17
-            };
-            ContentReader contentReader = new(environmentDependencies, new EpubReaderOptions());
-            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubBookRef);
+                )
+            );
+            ContentReader contentReader = new(environmentDependencies);
+            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
+            EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
+        }
+
+        [Fact(DisplayName = "Parsing content map from a EPUB schema with only remote text content files should succeed")]
+        public void ParseContentMapWithRemoteTextContentFilesTest()
+        {
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
+                    {
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: "https://example.com/books/123/test.html",
+                            mediaType: "application/xhtml+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-2",
+                            href: "https://example.com/books/123/test.css",
+                            mediaType: "text/css"
+                        )
+                    }
+                )
+            );
+            EpubRemoteTextContentFileRef expectedFileRef1 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubRemoteTextContentFileRef expectedFileRef2 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
+            EpubContentRef expectedContentMap = new
+            (
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/test.html",
+                            expectedFileRef1
+                        }
+                    }
+                ),
+                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/test.css",
+                            expectedFileRef2
+                        }
+                    }
+                ),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/test.html",
+                            expectedFileRef1
+                        },
+                        {
+                            "https://example.com/books/123/test.css",
+                            expectedFileRef2
+                        }
+                    }
+                )
+            );
+            ContentReader contentReader = new(environmentDependencies);
+            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
+            EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
+        }
+
+        [Fact(DisplayName = "Parsing content map from a EPUB schema with only remote byte content files should succeed")]
+        public void ParseContentMapWithRemoteByteContentFilesTest()
+        {
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
+                    {
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: "https://example.com/books/123/image.jpg",
+                            mediaType: "image/jpeg"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-2",
+                            href: "https://example.com/books/123/font.ttf",
+                            mediaType: "font/truetype"
+                        )
+                    }
+                )
+            );
+            EpubRemoteByteContentFileRef expectedFileRef1 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubRemoteByteContentFileRef expectedFileRef2 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubContentRef expectedContentMap = new
+            (
+                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/image.jpg",
+                            expectedFileRef1
+                        }
+                    }
+                ),
+                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/font.ttf",
+                            expectedFileRef2
+                        }
+                    }
+                ),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/image.jpg",
+                            expectedFileRef1
+                        },
+                        {
+                            "https://example.com/books/123/font.ttf",
+                            expectedFileRef2
+                        }
+                    }
+                )
+            );
+            ContentReader contentReader = new(environmentDependencies);
+            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
             EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
         }
 
         [Fact(DisplayName = "ParseContentMap should throw EpubPackageException if EPUB 3 navigation document is a remote resource")]
         public void ParseContentMapWithRemoteNavigationDocumentTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(testZipFile);
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        Id = "item-toc",
-                        Href = "https://example.com/books/123/toc.html",
-                        MediaType = "application/xhtml+xml",
-                        Properties = new List<EpubManifestProperty>()
-                        {
-                            EpubManifestProperty.NAV
-                        }
+                        new EpubManifestItem
+                        (
+                            id: "item-toc",
+                            href: "http://example.com/toc.html",
+                            mediaType: "application/xhtml+xml",
+                            properties: new List<EpubManifestProperty>
+                            {
+                                EpubManifestProperty.NAV
+                            }
+                        )
                     }
-                }
-            };
-            ContentReader contentReader = new(environmentDependencies, new EpubReaderOptions());
-            Assert.Throws<EpubPackageException>(() => contentReader.ParseContentMap(epubBookRef));
+                )
+            );
+            ContentReader contentReader = new(environmentDependencies);
+            Assert.Throws<EpubPackageException>(() => contentReader.ParseContentMap(epubSchema, new TestZipFile()));
         }
 
-        private EpubBookRef CreateEmptyEpubBookRef(TestZipFile testZipFile)
+        private static EpubSchema CreateEpubSchema(EpubManifest? manifest = null)
         {
-            return new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    Package = new EpubPackage()
-                    {
-                        EpubVersion = EpubVersion.EPUB_3,
-                        Metadata = new EpubMetadata()
-                        {
-                            Titles = new List<string>(),
-                            Creators = new List<EpubMetadataCreator>(),
-                            Subjects = new List<string>(),
-                            Publishers = new List<string>(),
-                            Contributors = new List<EpubMetadataContributor>(),
-                            Dates = new List<EpubMetadataDate>(),
-                            Types = new List<string>(),
-                            Formats = new List<string>(),
-                            Identifiers = new List<EpubMetadataIdentifier>(),
-                            Sources = new List<string>(),
-                            Languages = new List<string>(),
-                            Relations = new List<string>(),
-                            Coverages = new List<string>(),
-                            Rights = new List<string>(),
-                            Links = new List<EpubMetadataLink>(),
-                            MetaItems = new List<EpubMetadataMeta>()
-                        },
-                        Manifest = new EpubManifest()
-                        {
-                            Items = new List<EpubManifestItem>()
-                        },
-                        Spine = new EpubSpine()
-                    },
-                    ContentDirectoryPath = String.Empty
-                }
-            };
+            return new
+            (
+                package: new EpubPackage
+                (
+                    epubVersion: EpubVersion.EPUB_3,
+                    metadata: new EpubMetadata(),
+                    manifest: manifest ?? new EpubManifest(),
+                    spine: new EpubSpine(),
+                    guide: null
+                ),
+                epub2Ncx: null,
+                epub3NavDocument: null,
+                contentDirectoryPath: String.Empty
+            );
         }
 
-        private EpubLocalTextContentFileRef CreateLocalTextFileRef(string fileName, EpubContentType contentType, string contentMimeType)
+        private static EpubLocalTextContentFileRef CreateLocalTextFileRef(string fileName, EpubContentType contentType, string contentMimeType)
         {
             return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), fileName, new TestEpubContentLoader());
         }
 
-        private EpubLocalByteContentFileRef CreateLocalByteFileRef(string fileName, EpubContentType contentType, string contentMimeType)
+        private static EpubLocalByteContentFileRef CreateLocalByteFileRef(string fileName, EpubContentType contentType, string contentMimeType)
         {
             return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), fileName, new TestEpubContentLoader());
         }
 
-        private EpubRemoteTextContentFileRef CreateRemoteTextFileRef(string href, EpubContentType contentType, string contentMimeType)
+        private static EpubRemoteTextContentFileRef CreateRemoteTextFileRef(string href, EpubContentType contentType, string contentMimeType)
         {
             return new(new EpubContentFileRefMetadata(href, contentType, contentMimeType), new TestEpubContentLoader());
         }
 
-        private EpubRemoteByteContentFileRef CreateRemoteByteFileRef(string href, EpubContentType contentType, string contentMimeType)
+        private static EpubRemoteByteContentFileRef CreateRemoteByteFileRef(string href, EpubContentType contentType, string contentMimeType)
         {
             return new(new EpubContentFileRefMetadata(href, contentType, contentMimeType), new TestEpubContentLoader());
         }

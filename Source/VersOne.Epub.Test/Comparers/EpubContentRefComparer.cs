@@ -13,6 +13,26 @@
             CompareContentCollectionRefs(expected.AllFiles, actual.AllFiles);
         }
 
+        public static void CompareEpubLocalContentFileRefs(EpubLocalContentFileRef? expected, EpubLocalContentFileRef? actual)
+        {
+            CompareEpubContentFileRefs(expected, actual);
+            if (expected != null)
+            {
+                Assert.NotNull(actual);
+                Assert.Equal(expected.FilePath, actual.FilePath);
+            }
+        }
+
+        public static void CompareEpubRemoteContentFileRefs(EpubRemoteContentFileRef? expected, EpubRemoteContentFileRef? actual)
+        {
+            CompareEpubContentFileRefs(expected, actual);
+            if (expected != null)
+            {
+                Assert.NotNull(actual);
+                Assert.Equal(expected.Url, actual.Url);
+            }
+        }
+
         private static void CompareContentCollectionRefs<TLocalContentFileRef, TRemoteContentFileRef>(
             EpubContentCollectionRef<TLocalContentFileRef, TRemoteContentFileRef> expected,
             EpubContentCollectionRef<TLocalContentFileRef, TRemoteContentFileRef> actual)
@@ -23,25 +43,7 @@
             CollectionComparer.CompareDictionaries(expected.Remote, actual.Remote, CompareEpubRemoteContentFileRefs);
         }
 
-        private static void CompareEpubLocalContentFileRefs(EpubLocalContentFileRef expected, EpubLocalContentFileRef actual)
-        {
-            CompareEpubContentFileRefs(expected, actual);
-            if (expected != null)
-            {
-                Assert.Equal(expected.FilePath, actual.FilePath);
-            }
-        }
-
-        private static void CompareEpubRemoteContentFileRefs(EpubRemoteContentFileRef expected, EpubRemoteContentFileRef actual)
-        {
-            CompareEpubContentFileRefs(expected, actual);
-            if (expected != null)
-            {
-                Assert.Equal(expected.Url, actual.Url);
-            }
-        }
-
-        private static void CompareEpubContentFileRefs(EpubContentFileRef expected, EpubContentFileRef actual)
+        private static void CompareEpubContentFileRefs(EpubContentFileRef? expected, EpubContentFileRef? actual)
         {
             if (expected == null)
             {

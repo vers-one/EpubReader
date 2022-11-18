@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
+using VersOne.Epub.Test.Integration.CustomTypeHandlers;
 using VersOne.Epub.Test.Integration.JsonUtils;
 
 namespace VersOne.Epub.Test.Integration.Runner
@@ -17,14 +19,15 @@ namespace VersOne.Epub.Test.Integration.Runner
             rootTestCasesDirectory = GetRootTestCasesDirectory();
         }
 
-        //[Theory(DisplayName = "Integration test")]
-        //[MemberData(nameof(GetTestCaseDirectories))]
+        [Theory(DisplayName = "Integration test")]
+        [MemberData(nameof(GetTestCaseDirectories))]
         public void Run(string testCaseDirectoryPath)
         {
             string testCaseDirectoryAbsolutePath = Path.Combine(rootTestCasesDirectory, testCaseDirectoryPath);
             string testCasesPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_CASES_FILE_NAME);
             string testEpubPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_EPUB_FILE_NAME);
-            List<TestCase> testCases = ReadTestCases(testCasesPath, testEpubPath);
+            List<TestCase>? testCases = ReadTestCases(testCasesPath, testEpubPath);
+            Assert.NotNull(testCases);
             foreach (TestCase testCase in testCases)
             {
                 if (testCase.ExpectedResult != null)
@@ -32,7 +35,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     EpubBook epubBook = EpubReader.ReadBook(testEpubPath, testCase.Options);
                     EpubBookComparer.CompareEpubBooks(testCase.ExpectedResult, epubBook);
                 }
-                else
+                else if (testCase.ExpectedException != null)
                 {
                     bool exceptionThrown = false;
                     try
@@ -53,26 +56,46 @@ namespace VersOne.Epub.Test.Integration.Runner
             }
         }
 
-        private List<TestCase> ReadTestCases(string testCasePath, string testEpubPath)
+        // [Fact]
+        public void GenerateTestCaseTemplate()
         {
-            using TestCaseExtensionDataHandler testCaseExtensionDataHandler = new(testEpubPath);
+            string testCaseDirectoryPath = "Features\\RemoteContent";
+            string testCaseDirectoryAbsolutePath = Path.Combine(rootTestCasesDirectory, testCaseDirectoryPath);
+            string testCasesPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_CASES_FILE_NAME);
+            string testEpubPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_EPUB_FILE_NAME);
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                ContentDownloaderOptions = new ContentDownloaderOptions
+                {
+                    DownloadContent = true,
+                    DownloaderUserAgent = "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)"
+                }
+            };
+            EpubBook epubBook = EpubReader.ReadBook(testEpubPath, epubReaderOptions);
+            WriteTestCase(testCasesPath, testEpubPath, epubBook);
+        }
+
+        private static List<TestCase>? ReadTestCases(string testCasePath, string testEpubPath)
+        {
+            using CustomPropertyDependencies customPropertyDependencies = new(testEpubPath);
             using StreamReader streamReader = new(testCasePath);
-            TestCaseJsonSerializer testCaseJsonSerializer = new(testCaseExtensionDataHandler);
-            List<TestCase> testCases = testCaseJsonSerializer.Deserialize(streamReader);
+            TestCaseJsonSerializer testCaseJsonSerializer = new(customPropertyDependencies);
+            List<TestCase>? testCases = testCaseJsonSerializer.Deserialize(streamReader);
             return testCases;
         }
 
-        private void WriteTestCase(string testCasePath, string testEpubPath, EpubBook epubBook)
+        private static void WriteTestCase(string testCasePath, string testEpubPath, EpubBook epubBook)
         {
-            TestCase testCase = new()
-            {
-                Name = "Test case",
-                ExpectedResult = epubBook
-            };
-            using TestCaseExtensionDataHandler testCaseExtensionDataHandler = new(testEpubPath);
+            TestCase testCase = new
+            (
+                name: "Test case",
+                expectedResult: epubBook
+            );
+            List<TestCase> testCases = new() { testCase };
+            using CustomPropertyDependencies customPropertyDependencies = new(testEpubPath);
             using StreamWriter streamWriter = new(testCasePath);
-            TestCaseJsonSerializer testCaseJsonSerializer = new(testCaseExtensionDataHandler);
-            testCaseJsonSerializer.Serialize(streamWriter, testCase);
+            TestCaseJsonSerializer testCaseJsonSerializer = new(customPropertyDependencies);
+            testCaseJsonSerializer.Serialize(streamWriter, testCases);
         }
 
         public static IEnumerable<object[]> GetTestCaseDirectories()
@@ -97,10 +120,13 @@ namespace VersOne.Epub.Test.Integration.Runner
             }
         }
 
-        private static string GetRootTestCasesDirectory([CallerFilePath] string callerFilePath = null)
+        private static string GetRootTestCasesDirectory([CallerFilePath] string? callerFilePath = null)
         {
-            string runnerDirectory = Path.GetDirectoryName(callerFilePath);
-            string integrationDirectory = Directory.GetParent(runnerDirectory).FullName;
+            string? runnerDirectory = Path.GetDirectoryName(callerFilePath);
+            Assert.NotNull(runnerDirectory);
+            DirectoryInfo? runnerDirectoryInfo = Directory.GetParent(runnerDirectory);
+            Assert.NotNull(runnerDirectoryInfo);
+            string integrationDirectory = runnerDirectoryInfo.FullName;
             return Path.Combine(integrationDirectory, TEST_CASES_DIRECTORY_NAME);
         }
     }

@@ -4,9 +4,17 @@ namespace VersOne.Epub.Test.Integration.Runner
 {
     public class TestCase
     {
-        public string Name { get; set; }
-        public EpubReaderOptions Options { get; set; }
-        public EpubBook ExpectedResult { get; set; }
-        public TestCaseException ExpectedException { get; set; }
+        public TestCase(string name, EpubReaderOptions? options = null, EpubBook? expectedResult = null, TestCaseException? expectedException = null)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Options = options;
+            ExpectedResult = expectedResult;
+            ExpectedException = expectedException;
+        }
+
+        public string Name { get; }
+        public EpubReaderOptions? Options { get; }
+        public EpubBook? ExpectedResult { get; }
+        public TestCaseException? ExpectedException { get; }
     }
 }

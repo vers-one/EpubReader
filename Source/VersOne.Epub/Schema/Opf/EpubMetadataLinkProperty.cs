@@ -42,15 +42,12 @@ namespace VersOne.Epub.Schema
 
         public static EpubMetadataLinkProperty ParseProperty(string stringValue)
         {
-            switch (stringValue.ToLowerInvariant())
+            return stringValue.ToLowerInvariant() switch
             {
-                case "onix":
-                    return EpubMetadataLinkProperty.ONIX;
-                case "xmp":
-                    return EpubMetadataLinkProperty.XMP;
-                default:
-                    return EpubMetadataLinkProperty.UNKNOWN;
-            }
+                "onix" => EpubMetadataLinkProperty.ONIX,
+                "xmp" => EpubMetadataLinkProperty.XMP,
+                _ => EpubMetadataLinkProperty.UNKNOWN,
+            };
         }
     }
 }

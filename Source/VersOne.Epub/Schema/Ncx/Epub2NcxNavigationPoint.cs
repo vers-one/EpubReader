@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace VersOne.Epub.Schema
 {
@@ -16,22 +17,57 @@ namespace VersOne.Epub.Schema
     public class Epub2NcxNavigationPoint
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2NcxNavigationPoint" /> class with specified ID, navigation labels, and content.
+        /// </summary>
+        /// <param name="id">The unique identifier of the navigation point.</param>
+        /// <param name="navigationLabels">A list of navigation labels providing textual description of the navigation point for the reader.</param>
+        /// <param name="content">A pointer to the book's content associated with the navigation point.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        public Epub2NcxNavigationPoint(string id, List<Epub2NcxNavigationLabel>? navigationLabels, Epub2NcxContent content)
+            : this(id, null, null, navigationLabels, content, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Epub2NcxNavigationPoint" /> class with specified ID, class, play order, navigation labels, content, and child navigation points.
+        /// </summary>
+        /// <param name="id">The unique identifier of the navigation point.</param>
+        /// <param name="class">An optional description of the kind of structural unit the navigation point represents (e.g., 'chapter', 'section').</param>
+        /// <param name="playOrder">An optional positive integer denoting the location of the content of the navigation point in the reading order.</param>
+        /// <param name="navigationLabels">A list of navigation labels providing textual description of the navigation point for the reader.</param>
+        /// <param name="content">A pointer to the book's content associated with the navigation point.</param>
+        /// <param name="childNavigationPoints">A list of child navigation points constituting the nested navigational hierarchy within the navigation point.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        public Epub2NcxNavigationPoint(string id, string? @class, string? playOrder, List<Epub2NcxNavigationLabel>? navigationLabels, Epub2NcxContent content,
+            List<Epub2NcxNavigationPoint>? childNavigationPoints)
+        {
+            Id = id ?? throw new ArgumentNullException(nameof(id));
+            Class = @class;
+            PlayOrder = playOrder;
+            NavigationLabels = navigationLabels ?? new List<Epub2NcxNavigationLabel>();
+            Content = content ?? throw new ArgumentNullException(nameof(content));
+            ChildNavigationPoints = childNavigationPoints ?? new List<Epub2NcxNavigationPoint>();
+        }
+
+        /// <summary>
         /// <para>Gets the unique identifier of the navigation point.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Id { get; internal set; }
+        public string Id { get; }
 
         /// <summary>
         /// <para>Gets an optional description of the kind of structural unit the navigation point represents (e.g., 'chapter', 'section').</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string Class { get; internal set; }
+        public string? Class { get; }
 
         /// <summary>
         /// <para>Gets an optional positive integer denoting the location of the content of the navigation point in the reading order.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public string PlayOrder { get; internal set; }
+        public string? PlayOrder { get; }
 
         /// <summary>
         /// <para>
@@ -41,19 +77,19 @@ namespace VersOne.Epub.Schema
         /// </para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public List<Epub2NcxNavigationLabel> NavigationLabels { get; internal set; }
+        public List<Epub2NcxNavigationLabel> NavigationLabels { get; }
 
         /// <summary>
         /// <para>Gets a pointer to the book's content associated with the navigation point.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public Epub2NcxContent Content { get; internal set; }
+        public Epub2NcxContent Content { get; }
 
         /// <summary>
         /// <para>Gets a list of child navigation points constituting the nested navigational hierarchy within the navigation point.</para>
         /// <para>See <see href="http://www.daisy.org/z3986/2005/ncx-2005-1.dtd" /> for more information.</para>
         /// </summary>
-        public List<Epub2NcxNavigationPoint> ChildNavigationPoints { get; internal set; }
+        public List<Epub2NcxNavigationPoint> ChildNavigationPoints { get; }
 
         /// <summary>
         /// Returns a string containing the values of the <see cref="Id" /> and <see cref="Epub2NcxContent.Source" /> properties for debugging purposes.

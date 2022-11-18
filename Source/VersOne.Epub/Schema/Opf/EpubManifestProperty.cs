@@ -75,23 +75,16 @@ namespace VersOne.Epub.Schema
 
         private static EpubManifestProperty ParseProperty(string stringValue)
         {
-            switch (stringValue.ToLowerInvariant())
+            return stringValue.ToLowerInvariant() switch
             {
-                case "cover-image":
-                    return EpubManifestProperty.COVER_IMAGE;
-                case "mathml":
-                    return EpubManifestProperty.MATHML;
-                case "nav":
-                    return EpubManifestProperty.NAV;
-                case "remote-resources":
-                    return EpubManifestProperty.REMOTE_RESOURCES;
-                case "scripted":
-                    return EpubManifestProperty.SCRIPTED;
-                case "svg":
-                    return EpubManifestProperty.SVG;
-                default:
-                    return EpubManifestProperty.UNKNOWN;
-            }
+                "cover-image" => EpubManifestProperty.COVER_IMAGE,
+                "mathml" => EpubManifestProperty.MATHML,
+                "nav" => EpubManifestProperty.NAV,
+                "remote-resources" => EpubManifestProperty.REMOTE_RESOURCES,
+                "scripted" => EpubManifestProperty.SCRIPTED,
+                "svg" => EpubManifestProperty.SVG,
+                _ => EpubManifestProperty.UNKNOWN,
+            };
         }
     }
 }

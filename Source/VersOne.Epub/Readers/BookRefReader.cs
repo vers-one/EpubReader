@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace VersOne.Epub.Internal
         private readonly IEnvironmentDependencies environmentDependencies;
         private readonly EpubReaderOptions epubReaderOptions;
 
-        public BookRefReader(IEnvironmentDependencies environmentDependencies, EpubReaderOptions epubReaderOptions)
+        public BookRefReader(IEnvironmentDependencies environmentDependencies, EpubReaderOptions? epubReaderOptions = null)
         {
             this.environmentDependencies = environmentDependencies ?? throw new ArgumentNullException(nameof(environmentDependencies));
             this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
@@ -43,28 +44,17 @@ namespace VersOne.Epub.Internal
             return OpenBookAsync(GetZipFile(stream), null);
         }
 
-        private async Task<EpubBookRef> OpenBookAsync(IZipFile zipFile, string filePath)
+        private async Task<EpubBookRef> OpenBookAsync(IZipFile epubFile, string? filePath)
         {
-            EpubBookRef result = null;
-            result = new EpubBookRef(zipFile);
-            try
-            {
-                result.FilePath = filePath;
-                SchemaReader schemaReader = new SchemaReader(epubReaderOptions);
-                result.Schema = await schemaReader.ReadSchemaAsync(zipFile).ConfigureAwait(false);
-                result.Title = result.Schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
-                result.AuthorList = result.Schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
-                result.Author = String.Join(", ", result.AuthorList);
-                result.Description = result.Schema.Package.Metadata.Description;
-                ContentReader contentReader = new ContentReader(environmentDependencies, epubReaderOptions);
-                result.Content = await Task.Run(() => contentReader.ParseContentMap(result)).ConfigureAwait(false);
-                return result;
-            }
-            catch
-            {
-                result.Dispose();
-                throw;
-            }
+            SchemaReader schemaReader = new(epubReaderOptions);
+            EpubSchema schema = await schemaReader.ReadSchemaAsync(epubFile).ConfigureAwait(false);
+            string title = schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
+            List<string> authorList = schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
+            string author = String.Join(", ", authorList);
+            string? description = schema.Package.Metadata.Description;
+            ContentReader contentReader = new(environmentDependencies, epubReaderOptions);
+            EpubContentRef content = await Task.Run(() => contentReader.ParseContentMap(schema, epubFile)).ConfigureAwait(false);
+            return new(epubFile, filePath, title, author, authorList, description, schema, content);
         }
 
         private IZipFile GetZipFile(string filePath)

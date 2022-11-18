@@ -9,222 +9,216 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "Getting reading order for a minimal EPUB spine should succeed")]
         public void GetReadingOrderForMinimalSpineTest()
         {
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
+            EpubSchema epubSchema = CreateEpubSchema();
+            EpubContentRef epubContentRef = new();
             List<EpubLocalTextContentFileRef> expectedReadingOrder = new();
-            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubBookRef);
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef);
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
         [Fact(DisplayName = "Getting reading order for a typical EPUB spine should succeed")]
         public void GetReadingOrderForTypicalSpineTest()
         {
-            TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(testZipFile);
-            epubBookRef.Schema.Package.Spine = new EpubSpine()
-            {
-                Items = new List<EpubSpineItemRef>()
-                {
-                    new EpubSpineItemRef()
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        IdRef = "item-1"
-                    },
-                    new EpubSpineItemRef()
-                    {
-                        IdRef = "item-2"
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: "chapter1.html",
+                            mediaType: "application/xhtml+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-2",
+                            href: "chapter2.html",
+                            mediaType: "application/xhtml+xml"
+                        )
                     }
-                }
-            };
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
+                ),
+                spine: new EpubSpine
+                (
+                    items: new List<EpubSpineItemRef>()
                     {
-                        Id = "item-1",
-                        Href = "chapter1.html",
-                        MediaType = "application/xhtml+xml"
-                    },
-                    new EpubManifestItem()
-                    {
-                        Id = "item-2",
-                        Href = "chapter2.html",
-                        MediaType = "application/xhtml+xml"
+                        new EpubSpineItemRef
+                        (
+                            idRef: "item-1"
+                        ),
+                        new EpubSpineItemRef
+                        (
+                            idRef: "item-2"
+                        )
                     }
-                }
-            };
+                )
+            );
             EpubLocalTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef("chapter1.html");
             EpubLocalTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef("chapter2.html");
-            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-            {
-                Local = new Dictionary<string, EpubLocalTextContentFileRef>()
-                {
+            EpubContentRef epubContentRef = new
+            (
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
                     {
-                        "chapter1.html",
-                        expectedHtmlFileRef1
-                    },
-                    {
-                        "chapter2.html",
-                        expectedHtmlFileRef2
+                        {
+                            "chapter1.html",
+                            expectedHtmlFileRef1
+                        },
+                        {
+                            "chapter2.html",
+                            expectedHtmlFileRef2
+                        }
                     }
-                },
-                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-            };
+                )
+            );
             List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
             {
                 expectedHtmlFileRef1,
                 expectedHtmlFileRef2
             };
-            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubBookRef);
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef);
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
         [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no manifest item with ID matching to the ID ref of a spine item")]
         public void GetReadingOrderWithMissingManifestItemTest()
         {
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
-            epubBookRef.Schema.Package.Spine = new EpubSpine()
-            {
-                Items = new List<EpubSpineItemRef>()
-                {
-                    new EpubSpineItemRef()
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        IdRef = "item-1"
+                        new EpubManifestItem
+                        (
+                            id: "item-2",
+                            href: "chapter2.html",
+                            mediaType: "application/xhtml+xml"
+                        )
                     }
-                }
-            };
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
+                ),
+                spine: new EpubSpine
+                (
+                    items: new List<EpubSpineItemRef>()
                     {
-                        Id = "item-2",
-                        Href = "chapter2.html",
-                        MediaType = "application/xhtml+xml"
+                        new EpubSpineItemRef
+                        (
+                            idRef: "item-1"
+                        )
                     }
-                }
-            };
-            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
+                )
+            );
+            EpubContentRef epubContentRef = new();
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
+        }
+
+        [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no HTML content file referenced by a manifest item")]
+        public void GetReadingOrderWithMissingHtmlContentFileTest()
+        {
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
+                    {
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: "chapter1.html",
+                            mediaType: "application/xhtml+xml"
+                        )
+                    }
+                ),
+                spine: new EpubSpine
+                (
+                    items: new List<EpubSpineItemRef>()
+                    {
+                        new EpubSpineItemRef
+                        (
+                            idRef: "item-1"
+                        )
+                    }
+                )
+            );
+            EpubContentRef epubContentRef = new();
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
         }
 
         [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if the HTML content file referenced by a spine item is a remote resource")]
         public void GetReadingOrderWithRemoteHtmlContentFileTest()
         {
             string remoteFileHref = "https://example.com/books/123/chapter1.html";
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
-            epubBookRef.Schema.Package.Spine = new EpubSpine()
-            {
-                Items = new List<EpubSpineItemRef>()
-                {
-                    new EpubSpineItemRef()
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items: new List<EpubManifestItem>()
                     {
-                        IdRef = "item-1"
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: remoteFileHref,
+                            mediaType: "application/xhtml+xml"
+                        )
                     }
-                }
-            };
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
+                ),
+                spine: new EpubSpine
+                (
+                    items: new List<EpubSpineItemRef>()
                     {
-                        Id = "item-1",
-                        Href = remoteFileHref,
-                        MediaType = "application/xhtml+xml"
+                        new EpubSpineItemRef
+                        (
+                            idRef: "item-1"
+                        )
                     }
-                }
-            };
-            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-            {
-                Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
-                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-                {
+                )
+            );
+            EpubContentRef epubContentRef = new
+            (
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
+                (
+                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
-                        remoteFileHref,
-                        new EpubRemoteTextContentFileRef(new EpubContentFileRefMetadata(remoteFileHref, EpubContentType.XHTML_1_1, "application/xhtml+xml"), new TestEpubContentLoader())
-                    }
-                }
-            };
-            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
-        }
-
-        [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no HTML content file referenced by a manifest item")]
-        public void GetReadingOrderWithMissingHtmlContentFileTest()
-        {
-            EpubBookRef epubBookRef = CreateEmptyEpubBookRef(new TestZipFile());
-            epubBookRef.Schema.Package.Spine = new EpubSpine()
-            {
-                Items = new List<EpubSpineItemRef>()
-                {
-                    new EpubSpineItemRef()
-                    {
-                        IdRef = "item-1"
-                    }
-                }
-            };
-            epubBookRef.Schema.Package.Manifest = new EpubManifest()
-            {
-                Items = new List<EpubManifestItem>()
-                {
-                    new EpubManifestItem()
-                    {
-                        Id = "item-1",
-                        Href = "chapter1.html",
-                        MediaType = "application/xhtml+xml"
-                    }
-                }
-            };
-            epubBookRef.Content.Html = new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>()
-            {
-                Local = new Dictionary<string, EpubLocalTextContentFileRef>(),
-                Remote = new Dictionary<string, EpubRemoteTextContentFileRef>()
-            };
-            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubBookRef));
-        }
-
-        private EpubBookRef CreateEmptyEpubBookRef(TestZipFile testZipFile)
-        {
-            return new(testZipFile)
-            {
-                Schema = new EpubSchema()
-                {
-                    Package = new EpubPackage()
-                    {
-                        EpubVersion = EpubVersion.EPUB_3,
-                        Metadata = new EpubMetadata()
                         {
-                            Titles = new List<string>(),
-                            Creators = new List<EpubMetadataCreator>(),
-                            Subjects = new List<string>(),
-                            Publishers = new List<string>(),
-                            Contributors = new List<EpubMetadataContributor>(),
-                            Dates = new List<EpubMetadataDate>(),
-                            Types = new List<string>(),
-                            Formats = new List<string>(),
-                            Identifiers = new List<EpubMetadataIdentifier>(),
-                            Sources = new List<string>(),
-                            Languages = new List<string>(),
-                            Relations = new List<string>(),
-                            Coverages = new List<string>(),
-                            Rights = new List<string>(),
-                            Links = new List<EpubMetadataLink>(),
-                            MetaItems = new List<EpubMetadataMeta>()
-                        },
-                        Manifest = new EpubManifest()
-                        {
-                            Items = new List<EpubManifestItem>()
-                        },
-                        Spine = new EpubSpine()
-                        {
-                            Items = new List<EpubSpineItemRef>()
+                            remoteFileHref,
+                            new EpubRemoteTextContentFileRef
+                            (
+                                metadata: new EpubContentFileRefMetadata
+                                (
+                                    key: remoteFileHref,
+                                    contentType: EpubContentType.XHTML_1_1,
+                                    contentMimeType: "application/xhtml+xml"
+                                ),
+                                epubContentLoader: new TestEpubContentLoader()
+                            )
                         }
                     }
-                },
-                Content = new EpubContentRef()
-            };
+                )
+            );
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
         }
 
-        private EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName)
+        private static EpubSchema CreateEpubSchema(EpubManifest? manifest = null, EpubSpine? spine = null)
+        {
+            return new
+            (
+                package: new EpubPackage
+                (
+                    epubVersion: EpubVersion.EPUB_3,
+                    metadata: new EpubMetadata(),
+                    manifest: manifest ?? new EpubManifest(),
+                    spine: spine ?? new EpubSpine(),
+                    guide: null
+                ),
+                epub2Ncx: null,
+                epub3NavDocument: null,
+                contentDirectoryPath: String.Empty
+            );
+        }
+
+        private static EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName)
         {
             return new(new EpubContentFileRefMetadata(fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"), fileName, new TestEpubContentLoader());
         }

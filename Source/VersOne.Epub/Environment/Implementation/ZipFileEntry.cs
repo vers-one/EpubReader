@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 
 namespace VersOne.Epub.Environment.Implementation
@@ -9,7 +10,7 @@ namespace VersOne.Epub.Environment.Implementation
 
         public ZipFileEntry(ZipArchiveEntry zipArchiveEntry)
         {
-            this.zipArchiveEntry = zipArchiveEntry;
+            this.zipArchiveEntry = zipArchiveEntry ?? throw new ArgumentNullException(nameof(zipArchiveEntry));
         }
 
         public long Length => zipArchiveEntry.Length;

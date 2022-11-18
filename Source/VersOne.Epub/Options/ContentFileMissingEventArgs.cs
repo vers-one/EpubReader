@@ -23,6 +23,7 @@ namespace VersOne.Epub.Options
             ContentType = contentType;
             ContentMimeType = contentMimeType;
             SuppressException = false;
+            ReplacementContentStream = null;
         }
 
         /// <summary>
@@ -59,6 +60,6 @@ namespace VersOne.Epub.Options
         /// regardless of the value of the <see cref="SuppressException" /> property. The content of the stream is read only once, after which it will be cached
         /// in the EPUB content reader. The stream will be closed after its content is fully read.
         /// </summary>
-        public Stream ReplacementContentStream { get; set; }
+        public Stream? ReplacementContentStream { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if environmentDependencies parameter is null")]
         public void ConstructorWithNullEnvironmentDependenciesTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new BookReader(null, new EpubReaderOptions()));
+            Assert.Throws<ArgumentNullException>(() => new BookReader(null!, new EpubReaderOptions()));
         }
 
         [Fact(DisplayName = "Constructing a BookReader instance with a null epubReaderOptions parameter should succeed")]
@@ -167,7 +167,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(EPUB_FILE_PATH, populateRemoteFilesContents: false);
             EpubReaderOptions epubReaderOptions = new()
             {
-                ContentDownloaderOptions = null
+                ContentDownloaderOptions = null!
             };
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
             EpubBook actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
@@ -206,7 +206,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             await Assert.ThrowsAsync<EpubContainerException>(() => bookReader.ReadBookAsync(EPUB_FILE_PATH));
         }
 
-        private EpubReaderOptions CreateEpubReaderOptionsToDownloadRemoteFiles()
+        private static EpubReaderOptions CreateEpubReaderOptionsToDownloadRemoteFiles()
         {
             TestContentDownloader testContentDownloader = new();
             testContentDownloader.AddTextRemoteFile(REMOTE_HTML_CONTENT_FILE_HREF, TestEpubFiles.REMOTE_HTML_FILE_CONTENT);

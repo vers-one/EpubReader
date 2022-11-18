@@ -2,7 +2,7 @@
 {
     internal static class EpubNavigationItemRefComparer
     {
-        public static void CompareNavigationItemRefLists(List<EpubNavigationItemRef> expected, List<EpubNavigationItemRef> actual)
+        public static void CompareNavigationItemRefLists(List<EpubNavigationItemRef>? expected, List<EpubNavigationItemRef>? actual)
         {
             if (expected == null)
             {

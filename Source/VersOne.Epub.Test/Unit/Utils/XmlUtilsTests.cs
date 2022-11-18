@@ -19,7 +19,7 @@ namespace VersOne.Epub.Test.Unit.Utils
             </parent>
             """;
 
-        private XDocument ExpectedXDocument =>
+        private static XDocument ExpectedXDocument =>
             new(
                 new XElement("parent",
                     new XElement("child")
@@ -74,14 +74,22 @@ namespace VersOne.Epub.Test.Unit.Utils
             CompareXElements(expected.Root, actual.Root);
         }
 
-        private void CompareXElements(XElement expected, XElement actual)
+        private void CompareXElements(XElement? expected, XElement? actual)
         {
-            Assert.Equal(expected.Name, actual.Name);
-            foreach (XElement expectedDescendant in expected.Descendants())
+            if (expected == null)
             {
-                XElement actualDescendant = actual.Element(expectedDescendant.Name);
-                Assert.NotNull(actualDescendant);
-                CompareXElements(expectedDescendant, actualDescendant);
+                Assert.Null(actual);
+            }
+            else
+            {
+                Assert.NotNull(actual);
+                Assert.Equal(expected.Name, actual.Name);
+                foreach (XElement expectedDescendant in expected.Descendants())
+                {
+                    XElement? actualDescendant = actual.Element(expectedDescendant.Name);
+                    Assert.NotNull(actualDescendant);
+                    CompareXElements(expectedDescendant, actualDescendant);
+                }
             }
         }
     }
