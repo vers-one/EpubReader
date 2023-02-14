@@ -1016,9 +1016,9 @@
                         },
                         "chapter1-audio.smil":
                         {
-                            "$type": "EpubLocalByteContentFile",
+                            "$type": "EpubLocalTextContentFile",
                             "Key": "chapter1-audio.smil",
-                            "ContentType": "OTHER",
+                            "ContentType": "SMIL",
                             "ContentMimeType": "application/smil+xml",
                             "FilePath": "Content/chapter1-audio.smil",
                             "$content": "epub://Content/chapter1-audio.smil"

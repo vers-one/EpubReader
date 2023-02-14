@@ -16,7 +16,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.48.0.56517">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
@@ -25,7 +26,9 @@ namespace VersOne.Epub.Internal
             Epub2Ncx? epub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(epubFile, contentDirectoryPath, package).ConfigureAwait(false);
             Epub3NavDocumentReader epub3NavDocumentReader = new(epubReaderOptions);
             Epub3NavDocument? epub3NavDocument = await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(epubFile, contentDirectoryPath, package).ConfigureAwait(false);
-            return new(package, epub2Ncx, epub3NavDocument, contentDirectoryPath);
+            SmilReader smilReader = new(epubReaderOptions);
+            List<Smil> mediaOverlays = await smilReader.ReadAllSmilDocumentsAsync(epubFile, contentDirectoryPath, package).ConfigureAwait(false);
+            return new(package, epub2Ncx, epub3NavDocument, mediaOverlays, contentDirectoryPath);
         }
     }
 }

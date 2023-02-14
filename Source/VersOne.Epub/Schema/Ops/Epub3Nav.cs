@@ -13,8 +13,8 @@ namespace VersOne.Epub.Schema
         /// </summary>
         /// <param name="type">The type of the navigation section or <c>null</c> if the type is not specified.</param>
         /// <param name="ol">The top navigation level of the navigation section (represented by the &lt;ol&gt; HTML tag in the navigation document).</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="ol"/> argument is <c>null</c>.</exception>
-        public Epub3Nav(Epub3NavStructuralSemanticsProperty? type, Epub3NavOl ol)
+        /// <exception cref="ArgumentNullException">The <paramref name="ol" /> parameter is <c>null</c>.</exception>
+        public Epub3Nav(Epub3StructuralSemanticsProperty? type, Epub3NavOl ol)
             : this(type, false, null, ol)
         {
         }
@@ -26,8 +26,8 @@ namespace VersOne.Epub.Schema
         /// <param name="isHidden">A value indicating whether the navigation section should be hidden from the reader or not.</param>
         /// <param name="head">The header of the navigation section or <c>null</c> if the header is not present.</param>
         /// <param name="ol">The top navigation level of the navigation section (represented by the &lt;ol&gt; HTML tag in the navigation document).</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="ol"/> argument is <c>null</c>.</exception>
-        public Epub3Nav(Epub3NavStructuralSemanticsProperty? type, bool isHidden, string? head, Epub3NavOl ol)
+        /// <exception cref="ArgumentNullException">The <paramref name="ol" /> parameter is <c>null</c>.</exception>
+        public Epub3Nav(Epub3StructuralSemanticsProperty? type, bool isHidden, string? head, Epub3NavOl ol)
         {
             Type = type;
             IsHidden = isHidden;
@@ -39,7 +39,7 @@ namespace VersOne.Epub.Schema
         /// <para>Gets the type of the navigation section or <c>null</c> if the type is not specified.</para>
         /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-package-nav-def-types" /> for more information.</para>
         /// </summary>
-        public Epub3NavStructuralSemanticsProperty? Type { get; }
+        public Epub3StructuralSemanticsProperty? Type { get; }
 
         /// <summary>
         /// <para>Gets a value indicating whether the navigation section should be hidden from the reader or not.</para>

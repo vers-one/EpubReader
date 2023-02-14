@@ -5,7 +5,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops
 {
     public class Epub3NavTests
     {
-        private const Epub3NavStructuralSemanticsProperty TYPE = Epub3NavStructuralSemanticsProperty.TOC;
+        private const Epub3StructuralSemanticsProperty TYPE = Epub3StructuralSemanticsProperty.TOC;
         private const bool IS_HIDDEN = false;
         private const string HEAD = "Head";
 

@@ -71,7 +71,7 @@ namespace VersOne.Epub.Internal
 
         private static Epub3Nav ReadEpub3Nav(XElement navNode)
         {
-            Epub3NavStructuralSemanticsProperty? type = null;
+            Epub3StructuralSemanticsProperty? type = null;
             bool isHidden = false;
             string? head = null;
             Epub3NavOl? ol = null;
@@ -81,7 +81,7 @@ namespace VersOne.Epub.Internal
                 switch (navNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "type":
-                        type = Epub3NavStructuralSemanticsPropertyParser.Parse(attributeValue);
+                        type = Epub3StructuralSemanticsPropertyParser.ParseProperty(attributeValue);
                         break;
                     case "hidden":
                         isHidden = true;
@@ -174,7 +174,7 @@ namespace VersOne.Epub.Internal
             string text;
             string? title = null;
             string? alt = null;
-            Epub3NavStructuralSemanticsProperty? type = null;
+            Epub3StructuralSemanticsProperty? type = null;
             foreach (XAttribute navAnchorNodeAttribute in epub3NavAnchorNode.Attributes())
             {
                 string attributeValue = navAnchorNodeAttribute.Value;
@@ -190,7 +190,7 @@ namespace VersOne.Epub.Internal
                         alt = attributeValue;
                         break;
                     case "type":
-                        type = Epub3NavStructuralSemanticsPropertyParser.Parse(attributeValue);
+                        type = Epub3StructuralSemanticsPropertyParser.ParseProperty(attributeValue);
                         break;
                 }
             }

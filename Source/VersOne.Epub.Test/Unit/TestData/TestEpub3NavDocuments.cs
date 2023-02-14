@@ -14,7 +14,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 {
                     new Epub3Nav
                     (
-                        type: Epub3NavStructuralSemanticsProperty.TOC,
+                        type: Epub3StructuralSemanticsProperty.TOC,
                         ol: new Epub3NavOl
                         (
                             lis: new List<Epub3NavLi>()

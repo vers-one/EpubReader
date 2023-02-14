@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Integration.CustomTypeHandlers;
 using VersOne.Epub.Test.Integration.JsonUtils;
+using VersOne.Epub.Test.Integration.Types;
 
 namespace VersOne.Epub.Test.Integration.Runner
 {
@@ -57,45 +57,17 @@ namespace VersOne.Epub.Test.Integration.Runner
         }
 
         [Fact(Skip = "This method should be run manually")]
-        public void GenerateTestCaseTemplate()
+        public void GenerateTestCaseTemplates()
         {
-            string testCaseDirectoryPath = "Features\\RemoteContent";
-            string testCaseDirectoryAbsolutePath = Path.Combine(rootTestCasesDirectory, testCaseDirectoryPath);
-            string testCasesPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_CASES_FILE_NAME);
-            string testEpubPath = Path.Combine(testCaseDirectoryAbsolutePath, TEST_EPUB_FILE_NAME);
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                ContentDownloaderOptions = new ContentDownloaderOptions
-                {
-                    DownloadContent = true,
-                    DownloaderUserAgent = "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)"
-                }
-            };
-            EpubBook epubBook = EpubReader.ReadBook(testEpubPath, epubReaderOptions);
-            WriteTestCase(testCasesPath, testEpubPath, epubBook);
+            TestCaseWriter testCaseWriter = new(rootTestCasesDirectory, TEST_CASES_FILE_NAME, TEST_EPUB_FILE_NAME);
+            testCaseWriter.WriteRemoteContentTestCases();
         }
 
         private static List<TestCase>? ReadTestCases(string testCasePath, string testEpubPath)
         {
-            using CustomPropertyDependencies customPropertyDependencies = new(testEpubPath);
-            using StreamReader streamReader = new(testCasePath);
-            TestCaseJsonSerializer testCaseJsonSerializer = new(customPropertyDependencies);
-            List<TestCase>? testCases = testCaseJsonSerializer.Deserialize(streamReader);
-            return testCases;
-        }
-
-        private static void WriteTestCase(string testCasePath, string testEpubPath, EpubBook epubBook)
-        {
-            TestCase testCase = new
-            (
-                name: "Test case",
-                expectedResult: epubBook
-            );
-            List<TestCase> testCases = new() { testCase };
-            using CustomPropertyDependencies customPropertyDependencies = new(testEpubPath);
-            using StreamWriter streamWriter = new(testCasePath);
-            TestCaseJsonSerializer testCaseJsonSerializer = new(customPropertyDependencies);
-            testCaseJsonSerializer.Serialize(streamWriter, testCases);
+            using TestCasesSerializationContext testCasesSerializationContext = new(testEpubPath);
+            TestCaseSerializer testCaseSerializer = new(testCasesSerializationContext);
+            return testCaseSerializer.Deserialize(testCasePath);
         }
 
         public static IEnumerable<object[]> GetTestCaseDirectories()

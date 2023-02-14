@@ -22,8 +22,8 @@ namespace VersOne.Epub.Schema
         /// <param name="id">The unique identifier of the navigation point.</param>
         /// <param name="navigationLabels">A list of navigation labels providing textual description of the navigation point for the reader.</param>
         /// <param name="content">A pointer to the book's content associated with the navigation point.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="id" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public Epub2NcxNavigationPoint(string id, List<Epub2NcxNavigationLabel>? navigationLabels, Epub2NcxContent content)
             : this(id, null, null, navigationLabels, content, null)
         {
@@ -38,8 +38,8 @@ namespace VersOne.Epub.Schema
         /// <param name="navigationLabels">A list of navigation labels providing textual description of the navigation point for the reader.</param>
         /// <param name="content">A pointer to the book's content associated with the navigation point.</param>
         /// <param name="childNavigationPoints">A list of child navigation points constituting the nested navigational hierarchy within the navigation point.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="id" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public Epub2NcxNavigationPoint(string id, string? @class, string? playOrder, List<Epub2NcxNavigationLabel>? navigationLabels, Epub2NcxContent content,
             List<Epub2NcxNavigationPoint>? childNavigationPoints)
         {

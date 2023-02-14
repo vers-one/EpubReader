@@ -325,6 +325,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 ),
                 epub2Ncx: null,
                 epub3NavDocument: null,
+                mediaOverlays: null,
                 contentDirectoryPath: String.Empty
             );
         }

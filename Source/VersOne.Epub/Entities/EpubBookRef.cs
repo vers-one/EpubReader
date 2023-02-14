@@ -24,11 +24,11 @@ namespace VersOne.Epub
         /// <param name="description">The book's description or <c>null</c> if the description is not present in the book.</param>
         /// <param name="schema">The parsed EPUB schema of the book.</param>
         /// <param name="content">The collection of references to the book's content files within the EPUB archive.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="epubFile"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="title"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="author"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="schema"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="epubFile" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="title" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="author" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="schema" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public EpubBookRef(IZipFile epubFile, string? filePath, string title, string author, List<string>? authorList, string? description, EpubSchema schema, EpubContentRef content)
         {
             EpubFile = epubFile ?? throw new ArgumentNullException(nameof(epubFile));

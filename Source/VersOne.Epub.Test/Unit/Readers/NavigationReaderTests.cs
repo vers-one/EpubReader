@@ -21,6 +21,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
                 epub2Ncx: null,
                 epub3NavDocument: null,
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
@@ -45,6 +46,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     navLists: null
                 ),
                 epub3NavDocument: null,
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
@@ -58,7 +60,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
                 epub2Ncx: new Epub2Ncx
                 (
@@ -114,7 +115,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                     pageList: null,
                     navLists: null
                 ),
-                epub3NavDocument: null
+                epub3NavDocument: null,
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
             EpubContentRef epubContentRef = CreateContentRef(null, testTextContentFileRef);
@@ -163,6 +166,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     navLists: null
                 ),
                 epub3NavDocument: null,
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
@@ -209,6 +213,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     navLists: null
                 ),
                 epub3NavDocument: null,
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
@@ -226,6 +231,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     filePath: NAV_FILE_PATH
                 ),
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
@@ -248,7 +254,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             isHidden: false,
                             head: "Test header",
                             ol: new Epub3NavOl
@@ -311,6 +317,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         )
                     }
                 ),
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
@@ -338,7 +345,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
                 epub3NavDocument: new Epub3NavDocument
@@ -348,7 +354,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             isHidden: false,
                             head: null,
                             ol: new Epub3NavOl
@@ -367,7 +373,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                             )
                         )
                     }
-                )
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
@@ -385,7 +393,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
                 epub3NavDocument: new Epub3NavDocument
@@ -395,7 +402,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
@@ -405,7 +412,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                             )
                         )
                     }
-                )
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
@@ -419,7 +428,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
                 epub3NavDocument: new Epub3NavDocument
@@ -429,7 +437,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
@@ -446,7 +454,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                             )
                         )
                     }
-                )
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
@@ -463,7 +473,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
                 epub3NavDocument: new Epub3NavDocument
@@ -473,7 +482,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
@@ -575,7 +584,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                             )
                         )
                     }
-                )
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
@@ -611,7 +622,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             isHidden: false,
                             head: null,
                             ol: new Epub3NavOl
@@ -631,6 +642,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         )
                     }
                 ),
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
@@ -643,7 +655,6 @@ namespace VersOne.Epub.Test.Unit.Readers
             string remoteFileHref = "https://example.com/books/123/chapter1.html";
             EpubSchema epubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
                 epub3NavDocument: new Epub3NavDocument
@@ -653,7 +664,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
@@ -670,7 +681,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                             )
                         )
                     }
-                )
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentFileRefMetadata testTextContentFileRefMetadata = new(remoteFileHref, EpubContentType.XHTML_1_1, "application/xhtml+xml");

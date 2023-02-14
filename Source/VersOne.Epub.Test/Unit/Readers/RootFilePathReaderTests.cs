@@ -12,7 +12,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             <?xml version='1.0' encoding='utf-8'?>
             <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
               <rootfiles>
-                <rootfile media-type="application/oebps-package+xml" full-path="{ROOT_FILE_PATH_FOR_CORRECT_CONTAINER_FILE}"/>
+                <rootfile media-type="application/oebps-package+xml" full-path="{ROOT_FILE_PATH_FOR_CORRECT_CONTAINER_FILE}" />
               </rootfiles>
             </container>
             """;

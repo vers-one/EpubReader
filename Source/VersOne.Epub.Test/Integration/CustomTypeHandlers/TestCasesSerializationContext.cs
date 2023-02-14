@@ -2,7 +2,7 @@
 
 namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
 {
-    internal class CustomPropertyDependencies : IDisposable
+    internal class TestCasesSerializationContext : IDisposable
     {
         private const string FILE_PATH_IN_EPUB_PREFIX = "epub://";
         private const string HTTP_USER_AGENT = "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)";
@@ -10,7 +10,7 @@ namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
         private static readonly HttpClient httpClient = new();
         private readonly ZipArchive testEpubArchive;
 
-        public CustomPropertyDependencies(string testEpubFilePath)
+        public TestCasesSerializationContext(string testEpubFilePath)
         {
             testEpubArchive = ZipFile.OpenRead(testEpubFilePath);
             TestCaseDirectoryPath = Path.GetDirectoryName(testEpubFilePath) ?? throw new ArgumentException($"Cannot get directory name for {testEpubFilePath}");
@@ -50,12 +50,12 @@ namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
             return streamReader.ReadToEnd();
         }
 
-        public byte[] DownloadFileAsBytes(string url)
+        public static byte[] DownloadFileAsBytes(string url)
         {
             return RequestHttpContent(url).ReadAsByteArrayAsync().Result;
         }
 
-        public string DownloadFileAsText(string url)
+        public static string DownloadFileAsText(string url)
         {
             return RequestHttpContent(url).ReadAsStringAsync().Result;
         }

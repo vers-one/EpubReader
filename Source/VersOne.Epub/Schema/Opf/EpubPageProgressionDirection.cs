@@ -45,7 +45,7 @@ namespace VersOne.Epub.Schema
                 "default" => EpubPageProgressionDirection.DEFAULT,
                 "ltr" => EpubPageProgressionDirection.LEFT_TO_RIGHT,
                 "rtl" => EpubPageProgressionDirection.RIGHT_TO_LEFT,
-                _ => EpubPageProgressionDirection.UNKNOWN,
+                _ => EpubPageProgressionDirection.UNKNOWN
             };
         }
     }

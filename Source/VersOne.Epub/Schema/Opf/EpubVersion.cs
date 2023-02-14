@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace VersOne.Epub.Schema
 {
     /// <summary>
-    /// <para>Version of EPUB specification to which the given <see cref="EpubPackage" /> conforms.</para>
+    /// <para>Version of the EPUB specification to which the given <see cref="EpubPackage" /> conforms.</para>
     /// <para>
     /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-package-version" />
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section1.3.2" /> for more information.

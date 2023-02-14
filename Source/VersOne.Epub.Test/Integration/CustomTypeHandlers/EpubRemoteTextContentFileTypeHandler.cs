@@ -1,21 +1,27 @@
-﻿namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
+﻿using System.Text.Json.Nodes;
+
+namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
 {
     internal class EpubRemoteTextContentFileTypeHandler : CustomTypeHandler<EpubRemoteTextContentFile>
     {
-        public EpubRemoteTextContentFileTypeHandler(CustomPropertyDependencies customPropertyDependencies)
-            : base(customPropertyDependencies)
+        public EpubRemoteTextContentFileTypeHandler(TestCasesSerializationContext testCasesSerializationContext)
+            : base(testCasesSerializationContext)
         {
             AddCustomPropertyHandler(nameof(EpubRemoteTextContentFile.Content), "$content", SerializeContent, DeserializeContent);
+            AddIgnoredProperty(nameof(EpubLocalByteContentFile.ContentFileType));
+            AddIgnoredProperty(nameof(EpubLocalByteContentFile.ContentLocation));
         }
 
-        private string? SerializeContent(EpubRemoteTextContentFile serializingObject)
+        public override bool PreserveReferences => true;
+
+        private static JsonNode? SerializeContent(EpubRemoteTextContentFile serializingObject)
         {
-            return serializingObject.Url;
+            return serializingObject.Content != null ? JsonValue.Create(serializingObject.Url) : null;
         }
 
-        private object? DeserializeContent(string? serializedValue)
+        private static object? DeserializeContent(string? serializedValue)
         {
-            return serializedValue != null ? CustomPropertyDependencies.DownloadFileAsText(serializedValue) : null;
+            return serializedValue != null ? TestCasesSerializationContext.DownloadFileAsText(serializedValue) : null;
         }
     }
 }

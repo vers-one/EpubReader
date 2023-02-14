@@ -55,13 +55,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                     <navLabel>
                       <text>Chapter 1.1</text>
                     </navLabel>
-                    <content id="content-1-1" src="chapter1.html#section-1"/>
+                    <content id="content-1-1" src="chapter1.html#section-1" />
                   </navPoint>
                   <navPoint id="navpoint-1-2" class="section">
                     <navLabel>
                       <text>Chapter 1.2</text>
                     </navLabel>
-                    <content id="content-1-2" src="chapter1.html#section-2"/>
+                    <content id="content-1-2" src="chapter1.html#section-2" />
                   </navPoint>
                 </navPoint>
                 <navPoint id="navpoint-2">
@@ -79,13 +79,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                   <navLabel>
                     <text>I</text>
                   </navLabel>
-                  <content src="front.html"/>
+                  <content src="front.html" />
                 </pageTarget>
                 <pageTarget type="normal">
                   <navLabel>
                     <text>2</text>
                   </navLabel>
-                  <content id="content-2" src="chapter1.html#page-2"/>
+                  <content id="content-2" src="chapter1.html#page-2" />
                 </pageTarget>        
               </pageList>
               <navList id="navlist-1" class="navlist-illustrations">
@@ -102,7 +102,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                   <navLabel>
                     <text>Illustrazione 1</text>
                   </navLabel>
-                  <content src="chapter1.html#illustration-1"/>
+                  <content src="chapter1.html#illustration-1" />
                 </navTarget>
               </navList>
               <navList id="navlist-2" class="navlist-tables">
@@ -118,7 +118,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                   <navLabel>
                     <text>Table 1</text>
                   </navLabel>
-                  <content src="chapter1.html#table-1"/>
+                  <content src="chapter1.html#table-1" />
                 </navTarget>
               </navList>
             </ncx>
@@ -283,7 +283,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                   <navLabel>
                     <text>1</text>
                   </navLabel>
-                  <content src="chapter1.html#page-1"/>
+                  <content src="chapter1.html#page-1" />
                 </pageTarget>
               </pageList>
             </ncx>
@@ -300,7 +300,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                   <navLabel>
                     <text>1</text>
                   </navLabel>
-                  <content src="chapter1.html#page-1"/>
+                  <content src="chapter1.html#page-1" />
                 </pageTarget>
               </pageList>
             </ncx>
@@ -314,7 +314,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <navMap />
               <pageList>
                 <pageTarget type="normal">
-                  <content src="chapter1.html#page-1"/>
+                  <content src="chapter1.html#page-1" />
                 </pageTarget>
               </pageList>
             </ncx>

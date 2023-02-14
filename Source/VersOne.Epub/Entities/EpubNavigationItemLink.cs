@@ -13,8 +13,8 @@ namespace VersOne.Epub
         /// </summary>
         /// <param name="contentFileUrl">Relative file path or a URL of the content file with an optional anchor (as it is specified in the EPUB manifest).</param>
         /// <param name="baseDirectoryPath">The path of the directory within the EPUB archive which acts as a base directory for a relative content file path.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="contentFileUrl"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="baseDirectoryPath"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="contentFileUrl" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="baseDirectoryPath" /> parameter is <c>null</c>.</exception>
         public EpubNavigationItemLink(string contentFileUrl, string baseDirectoryPath)
         {
             if (contentFileUrl == null)

@@ -34,9 +34,9 @@ namespace VersOne.Epub.Schema
         /// A list of NCX navigation lists which contain distinct, flat sets of navigable elements for the secondary navigation within the book
         /// (e.g., lists of notes, figures, tables, etc.).
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="filePath"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="head"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="navMap"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="filePath" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="head" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="navMap" /> parameter is <c>null</c>.</exception>
         public Epub2Ncx(string filePath, Epub2NcxHead head, string? docTitle, List<string>? docAuthors, Epub2NcxNavigationMap navMap,
             Epub2NcxPageList? pageList = null, List<Epub2NcxNavigationList>? navLists = null)
         {

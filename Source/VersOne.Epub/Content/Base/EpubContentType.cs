@@ -71,6 +71,11 @@
         FONT_OPENTYPE,
 
         /// <summary>
+        /// A file with 'application/smil+xml' MIME type.
+        /// </summary>
+        SMIL,
+
+        /// <summary>
         /// A file with a MIME type which is not present in this enumeration.
         /// </summary>
         OTHER

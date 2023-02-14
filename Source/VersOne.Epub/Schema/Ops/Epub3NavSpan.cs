@@ -20,7 +20,7 @@ namespace VersOne.Epub.Schema
         /// The alternative text of the navigation header (represented by the 'title' HTML attribute in the navigation document)
         /// or <c>null</c> if the alternative text is not specified.
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="text"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="text" /> parameter is <c>null</c>.</exception>
         public Epub3NavSpan(string text, string? title, string? alt = null)
         {
             Text = text ?? throw new ArgumentNullException(nameof(text));

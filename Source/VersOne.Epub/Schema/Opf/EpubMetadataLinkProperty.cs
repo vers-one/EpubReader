@@ -46,7 +46,7 @@ namespace VersOne.Epub.Schema
             {
                 "onix" => EpubMetadataLinkProperty.ONIX,
                 "xmp" => EpubMetadataLinkProperty.XMP,
-                _ => EpubMetadataLinkProperty.UNKNOWN,
+                _ => EpubMetadataLinkProperty.UNKNOWN
             };
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace VersOne.Epub.Test.Integration.Runner
+﻿namespace VersOne.Epub.Test.Integration.Types
 {
     public class TestCaseException
     {

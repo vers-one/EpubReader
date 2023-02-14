@@ -8,7 +8,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops
         private const string TEXT = "Chapter";
         private const string TITLE = "Test anchor title";
         private const string ALT = "Test anchor alt";
-        private Epub3NavStructuralSemanticsProperty TYPE = Epub3NavStructuralSemanticsProperty.BODYMATTER;
+        private Epub3StructuralSemanticsProperty TYPE = Epub3StructuralSemanticsProperty.BODYMATTER;
 
         [Fact(DisplayName = "Constructing a Epub3NavAnchor instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

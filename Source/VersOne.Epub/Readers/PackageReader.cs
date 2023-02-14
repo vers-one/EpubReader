@@ -43,7 +43,7 @@ namespace VersOne.Epub.Internal
                 "2.0" => EpubVersion.EPUB_2,
                 "3.0" => EpubVersion.EPUB_3,
                 "3.1" => EpubVersion.EPUB_3_1,
-                _ => throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionValue}\"."),
+                _ => throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionValue}\".")
             };
             XElement metadataNode = packageNode.Element(opfNamespace + "metadata");
             if (metadataNode == null)

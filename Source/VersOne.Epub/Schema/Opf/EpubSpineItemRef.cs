@@ -21,7 +21,7 @@ namespace VersOne.Epub.Schema
         /// <param name="idRef">
         /// The value of the <see cref="EpubManifestItem.Id" /> property of an item declared in the <see cref="EpubManifest" /> this EPUB spine element is referencing to.
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="idRef"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="idRef" /> parameter is <c>null</c>.</exception>
         public EpubSpineItemRef(string idRef)
             : this(null, idRef, true, null)
         {
@@ -39,7 +39,7 @@ namespace VersOne.Epub.Schema
         /// and has to be read sequentially (<c>true</c>) or auxiliary content that enhances or augments the primary content and can be accessed out of sequence (<c>false</c>).
         /// </param>
         /// <param name="properties">A list of additional EPUB spine element properties or <c>null</c> if the spine doesn't specify properties.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="idRef"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="idRef" /> parameter is <c>null</c>.</exception>
         public EpubSpineItemRef(string? id, string idRef, bool isLinear, List<EpubSpineProperty>? properties = null)
         {
             Id = id;

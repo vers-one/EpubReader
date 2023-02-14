@@ -184,7 +184,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 {
                     new Epub3Nav
                     (
-                        type: Epub3NavStructuralSemanticsProperty.TOC,
+                        type: Epub3StructuralSemanticsProperty.TOC,
                         isHidden: false,
                         head: "Table of Contents",
                         ol: new Epub3NavOl
@@ -222,7 +222,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 (
                                     anchor: new Epub3NavAnchor
                                     (
-                                        type: Epub3NavStructuralSemanticsProperty.LOI,
+                                        type: Epub3StructuralSemanticsProperty.LOI,
                                         href: "illustrations.html",
                                         text: "List of illustrations"
                                     )
@@ -232,7 +232,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     ),
                     new Epub3Nav
                     (
-                        type: Epub3NavStructuralSemanticsProperty.PAGE_LIST,
+                        type: Epub3StructuralSemanticsProperty.PAGE_LIST,
                         isHidden: true,
                         head: "Page list",
                         ol: new Epub3NavOl

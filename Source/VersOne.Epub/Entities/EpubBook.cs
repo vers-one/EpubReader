@@ -21,10 +21,10 @@ namespace VersOne.Epub
         /// <param name="navigation">A list of navigation elements of the book (typically the table of contents) or <c>null</c> if the book doesn't have navigation information.</param>
         /// <param name="schema">The parsed EPUB schema of the book.</param>
         /// <param name="content">The collection of the book's content files.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="title"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="author"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="schema"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="title" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="author" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="schema" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public EpubBook(string? filePath, string title, string author, List<string>? authorList, string? description, byte[]? coverImage,
             List<EpubLocalTextContentFile>? readingOrder, List<EpubNavigationItem>? navigation, EpubSchema schema, EpubContent content)
         {

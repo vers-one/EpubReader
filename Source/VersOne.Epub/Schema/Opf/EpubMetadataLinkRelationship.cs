@@ -113,7 +113,7 @@ namespace VersOne.Epub.Schema
                 "voicing" => EpubMetadataLinkRelationship.VOICING,
                 "xml-signature" => EpubMetadataLinkRelationship.XML_SIGNATURE,
                 "xmp-record" => EpubMetadataLinkRelationship.XMP_RECORD,
-                _ => EpubMetadataLinkRelationship.UNKNOWN,
+                _ => EpubMetadataLinkRelationship.UNKNOWN
             };
         }
     }

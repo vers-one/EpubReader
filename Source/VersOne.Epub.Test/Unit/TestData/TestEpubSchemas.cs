@@ -15,6 +15,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 (
                     filePath: NAV_FILE_PATH
                 ),
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
         }
@@ -26,6 +27,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 package: TestEpubPackages.CreateMinimalTestEpub2PackageWithoutNavigation(),
                 epub2Ncx: null,
                 epub3NavDocument: null,
+                mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
         }
@@ -37,6 +39,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                 package: TestEpubPackages.CreateFullTestEpubPackage(),
                 epub2Ncx: TestEpub2Ncxes.CreateFullTestEpub2Ncx(),
                 epub3NavDocument: TestEpub3NavDocuments.CreateFullTestEpub3NavDocument(),
+                mediaOverlays: new List<Smil>()
+                {
+                    TestSmils.CreateFullTestSmil()
+                },
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
         }

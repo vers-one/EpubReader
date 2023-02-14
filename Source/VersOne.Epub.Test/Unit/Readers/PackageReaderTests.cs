@@ -15,7 +15,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             <?xml version='1.0' encoding='utf-8'?>
             <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
               <rootfiles>
-                <rootfile media-type="application/oebps-package+xml" full-path="{OPF_FILE_PATH}"/>
+                <rootfile media-type="application/oebps-package+xml" full-path="{OPF_FILE_PATH}" />
               </rootfiles>
             </container>
             """;
@@ -91,7 +91,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               </metadata>
               <manifest>
                 <item id="item-front" href="front.html" media-type="application/xhtml+xml" />
-                <item id="cover" href="cover.html" media-type="application/xhtml+xml"/>
+                <item id="cover" href="cover.html" media-type="application/xhtml+xml" />
                 <item id="cover-image" href="cover.jpg" media-type="image/jpeg" properties="cover-image" />
                 <item id="item-css" href="styles.css" media-type="text/css" />
                 <item id="item-font" href="font.ttf" media-type="application/x-font-truetype" />
