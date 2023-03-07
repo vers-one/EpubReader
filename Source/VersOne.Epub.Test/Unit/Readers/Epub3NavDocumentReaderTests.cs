@@ -283,6 +283,17 @@ namespace VersOne.Epub.Test.Unit.Readers
             }
         }
 
+        [Fact(DisplayName = "Constructing a Epub3NavDocumentReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new Epub3NavDocumentReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a Epub3NavDocumentReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new Epub3NavDocumentReader(null);
+        }
 
         [Fact(DisplayName = "Reading a minimal NAV file should succeed")]
         public async void ReadEpub3NavDocumentAsyncWithMinimalNavFileTest()

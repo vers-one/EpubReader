@@ -702,6 +702,18 @@ namespace VersOne.Epub.Test.Unit.Readers
                 navLists: null
             );
 
+        [Fact(DisplayName = "Constructing a Epub2NcxReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new Epub2NcxReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a Epub2NcxReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new Epub2NcxReader(null);
+        }
+
         [Fact(DisplayName = "Reading a minimal NCX file should succeed")]
         public async void ReadEpub2NcxAsyncWithMinimalNcxFileTest()
         {

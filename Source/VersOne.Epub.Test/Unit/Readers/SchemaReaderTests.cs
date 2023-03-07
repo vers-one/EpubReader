@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -110,6 +111,18 @@ namespace VersOne.Epub.Test.Unit.Readers
                 </body>
             </smil>
             """;
+
+        [Fact(DisplayName = "Constructing a SchemaReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new SchemaReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a SchemaReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new SchemaReader(null);
+        }
 
         [Fact(DisplayName = "Reading a typical schema from a EPUB file should succeed")]
         public async void ReadSchemaAsyncTest()

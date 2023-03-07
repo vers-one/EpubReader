@@ -349,7 +349,7 @@
                             },
                             {
                                 "Id": "item-1-smil",
-                                "Href": "chapter1-audio.smil",
+                                "Href": "chapter1.smil",
                                 "MediaType": "application/smil+xml"
                             },
                             {
@@ -1014,14 +1014,14 @@
                             "FilePath": "Content/font.ttf",
                             "$content": "epub://Content/font.ttf"
                         },
-                        "chapter1-audio.smil":
+                        "chapter1.smil":
                         {
                             "$type": "EpubLocalTextContentFile",
-                            "Key": "chapter1-audio.smil",
+                            "Key": "chapter1.smil",
                             "ContentType": "SMIL",
                             "ContentMimeType": "application/smil+xml",
-                            "FilePath": "Content/chapter1-audio.smil",
-                            "$content": "epub://Content/chapter1-audio.smil"
+                            "FilePath": "Content/chapter1.smil",
+                            "$content": "epub://Content/chapter1.smil"
                         },
                         "chapter1-audio.mp3":
                         {

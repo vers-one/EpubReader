@@ -18,7 +18,7 @@ namespace VersOne.Epub
         /// <param name="millisecond">The milliseconds part of the timestamp.</param>
         public EpubNarrationTimestamp(int hour, int minute, int second, int millisecond)
         {
-            timeSpan = new TimeSpan(hour, minute, second, millisecond);
+            timeSpan = new TimeSpan(0, hour, minute, second, millisecond);
         }
 
         /// <summary>

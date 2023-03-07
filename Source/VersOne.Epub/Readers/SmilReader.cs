@@ -34,11 +34,8 @@ namespace VersOne.Epub.Internal
 
         public async Task<Smil> ReadSmilAsync(IZipFile epubFile, string smilFilePath)
         {
-            IZipFileEntry? smilFile = epubFile.GetEntry(smilFilePath);
-            if (smilFile == null)
-            {
-                throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} not found in the EPUB file.", smilFilePath);
-            }
+            IZipFileEntry smilFile = epubFile.GetEntry(smilFilePath)
+                ?? throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} not found in the EPUB file.", smilFilePath);
             if (smilFile.Length > Int32.MaxValue)
             {
                 throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} is larger than 2 GB.", smilFilePath);
@@ -49,11 +46,8 @@ namespace VersOne.Epub.Internal
                 smilDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace smilNamespace = "http://www.w3.org/ns/SMIL";
-            XElement smilNode = smilDocument.Element(smilNamespace + "smil");
-            if (smilNode == null)
-            {
-                throw new EpubSmilException("SMIL parsing error: smil XML element is missing in the file.", smilFilePath);
-            }
+            XElement smilNode = smilDocument.Element(smilNamespace + "smil")
+                ?? throw new EpubSmilException("SMIL parsing error: smil XML element is missing in the file.", smilFilePath);
             Smil smil = ReadSmil(smilNode, smilFilePath);
             return smil;
         }
@@ -292,10 +286,10 @@ namespace VersOne.Epub.Internal
                     case "src":
                         src = attributeValue;
                         break;
-                    case "clipBegin":
+                    case "clipbegin":
                         clipBegin = attributeValue;
                         break;
-                    case "clipEnd":
+                    case "clipend":
                         clipEnd = attributeValue;
                         break;
                 }

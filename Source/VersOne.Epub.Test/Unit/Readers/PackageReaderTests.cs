@@ -95,8 +95,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                 <item id="cover-image" href="cover.jpg" media-type="image/jpeg" properties="cover-image" />
                 <item id="item-css" href="styles.css" media-type="text/css" />
                 <item id="item-font" href="font.ttf" media-type="application/x-font-truetype" />
-                <item id="item-1" href="chapter1.html" media-type="application/xhtml+xml" media-overlay="item-1-audio" />
-                <item id="item-1-audio" href="chapter1-audio.smil" media-type="application/smil+xml" />
+                <item id="item-1" href="chapter1.html" media-type="application/xhtml+xml" media-overlay="item-1-smil" />
+                <item id="item-1-smil" href="chapter1.smil" media-type="application/smil+xml" />
                 <item id="item-2" href="chapter2.html" media-type="application/xhtml+xml" />
                 <item id="item-2-fall" href="chapter2.xml" media-type="text/example+xml"
                       required-namespace="http://example.com/ns/example/" required-modules="ruby, server-side-image-map"
@@ -562,7 +562,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 id: "item-1",
                                 href: "chapter1.html",
                                 mediaType: "application/xhtml+xml",
-                                mediaOverlay: "item-1-audio",
+                                mediaOverlay: "item-1-smil",
                                 requiredNamespace: null,
                                 requiredModules: null,
                                 fallback: null,
@@ -571,8 +571,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                             ),
                             new EpubManifestItem
                             (
-                                id: "item-1-audio",
-                                href: "chapter1-audio.smil",
+                                id: "item-1-smil",
+                                href: "chapter1.smil",
                                 mediaType: "application/smil+xml"
                             ),
                             new EpubManifestItem
@@ -742,6 +742,18 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 yield return new object[] { FULL_OPF_FILE, FullPackage };
             }
+        }
+
+        [Fact(DisplayName = "Constructing a PackageReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new PackageReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a PackageReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new PackageReader(null);
         }
 
         [Theory(DisplayName = "Reading a minimal OPF package should succeed")]
