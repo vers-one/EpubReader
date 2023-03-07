@@ -145,12 +145,18 @@ namespace VersOne.Epub.Test.Unit.Readers
                         new EpubManifestItem
                         (
                             id: "item-16",
+                            href: "narration.smil",
+                            mediaType: "application/smil+xml"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-17",
                             href: "video.mp4",
                             mediaType: "video/mp4"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-17",
+                            id: "item-18",
                             href: "cover.jpg",
                             mediaType: "image/jpeg",
                             properties: new List<EpubManifestProperty>
@@ -160,7 +166,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-18",
+                            id: "item-19",
                             href: "toc.html",
                             mediaType: "application/xhtml+xml",
                             properties: new List<EpubManifestProperty>
@@ -170,25 +176,25 @@ namespace VersOne.Epub.Test.Unit.Readers
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-19",
+                            id: "item-20",
                             href: "https://example.com/books/123/test.html",
                             mediaType: "application/xhtml+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-20",
+                            id: "item-21",
                             href: "https://example.com/books/123/test.css",
                             mediaType: "text/css"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-21",
+                            id: "item-22",
                             href: "https://example.com/books/123/image.jpg",
                             mediaType: "image/jpeg"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-22",
+                            id: "item-23",
                             href: "https://example.com/books/123/font.ttf",
                             mediaType: "font/truetype"
                         )
@@ -210,17 +216,18 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubLocalByteContentFileRef expectedFileRef13 = CreateLocalByteFileRef("font2.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
             EpubLocalByteContentFileRef expectedFileRef14 = CreateLocalByteFileRef("font3.otf", EpubContentType.FONT_OPENTYPE, "font/opentype");
             EpubLocalByteContentFileRef expectedFileRef15 = CreateLocalByteFileRef("font4.otf", EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
-            EpubLocalByteContentFileRef expectedFileRef16 = CreateLocalByteFileRef("video.mp4", EpubContentType.OTHER, "video/mp4");
-            EpubLocalByteContentFileRef expectedFileRef17 = CreateLocalByteFileRef("cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubLocalTextContentFileRef expectedFileRef18 = CreateLocalTextFileRef("toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubRemoteTextContentFileRef expectedFileRef19 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubRemoteTextContentFileRef expectedFileRef20 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
-            EpubRemoteByteContentFileRef expectedFileRef21 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubRemoteByteContentFileRef expectedFileRef22 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubLocalTextContentFileRef expectedFileRef16 = CreateLocalTextFileRef("narration.smil", EpubContentType.SMIL, "application/smil+xml");
+            EpubLocalByteContentFileRef expectedFileRef17 = CreateLocalByteFileRef("video.mp4", EpubContentType.OTHER, "video/mp4");
+            EpubLocalByteContentFileRef expectedFileRef18 = CreateLocalByteFileRef("cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubLocalTextContentFileRef expectedFileRef19 = CreateLocalTextFileRef("toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubRemoteTextContentFileRef expectedFileRef20 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubRemoteTextContentFileRef expectedFileRef21 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
+            EpubRemoteByteContentFileRef expectedFileRef22 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubRemoteByteContentFileRef expectedFileRef23 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
             EpubContentRef expectedContentMap = new
             (
-                cover: expectedFileRef17,
-                navigationHtmlFile: expectedFileRef18,
+                cover: expectedFileRef18,
+                navigationHtmlFile: expectedFileRef19,
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
                 (
                     local: new Dictionary<string, EpubLocalTextContentFileRef>()
@@ -231,14 +238,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                         },
                         {
                             "toc.html",
-                            expectedFileRef18
+                            expectedFileRef19
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.html",
-                            expectedFileRef19
+                            expectedFileRef20
                         }
                     }
                 ),
@@ -255,7 +262,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         {
                             "https://example.com/books/123/test.css",
-                            expectedFileRef20
+                            expectedFileRef21
                         }
                     }
                 ),
@@ -281,14 +288,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                         },
                         {
                             "cover.jpg",
-                            expectedFileRef17
+                            expectedFileRef18
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/image.jpg",
-                            expectedFileRef21
+                            expectedFileRef22
                         }
                     }
                 ),
@@ -317,7 +324,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         {
                             "https://example.com/books/123/font.ttf",
-                            expectedFileRef22
+                            expectedFileRef23
                         }
                     }
                 ),
@@ -386,35 +393,39 @@ namespace VersOne.Epub.Test.Unit.Readers
                             expectedFileRef15
                         },
                         {
-                            "video.mp4",
+                            "narration.smil",
                             expectedFileRef16
                         },
                         {
-                            "cover.jpg",
+                            "video.mp4",
                             expectedFileRef17
                         },
                         {
-                            "toc.html",
+                            "cover.jpg",
                             expectedFileRef18
+                        },
+                        {
+                            "toc.html",
+                            expectedFileRef19
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.html",
-                            expectedFileRef19
-                        },
-                        {
-                            "https://example.com/books/123/test.css",
                             expectedFileRef20
                         },
                         {
-                            "https://example.com/books/123/image.jpg",
+                            "https://example.com/books/123/test.css",
                             expectedFileRef21
                         },
                         {
-                            "https://example.com/books/123/font.ttf",
+                            "https://example.com/books/123/image.jpg",
                             expectedFileRef22
+                        },
+                        {
+                            "https://example.com/books/123/font.ttf",
+                            expectedFileRef23
                         }
                     }
                 )
