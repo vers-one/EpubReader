@@ -21,7 +21,7 @@ namespace VersOne.Epub.Test.Comparers
             CompareSmilBodies(expected.Body, actual.Body);
         }
 
-        private static void CompareSmilHeads(SmilHead? expected, SmilHead? actual)
+        public static void CompareSmilHeads(SmilHead? expected, SmilHead? actual)
         {
             if (expected == null)
             {
@@ -34,7 +34,7 @@ namespace VersOne.Epub.Test.Comparers
             }
         }
 
-        private static void CompareSmilMetadatas(SmilMetadata? expected, SmilMetadata? actual)
+        public static void CompareSmilMetadatas(SmilMetadata? expected, SmilMetadata? actual)
         {
             if (expected == null)
             {
@@ -43,36 +43,46 @@ namespace VersOne.Epub.Test.Comparers
             else
             {
                 Assert.NotNull(actual);
-                CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareXElements);
+                CompareSmilMetadataItems(expected.Items, actual.Items);
             }
         }
 
-        private static void CompareXElements(XElement expected, XElement actual)
+        public static void CompareSmilMetadataItems(List<XElement> expected, List<XElement> actual)
         {
-            Assert.Equal(expected.ToString(), actual.ToString());
+            CollectionComparer.CompareCollections(expected, actual, CompareXElements);
         }
 
-        private static void CompareSmilBodies(SmilBody expected, SmilBody actual)
-        {
-            Assert.NotNull(actual);
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.EpubTypes, actual.EpubTypes);
-            Assert.Equal(expected.EpubTextRef, actual.EpubTextRef);
-            CollectionComparer.CompareCollections(expected.Seqs, actual.Seqs, CompareSmilSeqs);
-            CollectionComparer.CompareCollections(expected.Pars, actual.Pars, CompareSmilPars);
-        }
-
-        private static void CompareSmilSeqs(SmilSeq expected, SmilSeq actual)
+        public static void CompareSmilBodies(SmilBody expected, SmilBody actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.EpubTypes, actual.EpubTypes);
             Assert.Equal(expected.EpubTextRef, actual.EpubTextRef);
-            CollectionComparer.CompareCollections(expected.Seqs, actual.Seqs, CompareSmilSeqs);
-            CollectionComparer.CompareCollections(expected.Pars, actual.Pars, CompareSmilPars);
+            CompareSmilSeqLists(expected.Seqs, actual.Seqs);
+            CompareSmilParLists(expected.Pars, actual.Pars);
         }
 
-        private static void CompareSmilPars(SmilPar expected, SmilPar actual)
+        public static void CompareSmilSeqLists(List<SmilSeq> expected, List<SmilSeq> actual)
+        {
+            CollectionComparer.CompareCollections(expected, actual, CompareSmilSeqs);
+        }
+
+        public static void CompareSmilSeqs(SmilSeq expected, SmilSeq actual)
+        {
+            Assert.NotNull(actual);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.EpubTypes, actual.EpubTypes);
+            Assert.Equal(expected.EpubTextRef, actual.EpubTextRef);
+            CompareSmilSeqLists(expected.Seqs, actual.Seqs);
+            CompareSmilParLists(expected.Pars, actual.Pars);
+        }
+
+        public static void CompareSmilParLists(List<SmilPar> expected, List<SmilPar> actual)
+        {
+            CollectionComparer.CompareCollections(expected, actual, CompareSmilPars);
+        }
+
+        public static void CompareSmilPars(SmilPar expected, SmilPar actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -81,14 +91,14 @@ namespace VersOne.Epub.Test.Comparers
             CompareSmilAudios(expected.Audio, actual.Audio);
         }
 
-        private static void CompareSmilTexts(SmilText expected, SmilText actual)
+        public static void CompareSmilTexts(SmilText expected, SmilText actual)
         {
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Src, actual.Src);
         }
 
-        private static void CompareSmilAudios(SmilAudio? expected, SmilAudio? actual)
+        public static void CompareSmilAudios(SmilAudio? expected, SmilAudio? actual)
         {
             if (expected == null)
             {
@@ -102,6 +112,11 @@ namespace VersOne.Epub.Test.Comparers
                 Assert.Equal(expected.ClipBegin, actual.ClipBegin);
                 Assert.Equal(expected.ClipEnd, actual.ClipEnd);
             }
+        }
+
+        private static void CompareXElements(XElement expected, XElement actual)
+        {
+            Assert.Equal(expected.ToString(), actual.ToString());
         }
     }
 }
