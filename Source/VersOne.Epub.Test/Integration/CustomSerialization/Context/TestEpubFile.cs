@@ -1,8 +1,8 @@
 ﻿using System.IO.Compression;
 
-namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
+namespace VersOne.Epub.Test.Integration.CustomSerialization.Context
 {
-    internal class TestCasesSerializationContext : IDisposable
+    internal class TestEpubFile : IDisposable
     {
         private const string FILE_PATH_IN_EPUB_PREFIX = "epub://";
         private const string HTTP_USER_AGENT = "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)";
@@ -10,7 +10,7 @@ namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
         private static readonly HttpClient httpClient = new();
         private readonly ZipArchive testEpubArchive;
 
-        public TestCasesSerializationContext(string testEpubFilePath)
+        public TestEpubFile(string testEpubFilePath)
         {
             testEpubArchive = ZipFile.OpenRead(testEpubFilePath);
             TestCaseDirectoryPath = Path.GetDirectoryName(testEpubFilePath) ?? throw new ArgumentException($"Cannot get directory name for {testEpubFilePath}");

@@ -1,18 +1,19 @@
 ﻿using VersOne.Epub.Options;
-using VersOne.Epub.Test.Integration.CustomTypeHandlers;
-using VersOne.Epub.Test.Integration.JsonUtils;
+using VersOne.Epub.Test.Integration.CustomSerialization;
 using VersOne.Epub.Test.Integration.Types;
 
 namespace VersOne.Epub.Test.Integration.Runner
 {
     internal class TestCaseWriter
     {
+        private readonly TestCaseSerializer testCaseSerializer;
         private readonly string rootTestCasesDirectory;
         private readonly string testCasesFileName;
         private readonly string testEpubFileName;
 
-        public TestCaseWriter(string rootTestCasesDirectory, string testCasesFileName, string testEpubFileName)
+        public TestCaseWriter(TestCaseSerializer testCaseSerializer, string rootTestCasesDirectory, string testCasesFileName, string testEpubFileName)
         {
+            this.testCaseSerializer = testCaseSerializer;
             this.rootTestCasesDirectory = rootTestCasesDirectory;
             this.testCasesFileName = testCasesFileName;
             this.testEpubFileName = testEpubFileName;
@@ -46,11 +47,9 @@ namespace VersOne.Epub.Test.Integration.Runner
             WriteTestCases(testCasesPath, testEpubPath, new List<TestCase>() { testCase1, testCase2 });
         }
 
-        private static void WriteTestCases(string testCaseFilePath, string testEpubPath, List<TestCase> testCases)
+        private void WriteTestCases(string testCaseFilePath, string testEpubPath, List<TestCase> testCases)
         {
-            using TestCasesSerializationContext testCasesSerializationContext = new(testEpubPath);
-            TestCaseSerializer testCaseSerializer = new(testCasesSerializationContext);
-            testCaseSerializer.Serialize(testCaseFilePath, testCases);
+            testCaseSerializer.Serialize(testCaseFilePath, testEpubPath, testCases);
         }
     }
 }

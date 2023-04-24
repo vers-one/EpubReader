@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using VersOne.Epub.Test.Comparers;
-using VersOne.Epub.Test.Integration.CustomTypeHandlers;
-using VersOne.Epub.Test.Integration.JsonUtils;
+using VersOne.Epub.Test.Integration.CustomSerialization;
 using VersOne.Epub.Test.Integration.Types;
 
 namespace VersOne.Epub.Test.Integration.Runner
@@ -13,10 +12,12 @@ namespace VersOne.Epub.Test.Integration.Runner
         private const string TEST_EPUB_FILE_NAME = "test.epub";
 
         private static readonly string rootTestCasesDirectory;
+        private static readonly TestCaseSerializer testCaseSerializer;
 
         static TestRunner()
         {
             rootTestCasesDirectory = GetRootTestCasesDirectory();
+            testCaseSerializer = new TestCaseSerializer();
         }
 
         [Theory(DisplayName = "Integration test")]
@@ -59,15 +60,13 @@ namespace VersOne.Epub.Test.Integration.Runner
         [Fact(Skip = "This method should be run manually")]
         public void GenerateTestCaseTemplates()
         {
-            TestCaseWriter testCaseWriter = new(rootTestCasesDirectory, TEST_CASES_FILE_NAME, TEST_EPUB_FILE_NAME);
+            TestCaseWriter testCaseWriter = new(testCaseSerializer, rootTestCasesDirectory, TEST_CASES_FILE_NAME, TEST_EPUB_FILE_NAME);
             testCaseWriter.WriteRemoteContentTestCases();
         }
 
         private static List<TestCase>? ReadTestCases(string testCasePath, string testEpubPath)
         {
-            using TestCasesSerializationContext testCasesSerializationContext = new(testEpubPath);
-            TestCaseSerializer testCaseSerializer = new(testCasesSerializationContext);
-            return testCaseSerializer.Deserialize(testCasePath);
+            return testCaseSerializer.Deserialize(testCasePath, testEpubPath);
         }
 
         public static IEnumerable<object[]> GetTestCaseDirectories()

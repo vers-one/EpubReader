@@ -1,4 +1,4 @@
-﻿namespace VersOne.Epub.Test.Integration.CustomTypeHandlers
+﻿namespace VersOne.Epub.Test.Integration.JsonUtils.Configuration
 {
     internal enum PropertyDefaultValue
     {
