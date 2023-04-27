@@ -565,7 +565,6 @@
           "ContentType": "IMAGE_JPEG",
           "ContentMimeType": "image/jpeg"
         },
-        "NavigationHtmlFile": null,
         "Html": {
           "Local": {
             "front.html": {
@@ -603,8 +602,7 @@
               "ContentType": "XHTML_1_1",
               "ContentMimeType": "application/xhtml+xml"
             }
-          },
-          "Remote": {}
+          }
         },
         "Css": {
           "Local": {
@@ -615,8 +613,7 @@
               "ContentType": "CSS",
               "ContentMimeType": "text/css"
             }
-          },
-          "Remote": {}
+          }
         },
         "Images": {
           "Local": {
@@ -634,8 +631,7 @@
               "ContentType": "IMAGE_JPEG",
               "ContentMimeType": "image/jpeg"
             }
-          },
-          "Remote": {}
+          }
         },
         "Fonts": {
           "Local": {
@@ -646,8 +642,7 @@
               "ContentType": "FONT_TRUETYPE",
               "ContentMimeType": "application/x-font-truetype"
             }
-          },
-          "Remote": {}
+          }
         },
         "AllFiles": {
           "Local": {
@@ -763,8 +758,7 @@
               "ContentType": "DTBOOK_NCX",
               "ContentMimeType": "application/x-dtbncx+xml"
             }
-          },
-          "Remote": {}
+          }
         }
       }
     }

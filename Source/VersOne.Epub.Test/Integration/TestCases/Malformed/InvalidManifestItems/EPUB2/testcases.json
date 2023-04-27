@@ -67,8 +67,6 @@
         "ContentDirectoryPath": "Content"
       },
       "Content": {
-        "Cover": null,
-        "NavigationHtmlFile": null,
         "Html": {
           "Local": {
             "chapter1.html": {
@@ -78,20 +76,7 @@
               "ContentType": "XHTML_1_1",
               "ContentMimeType": "application/xhtml+xml"
             }
-          },
-          "Remote": {}
-        },
-        "Css": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Images": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Fonts": {
-          "Local": {},
-          "Remote": {}
+          }
         },
         "AllFiles": {
           "Local": {
@@ -111,8 +96,7 @@
               "ContentType": "DTBOOK_NCX",
               "ContentMimeType": "application/x-dtbncx+xml"
             }
-          },
-          "Remote": {}
+          }
         }
       }
     }

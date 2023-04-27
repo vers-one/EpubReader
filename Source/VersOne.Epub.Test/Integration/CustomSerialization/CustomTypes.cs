@@ -347,6 +347,43 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                     { nameof(Epub3NavSpan.Alt), PropertyDefaultValue.NULL }
                 }
             );
+            yield return CreateType<EpubContent>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubContent.Cover), PropertyDefaultValue.NULL },
+                    { nameof(EpubContent.NavigationHtmlFile), PropertyDefaultValue.NULL },
+                    { nameof(EpubContent.Html), PropertyDefaultValue.EMPTY_OBJECT },
+                    { nameof(EpubContent.Css), PropertyDefaultValue.EMPTY_OBJECT },
+                    { nameof(EpubContent.Images), PropertyDefaultValue.EMPTY_OBJECT },
+                    { nameof(EpubContent.Fonts), PropertyDefaultValue.EMPTY_OBJECT },
+                    { nameof(EpubContent.AllFiles), PropertyDefaultValue.EMPTY_OBJECT }
+                }
+            );
+            yield return CreateType<EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>.Local), PropertyDefaultValue.EMPTY_DICTIONARY },
+                    { nameof(EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>.Remote), PropertyDefaultValue.EMPTY_DICTIONARY }
+                }
+            );
+            yield return CreateType<EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>.Local), PropertyDefaultValue.EMPTY_DICTIONARY },
+                    { nameof(EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>.Remote), PropertyDefaultValue.EMPTY_DICTIONARY }
+                }
+            );
+            yield return CreateType<EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>.Local), PropertyDefaultValue.EMPTY_DICTIONARY },
+                    { nameof(EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>.Remote), PropertyDefaultValue.EMPTY_DICTIONARY }
+                }
+            );
             yield return CreateType<EpubLocalByteContentFile>
             (
                 preserveReferences: true,

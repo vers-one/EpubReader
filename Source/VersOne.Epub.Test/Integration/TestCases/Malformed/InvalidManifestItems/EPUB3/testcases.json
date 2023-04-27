@@ -81,7 +81,6 @@
         "ContentDirectoryPath": "Content"
       },
       "Content": {
-        "Cover": null,
         "NavigationHtmlFile": {
           "$content": "epub://Content/toc.html",
           "FilePath": "Content/toc.html",
@@ -105,20 +104,7 @@
               "ContentType": "XHTML_1_1",
               "ContentMimeType": "application/xhtml+xml"
             }
-          },
-          "Remote": {}
-        },
-        "Css": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Images": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Fonts": {
-          "Local": {},
-          "Remote": {}
+          }
         },
         "AllFiles": {
           "Local": {
@@ -138,8 +124,7 @@
               "ContentType": "XHTML_1_1",
               "ContentMimeType": "application/xhtml+xml"
             }
-          },
-          "Remote": {}
+          }
         }
       }
     }

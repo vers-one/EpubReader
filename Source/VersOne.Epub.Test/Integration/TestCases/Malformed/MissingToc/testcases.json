@@ -41,30 +41,7 @@
         },
         "ContentDirectoryPath": "Content"
       },
-      "Content": {
-        "Cover": null,
-        "NavigationHtmlFile": null,
-        "Html": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Css": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Images": {
-          "Local": {},
-          "Remote": {}
-        },
-        "Fonts": {
-          "Local": {},
-          "Remote": {}
-        },
-        "AllFiles": {
-          "Local": {},
-          "Remote": {}
-        }
-      }
+      "Content": {}
     }
   }
 ]

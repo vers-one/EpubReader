@@ -127,6 +127,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
                                 }
                                 break;
                             case PropertyDefaultValue.EMPTY_OBJECT:
+                            case PropertyDefaultValue.EMPTY_DICTIONARY:
                                 if (serializedProperty is JsonObject serializedObject && serializedObject.Count == 0)
                                 {
                                     return null;

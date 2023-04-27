@@ -5,6 +5,7 @@
         NULL = 1,
         FALSE,
         EMPTY_ARRAY,
-        EMPTY_OBJECT
+        EMPTY_OBJECT,
+        EMPTY_DICTIONARY
     }
 }
