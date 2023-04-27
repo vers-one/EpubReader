@@ -138,7 +138,7 @@ namespace VersOne.Epub
             }
             if (obj is not EpubNarrationTimestamp epubNarrationTimestamp)
             {
-                throw new ArgumentException($"The type of the \"{nameof(obj)}\" parameter must be {nameof(EpubNarrationTimestamp)}", nameof(obj));
+                throw new ArgumentException($"The type of the \"{nameof(obj)}\" parameter must be {nameof(EpubNarrationTimestamp)}.", nameof(obj));
             }
             return CompareTo(epubNarrationTimestamp);
         }

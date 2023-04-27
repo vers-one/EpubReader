@@ -21,7 +21,7 @@ namespace VersOne.Epub.WpfDemo.Utils
         {
             if (!(value is Int32))
             {
-                throw new ArgumentException("value should be Int32");
+                throw new ArgumentException("value should be Int32.");
             }
             int intValue = (int)value;
             return (double)intValue;
@@ -39,7 +39,7 @@ namespace VersOne.Epub.WpfDemo.Utils
         {
             if (!(value is Double))
             {
-                throw new ArgumentException("value should be Double");
+                throw new ArgumentException("value should be Double.");
             }
             return Math.Truncate((double)value);
         }

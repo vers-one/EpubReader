@@ -2,7 +2,7 @@
 {
     public class TestCaseException
     {
-        public TestCaseException(string type, string? message)
+        public TestCaseException(string type, string? message = null)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             Message = message;

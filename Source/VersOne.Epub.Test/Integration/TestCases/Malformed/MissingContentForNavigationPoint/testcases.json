@@ -1,166 +1,151 @@
 [
-    {
-        "Name": "EPUB 2 book with missing 'content' attribute for EPUB 2 NCX navigation point - without options",
-        "Options": null,
-        "ExpectedResult": null,
-        "ExpectedException":
-        {
-            "Type": "Epub2NcxException",
-            "Message": "EPUB parsing error: navigation point \"navpoint-2\" should contain content."
-        }
-    },
-    {
-        "Name": "EPUB 2 book with missing 'content' attribute for EPUB 2 NCX navigation point - with options",
-        "Options":
-        {
-            "Epub2NcxReaderOptions":
-            {
-                "IgnoreMissingContentForNavigationPoints": true
-            }
-        },
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
-            ],
-            "Navigation":
-            [
-                {
-                    "Type": "LINK",
-                    "Title": "Chapter 1",
-                    "Link":
-                    {
-                        "ContentFileName": "chapter1.html",
-                        "ContentFilePath": "Content/chapter1.html"
-                    },
-                    "HtmlContentFile":
-                    {
-                        "Key": "chapter1.html",
-                        "ContentType": "XHTML_1_1",
-                        "ContentMimeType": "application/xhtml+xml",
-                        "FilePath": "Content/chapter1.html",
-                        "$content": "epub://Content/chapter1.html"
-                    }
-                }
-            ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_2",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "item-1",
-                                "Href": "chapter1.html",
-                                "MediaType": "application/xhtml+xml"
-                            },
-                            {
-                                "Id": "ncx",
-                                "Href": "toc.ncx",
-                                "MediaType": "application/x-dtbncx+xml"
-                            }
-                        ]
-                    },
-                    "Spine":
-                    {
-                        "Toc": "ncx"
-                    }
-                },
-                "Epub2Ncx":
-                {
-                    "FilePath": "Content/toc.ncx",
-                    "Head":
-                    {
-                    },
-                    "DocTitle": "Test title",
-                    "DocAuthors":
-                    [
-                        "John Doe"
-                    ],
-                    "NavMap":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "navpoint-1",
-                                "NavigationLabels":
-                                [
-                                    {
-                                        "Text": "Chapter 1"
-                                    }
-                                ],
-                                "Content":
-                                {
-                                    "Source": "chapter1.html"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-                "Html":
-                {
-                    "Local":
-                    {
-                        "chapter1.html":
-                        {
-                            "Key": "chapter1.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/chapter1.html",
-                            "$content": "epub://Content/chapter1.html"
-                        }
-                    }
-                },
-                "AllFiles":
-                {
-                    "Local":
-                    {
-                        "chapter1.html":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "chapter1.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/chapter1.html",
-                            "$content": "epub://Content/chapter1.html"
-                        },
-                        "toc.ncx":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "toc.ncx",
-                            "ContentType": "DTBOOK_NCX",
-                            "ContentMimeType": "application/x-dtbncx+xml",
-                            "FilePath": "Content/toc.ncx",
-                            "$content": "epub://Content/toc.ncx"
-                        }
-                    }
-                }
-            },
-            "$file": "test.epub"
-        },
-        "ExpectedException": null
+  {
+    "Name": "EPUB 2 book with missing 'content' attribute for EPUB 2 NCX navigation point - without options",
+    "Options": null,
+    "ExpectedResult": null,
+    "ExpectedException": {
+      "Type": "Epub2NcxException",
+      "Message": "EPUB parsing error: navigation point \"navpoint-2\" should contain content."
     }
+  },
+  {
+    "Name": "EPUB 2 book with missing 'content' attribute for EPUB 2 NCX navigation point - with options",
+    "Options": {
+      "Epub2NcxReaderOptions": {
+        "IgnoreMissingContentForNavigationPoints": true
+      }
+    },
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Navigation": [
+        {
+          "Type": "LINK",
+          "Title": "Chapter 1",
+          "Link": {
+            "ContentFileName": "chapter1.html",
+            "ContentFilePath": "Content/chapter1.html",
+            "Anchor": null
+          },
+          "HtmlContentFile": {
+            "$content": "epub://Content/chapter1.html",
+            "FilePath": "Content/chapter1.html",
+            "Key": "chapter1.html",
+            "ContentType": "XHTML_1_1",
+            "ContentMimeType": "application/xhtml+xml"
+          }
+        }
+      ],
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_2",
+          "Metadata": {
+            "Titles": [
+              "Test title"
+            ],
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
+            ]
+          },
+          "Manifest": {
+            "Items": [
+              {
+                "Id": "item-1",
+                "Href": "chapter1.html",
+                "MediaType": "application/xhtml+xml"
+              },
+              {
+                "Id": "ncx",
+                "Href": "toc.ncx",
+                "MediaType": "application/x-dtbncx+xml"
+              }
+            ]
+          },
+          "Spine": {
+            "Toc": "ncx"
+          }
+        },
+        "Epub2Ncx": {
+          "FilePath": "Content/toc.ncx",
+          "Head": {},
+          "DocTitle": "Test title",
+          "DocAuthors": [
+            "John Doe"
+          ],
+          "NavMap": {
+            "Items": [
+              {
+                "Id": "navpoint-1",
+                "NavigationLabels": [
+                  {
+                    "Text": "Chapter 1"
+                  }
+                ],
+                "Content": {
+                  "Source": "chapter1.html"
+                }
+              }
+            ]
+          }
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "Cover": null,
+        "NavigationHtmlFile": null,
+        "Html": {
+          "Local": {
+            "chapter1.html": {
+              "$content": "epub://Content/chapter1.html",
+              "FilePath": "Content/chapter1.html",
+              "Key": "chapter1.html",
+              "ContentType": "XHTML_1_1",
+              "ContentMimeType": "application/xhtml+xml"
+            }
+          },
+          "Remote": {}
+        },
+        "Css": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Images": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Fonts": {
+          "Local": {},
+          "Remote": {}
+        },
+        "AllFiles": {
+          "Local": {
+            "chapter1.html": {
+              "$type": "EpubLocalTextContentFile",
+              "$content": "epub://Content/chapter1.html",
+              "FilePath": "Content/chapter1.html",
+              "Key": "chapter1.html",
+              "ContentType": "XHTML_1_1",
+              "ContentMimeType": "application/xhtml+xml"
+            },
+            "toc.ncx": {
+              "$type": "EpubLocalTextContentFile",
+              "$content": "epub://Content/toc.ncx",
+              "FilePath": "Content/toc.ncx",
+              "Key": "toc.ncx",
+              "ContentType": "DTBOOK_NCX",
+              "ContentMimeType": "application/x-dtbncx+xml"
+            }
+          },
+          "Remote": {}
+        }
+      }
+    }
+  }
 ]

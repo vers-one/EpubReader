@@ -1,63 +1,70 @@
 [
-    {
-        "Name": "EPUB 2 book with missing TOC attribute - without options",
-        "Options": null,
-        "ExpectedResult": null,
-        "ExpectedException":
-        {
-            "Type": "EpubPackageException",
-            "Message": "Incorrect EPUB spine: TOC is missing"
-        }
-    },
-    {
-        "Name": "EPUB 2 book with missing TOC attribute - with options",
-        "Options":
-        {
-            "PackageReaderOptions":
-            {
-                "IgnoreMissingToc": true
-            }
-        },
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
-            ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_2",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                    },
-                    "Spine":
-                    {
-                    }
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-            },
-            "$file": "test.epub"
-        },
-        "ExpectedException": null
+  {
+    "Name": "EPUB 2 book with missing TOC attribute - without options",
+    "Options": null,
+    "ExpectedResult": null,
+    "ExpectedException": {
+      "Type": "EpubPackageException",
+      "Message": "Incorrect EPUB spine: TOC is missing."
     }
+  },
+  {
+    "Name": "EPUB 2 book with missing TOC attribute - with options",
+    "Options": {
+      "PackageReaderOptions": {
+        "IgnoreMissingToc": true
+      }
+    },
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_2",
+          "Metadata": {
+            "Titles": [
+              "Test title"
+            ],
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
+            ]
+          },
+          "Manifest": {},
+          "Spine": {}
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "Cover": null,
+        "NavigationHtmlFile": null,
+        "Html": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Css": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Images": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Fonts": {
+          "Local": {},
+          "Remote": {}
+        },
+        "AllFiles": {
+          "Local": {},
+          "Remote": {}
+        }
+      }
+    }
+  }
 ]

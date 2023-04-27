@@ -1,108 +1,102 @@
 [
-    {
-        "Name": "Issue #55: EPUB 2 NCX navigation list parsing issues",
-        "Options": null,
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
+  {
+    "Name": "Issue #55: EPUB 2 NCX navigation list parsing issues",
+    "Options": null,
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Navigation": [],
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_2",
+          "Metadata": {
+            "Titles": [
+              "Test title"
             ],
-            "Navigation":
-            [
-            ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_2",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "ncx",
-                                "Href": "toc.ncx",
-                                "MediaType": "application/x-dtbncx+xml"
-                            }
-                        ]
-                    },
-                    "Spine":
-                    {
-                        "Toc": "ncx"
-                    }
-                },
-                "Epub2Ncx":
-                {
-                    "FilePath": "Content/toc.ncx",
-                    "Head":
-                    {
-                    },
-                    "NavMap":
-                    {
-                    },
-                    "NavLists":
-                    [
-                        {
-                            "Id": "navlist-1",
-                            "NavigationLabels":
-                            [
-                                {
-                                    "Text": "Test label"
-                                }
-                            ],
-                            "NavigationTargets":
-                            [
-                                {
-                                    "Id": "navtarget-1",
-                                    "NavigationLabels":
-                                    [
-                                        {
-                                            "Text": "Test label"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-                "AllFiles":
-                {
-                    "Local":
-                    {
-                        "toc.ncx":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "toc.ncx",
-                            "ContentType": "DTBOOK_NCX",
-                            "ContentMimeType": "application/x-dtbncx+xml",
-                            "FilePath": "Content/toc.ncx",
-                            "$content": "epub://Content/toc.ncx"
-                        }
-                    }
-                }
-            },
-            "$file": "test.epub"
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
+            ]
+          },
+          "Manifest": {
+            "Items": [
+              {
+                "Id": "ncx",
+                "Href": "toc.ncx",
+                "MediaType": "application/x-dtbncx+xml"
+              }
+            ]
+          },
+          "Spine": {
+            "Toc": "ncx"
+          }
         },
-        "ExpectedException": null
+        "Epub2Ncx": {
+          "FilePath": "Content/toc.ncx",
+          "Head": {},
+          "NavMap": {},
+          "NavLists": [
+            {
+              "Id": "navlist-1",
+              "NavigationLabels": [
+                {
+                  "Text": "Test label"
+                }
+              ],
+              "NavigationTargets": [
+                {
+                  "Id": "navtarget-1",
+                  "NavigationLabels": [
+                    {
+                      "Text": "Test label"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "Cover": null,
+        "NavigationHtmlFile": null,
+        "Html": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Css": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Images": {
+          "Local": {},
+          "Remote": {}
+        },
+        "Fonts": {
+          "Local": {},
+          "Remote": {}
+        },
+        "AllFiles": {
+          "Local": {
+            "toc.ncx": {
+              "$type": "EpubLocalTextContentFile",
+              "$content": "epub://Content/toc.ncx",
+              "FilePath": "Content/toc.ncx",
+              "Key": "toc.ncx",
+              "ContentType": "DTBOOK_NCX",
+              "ContentMimeType": "application/x-dtbncx+xml"
+            }
+          },
+          "Remote": {}
+        }
+      }
     }
+  }
 ]

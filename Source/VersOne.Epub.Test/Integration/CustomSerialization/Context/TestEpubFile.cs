@@ -13,7 +13,7 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization.Context
         public TestEpubFile(string testEpubFilePath)
         {
             testEpubArchive = ZipFile.OpenRead(testEpubFilePath);
-            TestCaseDirectoryPath = Path.GetDirectoryName(testEpubFilePath) ?? throw new ArgumentException($"Cannot get directory name for {testEpubFilePath}");
+            TestCaseDirectoryPath = Path.GetDirectoryName(testEpubFilePath) ?? throw new ArgumentException($"Cannot get directory name for {testEpubFilePath}.");
         }
 
         public string TestCaseDirectoryPath { get; }

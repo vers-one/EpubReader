@@ -61,7 +61,7 @@ namespace VersOne.Epub.Test.Integration.Runner
         public void GenerateTestCaseTemplates()
         {
             TestCaseWriter testCaseWriter = new(testCaseSerializer, rootTestCasesDirectory, TEST_CASES_FILE_NAME, TEST_EPUB_FILE_NAME);
-            testCaseWriter.WriteRemoteContentTestCases();
+            testCaseWriter.WriteAllTestCases();
         }
 
         private static List<TestCase>? ReadTestCases(string testCasePath, string testEpubPath)

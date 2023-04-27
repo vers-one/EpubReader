@@ -281,11 +281,11 @@ namespace VersOne.Epub.Internal
             }
             if (href == null)
             {
-                throw new EpubPackageException("Incorrect EPUB metadata link: href is missing");
+                throw new EpubPackageException("Incorrect EPUB metadata link: href is missing.");
             }
             if (relationships == null)
             {
-                throw new EpubPackageException("Incorrect EPUB metadata link: rel is missing");
+                throw new EpubPackageException("Incorrect EPUB metadata link: rel is missing.");
             }
             return new(id, href, mediaType, properties, refines, relationships);
         }
@@ -383,7 +383,7 @@ namespace VersOne.Epub.Internal
                         {
                             continue;
                         }
-                        throw new EpubPackageException("Incorrect EPUB manifest: item ID is missing");
+                        throw new EpubPackageException("Incorrect EPUB manifest: item ID is missing.");
                     }
                     if (href == null)
                     {
@@ -391,7 +391,7 @@ namespace VersOne.Epub.Internal
                         {
                             continue;
                         }
-                        throw new EpubPackageException("Incorrect EPUB manifest: item href is missing");
+                        throw new EpubPackageException("Incorrect EPUB manifest: item href is missing.");
                     }
                     if (mediaType == null)
                     {
@@ -399,7 +399,7 @@ namespace VersOne.Epub.Internal
                         {
                             continue;
                         }
-                        throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing");
+                        throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing.");
                     }
                     items.Add(new EpubManifestItem(id, href, mediaType, mediaOverlay, requiredNamespace, requiredModules, fallback, fallbackStyle, properties));
                 }
@@ -431,7 +431,7 @@ namespace VersOne.Epub.Internal
             }
             if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(toc) && (packageReaderOptions == null || !packageReaderOptions.IgnoreMissingToc))
             {
-                throw new EpubPackageException("Incorrect EPUB spine: TOC is missing");
+                throw new EpubPackageException("Incorrect EPUB spine: TOC is missing.");
             }
             foreach (XElement spineItemNode in spineNode.Elements())
             {
@@ -459,7 +459,7 @@ namespace VersOne.Epub.Internal
                     }
                     if (idRef == null)
                     {
-                        throw new EpubPackageException("Incorrect EPUB spine: item ID ref is missing");
+                        throw new EpubPackageException("Incorrect EPUB spine: item ID ref is missing.");
                     }
                     XAttribute linearAttribute = spineItemNode.Attribute("linear");
                     isLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
@@ -497,11 +497,11 @@ namespace VersOne.Epub.Internal
                     }
                     if (type == null)
                     {
-                        throw new EpubPackageException("Incorrect EPUB guide: item type is missing");
+                        throw new EpubPackageException("Incorrect EPUB guide: item type is missing.");
                     }
                     if (href == null)
                     {
-                        throw new EpubPackageException("Incorrect EPUB guide: item href is missing");
+                        throw new EpubPackageException("Incorrect EPUB guide: item href is missing.");
                     }
                     items.Add(new EpubGuideReference(type, title, href));
                 }

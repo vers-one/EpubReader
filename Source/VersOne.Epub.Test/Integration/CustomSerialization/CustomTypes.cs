@@ -45,6 +45,13 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                     { nameof(TestCase.ExpectedException), PropertyDefaultValue.NULL }
                 }
             );
+            yield return CreateType<TestCaseException>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(TestCaseException.Message), PropertyDefaultValue.NULL }
+                }
+            );
             yield return CreateType<EpubBook>
             (
                 optionalProperties: new()
