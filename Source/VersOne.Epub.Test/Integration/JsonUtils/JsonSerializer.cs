@@ -20,13 +20,13 @@ namespace VersOne.Epub.Test.Integration.JsonUtils
         public JsonNode? Serialize<T>(T? value, JsonSerializationContext? jsonSerializationContext = null)
         {
             TypeSerializer typeSerializer = typeSerializers.Value.GetSerializer(typeof(T));
-            return typeSerializer.Serialize(value, jsonSerializationContext);
+            return typeSerializer.Serialize(value, jsonSerializationContext ?? new JsonSerializationContext());
         }
 
         public T? Deserialize<T>(JsonElement jsonElement, JsonSerializationContext? jsonSerializationContext = null) where T : class
         {
             TypeDeserializer typeDeserializer = typeDeserializers.Value.GetDeserializer(typeof(T));
-            return typeDeserializer.Deserialize(jsonElement, jsonSerializationContext) as T;
+            return typeDeserializer.Deserialize(jsonElement, jsonSerializationContext ?? new JsonSerializationContext()) as T;
         }
     }
 }

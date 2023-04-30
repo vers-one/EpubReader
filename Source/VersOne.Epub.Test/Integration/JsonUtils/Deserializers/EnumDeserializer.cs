@@ -11,7 +11,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
             this.enumType = enumType;
         }
 
-        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext? _)
+        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext _)
         {
             Assert.Equal(JsonValueKind.String, jsonElement.ValueKind);
             string? stringValue = jsonElement.GetString();

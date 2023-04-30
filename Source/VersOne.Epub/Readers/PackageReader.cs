@@ -21,22 +21,15 @@ namespace VersOne.Epub.Internal
 
         public async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
         {
-            IZipFileEntry? rootFileEntry = epubFile.GetEntry(rootFilePath);
-            if (rootFileEntry == null)
-            {
-                throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
-            }
+            IZipFileEntry? rootFileEntry = epubFile.GetEntry(rootFilePath) ?? throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
             XDocument containerDocument;
             using (Stream containerStream = rootFileEntry.Open())
             {
                 containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
-            XElement packageNode = containerDocument.Element(opfNamespace + "package");
-            if (packageNode == null)
-            {
+            XElement packageNode = containerDocument.Element(opfNamespace + "package") ??
                 throw new EpubPackageException("EPUB parsing error: package XML element not found in the package file.");
-            }
             string epubVersionValue = packageNode.Attribute("version").Value;
             EpubVersion epubVersion = epubVersionValue switch
             {
@@ -45,23 +38,11 @@ namespace VersOne.Epub.Internal
                 "3.1" => EpubVersion.EPUB_3_1,
                 _ => throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionValue}\".")
             };
-            XElement metadataNode = packageNode.Element(opfNamespace + "metadata");
-            if (metadataNode == null)
-            {
-                throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
-            }
+            XElement metadataNode = packageNode.Element(opfNamespace + "metadata") ?? throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
             EpubMetadata metadata = ReadMetadata(metadataNode);
-            XElement manifestNode = packageNode.Element(opfNamespace + "manifest");
-            if (manifestNode == null)
-            {
-                throw new EpubPackageException("EPUB parsing error: manifest not found in the package.");
-            }
+            XElement manifestNode = packageNode.Element(opfNamespace + "manifest") ?? throw new EpubPackageException("EPUB parsing error: manifest not found in the package.");
             EpubManifest manifest = ReadManifest(manifestNode, epubReaderOptions.PackageReaderOptions);
-            XElement spineNode = packageNode.Element(opfNamespace + "spine");
-            if (spineNode == null)
-            {
-                throw new EpubPackageException("EPUB parsing error: spine not found in the package.");
-            }
+            XElement spineNode = packageNode.Element(opfNamespace + "spine") ?? throw new EpubPackageException("EPUB parsing error: spine not found in the package.");
             EpubSpine spine = ReadSpine(spineNode, epubVersion, epubReaderOptions.PackageReaderOptions);
             EpubGuide? guide = null;
             XElement guideNode = packageNode.Element(opfNamespace + "guide");

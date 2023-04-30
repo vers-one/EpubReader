@@ -15,7 +15,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
             listItemTypeDeserializer = new Lazy<TypeDeserializer>(() => typeDeserializerCollection.GetDeserializer(listItemType));
         }
 
-        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext? jsonSerializationContext)
+        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext jsonSerializationContext)
         {
             Assert.Equal(JsonValueKind.Array, jsonElement.ValueKind);
             IList? result = Activator.CreateInstance(listType, new object[] { jsonElement.GetArrayLength() }) as IList;

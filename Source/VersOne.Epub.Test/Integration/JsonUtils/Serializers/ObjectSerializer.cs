@@ -8,18 +8,19 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
     internal class ObjectSerializer : TypeSerializer
     {
         private readonly Type objectType;
+        private readonly CustomType? customType;
         private readonly TypeSerializerCollection typeSerializerCollection;
         private readonly Lazy<List<PropertySerializer>> propertySerializers;
 
         public ObjectSerializer(Type objectType, JsonSerializerConfiguration? jsonSerializerConfiguration, TypeSerializerCollection typeSerializerCollection)
         {
             this.objectType = objectType;
+            customType = jsonSerializerConfiguration?.GetCustomType(objectType);
             this.typeSerializerCollection = typeSerializerCollection;
-            propertySerializers = new Lazy<List<PropertySerializer>>(() =>
-                CreatePropertySerializers(objectType, jsonSerializerConfiguration?.GetCustomType(objectType), typeSerializerCollection));
+            propertySerializers = new Lazy<List<PropertySerializer>>(() => CreatePropertySerializers(objectType, customType, typeSerializerCollection));
         }
 
-        public override JsonNode? Serialize(object? value, JsonSerializationContext? jsonSerializationContext)
+        public override JsonNode? Serialize(object? value, JsonSerializationContext jsonSerializationContext)
         {
             if (value == null)
             {
@@ -31,21 +32,37 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
                 Type actualType = value.GetType();
                 if (actualType != objectType)
                 {
-                    result.Add(Constants.TYPE_PROPERTY_NAME, actualType.Name);
                     ObjectSerializer? actualTypeSerializer = typeSerializerCollection.GetSerializer(actualType) as ObjectSerializer;
                     Assert.NotNull(actualTypeSerializer);
-                    actualTypeSerializer.SerializeIntoJsonObject(value, jsonSerializationContext, result);
+                    actualTypeSerializer.SerializeIntoJsonObject(value, true, jsonSerializationContext, result);
                 }
                 else
                 {
-                    SerializeIntoJsonObject(value, jsonSerializationContext, result);
+                    SerializeIntoJsonObject(value, false, jsonSerializationContext, result);
                 }
                 return result;
             }
         }
 
-        private void SerializeIntoJsonObject(object value, JsonSerializationContext? jsonSerializationContext, JsonObject result)
+        private void SerializeIntoJsonObject(object value, bool writeTypeName, JsonSerializationContext jsonSerializationContext, JsonObject result)
         {
+            if (customType?.PreserveReferences == true)
+            {
+                (int referenceNumber, bool isDuplicateReference) = jsonSerializationContext.GetReferenceNumber(value);
+                if (isDuplicateReference)
+                {
+                    result.Add(Constants.DUPLICATE_REFERENCE_NUMBER_PROPERTY_NAME, referenceNumber);
+                    return;
+                }
+                else
+                {
+                    result.Add(Constants.NEW_REFERENCE_NUMBER_PROPERTY_NAME, referenceNumber);
+                }
+            }
+            if (writeTypeName)
+            {
+                result.Add(Constants.TYPE_PROPERTY_NAME, objectType.Name);
+            }
             foreach (PropertySerializer propertySerializer in propertySerializers.Value)
             {
                 JsonNode? serializedProperty;
@@ -80,7 +97,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
                     if (customProperty.UsesCustomSerialization)
                     {
                         result.Add(new PropertySerializer(propertyName, customProperty.JsonPropertyName,
-                            (object _, JsonSerializationContext? _) =>
+                            (object _, JsonSerializationContext _) =>
                                 throw new InvalidOperationException($"Custom serializer should be obtained for property {propertyName} in the type {type.Name}."),
                             skipPropertyIfValueIsNull: false, obtainCustomSerializer: true));
                         continue;
@@ -97,42 +114,42 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
                 Expression propertyValueCastToObjectExpression = Expression.Convert(getPropertyValueExpression, typeof(object));
                 Func<object, object?> propertyAccessor = Expression.Lambda<Func<object, object?>>(propertyValueCastToObjectExpression, inputParameterExpression).Compile();
                 TypeSerializer propertyTypeSerializer = typeSerializerCollection.GetSerializer(propertyType);
-                Func<object?, JsonSerializationContext?, JsonNode?> propertyValueSerializer = propertyTypeSerializer.Serialize;
-                JsonNode? propertySerializer(object @object, JsonSerializationContext? jsonSerializationContext) =>
+                Func<object?, JsonSerializationContext, JsonNode?> propertyValueSerializer = propertyTypeSerializer.Serialize;
+                JsonNode? propertySerializer(object @object, JsonSerializationContext jsonSerializationContext) =>
                     propertyValueSerializer(propertyAccessor(@object), jsonSerializationContext);
                 PropertyDefaultValue? propertyDefaultValue = customProperty?.OptionalPropertyValue;
                 if (propertyDefaultValue != null)
                 {
-                    JsonNode? optionalPropertySerializer(object @object, JsonSerializationContext? jsonSerializationContext)
+                    JsonNode? optionalPropertySerializer(object @object, JsonSerializationContext jsonSerializationContext)
                     {
                         JsonNode? serializedProperty = propertySerializer(@object, jsonSerializationContext);
-                        switch (propertyDefaultValue)
+                        if (propertyDefaultValue?.HasFlag(PropertyDefaultValue.NULL) == true)
                         {
-                            case PropertyDefaultValue.NULL:
-                                if (serializedProperty == null)
-                                {
-                                    return null;
-                                }
-                                break;
-                            case PropertyDefaultValue.FALSE:
-                                if (serializedProperty is JsonValue serializedValue && serializedValue.TryGetValue(out bool booleanValue) && booleanValue == false)
-                                {
-                                    return null;
-                                }
-                                break;
-                            case PropertyDefaultValue.EMPTY_ARRAY:
-                                if (serializedProperty is JsonArray serializedArray && serializedArray.Count == 0)
-                                {
-                                    return null;
-                                }
-                                break;
-                            case PropertyDefaultValue.EMPTY_OBJECT:
-                            case PropertyDefaultValue.EMPTY_DICTIONARY:
-                                if (serializedProperty is JsonObject serializedObject && serializedObject.Count == 0)
-                                {
-                                    return null;
-                                }
-                                break;
+                            if (serializedProperty == null)
+                            {
+                                return null;
+                            }
+                        }
+                        if (propertyDefaultValue?.HasFlag(PropertyDefaultValue.FALSE) == true)
+                        {
+                            if (serializedProperty is JsonValue serializedValue && serializedValue.TryGetValue(out bool booleanValue) && booleanValue == false)
+                            {
+                                return null;
+                            }
+                        }
+                        if (propertyDefaultValue?.HasFlag(PropertyDefaultValue.EMPTY_ARRAY) == true)
+                        {
+                            if (serializedProperty is JsonArray serializedArray && serializedArray.Count == 0)
+                            {
+                                return null;
+                            }
+                        }
+                        if (propertyDefaultValue?.HasFlag(PropertyDefaultValue.EMPTY_OBJECT) == true || propertyDefaultValue?.HasFlag(PropertyDefaultValue.EMPTY_DICTIONARY) == true)
+                        {
+                            if (serializedProperty is JsonObject serializedObject && serializedObject.Count == 0)
+                            {
+                                return null;
+                            }
                         }
                         return serializedProperty;
                     }

@@ -7,24 +7,34 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
     internal class ObjectDeserializer : TypeDeserializer
     {
         private readonly Type objectType;
+        private readonly CustomType? customType;
         private readonly TypeDeserializerCollection typeDeserializerCollection;
         private readonly Lazy<ObjectPropertyDeserializerCollection> propertyDeserializers;
 
         public ObjectDeserializer(Type objectType, JsonSerializerConfiguration? jsonSerializerConfiguration, TypeDeserializerCollection typeDeserializerCollection)
         {
             this.objectType = objectType;
+            customType = jsonSerializerConfiguration?.GetCustomType(objectType);
             this.typeDeserializerCollection = typeDeserializerCollection;
-            propertyDeserializers = new Lazy<ObjectPropertyDeserializerCollection>(() =>
-                CreatePropertyDeserializers(objectType, jsonSerializerConfiguration?.GetCustomType(objectType), typeDeserializerCollection));
+            propertyDeserializers = new Lazy<ObjectPropertyDeserializerCollection>(() => CreatePropertyDeserializers(objectType, customType, typeDeserializerCollection));
         }
 
-        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext? jsonSerializationContext)
+        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext jsonSerializationContext)
         {
             if (jsonElement.ValueKind == JsonValueKind.Null)
             {
                 return null;
             }
             Assert.Equal(JsonValueKind.Object, jsonElement.ValueKind);
+            if (jsonElement.TryGetProperty(Constants.DUPLICATE_REFERENCE_NUMBER_PROPERTY_NAME, out JsonElement duplicateReferenceNumberProperty))
+            {
+                if (duplicateReferenceNumberProperty.ValueKind != JsonValueKind.Number)
+                {
+                    throw new ArgumentException($"The value for the {Constants.DUPLICATE_REFERENCE_NUMBER_PROPERTY_NAME} property must be a number.");
+                }
+                int duplicateReferenceNumber = duplicateReferenceNumberProperty.GetInt32();
+                return jsonSerializationContext.GetExistingReference(duplicateReferenceNumber);
+            }
             if (objectType.IsAbstract)
             {
                 if (!jsonElement.TryGetProperty(Constants.TYPE_PROPERTY_NAME, out JsonElement typeProperty) || typeProperty.ValueKind == JsonValueKind.Null)
@@ -45,6 +55,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
                 constructorParametersValues[i] = DeserializeProperty(jsonElement, constructorParameterDeserializer, jsonSerializationContext);
             }
             object? result = Activator.CreateInstance(objectType, constructorParametersValues);
+            Assert.NotNull(result);
             foreach (PropertyDeserializer standalonePropertyDeserializer in propertyDeserializers.Value.StandalonePropertyDeserializers)
             {
                 object? propertyValue = DeserializeProperty(jsonElement, standalonePropertyDeserializer, jsonSerializationContext);
@@ -55,10 +66,24 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
                     propertyInfo.SetValue(result, propertyValue);
                 }
             }
+            if (customType?.PreserveReferences == true)
+            {
+                if (!jsonElement.TryGetProperty(Constants.NEW_REFERENCE_NUMBER_PROPERTY_NAME, out JsonElement newReferenceNumberProperty))
+                {
+                    throw new ArgumentException($"Either {Constants.NEW_REFERENCE_NUMBER_PROPERTY_NAME} or {Constants.DUPLICATE_REFERENCE_NUMBER_PROPERTY_NAME} property" +
+                        $" must be present for type {objectType.Name}.");
+                }
+                if (newReferenceNumberProperty.ValueKind != JsonValueKind.Number)
+                {
+                    throw new ArgumentException($"The value for the {Constants.NEW_REFERENCE_NUMBER_PROPERTY_NAME} property must be a number.");
+                }
+                int newReferenceNumber = newReferenceNumberProperty.GetInt32();
+                jsonSerializationContext.AddReference(newReferenceNumber, result);
+            }
             return result;
         }
 
-        private object? DeserializeProperty(JsonElement objectJsonElement, PropertyDeserializer propertyDeserializer, JsonSerializationContext? jsonSerializationContext)
+        private object? DeserializeProperty(JsonElement objectJsonElement, PropertyDeserializer propertyDeserializer, JsonSerializationContext jsonSerializationContext)
         {
             if (!objectJsonElement.TryGetProperty(propertyDeserializer.JsonPropertyName, out JsonElement serializedPropertyValue) ||
                 serializedPropertyValue.ValueKind == JsonValueKind.Null)
@@ -118,7 +143,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
                 if (customProperty.UsesCustomSerialization)
                 {
                     return new PropertyDeserializer(propertyName, customProperty.JsonPropertyName,
-                        (JsonElement _, JsonSerializationContext? _) =>
+                        (JsonElement _, JsonSerializationContext _) =>
                             throw new InvalidOperationException($"Custom deserializer should be obtained for property {propertyName} in the type {type.Name}."),
                         obtainCustomDeserializer: true);
                 }

@@ -13,7 +13,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
             underlyingTypeSerializer = new Lazy<TypeSerializer>(() => typeSerializerCollection.GetSerializer(underlyingType));
         }
 
-        public override JsonNode? Serialize(object? value, JsonSerializationContext? testCasesSerializationContext)
+        public override JsonNode? Serialize(object? value, JsonSerializationContext testCasesSerializationContext)
         {
             return underlyingTypeSerializer.Value.Serialize(value, testCasesSerializationContext);
         }

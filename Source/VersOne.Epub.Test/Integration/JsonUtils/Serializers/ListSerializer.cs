@@ -13,7 +13,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
             declaredListItemTypeSerializer = new Lazy<TypeSerializer>(() => typeSerializerCollection.GetSerializer(declaredListItemType));
         }
 
-        public override JsonNode? Serialize(object? value, JsonSerializationContext? jsonSerializationContext)
+        public override JsonNode? Serialize(object? value, JsonSerializationContext jsonSerializationContext)
         {
             if (value is not IList list)
             {

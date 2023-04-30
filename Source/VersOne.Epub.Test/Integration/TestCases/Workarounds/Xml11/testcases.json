@@ -14,6 +14,17 @@
         "SkipXmlHeaders": true
       }
     },
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.ncx",
+        "FilePath": "Content/toc.ncx",
+        "Key": "toc.ncx",
+        "ContentType": "DTBOOK_NCX",
+        "ContentMimeType": "application/x-dtbncx+xml"
+      }
+    ],
     "ExpectedResult": {
       "$file": "test.epub",
       "Title": "Test title",
@@ -64,12 +75,7 @@
         "AllFiles": {
           "Local": {
             "toc.ncx": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/toc.ncx",
-              "FilePath": "Content/toc.ncx",
-              "Key": "toc.ncx",
-              "ContentType": "DTBOOK_NCX",
-              "ContentMimeType": "application/x-dtbncx+xml"
+              "$ref": 1
             }
           }
         }

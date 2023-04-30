@@ -42,6 +42,7 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
             (
                 optionalProperties: new()
                 {
+                    { nameof(TestCase.ContentFiles), PropertyDefaultValue.NULL | PropertyDefaultValue.EMPTY_ARRAY },
                     { nameof(TestCase.ExpectedException), PropertyDefaultValue.NULL }
                 }
             );

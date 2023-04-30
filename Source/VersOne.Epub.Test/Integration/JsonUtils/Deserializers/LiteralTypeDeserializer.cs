@@ -4,7 +4,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
 {
     internal class LiteralTypeDeserializer : TypeDeserializer
     {
-        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext? _)
+        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext _)
         {
             return jsonElement.ValueKind switch
             {

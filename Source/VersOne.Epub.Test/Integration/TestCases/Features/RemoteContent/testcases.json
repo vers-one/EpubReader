@@ -2,6 +2,89 @@
   {
     "Name": "EPUB 3 book with remote content files - without options",
     "Options": null,
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter.html",
+        "FilePath": "Content/chapter.html",
+        "Key": "chapter.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 2,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.html",
+        "FilePath": "Content/toc.html",
+        "Key": "toc.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 3,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/styles.css",
+        "FilePath": "Content/styles.css",
+        "Key": "styles.css",
+        "ContentType": "CSS",
+        "ContentMimeType": "text/css"
+      },
+      {
+        "$id": 4,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/cover.jpg",
+        "FilePath": "Content/cover.jpg",
+        "Key": "cover.jpg",
+        "ContentType": "IMAGE_JPEG",
+        "ContentMimeType": "image/jpeg"
+      },
+      {
+        "$id": 5,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/font.ttf",
+        "FilePath": "Content/font.ttf",
+        "Key": "font.ttf",
+        "ContentType": "FONT_TRUETYPE",
+        "ContentMimeType": "application/x-font-truetype"
+      },
+      {
+        "$id": 6,
+        "$type": "EpubRemoteTextContentFile",
+        "$content": null,
+        "Url": "https://os.vers.one/EpubReader/toc.html",
+        "Key": "https://os.vers.one/EpubReader/toc.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 7,
+        "$type": "EpubRemoteTextContentFile",
+        "$content": null,
+        "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "ContentType": "CSS",
+        "ContentMimeType": "text/css"
+      },
+      {
+        "$id": 8,
+        "$type": "EpubRemoteByteContentFile",
+        "$content": null,
+        "Url": "https://os.vers.one/EpubReader/images/logo.svg",
+        "Key": "https://os.vers.one/EpubReader/images/logo.svg",
+        "ContentType": "IMAGE_SVG",
+        "ContentMimeType": "image/svg+xml"
+      },
+      {
+        "$id": 9,
+        "$type": "EpubRemoteByteContentFile",
+        "$content": null,
+        "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "ContentType": "FONT_TRUETYPE",
+        "ContentMimeType": "application/x-font-truetype"
+      }
+    ],
     "ExpectedResult": {
       "$file": "test.epub",
       "Title": "Test title",
@@ -114,181 +197,92 @@
       },
       "Content": {
         "Cover": {
-          "$content": "epub://Content/cover.jpg",
-          "FilePath": "Content/cover.jpg",
-          "Key": "cover.jpg",
-          "ContentType": "IMAGE_JPEG",
-          "ContentMimeType": "image/jpeg"
+          "$ref": 4
         },
         "NavigationHtmlFile": {
-          "$content": "epub://Content/toc.html",
-          "FilePath": "Content/toc.html",
-          "Key": "toc.html",
-          "ContentType": "XHTML_1_1",
-          "ContentMimeType": "application/xhtml+xml"
+          "$ref": 2
         },
         "Html": {
           "Local": {
             "chapter.html": {
-              "$content": "epub://Content/chapter.html",
-              "FilePath": "Content/chapter.html",
-              "Key": "chapter.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 1
             },
             "toc.html": {
-              "$content": "epub://Content/toc.html",
-              "FilePath": "Content/toc.html",
-              "Key": "toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 2
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/toc.html": {
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/toc.html",
-              "Key": "https://os.vers.one/EpubReader/toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 6
             }
           }
         },
         "Css": {
           "Local": {
             "styles.css": {
-              "$content": "epub://Content/styles.css",
-              "FilePath": "Content/styles.css",
-              "Key": "styles.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 3
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/styles/docfx.css": {
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 7
             }
           }
         },
         "Images": {
           "Local": {
             "cover.jpg": {
-              "$content": "epub://Content/cover.jpg",
-              "FilePath": "Content/cover.jpg",
-              "Key": "cover.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 4
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/images/logo.svg": {
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/images/logo.svg",
-              "Key": "https://os.vers.one/EpubReader/images/logo.svg",
-              "ContentType": "IMAGE_SVG",
-              "ContentMimeType": "image/svg+xml"
+              "$ref": 8
             }
           }
         },
         "Fonts": {
           "Local": {
             "font.ttf": {
-              "$content": "epub://Content/font.ttf",
-              "FilePath": "Content/font.ttf",
-              "Key": "font.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 5
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 9
             }
           }
         },
         "AllFiles": {
           "Local": {
             "chapter.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/chapter.html",
-              "FilePath": "Content/chapter.html",
-              "Key": "chapter.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 1
             },
             "toc.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/toc.html",
-              "FilePath": "Content/toc.html",
-              "Key": "toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 2
             },
             "styles.css": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/styles.css",
-              "FilePath": "Content/styles.css",
-              "Key": "styles.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 3
             },
             "cover.jpg": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/cover.jpg",
-              "FilePath": "Content/cover.jpg",
-              "Key": "cover.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 4
             },
             "font.ttf": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/font.ttf",
-              "FilePath": "Content/font.ttf",
-              "Key": "font.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 5
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/toc.html": {
-              "$type": "EpubRemoteTextContentFile",
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/toc.html",
-              "Key": "https://os.vers.one/EpubReader/toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 6
             },
             "https://os.vers.one/EpubReader/styles/docfx.css": {
-              "$type": "EpubRemoteTextContentFile",
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 7
             },
             "https://os.vers.one/EpubReader/images/logo.svg": {
-              "$type": "EpubRemoteByteContentFile",
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/images/logo.svg",
-              "Key": "https://os.vers.one/EpubReader/images/logo.svg",
-              "ContentType": "IMAGE_SVG",
-              "ContentMimeType": "image/svg+xml"
+              "$ref": 8
             },
             "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
-              "$type": "EpubRemoteByteContentFile",
-              "$content": null,
-              "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 9
             }
           }
         }
@@ -303,6 +297,89 @@
         "DownloaderUserAgent": "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)"
       }
     },
+    "ContentFiles": [
+      {
+        "$id": 10,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter.html",
+        "FilePath": "Content/chapter.html",
+        "Key": "chapter.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 11,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.html",
+        "FilePath": "Content/toc.html",
+        "Key": "toc.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 12,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/styles.css",
+        "FilePath": "Content/styles.css",
+        "Key": "styles.css",
+        "ContentType": "CSS",
+        "ContentMimeType": "text/css"
+      },
+      {
+        "$id": 13,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/cover.jpg",
+        "FilePath": "Content/cover.jpg",
+        "Key": "cover.jpg",
+        "ContentType": "IMAGE_JPEG",
+        "ContentMimeType": "image/jpeg"
+      },
+      {
+        "$id": 14,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/font.ttf",
+        "FilePath": "Content/font.ttf",
+        "Key": "font.ttf",
+        "ContentType": "FONT_TRUETYPE",
+        "ContentMimeType": "application/x-font-truetype"
+      },
+      {
+        "$id": 15,
+        "$type": "EpubRemoteTextContentFile",
+        "$content": "https://os.vers.one/EpubReader/toc.html",
+        "Url": "https://os.vers.one/EpubReader/toc.html",
+        "Key": "https://os.vers.one/EpubReader/toc.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 16,
+        "$type": "EpubRemoteTextContentFile",
+        "$content": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "ContentType": "CSS",
+        "ContentMimeType": "text/css"
+      },
+      {
+        "$id": 17,
+        "$type": "EpubRemoteByteContentFile",
+        "$content": "https://os.vers.one/EpubReader/images/logo.svg",
+        "Url": "https://os.vers.one/EpubReader/images/logo.svg",
+        "Key": "https://os.vers.one/EpubReader/images/logo.svg",
+        "ContentType": "IMAGE_SVG",
+        "ContentMimeType": "image/svg+xml"
+      },
+      {
+        "$id": 18,
+        "$type": "EpubRemoteByteContentFile",
+        "$content": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "ContentType": "FONT_TRUETYPE",
+        "ContentMimeType": "application/x-font-truetype"
+      }
+    ],
     "ExpectedResult": {
       "$file": "test.epub",
       "Title": "Test title",
@@ -415,181 +492,92 @@
       },
       "Content": {
         "Cover": {
-          "$content": "epub://Content/cover.jpg",
-          "FilePath": "Content/cover.jpg",
-          "Key": "cover.jpg",
-          "ContentType": "IMAGE_JPEG",
-          "ContentMimeType": "image/jpeg"
+          "$ref": 13
         },
         "NavigationHtmlFile": {
-          "$content": "epub://Content/toc.html",
-          "FilePath": "Content/toc.html",
-          "Key": "toc.html",
-          "ContentType": "XHTML_1_1",
-          "ContentMimeType": "application/xhtml+xml"
+          "$ref": 11
         },
         "Html": {
           "Local": {
             "chapter.html": {
-              "$content": "epub://Content/chapter.html",
-              "FilePath": "Content/chapter.html",
-              "Key": "chapter.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 10
             },
             "toc.html": {
-              "$content": "epub://Content/toc.html",
-              "FilePath": "Content/toc.html",
-              "Key": "toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 11
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/toc.html": {
-              "$content": "https://os.vers.one/EpubReader/toc.html",
-              "Url": "https://os.vers.one/EpubReader/toc.html",
-              "Key": "https://os.vers.one/EpubReader/toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 15
             }
           }
         },
         "Css": {
           "Local": {
             "styles.css": {
-              "$content": "epub://Content/styles.css",
-              "FilePath": "Content/styles.css",
-              "Key": "styles.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 12
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/styles/docfx.css": {
-              "$content": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 16
             }
           }
         },
         "Images": {
           "Local": {
             "cover.jpg": {
-              "$content": "epub://Content/cover.jpg",
-              "FilePath": "Content/cover.jpg",
-              "Key": "cover.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 13
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/images/logo.svg": {
-              "$content": "https://os.vers.one/EpubReader/images/logo.svg",
-              "Url": "https://os.vers.one/EpubReader/images/logo.svg",
-              "Key": "https://os.vers.one/EpubReader/images/logo.svg",
-              "ContentType": "IMAGE_SVG",
-              "ContentMimeType": "image/svg+xml"
+              "$ref": 17
             }
           }
         },
         "Fonts": {
           "Local": {
             "font.ttf": {
-              "$content": "epub://Content/font.ttf",
-              "FilePath": "Content/font.ttf",
-              "Key": "font.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 14
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
-              "$content": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 18
             }
           }
         },
         "AllFiles": {
           "Local": {
             "chapter.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/chapter.html",
-              "FilePath": "Content/chapter.html",
-              "Key": "chapter.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 10
             },
             "toc.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/toc.html",
-              "FilePath": "Content/toc.html",
-              "Key": "toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 11
             },
             "styles.css": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/styles.css",
-              "FilePath": "Content/styles.css",
-              "Key": "styles.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 12
             },
             "cover.jpg": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/cover.jpg",
-              "FilePath": "Content/cover.jpg",
-              "Key": "cover.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 13
             },
             "font.ttf": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/font.ttf",
-              "FilePath": "Content/font.ttf",
-              "Key": "font.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 14
             }
           },
           "Remote": {
             "https://os.vers.one/EpubReader/toc.html": {
-              "$type": "EpubRemoteTextContentFile",
-              "$content": "https://os.vers.one/EpubReader/toc.html",
-              "Url": "https://os.vers.one/EpubReader/toc.html",
-              "Key": "https://os.vers.one/EpubReader/toc.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 15
             },
             "https://os.vers.one/EpubReader/styles/docfx.css": {
-              "$type": "EpubRemoteTextContentFile",
-              "$content": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 16
             },
             "https://os.vers.one/EpubReader/images/logo.svg": {
-              "$type": "EpubRemoteByteContentFile",
-              "$content": "https://os.vers.one/EpubReader/images/logo.svg",
-              "Url": "https://os.vers.one/EpubReader/images/logo.svg",
-              "Key": "https://os.vers.one/EpubReader/images/logo.svg",
-              "ContentType": "IMAGE_SVG",
-              "ContentMimeType": "image/svg+xml"
+              "$ref": 17
             },
             "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
-              "$type": "EpubRemoteByteContentFile",
-              "$content": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 18
             }
           }
         }

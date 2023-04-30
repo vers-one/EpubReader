@@ -15,6 +15,26 @@
         "SkipInvalidManifestItems": true
       }
     },
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter1.html",
+        "FilePath": "Content/chapter1.html",
+        "Key": "chapter1.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 2,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.ncx",
+        "FilePath": "Content/toc.ncx",
+        "Key": "toc.ncx",
+        "ContentType": "DTBOOK_NCX",
+        "ContentMimeType": "application/x-dtbncx+xml"
+      }
+    ],
     "ExpectedResult": {
       "$file": "test.epub",
       "Title": "Test title",
@@ -70,31 +90,17 @@
         "Html": {
           "Local": {
             "chapter1.html": {
-              "$content": "epub://Content/chapter1.html",
-              "FilePath": "Content/chapter1.html",
-              "Key": "chapter1.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 1
             }
           }
         },
         "AllFiles": {
           "Local": {
             "chapter1.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/chapter1.html",
-              "FilePath": "Content/chapter1.html",
-              "Key": "chapter1.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 1
             },
             "toc.ncx": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/toc.ncx",
-              "FilePath": "Content/toc.ncx",
-              "Key": "toc.ncx",
-              "ContentType": "DTBOOK_NCX",
-              "ContentMimeType": "application/x-dtbncx+xml"
+              "$ref": 2
             }
           }
         }

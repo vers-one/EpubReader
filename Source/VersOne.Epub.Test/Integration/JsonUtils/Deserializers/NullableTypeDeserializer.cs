@@ -13,7 +13,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
             underlyingTypeDeserializer = new Lazy<TypeDeserializer>(() => typeDeserializerCollection.GetDeserializer(underlyingType));
         }
 
-        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext? jsonSerializationContext)
+        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext jsonSerializationContext)
         {
             return underlyingTypeDeserializer.Value.Deserialize(jsonElement, jsonSerializationContext);
         }

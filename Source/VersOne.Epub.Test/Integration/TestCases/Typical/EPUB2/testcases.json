@@ -2,6 +2,134 @@
   {
     "Name": "Typical EPUB 2 book",
     "Options": null,
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/front.html",
+        "FilePath": "Content/front.html",
+        "Key": "front.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 2,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/cover.html",
+        "FilePath": "Content/cover.html",
+        "Key": "cover.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 3,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter1.html",
+        "FilePath": "Content/chapter1.html",
+        "Key": "chapter1.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 4,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter2.html",
+        "FilePath": "Content/chapter2.html",
+        "Key": "chapter2.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 5,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter3.html",
+        "FilePath": "Content/chapter3.html",
+        "Key": "chapter3.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 6,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/styles.css",
+        "FilePath": "Content/styles.css",
+        "Key": "styles.css",
+        "ContentType": "CSS",
+        "ContentMimeType": "text/css"
+      },
+      {
+        "$id": 7,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/cover.jpg",
+        "FilePath": "Content/cover.jpg",
+        "Key": "cover.jpg",
+        "ContentType": "IMAGE_JPEG",
+        "ContentMimeType": "image/jpeg"
+      },
+      {
+        "$id": 8,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/image.jpg",
+        "FilePath": "Content/image.jpg",
+        "Key": "image.jpg",
+        "ContentType": "IMAGE_JPEG",
+        "ContentMimeType": "image/jpeg"
+      },
+      {
+        "$id": 9,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/font.ttf",
+        "FilePath": "Content/font.ttf",
+        "Key": "font.ttf",
+        "ContentType": "FONT_TRUETYPE",
+        "ContentMimeType": "application/x-font-truetype"
+      },
+      {
+        "$id": 10,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/chapter1-audio.mp3",
+        "FilePath": "Content/chapter1-audio.mp3",
+        "Key": "chapter1-audio.mp3",
+        "ContentType": "OTHER",
+        "ContentMimeType": "audio/mpeg"
+      },
+      {
+        "$id": 11,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/chapter2.xml",
+        "FilePath": "Content/chapter2.xml",
+        "Key": "chapter2.xml",
+        "ContentType": "OTHER",
+        "ContentMimeType": "text/example+xml"
+      },
+      {
+        "$id": 12,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/chapter3.xml",
+        "FilePath": "Content/chapter3.xml",
+        "Key": "chapter3.xml",
+        "ContentType": "OTHER",
+        "ContentMimeType": "application/z3998-auth+xml"
+      },
+      {
+        "$id": 13,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/title.mp3",
+        "FilePath": "Content/title.mp3",
+        "Key": "title.mp3",
+        "ContentType": "OTHER",
+        "ContentMimeType": "audio/mpeg"
+      },
+      {
+        "$id": 14,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.ncx",
+        "FilePath": "Content/toc.ncx",
+        "Key": "toc.ncx",
+        "ContentType": "DTBOOK_NCX",
+        "ContentMimeType": "application/x-dtbncx+xml"
+      }
+    ],
     "ExpectedResult": {
       "$file": "test.epub",
       "Title": "Test title 1",
@@ -14,32 +142,16 @@
       "$cover": "epub://Content/cover.jpg",
       "ReadingOrder": [
         {
-          "$content": "epub://Content/front.html",
-          "FilePath": "Content/front.html",
-          "Key": "front.html",
-          "ContentType": "XHTML_1_1",
-          "ContentMimeType": "application/xhtml+xml"
+          "$ref": 1
         },
         {
-          "$content": "epub://Content/chapter1.html",
-          "FilePath": "Content/chapter1.html",
-          "Key": "chapter1.html",
-          "ContentType": "XHTML_1_1",
-          "ContentMimeType": "application/xhtml+xml"
+          "$ref": 3
         },
         {
-          "$content": "epub://Content/chapter2.html",
-          "FilePath": "Content/chapter2.html",
-          "Key": "chapter2.html",
-          "ContentType": "XHTML_1_1",
-          "ContentMimeType": "application/xhtml+xml"
+          "$ref": 4
         },
         {
-          "$content": "epub://Content/chapter3.html",
-          "FilePath": "Content/chapter3.html",
-          "Key": "chapter3.html",
-          "ContentType": "XHTML_1_1",
-          "ContentMimeType": "application/xhtml+xml"
+          "$ref": 5
         }
       ],
       "Navigation": [
@@ -52,11 +164,7 @@
             "Anchor": null
           },
           "HtmlContentFile": {
-            "$content": "epub://Content/chapter1.html",
-            "FilePath": "Content/chapter1.html",
-            "Key": "chapter1.html",
-            "ContentType": "XHTML_1_1",
-            "ContentMimeType": "application/xhtml+xml"
+            "$ref": 3
           },
           "NestedItems": [
             {
@@ -68,11 +176,7 @@
                 "Anchor": "section-1"
               },
               "HtmlContentFile": {
-                "$content": "epub://Content/chapter1.html",
-                "FilePath": "Content/chapter1.html",
-                "Key": "chapter1.html",
-                "ContentType": "XHTML_1_1",
-                "ContentMimeType": "application/xhtml+xml"
+                "$ref": 3
               }
             },
             {
@@ -84,11 +188,7 @@
                 "Anchor": "section-2"
               },
               "HtmlContentFile": {
-                "$content": "epub://Content/chapter1.html",
-                "FilePath": "Content/chapter1.html",
-                "Key": "chapter1.html",
-                "ContentType": "XHTML_1_1",
-                "ContentMimeType": "application/xhtml+xml"
+                "$ref": 3
               }
             }
           ]
@@ -102,11 +202,7 @@
             "Anchor": null
           },
           "HtmlContentFile": {
-            "$content": "epub://Content/chapter2.html",
-            "FilePath": "Content/chapter2.html",
-            "Key": "chapter2.html",
-            "ContentType": "XHTML_1_1",
-            "ContentMimeType": "application/xhtml+xml"
+            "$ref": 4
           }
         },
         {
@@ -118,11 +214,7 @@
             "Anchor": null
           },
           "HtmlContentFile": {
-            "$content": "epub://Content/chapter3.html",
-            "FilePath": "Content/chapter3.html",
-            "Key": "chapter3.html",
-            "ContentType": "XHTML_1_1",
-            "ContentMimeType": "application/xhtml+xml"
+            "$ref": 5
           }
         }
       ],
@@ -559,204 +651,94 @@
       },
       "Content": {
         "Cover": {
-          "$content": "epub://Content/cover.jpg",
-          "FilePath": "Content/cover.jpg",
-          "Key": "cover.jpg",
-          "ContentType": "IMAGE_JPEG",
-          "ContentMimeType": "image/jpeg"
+          "$ref": 7
         },
         "Html": {
           "Local": {
             "front.html": {
-              "$content": "epub://Content/front.html",
-              "FilePath": "Content/front.html",
-              "Key": "front.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 1
             },
             "cover.html": {
-              "$content": "epub://Content/cover.html",
-              "FilePath": "Content/cover.html",
-              "Key": "cover.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 2
             },
             "chapter1.html": {
-              "$content": "epub://Content/chapter1.html",
-              "FilePath": "Content/chapter1.html",
-              "Key": "chapter1.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 3
             },
             "chapter2.html": {
-              "$content": "epub://Content/chapter2.html",
-              "FilePath": "Content/chapter2.html",
-              "Key": "chapter2.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 4
             },
             "chapter3.html": {
-              "$content": "epub://Content/chapter3.html",
-              "FilePath": "Content/chapter3.html",
-              "Key": "chapter3.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 5
             }
           }
         },
         "Css": {
           "Local": {
             "styles.css": {
-              "$content": "epub://Content/styles.css",
-              "FilePath": "Content/styles.css",
-              "Key": "styles.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 6
             }
           }
         },
         "Images": {
           "Local": {
             "cover.jpg": {
-              "$content": "epub://Content/cover.jpg",
-              "FilePath": "Content/cover.jpg",
-              "Key": "cover.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 7
             },
             "image.jpg": {
-              "$content": "epub://Content/image.jpg",
-              "FilePath": "Content/image.jpg",
-              "Key": "image.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 8
             }
           }
         },
         "Fonts": {
           "Local": {
             "font.ttf": {
-              "$content": "epub://Content/font.ttf",
-              "FilePath": "Content/font.ttf",
-              "Key": "font.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 9
             }
           }
         },
         "AllFiles": {
           "Local": {
             "front.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/front.html",
-              "FilePath": "Content/front.html",
-              "Key": "front.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 1
             },
             "cover.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/cover.html",
-              "FilePath": "Content/cover.html",
-              "Key": "cover.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 2
             },
             "chapter1.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/chapter1.html",
-              "FilePath": "Content/chapter1.html",
-              "Key": "chapter1.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 3
             },
             "chapter2.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/chapter2.html",
-              "FilePath": "Content/chapter2.html",
-              "Key": "chapter2.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 4
             },
             "chapter3.html": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/chapter3.html",
-              "FilePath": "Content/chapter3.html",
-              "Key": "chapter3.html",
-              "ContentType": "XHTML_1_1",
-              "ContentMimeType": "application/xhtml+xml"
+              "$ref": 5
             },
             "styles.css": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/styles.css",
-              "FilePath": "Content/styles.css",
-              "Key": "styles.css",
-              "ContentType": "CSS",
-              "ContentMimeType": "text/css"
+              "$ref": 6
             },
             "cover.jpg": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/cover.jpg",
-              "FilePath": "Content/cover.jpg",
-              "Key": "cover.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 7
             },
             "image.jpg": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/image.jpg",
-              "FilePath": "Content/image.jpg",
-              "Key": "image.jpg",
-              "ContentType": "IMAGE_JPEG",
-              "ContentMimeType": "image/jpeg"
+              "$ref": 8
             },
             "font.ttf": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/font.ttf",
-              "FilePath": "Content/font.ttf",
-              "Key": "font.ttf",
-              "ContentType": "FONT_TRUETYPE",
-              "ContentMimeType": "application/x-font-truetype"
+              "$ref": 9
             },
             "chapter1-audio.mp3": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/chapter1-audio.mp3",
-              "FilePath": "Content/chapter1-audio.mp3",
-              "Key": "chapter1-audio.mp3",
-              "ContentType": "OTHER",
-              "ContentMimeType": "audio/mpeg"
+              "$ref": 10
             },
             "chapter2.xml": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/chapter2.xml",
-              "FilePath": "Content/chapter2.xml",
-              "Key": "chapter2.xml",
-              "ContentType": "OTHER",
-              "ContentMimeType": "text/example+xml"
+              "$ref": 11
             },
             "chapter3.xml": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/chapter3.xml",
-              "FilePath": "Content/chapter3.xml",
-              "Key": "chapter3.xml",
-              "ContentType": "OTHER",
-              "ContentMimeType": "application/z3998-auth+xml"
+              "$ref": 12
             },
             "title.mp3": {
-              "$type": "EpubLocalByteContentFile",
-              "$content": "epub://Content/title.mp3",
-              "FilePath": "Content/title.mp3",
-              "Key": "title.mp3",
-              "ContentType": "OTHER",
-              "ContentMimeType": "audio/mpeg"
+              "$ref": 13
             },
             "toc.ncx": {
-              "$type": "EpubLocalTextContentFile",
-              "$content": "epub://Content/toc.ncx",
-              "FilePath": "Content/toc.ncx",
-              "Key": "toc.ncx",
-              "ContentType": "DTBOOK_NCX",
-              "ContentMimeType": "application/x-dtbncx+xml"
+              "$ref": 14
             }
           }
         }

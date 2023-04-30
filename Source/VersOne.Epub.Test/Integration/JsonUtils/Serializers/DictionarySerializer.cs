@@ -14,7 +14,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
             declaredValueTypeSerializer = new Lazy<TypeSerializer>(() => typeSerializerCollection.GetSerializer(declaredValueType));
         }
 
-        public override JsonNode? Serialize(object? value, JsonSerializationContext? jsonSerializationContext)
+        public override JsonNode? Serialize(object? value, JsonSerializationContext jsonSerializationContext)
         {
             if (value is not IDictionary dictionary)
             {

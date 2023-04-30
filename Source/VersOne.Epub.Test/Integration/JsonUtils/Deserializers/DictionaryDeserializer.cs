@@ -25,7 +25,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
             dictionaryValueTypeDeserializer = new Lazy<TypeDeserializer>(() => typeDeserializerCollection.GetDeserializer(dictionaryValueType));
         }
 
-        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext? jsonSerializationContext)
+        public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext jsonSerializationContext)
         {
             Assert.Equal(JsonValueKind.Object, jsonElement.ValueKind);
             IDictionary? result = Activator.CreateInstance(dictionaryType) as IDictionary;
