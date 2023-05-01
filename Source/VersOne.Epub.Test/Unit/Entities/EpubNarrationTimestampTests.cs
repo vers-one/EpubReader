@@ -2,7 +2,7 @@
 {
     public class EpubNarrationTimestampTests
     {
-        [Fact]
+        [Fact(DisplayName = "Constructing a EpubNarrationTimestamp instance should succeed")]
         public void ConstructorAndPropertiesTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -12,7 +12,7 @@
             Assert.Equal(4, epubNarrationTimestamp.Millisecond);
         }
 
-        [Fact]
+        [Fact(DisplayName = "Constructing a EpubNarrationTimestamp instance with more than 24 hours should succeed")]
         public void MoreThan24HoursTimestampTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(25, 10, 20, 30);
@@ -22,7 +22,7 @@
             Assert.Equal(30, epubNarrationTimestamp.Millisecond);
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator == test")]
         public void EqualsOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -30,7 +30,7 @@
             Assert.False(epubNarrationTimestamp == new EpubNarrationTimestamp(1, 2, 3, 5));
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator != test")]
         public void NotEqualsOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -38,7 +38,7 @@
             Assert.False(epubNarrationTimestamp != new EpubNarrationTimestamp(1, 2, 3, 4));
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator > test")]
         public void GreaterThanOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -46,7 +46,7 @@
             Assert.False(epubNarrationTimestamp > new EpubNarrationTimestamp(1, 2, 3, 4));
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator >= test")]
         public void GreaterThanOrEqualsOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -55,7 +55,7 @@
             Assert.False(epubNarrationTimestamp >= new EpubNarrationTimestamp(1, 2, 3, 5));
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator < test")]
         public void LessThanOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -63,7 +63,7 @@
             Assert.False(epubNarrationTimestamp < new EpubNarrationTimestamp(1, 2, 3, 4));
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator <= test")]
         public void LessThanOrEqualsOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -72,14 +72,14 @@
             Assert.False(epubNarrationTimestamp <= new EpubNarrationTimestamp(1, 2, 3, 3));
         }
 
-        [Fact]
+        [Fact(DisplayName = "operator - test")]
         public void SubtractionOperatorTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
             Assert.Equal(new TimeSpan(0, 0, 1), epubNarrationTimestamp - new EpubNarrationTimestamp(1, 2, 2, 4));
         }
 
-        [Fact]
+        [Fact(DisplayName = "CompareTo methods test")]
         public void CompareToTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -93,7 +93,7 @@
             Assert.Equal(-1, epubNarrationTimestamp.CompareTo(new EpubNarrationTimestamp(1, 2, 3, 5)));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Equals methods test")]
         public void EqualsTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
@@ -105,14 +105,14 @@
             Assert.False(epubNarrationTimestamp.Equals(new EpubNarrationTimestamp(1, 2, 3, 3)));
         }
 
-        [Fact]
+        [Fact(DisplayName = "GetHashCode method test")]
         public void GetHashCodeTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
             Assert.Equal(new TimeSpan(0, 1, 2, 3, 4).GetHashCode(), epubNarrationTimestamp.GetHashCode());
         }
 
-        [Fact]
+        [Fact(DisplayName = "ToString method test")]
         public void ToStringTest()
         {
             Assert.Equal("1:02:03.004", new EpubNarrationTimestamp(1, 2, 3, 4).ToString());
@@ -120,7 +120,7 @@
             Assert.Equal("25:10:20.030", new EpubNarrationTimestamp(25, 10, 20, 30).ToString());
         }
 
-        [Fact]
+        [Fact(DisplayName = "ToTimeSpan method test")]
         public void ToTimeSpanTest()
         {
             EpubNarrationTimestamp epubNarrationTimestamp = new(1, 2, 3, 4);
