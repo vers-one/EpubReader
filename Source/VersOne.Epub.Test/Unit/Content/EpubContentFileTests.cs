@@ -1,6 +1,4 @@
-﻿using VersOne.Epub.Test.Unit.TestData;
-
-namespace VersOne.Epub.Test.Unit.Content
+﻿namespace VersOne.Epub.Test.Unit.Content
 {
     public class EpubContentFileTests
     {

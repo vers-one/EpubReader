@@ -6,7 +6,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops
 {
     public class SmilMetadataTests
     {
-        private static List<XElement> Items = new();
+        private static List<XElement> Items => new();
 
         [Fact(DisplayName = "Constructing a SmilMetadata instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
