@@ -5,10 +5,10 @@ namespace VersOne.Epub.Readers
 {
     internal static class SmilClockParser
     {
+        public const Int64 MAX_TIMECOUNT = (Int64)Int32.MaxValue * MILLISECONDS_IN_HOUR;
         private const int MILLISECONDS_IN_SECOND = 1000;
         private const int MILLISECONDS_IN_MINUTE = 60 * MILLISECONDS_IN_SECOND;
         private const int MILLISECONDS_IN_HOUR = 60 * MILLISECONDS_IN_MINUTE;
-        private const decimal MAX_TIMECOUNT = (decimal)Int32.MaxValue * MILLISECONDS_IN_HOUR;
 
         public static bool TryParse(string smilClock, out EpubNarrationTimestamp result)
         {

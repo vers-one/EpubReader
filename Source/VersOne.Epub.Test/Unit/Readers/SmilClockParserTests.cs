@@ -106,7 +106,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestInvalidValue("ah");
             TestInvalidValue("-1h");
             TestInvalidValue("-1.5h");
-            TestInvalidValue($"{(decimal)Int32.MaxValue * 60 * 60 * 1000 + 1}ms");
+            TestInvalidValue($"{SmilClockParser.MAX_TIMECOUNT + 1}ms");
         }
 
         private static void TestValidValue(string value, EpubNarrationTimestamp expectedResult)
