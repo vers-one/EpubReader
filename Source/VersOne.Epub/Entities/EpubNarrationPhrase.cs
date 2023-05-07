@@ -3,7 +3,7 @@
 namespace VersOne.Epub
 {
     /// <summary>
-    /// Represents a single phrase within a <see cref="EpubNarration" />.
+    /// Represents a single phrase within a narration sequence.
     /// </summary>
     public class EpubNarrationPhrase
     {
