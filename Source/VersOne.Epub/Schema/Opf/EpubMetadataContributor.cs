@@ -19,7 +19,7 @@ namespace VersOne.Epub.Schema
         /// <param name="contributor">The name of the contributor as the author intends it to be displayed to a user.</param>
         /// <param name="fileAs">The normalized form of the name of the contributor for sorting.</param>
         /// <param name="role">The contributor's role which describes the nature of work performed by the contributor.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="contributor"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="contributor" /> parameter is <c>null</c>.</exception>
         public EpubMetadataContributor(string? id, string contributor, string? fileAs, string? role)
         {
             Id = id;

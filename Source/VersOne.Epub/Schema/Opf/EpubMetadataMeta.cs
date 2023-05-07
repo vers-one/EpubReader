@@ -17,7 +17,7 @@ namespace VersOne.Epub.Schema
         /// </summary>
         /// <param name="name">The name of the EPUB 2 generic metadata item or <c>null</c> for EPUB 3 generic metadata item.</param>
         /// <param name="content">The content (i.e. value) of the EPUB 2 generic metadata item or the metadata expression of the EPUB 3 generic metadata item.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public EpubMetadataMeta(string? name, string content)
             : this(name, content, null, null, null, null)
         {
@@ -41,7 +41,7 @@ namespace VersOne.Epub.Schema
         /// The system or scheme that the expression (see <see cref="Content" />) of the EPUB 3 generic metadata item is drawn from
         /// or <c>null</c> if the generic metadata item doesn't specify a scheme for the expression.
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public EpubMetadataMeta(string? name, string content, string? id, string? refines, string? property, string? scheme)
         {
             Name = name;

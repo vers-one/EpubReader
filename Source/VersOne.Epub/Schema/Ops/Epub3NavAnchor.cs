@@ -28,8 +28,8 @@ namespace VersOne.Epub.Schema
         /// The type of the structural semantics of the navigation link (represented by the 'epub:type' HTML attribute in the navigation document)
         /// or <c>null</c> if the anchor doesn't specify a type.
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="text"/> argument is <c>null</c>.</exception>
-        public Epub3NavAnchor(string? href, string text, string? title = null, string? alt = null, Epub3NavStructuralSemanticsProperty? type = null)
+        /// <exception cref="ArgumentNullException">The <paramref name="text" /> parameter is <c>null</c>.</exception>
+        public Epub3NavAnchor(string? href, string text, string? title = null, string? alt = null, Epub3StructuralSemanticsProperty? type = null)
         {
             Href = href;
             Text = text ?? throw new ArgumentNullException(nameof(text));
@@ -78,6 +78,6 @@ namespace VersOne.Epub.Schema
         /// </para>
         /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-nav-landmarks" /> for more information.</para>
         /// </summary>
-        public Epub3NavStructuralSemanticsProperty? Type { get; }
+        public Epub3StructuralSemanticsProperty? Type { get; }
     }
 }

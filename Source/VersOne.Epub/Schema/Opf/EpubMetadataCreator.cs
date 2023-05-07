@@ -16,7 +16,7 @@ namespace VersOne.Epub.Schema
         /// Initializes a new instance of the <see cref="EpubMetadataCreator" /> class with the specified creator's name.
         /// </summary>
         /// <param name="creator">The name of the creator as the author intends it to be displayed to a user.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="creator"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="creator" /> parameter is <c>null</c>.</exception>
         public EpubMetadataCreator(string creator)
             : this(null, creator, null, null)
         {
@@ -29,7 +29,7 @@ namespace VersOne.Epub.Schema
         /// <param name="creator">The name of the creator as the author intends it to be displayed to a user.</param>
         /// <param name="fileAs">The normalized form of the name of the creator for sorting.</param>
         /// <param name="role">The creator's role which indicates the function the creator played in the creation of the content of the EPUB book.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="creator"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="creator" /> parameter is <c>null</c>.</exception>
         public EpubMetadataCreator(string? id, string creator, string? fileAs, string? role)
         {
             Id = id;

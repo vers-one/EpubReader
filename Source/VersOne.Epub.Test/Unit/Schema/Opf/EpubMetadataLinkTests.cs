@@ -1,5 +1,4 @@
 ﻿using VersOne.Epub.Schema;
-using VersOne.Epub.Test.Comparers;
 
 namespace VersOne.Epub.Test.Unit.Schema.Opf
 {

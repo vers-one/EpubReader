@@ -17,9 +17,9 @@ namespace VersOne.Epub
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
         /// <param name="filePath">The absolute path of the local content file in the EPUB archive.</param>
         /// <param name="content">The content of the file.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="contentMimeType"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="filePath"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="contentMimeType" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="filePath" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public EpubLocalTextContentFile(string key, EpubContentType contentType, string contentMimeType, string filePath, string content)
             : base(key, contentType, contentMimeType, filePath)
         {

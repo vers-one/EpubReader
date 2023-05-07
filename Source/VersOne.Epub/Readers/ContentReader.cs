@@ -44,6 +44,7 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.XML:
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
+                    case EpubContentType.SMIL:
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
                             string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, href);
@@ -146,7 +147,8 @@ namespace VersOne.Epub.Internal
                 "image/svg+xml" => EpubContentType.IMAGE_SVG,
                 "font/truetype" or "application/x-font-truetype" => EpubContentType.FONT_TRUETYPE,
                 "font/opentype" or "application/vnd.ms-opentype" => EpubContentType.FONT_OPENTYPE,
-                _ => EpubContentType.OTHER,
+                "application/smil+xml" => EpubContentType.SMIL,
+                _ => EpubContentType.OTHER
             };
         }
     }

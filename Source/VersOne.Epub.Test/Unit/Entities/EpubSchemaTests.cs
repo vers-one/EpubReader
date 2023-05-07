@@ -13,45 +13,61 @@ namespace VersOne.Epub.Test.Unit.Entities
 
         private static Epub3NavDocument Epub3NavDocument => TestEpub3NavDocuments.CreateFullTestEpub3NavDocument();
 
+        private static List<Smil> MediaOverlays => new() { TestSmils.CreateFullTestSmil() };
+
         [Fact(DisplayName = "Constructing a EpubSchema instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
         {
-            EpubSchema epubSchema = new(Package, Epub2Ncx, Epub3NavDocument, CONTENT_DIRECTORY_PATH);
+            EpubSchema epubSchema = new(Package, Epub2Ncx, Epub3NavDocument, MediaOverlays, CONTENT_DIRECTORY_PATH);
             EpubPackageComparer.CompareEpubPackages(Package, epubSchema.Package);
             Epub2NcxComparer.CompareEpub2Ncxes(Epub2Ncx, epubSchema.Epub2Ncx);
             Epub3NavDocumentComparer.CompareEpub3NavDocuments(Epub3NavDocument, epubSchema.Epub3NavDocument);
+            SmilComparers.CompareSmilLists(MediaOverlays, epubSchema.MediaOverlays);
             Assert.Equal(CONTENT_DIRECTORY_PATH, epubSchema.ContentDirectoryPath);
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if package parameter is null")]
         public void ConstructorWithNullPackageTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubSchema(null!, Epub2Ncx, Epub3NavDocument, CONTENT_DIRECTORY_PATH));
+            Assert.Throws<ArgumentNullException>(() => new EpubSchema(null!, Epub2Ncx, Epub3NavDocument, MediaOverlays, CONTENT_DIRECTORY_PATH));
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if contentDirectoryPath parameter is null")]
         public void ConstructorWithNullContentDirectoryPathTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubSchema(Package, Epub2Ncx, Epub3NavDocument, null!));
+            Assert.Throws<ArgumentNullException>(() => new EpubSchema(Package, Epub2Ncx, Epub3NavDocument, MediaOverlays, null!));
         }
 
         [Fact(DisplayName = "Constructing a EpubSchema instance with null epub2Ncx parameter should succeed")]
         public void ConstructorWithNullEpub2NcxParameterTest()
         {
-            EpubSchema epubSchema = new(Package, null, Epub3NavDocument, CONTENT_DIRECTORY_PATH);
+            EpubSchema epubSchema = new(Package, null, Epub3NavDocument, MediaOverlays, CONTENT_DIRECTORY_PATH);
             EpubPackageComparer.CompareEpubPackages(Package, epubSchema.Package);
             Epub2NcxComparer.CompareEpub2Ncxes(null, epubSchema.Epub2Ncx);
             Epub3NavDocumentComparer.CompareEpub3NavDocuments(Epub3NavDocument, epubSchema.Epub3NavDocument);
+            SmilComparers.CompareSmilLists(MediaOverlays, epubSchema.MediaOverlays);
             Assert.Equal(CONTENT_DIRECTORY_PATH, epubSchema.ContentDirectoryPath);
         }
 
         [Fact(DisplayName = "Constructing a EpubSchema instance with null epub3NavDocument parameter should succeed")]
         public void ConstructorWithNullEpub3NavDocumentParameterTest()
         {
-            EpubSchema epubSchema = new(Package, Epub2Ncx, null, CONTENT_DIRECTORY_PATH);
+            EpubSchema epubSchema = new(Package, Epub2Ncx, null, MediaOverlays, CONTENT_DIRECTORY_PATH);
             EpubPackageComparer.CompareEpubPackages(Package, epubSchema.Package);
             Epub2NcxComparer.CompareEpub2Ncxes(Epub2Ncx, epubSchema.Epub2Ncx);
             Epub3NavDocumentComparer.CompareEpub3NavDocuments(null, epubSchema.Epub3NavDocument);
+            SmilComparers.CompareSmilLists(MediaOverlays, epubSchema.MediaOverlays);
+            Assert.Equal(CONTENT_DIRECTORY_PATH, epubSchema.ContentDirectoryPath);
+        }
+
+        [Fact(DisplayName = "Constructing a EpubSchema instance with null mediaOverlays parameter should succeed")]
+        public void ConstructorWithNullMediaOverlaysParameterTest()
+        {
+            EpubSchema epubSchema = new(Package, Epub2Ncx, Epub3NavDocument, null, CONTENT_DIRECTORY_PATH);
+            EpubPackageComparer.CompareEpubPackages(Package, epubSchema.Package);
+            Epub2NcxComparer.CompareEpub2Ncxes(Epub2Ncx, epubSchema.Epub2Ncx);
+            Epub3NavDocumentComparer.CompareEpub3NavDocuments(Epub3NavDocument, epubSchema.Epub3NavDocument);
+            SmilComparers.CompareSmilLists(new List<Smil>(), epubSchema.MediaOverlays);
             Assert.Equal(CONTENT_DIRECTORY_PATH, epubSchema.ContentDirectoryPath);
         }
     }

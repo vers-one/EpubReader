@@ -22,9 +22,9 @@ namespace VersOne.Epub.Schema
         /// <param name="guide">
         /// The EPUB 2 guide which provides machine-processable navigation to the key structural components of the EPUB book or <c>null</c> if the book doesn't have a EPUB 2 guide.
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="metadata"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="manifest"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="spine"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="metadata" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="manifest" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="spine" /> parameter is <c>null</c>.</exception>
         public EpubPackage(EpubVersion epubVersion, EpubMetadata metadata, EpubManifest manifest, EpubSpine spine, EpubGuide? guide)
         {
             EpubVersion = epubVersion;

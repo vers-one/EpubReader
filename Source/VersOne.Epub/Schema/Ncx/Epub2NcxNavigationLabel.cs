@@ -16,7 +16,7 @@ namespace VersOne.Epub.Schema
         /// Initializes a new instance of the <see cref="Epub2NcxNavigationLabel" /> class.
         /// </summary>
         /// <param name="text">A textual representation of the navigation label.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="text"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="text" /> parameter is <c>null</c>.</exception>
         public Epub2NcxNavigationLabel(string text)
         {
             Text = text ?? throw new ArgumentNullException(nameof(text));

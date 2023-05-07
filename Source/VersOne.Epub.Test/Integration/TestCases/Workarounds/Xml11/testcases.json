@@ -1,104 +1,85 @@
 [
-    {
-        "Name": "EPUB 2 book with XML 1.1 files - without options",
-        "Options": null,
-        "ExpectedResult": null,
-        "ExpectedException":
-        {
-            "Type": "XmlException"
-        }
-    },
-    {
-        "Name": "EPUB 2 book with XML 1.1 files - with options",
-        "Options":
-        {
-            "XmlReaderOptions":
-            {
-                "SkipXmlHeaders": true
-            }
-        },
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
-            ],
-            "Navigation":
-            [
-            ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_2",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "ncx",
-                                "Href": "toc.ncx",
-                                "MediaType": "application/x-dtbncx+xml"
-                            }
-                        ]
-                    },
-                    "Spine":
-                    {
-                        "Toc": "ncx"
-                    }
-                },
-                "Epub2Ncx":
-                {
-                    "FilePath": "Content/toc.ncx",
-                    "Head":
-                    {
-                    },
-                    "DocTitle": "Test title",
-                    "DocAuthors":
-                    [
-                        "John Doe"
-                    ],
-                    "NavMap":
-                    {
-                    }
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-                "AllFiles":
-                {
-                    "Local":
-                    {
-                        "toc.ncx":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "toc.ncx",
-                            "ContentType": "DTBOOK_NCX",
-                            "ContentMimeType": "application/x-dtbncx+xml",
-                            "FilePath": "Content/toc.ncx",
-                            "$content": "epub://Content/toc.ncx"
-                        }
-                    }
-                }
-            },
-            "$file": "test.epub"
-        },
-        "ExpectedException": null
+  {
+    "Name": "EPUB 2 book with XML 1.1 files - without options",
+    "Options": null,
+    "ExpectedResult": null,
+    "ExpectedException": {
+      "Type": "XmlException"
     }
+  },
+  {
+    "Name": "EPUB 2 book with XML 1.1 files - with options",
+    "Options": {
+      "XmlReaderOptions": {
+        "SkipXmlHeaders": true
+      }
+    },
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.ncx",
+        "FilePath": "Content/toc.ncx",
+        "Key": "toc.ncx",
+        "ContentType": "DTBOOK_NCX",
+        "ContentMimeType": "application/x-dtbncx+xml"
+      }
+    ],
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Navigation": [],
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_2",
+          "Metadata": {
+            "Titles": [
+              "Test title"
+            ],
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
+            ]
+          },
+          "Manifest": {
+            "Items": [
+              {
+                "Id": "ncx",
+                "Href": "toc.ncx",
+                "MediaType": "application/x-dtbncx+xml"
+              }
+            ]
+          },
+          "Spine": {
+            "Toc": "ncx"
+          }
+        },
+        "Epub2Ncx": {
+          "FilePath": "Content/toc.ncx",
+          "Head": {},
+          "DocTitle": "Test title",
+          "DocAuthors": [
+            "John Doe"
+          ],
+          "NavMap": {}
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "AllFiles": {
+          "Local": {
+            "toc.ncx": {
+              "$ref": 1
+            }
+          }
+        }
+      }
+    }
+  }
 ]

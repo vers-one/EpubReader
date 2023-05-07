@@ -320,7 +320,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
@@ -368,7 +368,6 @@ namespace VersOne.Epub.Test.Unit.Entities
                 description: null,
                 schema: new EpubSchema
                 (
-                    contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                     package: new EpubPackage
                     (
                         epubVersion: epubVersion,
@@ -378,7 +377,9 @@ namespace VersOne.Epub.Test.Unit.Entities
                         guide: null
                     ),
                     epub2Ncx: null,
-                    epub3NavDocument: epub3NavDocument
+                    epub3NavDocument: epub3NavDocument,
+                    mediaOverlays: null,
+                    contentDirectoryPath: CONTENT_DIRECTORY_PATH
                 ),
                 content: content ?? new EpubContentRef()
             );

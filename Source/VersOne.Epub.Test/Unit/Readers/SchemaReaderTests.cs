@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -14,12 +15,14 @@ namespace VersOne.Epub.Test.Unit.Readers
         private const string NCX_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NCX_FILE_NAME}";
         private const string NAV_FILE_NAME = "toc.html";
         private const string NAV_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NAV_FILE_NAME}";
+        private const string SMIL_FILE_NAME = "chapter1.smil";
+        private const string SMIL_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{SMIL_FILE_NAME}";
 
         private const string META_INF_CONTAINER_FILE = $"""
             <?xml version='1.0' encoding='utf-8'?>
             <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
               <rootfiles>
-                <rootfile media-type="application/oebps-package+xml" full-path="{OPF_PACKAGE_FILE_PATH}"/>
+                <rootfile media-type="application/oebps-package+xml" full-path="{OPF_PACKAGE_FILE_PATH}" />
               </rootfiles>
             </container>
             """;
@@ -90,6 +93,37 @@ namespace VersOne.Epub.Test.Unit.Readers
             </html>
             """;
 
+        private const string SMIL_FILE = """
+            <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0">
+                <body>
+                    <par id="sentence1">
+                        <text src="chapter1.html#sentence1"/>
+                        <audio src="chapter1_audio.mp3" clipBegin="0s" clipEnd="10s"/>
+                    </par>
+                    <par id="sentence2">
+                        <text src="chapter1.html#sentence2"/>
+                        <audio src="chapter1_audio.mp3" clipBegin="10s" clipEnd="20s"/>
+                    </par>
+                    <par id="sentence3">
+                        <text src="chapter1.html#sentence3"/>
+                        <audio src="chapter1_audio.mp3" clipBegin="20s" clipEnd="30s"/>
+                    </par>
+                </body>
+            </smil>
+            """;
+
+        [Fact(DisplayName = "Constructing a SchemaReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new SchemaReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a SchemaReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new SchemaReader(null);
+        }
+
         [Fact(DisplayName = "Reading a typical schema from a EPUB file should succeed")]
         public async void ReadSchemaAsyncTest()
         {
@@ -98,9 +132,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             testZipFile.AddEntry(OPF_PACKAGE_FILE_PATH, OPF_PACKAGE_FILE);
             testZipFile.AddEntry(NCX_FILE_PATH, NCX_FILE);
             testZipFile.AddEntry(NAV_FILE_PATH, NAV_FILE);
+            testZipFile.AddEntry(SMIL_FILE_PATH, SMIL_FILE);
             EpubSchema expectedEpubSchema = new
             (
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH,
                 package: new EpubPackage
                 (
                     epubVersion: EpubVersion.EPUB_3,
@@ -236,7 +270,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new Epub3Nav
                         (
-                            type: Epub3NavStructuralSemanticsProperty.TOC,
+                            type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
@@ -261,7 +295,79 @@ namespace VersOne.Epub.Test.Unit.Readers
                             )
                         )
                     }
-                )
+                ),
+                mediaOverlays: new List<Smil>()
+                {
+                    new Smil
+                    (
+                        id: null,
+                        version: SmilVersion.SMIL_3,
+                        epubPrefix: null,
+                        head: null,
+                        body: new SmilBody
+                        (
+                            id: null,
+                            epubTypes: null,
+                            epubTextRef: null,
+                            seqs: new List<SmilSeq>(),
+                            pars: new List<SmilPar>()
+                            {
+                                new SmilPar
+                                (
+                                    id: "sentence1",
+                                    epubTypes: null,
+                                    text: new SmilText
+                                    (
+                                        id: null,
+                                        src: "chapter1.html#sentence1"
+                                    ),
+                                    audio: new SmilAudio
+                                    (
+                                        id: null,
+                                        src: "chapter1_audio.mp3",
+                                        clipBegin: "0s",
+                                        clipEnd: "10s"
+                                    )
+                                ),
+                                new SmilPar
+                                (
+                                    id: "sentence2",
+                                    epubTypes: null,
+                                    text: new SmilText
+                                    (
+                                        id: null,
+                                        src: "chapter1.html#sentence2"
+                                    ),
+                                    audio: new SmilAudio
+                                    (
+                                        id: null,
+                                        src: "chapter1_audio.mp3",
+                                        clipBegin: "10s",
+                                        clipEnd: "20s"
+                                    )
+                                ),
+                                new SmilPar
+                                (
+                                    id: "sentence3",
+                                    epubTypes: null,
+                                    text: new SmilText
+                                    (
+                                        id: null,
+                                        src: "chapter1.html#sentence3"
+                                    ),
+                                    audio: new SmilAudio
+                                    (
+                                        id: null,
+                                        src: "chapter1_audio.mp3",
+                                        clipBegin: "20s",
+                                        clipEnd: "30s"
+                                    )
+                                )
+                            }
+                        )
+                    )
+                },
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             SchemaReader schemaReader = new();
             EpubSchema actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);

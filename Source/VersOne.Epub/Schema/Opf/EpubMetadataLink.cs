@@ -20,7 +20,7 @@ namespace VersOne.Epub.Schema
         /// </param>
         /// <param name="refines">A relative IRI that identifies the resource augmented by the link or <c>null</c> if the link doesn't specify any augmentation.</param>
         /// <param name="relationships">A list of properties that establish the relationship the resource has with the EPUB book.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="href"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="href" /> parameter is <c>null</c>.</exception>
         public EpubMetadataLink(string? id, string href, string? mediaType, List<EpubMetadataLinkProperty>? properties, string? refines,
             List<EpubMetadataLinkRelationship>? relationships)
         {

@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Test.Unit.Mocks;
 
 namespace VersOne.Epub.Test.Unit.Readers
@@ -12,7 +13,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             <?xml version='1.0' encoding='utf-8'?>
             <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
               <rootfiles>
-                <rootfile media-type="application/oebps-package+xml" full-path="{ROOT_FILE_PATH_FOR_CORRECT_CONTAINER_FILE}"/>
+                <rootfile media-type="application/oebps-package+xml" full-path="{ROOT_FILE_PATH_FOR_CORRECT_CONTAINER_FILE}" />
               </rootfiles>
             </container>
             """;
@@ -44,6 +45,18 @@ namespace VersOne.Epub.Test.Unit.Readers
             <?xml version='1.0' encoding='utf-8'?>
             <test />
             """;
+
+        [Fact(DisplayName = "Constructing a RootFilePathReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new RootFilePathReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a RootFilePathReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new RootFilePathReader(null);
+        }
 
         [Fact(DisplayName = "Getting root file path from a ZIP archive with a correct container file should succeed")]
         public async void TestGetRootFilePathAsyncWithCorrectContainerFile()

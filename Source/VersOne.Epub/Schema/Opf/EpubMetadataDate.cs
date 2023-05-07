@@ -19,7 +19,7 @@ namespace VersOne.Epub.Schema
         /// <param name="event">
         /// The name of the event represented by this date (e.g., creation, publication, modification, etc.) or <c>null</c> if the event doesn't have a name.
         /// </param>
-        /// <exception cref="ArgumentNullException">The <paramref name="date"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="date" /> parameter is <c>null</c>.</exception>
         public EpubMetadataDate(string date, string? @event)
         {
             Date = date ?? throw new ArgumentNullException(nameof(date));

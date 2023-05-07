@@ -14,8 +14,8 @@ namespace VersOne.Epub.Schema
         /// <param name="type">The type of the publication component referenced by the <see cref="Href" /> property.</param>
         /// <param name="title">The title of the reference or <c>null</c> if the reference doesn't have a title.</param>
         /// <param name="href">The link to a content document included in the manifest, with an optional fragment identifier.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="type"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="href"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="type" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="href" /> parameter is <c>null</c>.</exception>
         public EpubGuideReference(string type, string? title, string href)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));

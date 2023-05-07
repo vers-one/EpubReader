@@ -83,7 +83,7 @@ namespace VersOne.Epub.Schema
                 "remote-resources" => EpubManifestProperty.REMOTE_RESOURCES,
                 "scripted" => EpubManifestProperty.SCRIPTED,
                 "svg" => EpubManifestProperty.SVG,
-                _ => EpubManifestProperty.UNKNOWN,
+                _ => EpubManifestProperty.UNKNOWN
             };
         }
     }

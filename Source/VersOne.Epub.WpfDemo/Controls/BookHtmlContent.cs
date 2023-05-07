@@ -95,7 +95,7 @@ namespace VersOne.Epub.WpfDemo.Controls
         /// <summary>
         /// Loads the content of the image from the EPUB archive.
         /// </summary>
-        /// <param name="e">An event argument identifying the image that needs to be loaded.</param>
+        /// <param name="e">An event parameter identifying the image that needs to be loaded.</param>
         protected override void OnImageLoad(HtmlImageLoadEventArgs e)
         {
             byte[] imageContent = GetImageContent(e.Src);
@@ -119,7 +119,7 @@ namespace VersOne.Epub.WpfDemo.Controls
         /// <summary>
         /// Loads the content of the CSS stylesheet from the EPUB archive.
         /// </summary>
-        /// <param name="e">An event argument identifying the CSS stylesheet that needs to be loaded.</param>
+        /// <param name="e">An event parameter identifying the CSS stylesheet that needs to be loaded.</param>
         protected override void OnStylesheetLoad(HtmlStylesheetLoadEventArgs e)
         {
             string styleSheetContent = GetStyleSheetContent(e.Src);
@@ -133,7 +133,7 @@ namespace VersOne.Epub.WpfDemo.Controls
         /// <summary>
         /// Scrolls the rendered HTML content to the <see cref="Anchor" /> if needed.
         /// </summary>
-        /// <param name="e">An argument containing event data.</param>
+        /// <param name="e">An parameter containing event data.</param>
         protected override void OnLoadComplete(EventArgs e)
         {
             base.OnLoadComplete(e);

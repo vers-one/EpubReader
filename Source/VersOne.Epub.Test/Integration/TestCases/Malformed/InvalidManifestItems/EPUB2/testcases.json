@@ -1,147 +1,110 @@
 [
-    {
-        "Name": "EPUB 2 book with invalid manifest items - without options",
-        "Options": null,
-        "ExpectedResult": null,
-        "ExpectedException":
-        {
-            "Type": "EpubPackageException",
-            "Message": "Incorrect EPUB manifest: item ID is missing"
-        }
-    },
-    {
-        "Name": "EPUB 2 book with invalid manifest items - with options",
-        "Options":
-        {
-            "PackageReaderOptions":
-            {
-                "SkipInvalidManifestItems": true
-            }
-        },
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
-            ],
-            "Navigation":
-            [
-            ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_2",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "item-1",
-                                "Href": "chapter1.html",
-                                "MediaType": "application/xhtml+xml",
-                                "MediaOverlay": null,
-                                "RequiredNamespace": null,
-                                "RequiredModules": null,
-                                "Fallback": null,
-                                "FallbackStyle": null,
-                                "Properties": null
-                            },
-                            {
-                                "Id": "ncx",
-                                "Href": "toc.ncx",
-                                "MediaType": "application/x-dtbncx+xml",
-                                "MediaOverlay": null,
-                                "RequiredNamespace": null,
-                                "RequiredModules": null,
-                                "Fallback": null,
-                                "FallbackStyle": null,
-                                "Properties": null
-                            }
-                        ]
-                    },
-                    "Spine":
-                    {
-                        "Toc": "ncx"
-                    }
-                },
-                "Epub2Ncx":
-                {
-                    "FilePath": "Content/toc.ncx",
-                    "Head":
-                    {
-                    },
-                    "DocTitle": "Test title",
-                    "DocAuthors":
-                    [
-                        "John Doe"
-                    ],
-                    "NavMap":
-                    {
-                    }
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-                "Cover": null,
-                "NavigationHtmlFile": null,
-                "Html":
-                {
-                    "Local":
-                    {
-                        "chapter1.html":
-                        {
-                            "Key": "chapter1.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/chapter1.html",
-                            "$content": "epub://Content/chapter1.html"
-                        }
-                    }
-                },
-                "AllFiles":
-                {
-                    "Local":
-                    {
-                        "chapter1.html":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "chapter1.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/chapter1.html",
-                            "$content": "epub://Content/chapter1.html"
-                        },
-                        "toc.ncx":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "toc.ncx",
-                            "ContentType": "DTBOOK_NCX",
-                            "ContentMimeType": "application/x-dtbncx+xml",
-                            "FilePath": "Content/toc.ncx",
-                            "$content": "epub://Content/toc.ncx"
-                        }
-                    }
-                }
-            },
-            "$file": "test.epub"
-        },
-        "ExpectedException": null
+  {
+    "Name": "EPUB 2 book with invalid manifest items - without options",
+    "Options": null,
+    "ExpectedResult": null,
+    "ExpectedException": {
+      "Type": "EpubPackageException",
+      "Message": "Incorrect EPUB manifest: item ID is missing."
     }
+  },
+  {
+    "Name": "EPUB 2 book with invalid manifest items - with options",
+    "Options": {
+      "PackageReaderOptions": {
+        "SkipInvalidManifestItems": true
+      }
+    },
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter1.html",
+        "FilePath": "Content/chapter1.html",
+        "Key": "chapter1.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 2,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.ncx",
+        "FilePath": "Content/toc.ncx",
+        "Key": "toc.ncx",
+        "ContentType": "DTBOOK_NCX",
+        "ContentMimeType": "application/x-dtbncx+xml"
+      }
+    ],
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Navigation": [],
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_2",
+          "Metadata": {
+            "Titles": [
+              "Test title"
+            ],
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
+            ]
+          },
+          "Manifest": {
+            "Items": [
+              {
+                "Id": "item-1",
+                "Href": "chapter1.html",
+                "MediaType": "application/xhtml+xml"
+              },
+              {
+                "Id": "ncx",
+                "Href": "toc.ncx",
+                "MediaType": "application/x-dtbncx+xml"
+              }
+            ]
+          },
+          "Spine": {
+            "Toc": "ncx"
+          }
+        },
+        "Epub2Ncx": {
+          "FilePath": "Content/toc.ncx",
+          "Head": {},
+          "DocTitle": "Test title",
+          "DocAuthors": [
+            "John Doe"
+          ],
+          "NavMap": {}
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "Html": {
+          "Local": {
+            "chapter1.html": {
+              "$ref": 1
+            }
+          }
+        },
+        "AllFiles": {
+          "Local": {
+            "chapter1.html": {
+              "$ref": 1
+            },
+            "toc.ncx": {
+              "$ref": 2
+            }
+          }
+        }
+      }
+    }
+  }
 ]

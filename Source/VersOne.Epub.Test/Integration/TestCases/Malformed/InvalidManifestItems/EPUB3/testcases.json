@@ -1,163 +1,130 @@
 [
-    {
-        "Name": "EPUB 3 book with invalid manifest items - without options",
-        "Options": null,
-        "ExpectedResult": null,
-        "ExpectedException":
-        {
-            "Type": "EpubPackageException",
-            "Message": "Incorrect EPUB manifest: item ID is missing"
-        }
-    },
-    {
-        "Name": "EPUB 3 book with invalid manifest items - with options",
-        "Options":
-        {
-            "PackageReaderOptions":
-            {
-                "SkipInvalidManifestItems": true
-            }
-        },
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
-            ],
-            "Navigation":
-            [
-                {
-                    "Type": "HEADER",
-                    "Title": "Test header"
-                }
-            ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_3",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "item-1",
-                                "Href": "chapter1.html",
-                                "MediaType": "application/xhtml+xml"
-                            },
-                            {
-                                "Id": "item-toc",
-                                "Href": "toc.html",
-                                "MediaType": "application/xhtml+xml",
-                                "Properties":
-                                [
-                                    "NAV"
-                                ]
-                            }
-                        ]
-                    },
-                    "Spine":
-                    {
-                    }
-                },
-                "Epub3NavDocument":
-                {
-                    "FilePath": "Content/toc.html",
-                    "Navs":
-                    [
-                        {
-                            "Type": "TOC",
-                            "Ol":
-                            {
-                                "Lis":
-                                [
-                                    {
-                                        "Span":
-                                        {
-                                            "Text": "Test header"
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-                "NavigationHtmlFile":
-                {
-                    "Key": "toc.html",
-                    "ContentType": "XHTML_1_1",
-                    "ContentMimeType": "application/xhtml+xml",
-                    "FilePath": "Content/toc.html",
-                    "$content": "epub://Content/toc.html"
-                },
-                "Html":
-                {
-                    "Local":
-                    {
-                        "chapter1.html":
-                        {
-                            "Key": "chapter1.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/chapter1.html",
-                            "$content": "epub://Content/chapter1.html"
-                        },
-                        "toc.html":
-                        {
-                            "Key": "toc.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/toc.html",
-                            "$content": "epub://Content/toc.html"
-                        }
-                    }
-                },
-                "AllFiles":
-                {
-                    "Local":
-                    {
-                        "chapter1.html":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "chapter1.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/chapter1.html",
-                            "$content": "epub://Content/chapter1.html"
-                        },
-                        "toc.html":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "toc.html",
-                            "ContentType": "XHTML_1_1",
-                            "ContentMimeType": "application/xhtml+xml",
-                            "FilePath": "Content/toc.html",
-                            "$content": "epub://Content/toc.html"
-                        }
-                    }
-                }
-            },
-            "$file": "test.epub"
-        },
-        "ExpectedException": null
+  {
+    "Name": "EPUB 3 book with invalid manifest items - without options",
+    "Options": null,
+    "ExpectedResult": null,
+    "ExpectedException": {
+      "Type": "EpubPackageException",
+      "Message": "Incorrect EPUB manifest: item ID is missing."
     }
+  },
+  {
+    "Name": "EPUB 3 book with invalid manifest items - with options",
+    "Options": {
+      "PackageReaderOptions": {
+        "SkipInvalidManifestItems": true
+      }
+    },
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/chapter1.html",
+        "FilePath": "Content/chapter1.html",
+        "Key": "chapter1.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      },
+      {
+        "$id": 2,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.html",
+        "FilePath": "Content/toc.html",
+        "Key": "toc.html",
+        "ContentType": "XHTML_1_1",
+        "ContentMimeType": "application/xhtml+xml"
+      }
+    ],
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Navigation": [
+        {
+          "Type": "HEADER",
+          "Title": "Test header"
+        }
+      ],
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_3",
+          "Metadata": {
+            "Titles": [
+              "Test title"
+            ],
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
+            ]
+          },
+          "Manifest": {
+            "Items": [
+              {
+                "Id": "item-1",
+                "Href": "chapter1.html",
+                "MediaType": "application/xhtml+xml"
+              },
+              {
+                "Id": "item-toc",
+                "Href": "toc.html",
+                "MediaType": "application/xhtml+xml",
+                "Properties": [
+                  "NAV"
+                ]
+              }
+            ]
+          },
+          "Spine": {}
+        },
+        "Epub3NavDocument": {
+          "FilePath": "Content/toc.html",
+          "Navs": [
+            {
+              "Type": "TOC",
+              "Ol": {
+                "Lis": [
+                  {
+                    "Span": {
+                      "Text": "Test header"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "NavigationHtmlFile": {
+          "$ref": 2
+        },
+        "Html": {
+          "Local": {
+            "chapter1.html": {
+              "$ref": 1
+            },
+            "toc.html": {
+              "$ref": 2
+            }
+          }
+        },
+        "AllFiles": {
+          "Local": {
+            "chapter1.html": {
+              "$ref": 1
+            },
+            "toc.html": {
+              "$ref": 2
+            }
+          }
+        }
+      }
+    }
+  }
 ]

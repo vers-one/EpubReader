@@ -1,113 +1,95 @@
 [
-    {
-        "Name": "Issue #53: EPUB schema metadata/date/event and metadata/identifier/scheme attributes are not being parsed",
-        "Options": null,
-        "ExpectedResult":
-        {
-            "Title": "Test title",
-            "Author": "John Doe",
-            "AuthorList":
-            [
-                "John Doe"
+  {
+    "Name": "Issue #53: EPUB schema metadata/date/event and metadata/identifier/scheme attributes are not being parsed",
+    "Options": null,
+    "ContentFiles": [
+      {
+        "$id": 1,
+        "$type": "EpubLocalTextContentFile",
+        "$content": "epub://Content/toc.ncx",
+        "FilePath": "Content/toc.ncx",
+        "Key": "toc.ncx",
+        "ContentType": "DTBOOK_NCX",
+        "ContentMimeType": "application/x-dtbncx+xml"
+      }
+    ],
+    "ExpectedResult": {
+      "$file": "test.epub",
+      "Title": "Test title",
+      "Author": "John Doe",
+      "AuthorList": [
+        "John Doe"
+      ],
+      "$cover": null,
+      "Navigation": [],
+      "Schema": {
+        "Package": {
+          "EpubVersion": "EPUB_2",
+          "Metadata": {
+            "Titles": [
+              "Test title"
             ],
-            "Navigation":
-            [
+            "Creators": [
+              {
+                "Creator": "John Doe"
+              }
             ],
-            "Schema":
-            {
-                "Package":
-                {
-                    "EpubVersion": "EPUB_2",
-                    "Metadata":
-                    {
-                        "Titles":
-                        [
-                            "Test title"
-                        ],
-                        "Creators":
-                        [
-                            {
-                                "Creator": "John Doe"
-                            }
-                        ],
-                        "Dates":
-                        [
-                            {
-                                "Date": "2021-12-31T23:59:59.123456Z",
-                                "Event": "creation"
-                            },
-                            {
-                                "Date": "2022-01-23",
-                                "Event": "publication"
-                            }
-                        ],
-                        "Identifiers":
-                        [
-                            {
-                                "Id": "identifier-1",
-                                "Scheme": "URI",
-                                "Identifier": "https://example.com/books/123"
-                            },
-                            {
-                                "Id": "identifier-2",
-                                "Scheme": "ISBN",
-                                "Identifier": "9781234567890"
-                            }
-                        ]
-                    },
-                    "Manifest":
-                    {
-                        "Items":
-                        [
-                            {
-                                "Id": "ncx",
-                                "Href": "toc.ncx",
-                                "MediaType": "application/x-dtbncx+xml"
-                            }
-                        ]
-                    },
-                    "Spine":
-                    {
-                        "Toc": "ncx"
-                    }
-                },
-                "Epub2Ncx":
-                {
-                    "FilePath": "Content/toc.ncx",
-                    "Head":
-                    {
-                    },
-                    "DocTitle": "Test title",
-                    "DocAuthors":
-                    [
-                        "John Doe"
-                    ],
-                    "NavMap":
-                    {
-                    }
-                },
-                "ContentDirectoryPath": "Content"
-            },
-            "Content":
-            {
-                "AllFiles":
-                {
-                    "Local":
-                    {
-                        "toc.ncx":
-                        {
-                            "$type": "EpubLocalTextContentFile",
-                            "Key": "toc.ncx",
-                            "ContentType": "DTBOOK_NCX",
-                            "ContentMimeType": "application/x-dtbncx+xml",
-                            "FilePath": "Content/toc.ncx",
-                            "$content": "epub://Content/toc.ncx"
-                        }
-                    }
-                }
-            },
-            "$file": "test.epub"
+            "Dates": [
+              {
+                "Date": "2021-12-31T23:59:59.123456Z",
+                "Event": "creation"
+              },
+              {
+                "Date": "2022-01-23",
+                "Event": "publication"
+              }
+            ],
+            "Identifiers": [
+              {
+                "Id": "identifier-1",
+                "Scheme": "URI",
+                "Identifier": "https://example.com/books/123"
+              },
+              {
+                "Id": "identifier-2",
+                "Scheme": "ISBN",
+                "Identifier": "9781234567890"
+              }
+            ]
+          },
+          "Manifest": {
+            "Items": [
+              {
+                "Id": "ncx",
+                "Href": "toc.ncx",
+                "MediaType": "application/x-dtbncx+xml"
+              }
+            ]
+          },
+          "Spine": {
+            "Toc": "ncx"
+          }
         },
-        "ExpectedException": null
+        "Epub2Ncx": {
+          "FilePath": "Content/toc.ncx",
+          "Head": {},
+          "DocTitle": "Test title",
+          "DocAuthors": [
+            "John Doe"
+          ],
+          "NavMap": {}
+        },
+        "ContentDirectoryPath": "Content"
+      },
+      "Content": {
+        "AllFiles": {
+          "Local": {
+            "toc.ncx": {
+              "$ref": 1
+            }
+          }
+        }
+      }
     }
+  }
 ]

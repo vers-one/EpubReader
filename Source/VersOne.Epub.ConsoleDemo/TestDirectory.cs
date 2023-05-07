@@ -76,14 +76,15 @@ namespace VersOne.Epub.ConsoleDemo
             {
                 using EpubBookRef bookRef = EpubReader.OpenBook(epubFilePath);
                 string epubVersionString = bookRef.Schema.Package.GetVersionString();
-                if (filesByVersion.ContainsKey(epubVersionString))
+                if (filesByVersion.TryGetValue(epubVersionString, out int fileCount))
                 {
-                    filesByVersion[epubVersionString]++;
+                    fileCount++;
                 }
                 else
                 {
-                    filesByVersion[epubVersionString] = 1;
+                    fileCount = 1;
                 }
+                filesByVersion[epubVersionString] = fileCount;
                 Console.WriteLine($"EPUB version: {epubVersionString}");
                 Console.WriteLine($"Total files: {bookRef.Content.AllFiles.Local.Count}, HTML files: {bookRef.Content.Html.Local.Count}," +
                     $" CSS files: {bookRef.Content.Css.Local.Count}, image files: {bookRef.Content.Images.Local.Count}, font files: {bookRef.Content.Fonts.Local.Count}.");

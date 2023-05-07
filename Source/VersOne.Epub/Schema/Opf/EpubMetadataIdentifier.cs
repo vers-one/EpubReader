@@ -20,7 +20,7 @@ namespace VersOne.Epub.Schema
         /// The name of the system or authority that generated or assigned the identifier, for example 'ISBN' or 'DOI' or <c>null</c> if the identified doesn't have a scheme.
         /// </param>
         /// <param name="identifier">The unambiguous identifier for the EPUB book.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="identifier"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="identifier" /> parameter is <c>null</c>.</exception>
         public EpubMetadataIdentifier(string? id, string? scheme, string identifier)
         {
             Id = id;

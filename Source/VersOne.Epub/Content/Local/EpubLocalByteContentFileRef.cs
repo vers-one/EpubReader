@@ -16,9 +16,9 @@ namespace VersOne.Epub
         /// <param name="metadata">Metadata of this content file reference.</param>
         /// <param name="filePath">The absolute path of the local content file in the EPUB archive.</param>
         /// <param name="epubContentLoader">A reference to the EPUB content loader which provides methods to load the content of this file.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="metadata"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="filePath"/> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="epubContentLoader"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="metadata" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="filePath" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="epubContentLoader" /> parameter is <c>null</c>.</exception>
         public EpubLocalByteContentFileRef(EpubContentFileRefMetadata metadata, string filePath, IEpubContentLoader epubContentLoader)
             : base(metadata, filePath, epubContentLoader)
         {

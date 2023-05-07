@@ -16,9 +16,9 @@ namespace VersOne.Epub.Schema
         /// <param name="href">The URI to the content item represented by this EPUB manifest item.</param>
         /// <param name="mediaType">The MIME media type of the content item represented by this EPUB manifest item.</param>
         /// <param name="properties">The list of properties of this EPUB manifest item or <c>null</c> if the manifest item doesn't declare properties.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="href"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="mediaType"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="id" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="href" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="mediaType" /> parameter is <c>null</c>.</exception>
         public EpubManifestItem(string id, string href, string mediaType, List<EpubManifestProperty>? properties = null)
             : this(id, href, mediaType, null, null, null, null, null, properties)
         {
@@ -52,9 +52,9 @@ namespace VersOne.Epub.Schema
         /// or <c>null</c> if the manifest item does not represent a EPUB 2 Out-Of-Line XML Island.
         /// </param>
         /// <param name="properties">The list of properties of this EPUB manifest item or <c>null</c> if the manifest item doesn't declare properties.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="href"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="mediaType"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="id" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="href" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="mediaType" /> parameter is <c>null</c>.</exception>
         public EpubManifestItem(string id, string href, string mediaType, string? mediaOverlay, string? requiredNamespace, string? requiredModules,
             string? fallback, string? fallbackStyle, List<EpubManifestProperty>? properties)
         {

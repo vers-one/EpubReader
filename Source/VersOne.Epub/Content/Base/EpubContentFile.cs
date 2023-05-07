@@ -14,7 +14,7 @@ namespace VersOne.Epub
         /// <param name="key">The content file key as it is declared in the EPUB manifest (in the <see cref="EpubManifestItem.Href" /> property).</param>
         /// <param name="contentType">The type of the content of the file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="contentMimeType"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="contentMimeType" /> parameter is <c>null</c>.</exception>
         protected EpubContentFile(string key, EpubContentType contentType, string contentMimeType)
         {
             Key = key ?? throw new ArgumentNullException(nameof(key));

@@ -17,7 +17,7 @@ namespace VersOne.Epub
         /// <param name="type">The value determining whether this navigation item acts as a header or as a navigation link.</param>
         /// <param name="title">The title of the navigation element (which is either the text of the header or the title of the navigation link).</param>
         /// <param name="nestedItems">A list of child navigation elements constituting the nested navigational hierarchy within the navigation element.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="title"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="title" /> parameter is <c>null</c>.</exception>
         public EpubNavigationItemRef(EpubNavigationItemType type, string title, List<EpubNavigationItemRef>? nestedItems = null)
             : this(type, title, null, null, nestedItems)
         {
@@ -33,7 +33,7 @@ namespace VersOne.Epub
         /// The EPUB content file reference for the navigation element or <c>null</c> if the value of the <paramref name="link" /> parameter is <c>null</c>.
         /// </param>
         /// <param name="nestedItems">A list of child navigation elements constituting the nested navigational hierarchy within the navigation element.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="title"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="title" /> parameter is <c>null</c>.</exception>
         public EpubNavigationItemRef(EpubNavigationItemType type, string title, EpubNavigationItemLink? link, EpubLocalTextContentFileRef? htmlContentFileRef,
             List<EpubNavigationItemRef>? nestedItems = null)
         {

@@ -16,7 +16,7 @@ namespace VersOne.Epub.Schema
         /// Initializes a new instance of the <see cref="Epub2NcxContent" /> class with the specified source.
         /// </summary>
         /// <param name="source">An IRI that resolves to a content document or a fragment within the EPUB book.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="source"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="source" /> parameter is <c>null</c>.</exception>
         public Epub2NcxContent(string source)
             : this(null, source)
         {
@@ -27,7 +27,7 @@ namespace VersOne.Epub.Schema
         /// </summary>
         /// <param name="id">The unique identifier of the content pointer or <c>null</c> if the identifier is not specified.</param>
         /// <param name="source">An IRI that resolves to a content document or a fragment within the EPUB book.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="source"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="source" /> parameter is <c>null</c>.</exception>
         public Epub2NcxContent(string? id, string source)
         {
             Id = id;

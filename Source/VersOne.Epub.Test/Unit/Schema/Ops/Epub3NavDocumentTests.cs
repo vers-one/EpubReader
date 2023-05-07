@@ -12,7 +12,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops
             {
                 new Epub3Nav
                 (
-                    type: Epub3NavStructuralSemanticsProperty.BODYMATTER,
+                    type: Epub3StructuralSemanticsProperty.BODYMATTER,
                     isHidden: false,
                     head: "Head",
                     ol: new Epub3NavOl

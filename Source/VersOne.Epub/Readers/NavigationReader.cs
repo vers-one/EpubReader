@@ -26,7 +26,7 @@ namespace VersOne.Epub.Internal
 
         public static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub3NavDocument epub3NavDocument)
         {
-            return GetNavigationItems(epubSchema, epubContentRef, epub3NavDocument.Navs.FirstOrDefault(nav => nav.Type == Epub3NavStructuralSemanticsProperty.TOC),
+            return GetNavigationItems(epubSchema, epubContentRef, epub3NavDocument.Navs.FirstOrDefault(nav => nav.Type == Epub3StructuralSemanticsProperty.TOC),
                 epub3NavDocument.FilePath);
         }
 

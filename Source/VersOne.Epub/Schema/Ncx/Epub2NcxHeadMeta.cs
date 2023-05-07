@@ -18,8 +18,8 @@ namespace VersOne.Epub.Schema
         /// <param name="name">The name of the NCX metadata item.</param>
         /// <param name="content">The content (i.e. the value) of the NCX metadata item.</param>
         /// <param name="scheme">The name of the scheme for the <see cref="Name" /> property or <c>null</c> if the scheme is not specified.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="name"/> argument is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="content"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="name" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
         public Epub2NcxHeadMeta(string name, string content, string? scheme = null)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));

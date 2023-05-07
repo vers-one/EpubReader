@@ -184,7 +184,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 {
                     new Epub3Nav
                     (
-                        type: Epub3NavStructuralSemanticsProperty.TOC,
+                        type: Epub3StructuralSemanticsProperty.TOC,
                         isHidden: false,
                         head: "Table of Contents",
                         ol: new Epub3NavOl
@@ -222,7 +222,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 (
                                     anchor: new Epub3NavAnchor
                                     (
-                                        type: Epub3NavStructuralSemanticsProperty.LOI,
+                                        type: Epub3StructuralSemanticsProperty.LOI,
                                         href: "illustrations.html",
                                         text: "List of illustrations"
                                     )
@@ -232,7 +232,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     ),
                     new Epub3Nav
                     (
-                        type: Epub3NavStructuralSemanticsProperty.PAGE_LIST,
+                        type: Epub3StructuralSemanticsProperty.PAGE_LIST,
                         isHidden: true,
                         head: "Page list",
                         ol: new Epub3NavOl
@@ -283,6 +283,17 @@ namespace VersOne.Epub.Test.Unit.Readers
             }
         }
 
+        [Fact(DisplayName = "Constructing a Epub3NavDocumentReader instance with a non-null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNonNullEpubReaderOptionsTest()
+        {
+            _ = new Epub3NavDocumentReader(new EpubReaderOptions());
+        }
+
+        [Fact(DisplayName = "Constructing a Epub3NavDocumentReader instance with a null epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpubReaderOptionsTest()
+        {
+            _ = new Epub3NavDocumentReader(null);
+        }
 
         [Fact(DisplayName = "Reading a minimal NAV file should succeed")]
         public async void ReadEpub3NavDocumentAsyncWithMinimalNavFileTest()

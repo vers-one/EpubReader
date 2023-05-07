@@ -46,7 +46,7 @@ namespace VersOne.Epub.Schema
             {
                 "page-spread-left" => EpubSpineProperty.PAGE_SPREAD_LEFT,
                 "page-spread-right" => EpubSpineProperty.PAGE_SPREAD_RIGHT,
-                _ => EpubSpineProperty.UNKNOWN,
+                _ => EpubSpineProperty.UNKNOWN
             };
         }
     }

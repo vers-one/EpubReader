@@ -17,7 +17,7 @@ namespace VersOne.Epub.Schema
         /// </summary>
         /// <param name="filePath">The absolute path of the EPUB 3 navigation document file in the EPUB archive.</param>
         /// <param name="navs">A list of navigation sections in the EPUB 3 navigation document.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="filePath"/> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="filePath" /> parameter is <c>null</c>.</exception>
         public Epub3NavDocument(string filePath, List<Epub3Nav>? navs = null)
         {
             FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));

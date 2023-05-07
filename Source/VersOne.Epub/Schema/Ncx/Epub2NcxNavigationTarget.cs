@@ -19,7 +19,7 @@ namespace VersOne.Epub.Schema
         /// <param name="id">The unique identifier of the navigation target.</param>
         /// <param name="navigationLabels">A list of navigation labels providing textual description of the navigation target for the reader (e.g., a description of a footnote).</param>
         /// <param name="content">A pointer to the book's content associated with the navigation target or <c>null</c> if no such pointer is specified.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="id" /> parameter is <c>null</c>.</exception>
         public Epub2NcxNavigationTarget(string id, List<Epub2NcxNavigationLabel>? navigationLabels, Epub2NcxContent? content)
             : this(id, null, null, null, navigationLabels, content)
         {
@@ -37,7 +37,7 @@ namespace VersOne.Epub.Schema
         /// <param name="playOrder">An optional positive integer denoting the location of the content of the navigation target in the reading order.</param>
         /// <param name="navigationLabels">A list of navigation labels providing textual description of the navigation target for the reader (e.g., a description of a footnote).</param>
         /// <param name="content">A pointer to the book's content associated with the navigation target or <c>null</c> if no such pointer is specified.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="id"/> argument is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="id" /> parameter is <c>null</c>.</exception>
         public Epub2NcxNavigationTarget(string id, string? @class, string? value, string? playOrder, List<Epub2NcxNavigationLabel>? navigationLabels, Epub2NcxContent? content)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));

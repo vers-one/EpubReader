@@ -9,7 +9,7 @@ namespace VersOne.Epub.Test.Unit.TestData
             <?xml version='1.0' encoding='utf-8'?>
             <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
               <rootfiles>
-                <rootfile media-type="application/oebps-package+xml" full-path="{OPF_FILE_PATH}"/>
+                <rootfile media-type="application/oebps-package+xml" full-path="{OPF_FILE_PATH}" />
               </rootfiles>
             </container>
             """;
