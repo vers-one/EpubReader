@@ -727,6 +727,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             return new
             (
+                uniqueIdentifier: null,
                 epubVersion: epubVersion,
                 metadata: new EpubMetadata(),
                 manifest: new EpubManifest(),

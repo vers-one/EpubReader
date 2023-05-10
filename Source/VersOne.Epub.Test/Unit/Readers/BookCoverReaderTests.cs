@@ -317,6 +317,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: new EpubPackage
                 (
+                    uniqueIdentifier: null,
                     epubVersion: epubVersion,
                     metadata: new EpubMetadata(),
                     manifest: manifest ?? new EpubManifest(),

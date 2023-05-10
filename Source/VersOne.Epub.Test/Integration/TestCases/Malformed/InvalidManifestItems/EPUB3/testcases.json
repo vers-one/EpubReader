@@ -54,7 +54,9 @@
           "EpubVersion": "EPUB_3",
           "Metadata": {
             "Titles": [
-              "Test title"
+              {
+                "Title": "Test title"
+              }
             ],
             "Creators": [
               {
