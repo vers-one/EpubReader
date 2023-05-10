@@ -148,6 +148,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         private static EpubPackage MinimalEpubPackageWithNav =>
             new
             (
+                uniqueIdentifier: null,
                 epubVersion: EpubVersion.EPUB_3,
                 metadata: new EpubMetadata(),
                 manifest: new EpubManifest
@@ -320,6 +321,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testZipFile = new();
             EpubPackage epubPackage = new
             (
+                uniqueIdentifier: null,
                 epubVersion: EpubVersion.EPUB_3,
                 metadata: new EpubMetadata(),
                 manifest: new EpubManifest
@@ -347,6 +349,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testZipFile = new();
             EpubPackage epubPackage = new
             (
+                uniqueIdentifier: null,
                 epubVersion: EpubVersion.EPUB_2,
                 metadata: new EpubMetadata(),
                 manifest: new EpubManifest(),

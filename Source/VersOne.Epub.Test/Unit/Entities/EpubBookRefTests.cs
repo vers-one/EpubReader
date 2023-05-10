@@ -370,6 +370,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                 (
                     package: new EpubPackage
                     (
+                        uniqueIdentifier: null,
                         epubVersion: epubVersion,
                         metadata: new EpubMetadata(),
                         manifest: manifest ?? new EpubManifest(),

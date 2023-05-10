@@ -30,16 +30,50 @@ namespace VersOne.Epub.Internal
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
             XElement packageNode = containerDocument.Element(opfNamespace + "package") ??
                 throw new EpubPackageException("EPUB parsing error: package XML element not found in the package file.");
-            string epubVersionValue = packageNode.Attribute("version").Value;
-            EpubVersion epubVersion = epubVersionValue switch
+            string? uniqueIdentifier = null;
+            string? epubVersionString = null;
+            string? id = null;
+            EpubTextDirection? textDirection = null;
+            string? prefix = null;
+            string? language = null;
+            foreach (XAttribute packageNodeAttribute in packageNode.Attributes())
+            {
+                string attributeValue = packageNodeAttribute.Value;
+                switch (packageNodeAttribute.GetLowerCaseLocalName())
+                {
+                    case "unique-identifier":
+                        uniqueIdentifier = attributeValue;
+                        break;
+                    case "version":
+                        epubVersionString = attributeValue;
+                        break;
+                    case "id":
+                        id = attributeValue;
+                        break;
+                    case "dir":
+                        textDirection = EpubTextDirectionParser.Parse(attributeValue);
+                        break;
+                    case "prefix":
+                        prefix = attributeValue;
+                        break;
+                    case "lang":
+                        language = attributeValue;
+                        break;
+                }
+            }
+            if (epubVersionString == null)
+            {
+                throw new EpubPackageException("EPUB parsing error: EPUB version is not specified in the package.");
+            }
+            EpubVersion epubVersion = epubVersionString switch
             {
                 "2.0" => EpubVersion.EPUB_2,
                 "3.0" => EpubVersion.EPUB_3,
                 "3.1" => EpubVersion.EPUB_3_1,
-                _ => throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionValue}\".")
+                _ => throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionString}\".")
             };
             XElement metadataNode = packageNode.Element(opfNamespace + "metadata") ?? throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
-            EpubMetadata metadata = ReadMetadata(metadataNode);
+            EpubMetadata metadata = MetadataReader.ReadMetadata(metadataNode);
             XElement manifestNode = packageNode.Element(opfNamespace + "manifest") ?? throw new EpubPackageException("EPUB parsing error: manifest not found in the package.");
             EpubManifest manifest = ReadManifest(manifestNode, epubReaderOptions.PackageReaderOptions);
             XElement spineNode = packageNode.Element(opfNamespace + "spine") ?? throw new EpubPackageException("EPUB parsing error: spine not found in the package.");
@@ -50,272 +84,20 @@ namespace VersOne.Epub.Internal
             {
                 guide = ReadGuide(guideNode);
             }
-            return new(epubVersion, metadata, manifest, spine, guide);
-        }
-
-        private static EpubMetadata ReadMetadata(XElement metadataNode)
-        {
-            List<string> titles = new();
-            List<EpubMetadataCreator> creators = new();
-            List<string> subjects = new();
-            string? description = null;
-            List<string> publishers = new();
-            List<EpubMetadataContributor> contributors = new();
-            List<EpubMetadataDate> dates = new();
-            List<string> types = new();
-            List<string> formats = new();
-            List<EpubMetadataIdentifier> identifiers = new();
-            List<string> sources = new();
-            List<string> languages = new();
-            List<string> relations = new();
-            List<string> coverages = new();
-            List<string> rights = new();
-            List<EpubMetadataLink> links = new();
-            List<EpubMetadataMeta> metaItems = new();
-            foreach (XElement metadataItemNode in metadataNode.Elements())
-            {
-                string innerText = metadataItemNode.Value;
-                switch (metadataItemNode.GetLowerCaseLocalName())
-                {
-                    case "title":
-                        titles.Add(innerText);
-                        break;
-                    case "creator":
-                        EpubMetadataCreator creator = ReadMetadataCreator(metadataItemNode);
-                        creators.Add(creator);
-                        break;
-                    case "subject":
-                        subjects.Add(innerText);
-                        break;
-                    case "description":
-                        description = innerText;
-                        break;
-                    case "publisher":
-                        publishers.Add(innerText);
-                        break;
-                    case "contributor":
-                        EpubMetadataContributor contributor = ReadMetadataContributor(metadataItemNode);
-                        contributors.Add(contributor);
-                        break;
-                    case "date":
-                        EpubMetadataDate date = ReadMetadataDate(metadataItemNode);
-                        dates.Add(date);
-                        break;
-                    case "type":
-                        types.Add(innerText);
-                        break;
-                    case "format":
-                        formats.Add(innerText);
-                        break;
-                    case "identifier":
-                        EpubMetadataIdentifier identifier = ReadMetadataIdentifier(metadataItemNode);
-                        identifiers.Add(identifier);
-                        break;
-                    case "source":
-                        sources.Add(innerText);
-                        break;
-                    case "language":
-                        languages.Add(innerText);
-                        break;
-                    case "relation":
-                        relations.Add(innerText);
-                        break;
-                    case "coverage":
-                        coverages.Add(innerText);
-                        break;
-                    case "rights":
-                        rights.Add(innerText);
-                        break;
-                    case "link":
-                        EpubMetadataLink link = ReadMetadataLink(metadataItemNode);
-                        links.Add(link);
-                        break;
-                    case "meta":
-                        EpubMetadataMeta meta = ReadMetadataMeta(metadataItemNode);
-                        metaItems.Add(meta);
-                        break;
-                }
-            }
-            return new(titles, creators, subjects, description, publishers, contributors, dates, types, formats, identifiers, sources,
-                languages, relations, coverages, rights, links, metaItems);
-        }
-
-        private static EpubMetadataCreator ReadMetadataCreator(XElement metadataCreatorNode)
-        {
-            string? id = null;
-            string creator;
-            string? role = null;
-            string? fileAs = null;
-            foreach (XAttribute metadataCreatorNodeAttribute in metadataCreatorNode.Attributes())
-            {
-                string attributeValue = metadataCreatorNodeAttribute.Value;
-                switch (metadataCreatorNodeAttribute.GetLowerCaseLocalName())
-                {
-                    case "id":
-                        id = attributeValue;
-                        break;
-                    case "role":
-                        role = attributeValue;
-                        break;
-                    case "file-as":
-                        fileAs = attributeValue;
-                        break;
-                }
-            }
-            creator = metadataCreatorNode.Value;
-            return new(id, creator, fileAs, role);
-        }
-
-        private static EpubMetadataContributor ReadMetadataContributor(XElement metadataContributorNode)
-        {
-            string? id = null;
-            string contributor;
-            string? role = null;
-            string? fileAs = null;
-            foreach (XAttribute metadataContributorNodeAttribute in metadataContributorNode.Attributes())
-            {
-                string attributeValue = metadataContributorNodeAttribute.Value;
-                switch (metadataContributorNodeAttribute.GetLowerCaseLocalName())
-                {
-                    case "id":
-                        id = attributeValue;
-                        break;
-                    case "role":
-                        role = attributeValue;
-                        break;
-                    case "file-as":
-                        fileAs = attributeValue;
-                        break;
-                }
-            }
-            contributor = metadataContributorNode.Value;
-            return new(id, contributor, fileAs, role);
-        }
-
-        private static EpubMetadataDate ReadMetadataDate(XElement metadataDateNode)
-        {
-            string date;
-            string? @event = null;
-            XAttribute eventAttribute = metadataDateNode.Attribute(metadataDateNode.Parent.Name.Namespace + "event");
-            if (eventAttribute != null)
-            {
-                @event = eventAttribute.Value;
-            }
-            date = metadataDateNode.Value;
-            return new EpubMetadataDate(date, @event);
-        }
-
-        private static EpubMetadataIdentifier ReadMetadataIdentifier(XElement metadataIdentifierNode)
-        {
-            string? id = null;
-            string? scheme = null;
-            string identifier;
-            foreach (XAttribute metadataIdentifierNodeAttribute in metadataIdentifierNode.Attributes())
-            {
-                string attributeValue = metadataIdentifierNodeAttribute.Value;
-                switch (metadataIdentifierNodeAttribute.GetLowerCaseLocalName())
-                {
-                    case "id":
-                        id = attributeValue;
-                        break;
-                    case "scheme":
-                        scheme = attributeValue;
-                        break;
-                }
-            }
-            identifier = metadataIdentifierNode.Value;
-            return new(id, scheme, identifier);
-        }
-
-        private static EpubMetadataLink ReadMetadataLink(XElement metadataIdentifierNode)
-        {
-            string? id = null;
-            string? href = null;
-            string? mediaType = null;
-            List<EpubMetadataLinkProperty>? properties = null;
-            string? refines = null;
-            List<EpubMetadataLinkRelationship>? relationships = null;
-            foreach (XAttribute metadataIdentifierNodeAttribute in metadataIdentifierNode.Attributes())
-            {
-                string attributeValue = metadataIdentifierNodeAttribute.Value;
-                switch (metadataIdentifierNodeAttribute.GetLowerCaseLocalName())
-                {
-                    case "id":
-                        id = attributeValue;
-                        break;
-                    case "href":
-                        href = attributeValue;
-                        break;
-                    case "media-type":
-                        mediaType = attributeValue;
-                        break;
-                    case "refines":
-                        refines = attributeValue;
-                        break;
-                    case "properties":
-                        properties = EpubMetadataLinkPropertyParser.ParsePropertyList(attributeValue);
-                        break;
-                    case "rel":
-                        relationships = EpubMetadataLinkRelationshipParser.ParseRelationshipList(attributeValue);
-                        break;
-                }
-            }
-            if (href == null)
-            {
-                throw new EpubPackageException("Incorrect EPUB metadata link: href is missing.");
-            }
-            if (relationships == null)
-            {
-                throw new EpubPackageException("Incorrect EPUB metadata link: rel is missing.");
-            }
-            return new(id, href, mediaType, properties, refines, relationships);
-        }
-
-        private static EpubMetadataMeta ReadMetadataMeta(XElement metadataMetaNode)
-        {
-            string? name = null;
-            string? content = null;
-            string? id = null;
-            string? refines = null;
-            string? property = null;
-            string? scheme = null;
-            foreach (XAttribute metadataMetaNodeAttribute in metadataMetaNode.Attributes())
-            {
-                string attributeValue = metadataMetaNodeAttribute.Value;
-                switch (metadataMetaNodeAttribute.GetLowerCaseLocalName())
-                {
-                    case "name":
-                        name = attributeValue;
-                        break;
-                    case "content":
-                        content = attributeValue;
-                        break;
-                    case "id":
-                        id = attributeValue;
-                        break;
-                    case "refines":
-                        refines = attributeValue;
-                        break;
-                    case "property":
-                        property = attributeValue;
-                        break;
-                    case "scheme":
-                        scheme = attributeValue;
-                        break;
-                }
-            }
-            content ??= metadataMetaNode.Value;
-            return new(name, content, id, refines, property, scheme);
+            List<EpubCollection> collections = ReadCollections(packageNode);
+            return new(uniqueIdentifier, epubVersion, metadata, manifest, spine, guide, collections, id, textDirection, prefix, language);
         }
 
         private static EpubManifest ReadManifest(XElement manifestNode, PackageReaderOptions packageReaderOptions)
         {
+            XAttribute? manifestIdAttribute = manifestNode.Attribute("id");
+            string? manifestId = manifestIdAttribute?.Value;
             List<EpubManifestItem> items = new();
             foreach (XElement manifestItemNode in manifestNode.Elements())
             {
                 if (manifestItemNode.CompareNameTo("item"))
                 {
-                    string? id = null;
+                    string? manifestItemId = null;
                     string? href = null;
                     string? mediaType = null;
                     string? mediaOverlay = null;
@@ -330,7 +112,7 @@ namespace VersOne.Epub.Internal
                         switch (manifestItemNodeAttribute.GetLowerCaseLocalName())
                         {
                             case "id":
-                                id = attributeValue;
+                                manifestItemId = attributeValue;
                                 break;
                             case "href":
                                 href = Uri.UnescapeDataString(attributeValue);
@@ -358,7 +140,7 @@ namespace VersOne.Epub.Internal
                                 break;
                         }
                     }
-                    if (id == null)
+                    if (manifestItemId == null)
                     {
                         if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
                         {
@@ -382,10 +164,10 @@ namespace VersOne.Epub.Internal
                         }
                         throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing.");
                     }
-                    items.Add(new EpubManifestItem(id, href, mediaType, mediaOverlay, requiredNamespace, requiredModules, fallback, fallbackStyle, properties));
+                    items.Add(new EpubManifestItem(manifestItemId, href, mediaType, mediaOverlay, requiredNamespace, requiredModules, fallback, fallbackStyle, properties));
                 }
             }
-            return new(items);
+            return new(manifestId, items);
         }
 
         private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion, PackageReaderOptions packageReaderOptions)
@@ -488,6 +270,68 @@ namespace VersOne.Epub.Internal
                 }
             }
             return new(items);
+        }
+
+        private static List<EpubCollection> ReadCollections(XElement packageNode)
+        {
+            List<EpubCollection> result = new();
+            foreach (XElement collectionNode in packageNode.Elements(packageNode.Name.Namespace + "collection"))
+            {
+                result.Add(ReadCollection(collectionNode));
+            }
+            return result;
+        }
+
+        private static EpubCollection ReadCollection(XElement collectionNode)
+        {
+            string? role = null;
+            string? id = null;
+            EpubTextDirection? textDirection = null;
+            string? language = null;
+            foreach (XAttribute collectionNodeAttribute in collectionNode.Attributes())
+            {
+                string attributeValue = collectionNodeAttribute.Value;
+                switch (collectionNodeAttribute.GetLowerCaseLocalName())
+                {
+                    case "role":
+                        role = attributeValue;
+                        break;
+                    case "id":
+                        id = attributeValue;
+                        break;
+                    case "dir":
+                        textDirection = EpubTextDirectionParser.Parse(attributeValue);
+                        break;
+                    case "lang":
+                        language = attributeValue;
+                        break;
+                }
+            }
+            if (role == null)
+            {
+                throw new EpubPackageException("Incorrect EPUB collection: collection role is missing.");
+            }
+            EpubMetadata? metadata = null;
+            List<EpubCollection> nestedCollections = new();
+            List<EpubMetadataLink> links = new();
+            foreach (XElement collectionChildNode in collectionNode.Elements())
+            {
+                switch (collectionChildNode.GetLowerCaseLocalName())
+                {
+                    case "metadata":
+                        metadata = MetadataReader.ReadMetadata(collectionChildNode);
+                        break;
+                    case "collection":
+                        EpubCollection nestedCollection = ReadCollection(collectionChildNode);
+                        nestedCollections.Add(nestedCollection);
+                        break;
+                    case "link":
+                        EpubMetadataLink link = MetadataReader.ReadLink(collectionChildNode);
+                        links.Add(link);
+                        break;
+                }
+            }
+            return new(role, metadata, nestedCollections, links, id, textDirection, language);
         }
     }
 }

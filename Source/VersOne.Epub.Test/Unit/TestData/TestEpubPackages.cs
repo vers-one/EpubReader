@@ -9,6 +9,7 @@ namespace VersOne.Epub.Test.Unit.TestData
         {
             return new
             (
+                uniqueIdentifier: null,
                 epubVersion: EpubVersion.EPUB_3,
                 metadata: new EpubMetadata(),
                 manifest: TestEpubManifests.CreateMinimalTestEpubManifest(),
@@ -21,6 +22,7 @@ namespace VersOne.Epub.Test.Unit.TestData
         {
             return new
             (
+                uniqueIdentifier: null,
                 epubVersion: EpubVersion.EPUB_2,
                 metadata: new EpubMetadata(),
                 manifest: new EpubManifest(),
@@ -33,12 +35,16 @@ namespace VersOne.Epub.Test.Unit.TestData
         {
             return new
             (
+                uniqueIdentifier: BOOK_IDENTIFIER_ID,
                 epubVersion: EpubVersion.EPUB_3,
                 metadata: new EpubMetadata
                 (
-                    titles: new List<string>()
+                    titles: new List<EpubMetadataTitle>()
                     {
-                        BOOK_TITLE
+                        new EpubMetadataTitle
+                        (
+                            title: BOOK_TITLE
+                        )
                     },
                     creators: new List<EpubMetadataCreator>()
                     {
@@ -47,21 +53,21 @@ namespace VersOne.Epub.Test.Unit.TestData
                             creator: BOOK_AUTHOR
                         )
                     },
-                    subjects: new List<string>(),
-                    description: BOOK_DESCRIPTION,
-                    publishers: new List<string>(),
-                    contributors: new List<EpubMetadataContributor>(),
-                    dates: new List<EpubMetadataDate>(),
-                    types: new List<string>(),
-                    formats: new List<string>(),
-                    identifiers: new List<EpubMetadataIdentifier>(),
-                    sources: new List<string>(),
-                    languages: new List<string>(),
-                    relations: new List<string>(),
-                    coverages: new List<string>(),
-                    rights: new List<string>(),
-                    links: new List<EpubMetadataLink>(),
-                    metaItems: new List<EpubMetadataMeta>()
+                    descriptions: new List<EpubMetadataDescription>()
+                    {
+                        new EpubMetadataDescription
+                        (
+                            description: BOOK_DESCRIPTION
+                        )
+                    },
+                    identifiers: new List<EpubMetadataIdentifier>()
+                    {
+                        new EpubMetadataIdentifier
+                        (
+                            identifier: BOOK_UID,
+                            id: BOOK_IDENTIFIER_ID
+                        )
+                    }
                 ),
                 manifest: TestEpubManifests.CreateFullTestEpubManifest(),
                 spine: new EpubSpine

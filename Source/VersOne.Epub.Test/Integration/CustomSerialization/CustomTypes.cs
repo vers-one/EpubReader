@@ -85,7 +85,13 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
             (
                 optionalProperties: new()
                 {
-                    { nameof(EpubPackage.Guide), PropertyDefaultValue.NULL }
+                    { nameof(EpubPackage.UniqueIdentifier), PropertyDefaultValue.NULL },
+                    { nameof(EpubPackage.Guide), PropertyDefaultValue.NULL },
+                    { nameof(EpubPackage.Collections), PropertyDefaultValue.EMPTY_ARRAY },
+                    { nameof(EpubPackage.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubPackage.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubPackage.Prefix), PropertyDefaultValue.NULL },
+                    { nameof(EpubPackage.Language), PropertyDefaultValue.NULL },
                 }
             );
             yield return CreateType<EpubMetadata>
@@ -95,7 +101,7 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                     { nameof(EpubMetadata.Titles), PropertyDefaultValue.EMPTY_ARRAY },
                     { nameof(EpubMetadata.Creators), PropertyDefaultValue.EMPTY_ARRAY },
                     { nameof(EpubMetadata.Subjects), PropertyDefaultValue.EMPTY_ARRAY },
-                    { nameof(EpubMetadata.Description), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadata.Descriptions), PropertyDefaultValue.EMPTY_ARRAY },
                     { nameof(EpubMetadata.Publishers), PropertyDefaultValue.EMPTY_ARRAY },
                     { nameof(EpubMetadata.Contributors), PropertyDefaultValue.EMPTY_ARRAY },
                     { nameof(EpubMetadata.Dates), PropertyDefaultValue.EMPTY_ARRAY },
@@ -111,13 +117,51 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                     { nameof(EpubMetadata.MetaItems), PropertyDefaultValue.EMPTY_ARRAY }
                 }
             );
+            yield return CreateType<EpubMetadataTitle>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataTitle.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataTitle.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataTitle.Language), PropertyDefaultValue.NULL }
+                }
+            );
             yield return CreateType<EpubMetadataCreator>
             (
                 optionalProperties: new()
                 {
                     { nameof(EpubMetadataCreator.Id), PropertyDefaultValue.NULL },
                     { nameof(EpubMetadataCreator.FileAs), PropertyDefaultValue.NULL },
-                    { nameof(EpubMetadataCreator.Role), PropertyDefaultValue.NULL }
+                    { nameof(EpubMetadataCreator.Role), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataCreator.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataCreator.Language), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataSubject>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataSubject.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataSubject.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataSubject.Language), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataDescription>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataDescription.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataDescription.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataDescription.Language), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataPublisher>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataPublisher.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataPublisher.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataPublisher.Language), PropertyDefaultValue.NULL }
                 }
             );
             yield return CreateType<EpubMetadataContributor>
@@ -126,14 +170,31 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                 {
                     { nameof(EpubMetadataContributor.Id), PropertyDefaultValue.NULL },
                     { nameof(EpubMetadataContributor.FileAs), PropertyDefaultValue.NULL },
-                    { nameof(EpubMetadataContributor.Role), PropertyDefaultValue.NULL }
+                    { nameof(EpubMetadataContributor.Role), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataContributor.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataContributor.Language), PropertyDefaultValue.NULL }
                 }
             );
             yield return CreateType<EpubMetadataDate>
             (
                 optionalProperties: new()
                 {
+                    { nameof(EpubMetadataDate.Id), PropertyDefaultValue.NULL },
                     { nameof(EpubMetadataDate.Event), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataType>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataType.Id), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataFormat>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataFormat.Id), PropertyDefaultValue.NULL }
                 }
             );
             yield return CreateType<EpubMetadataIdentifier>
@@ -142,6 +203,47 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                 {
                     { nameof(EpubMetadataIdentifier.Id), PropertyDefaultValue.NULL },
                     { nameof(EpubMetadataIdentifier.Scheme), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataSource>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataSource.Id), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataLanguage>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataLanguage.Id), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataRelation>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataRelation.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataRelation.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataRelation.Language), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataCoverage>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataCoverage.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataCoverage.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataCoverage.Language), PropertyDefaultValue.NULL }
+                }
+            );
+            yield return CreateType<EpubMetadataRights>
+            (
+                optionalProperties: new()
+                {
+                    { nameof(EpubMetadataRights.Id), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataRights.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataRights.Language), PropertyDefaultValue.NULL }
                 }
             );
             yield return CreateType<EpubMetadataLink>
@@ -163,13 +265,16 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                     { nameof(EpubMetadataMeta.Id), PropertyDefaultValue.NULL },
                     { nameof(EpubMetadataMeta.Refines), PropertyDefaultValue.NULL },
                     { nameof(EpubMetadataMeta.Property), PropertyDefaultValue.NULL },
-                    { nameof(EpubMetadataMeta.Scheme), PropertyDefaultValue.NULL }
+                    { nameof(EpubMetadataMeta.Scheme), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataMeta.TextDirection), PropertyDefaultValue.NULL },
+                    { nameof(EpubMetadataMeta.Language), PropertyDefaultValue.NULL }
                 }
             );
             yield return CreateType<EpubManifest>
             (
                 optionalProperties: new()
                 {
+                    { nameof(EpubManifest.Id), PropertyDefaultValue.NULL },
                     { nameof(EpubManifest.Items), PropertyDefaultValue.EMPTY_ARRAY }
                 }
             );

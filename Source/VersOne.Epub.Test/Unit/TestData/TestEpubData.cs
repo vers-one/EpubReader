@@ -50,9 +50,11 @@
         public const string REMOTE_AUDIO_CONTENT_FILE_HREF = "https://example.com/books/123/chapter1.mp3";
         public const EpubContentType XML_CONTENT_TYPE = EpubContentType.XML;
         public const string XML_CONTENT_MIME_TYPE = "application/xml";
+        public const string BOOK_IDENTIFIER_ID = "book-uid";
         public const string BOOK_TITLE = "Test title";
         public const string BOOK_AUTHOR = "John Doe";
         public const string BOOK_DESCRIPTION = "Test description";
         public const string BOOK_UID = "9781234567890";
+        public const string COLLECTION_ROLE = "http://example.org/roles/unit";
     }
 }

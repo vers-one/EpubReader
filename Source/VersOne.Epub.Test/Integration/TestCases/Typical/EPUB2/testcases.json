@@ -223,42 +223,58 @@
           "EpubVersion": "EPUB_2",
           "Metadata": {
             "Titles": [
-              "Test title 1",
-              "Test title 2"
+              {
+                "Title": "Test title 1"
+              },
+              {
+                "Title": "Test title 2"
+              }
             ],
             "Creators": [
               {
-                "Id": "creator-1",
                 "Creator": "John Doe",
+                "Id": "creator-1",
                 "FileAs": "Doe, John",
                 "Role": "author"
               },
               {
-                "Id": "creator-2",
                 "Creator": "Jane Doe",
+                "Id": "creator-2",
                 "FileAs": "Doe, Jane",
                 "Role": "author"
               }
             ],
             "Subjects": [
-              "Test subject 1",
-              "Test subject 2"
+              {
+                "Subject": "Test subject 1"
+              },
+              {
+                "Subject": "Test subject 2"
+              }
             ],
-            "Description": "Test description",
+            "Descriptions": [
+              {
+                "Description": "Test description"
+              }
+            ],
             "Publishers": [
-              "Test publisher 1",
-              "Test publisher 2"
+              {
+                "Publisher": "Test publisher 1"
+              },
+              {
+                "Publisher": "Test publisher 2"
+              }
             ],
             "Contributors": [
               {
-                "Id": "contributor-1",
                 "Contributor": "John Editor",
+                "Id": "contributor-1",
                 "FileAs": "Editor, John",
                 "Role": "editor"
               },
               {
-                "Id": "contributor-2",
                 "Contributor": "Jane Editor",
+                "Id": "contributor-2",
                 "FileAs": "Editor, Jane",
                 "Role": "editor"
               }
@@ -274,44 +290,72 @@
               }
             ],
             "Types": [
-              "dictionary",
-              "preview"
+              {
+                "Type": "dictionary"
+              },
+              {
+                "Type": "preview"
+              }
             ],
             "Formats": [
-              "format-1",
-              "format-2"
+              {
+                "Format": "format-1"
+              },
+              {
+                "Format": "format-2"
+              }
             ],
             "Identifiers": [
               {
+                "Identifier": "https://example.com/books/123",
                 "Id": "identifier-1",
-                "Scheme": "URI",
-                "Identifier": "https://example.com/books/123"
+                "Scheme": "URI"
               },
               {
+                "Identifier": "9781234567890",
                 "Id": "identifier-2",
-                "Scheme": "ISBN",
-                "Identifier": "9781234567890"
+                "Scheme": "ISBN"
               }
             ],
             "Sources": [
-              "https://example.com/books/123/content-1.html",
-              "https://example.com/books/123/content-2.html"
+              {
+                "Source": "https://example.com/books/123/content-1.html"
+              },
+              {
+                "Source": "https://example.com/books/123/content-2.html"
+              }
             ],
             "Languages": [
-              "en",
-              "is"
+              {
+                "Language": "en"
+              },
+              {
+                "Language": "is"
+              }
             ],
             "Relations": [
-              "https://example.com/books/123/related-1.html",
-              "https://example.com/books/123/related-2.html"
+              {
+                "Relation": "https://example.com/books/123/related-1.html"
+              },
+              {
+                "Relation": "https://example.com/books/123/related-2.html"
+              }
             ],
             "Coverages": [
-              "New York",
-              "1700-1850"
+              {
+                "Coverage": "New York"
+              },
+              {
+                "Coverage": "1700-1850"
+              }
             ],
             "Rights": [
-              "Public domain in the USA",
-              "All rights reserved"
+              {
+                "Rights": "Public domain in the USA"
+              },
+              {
+                "Rights": "All rights reserved"
+              }
             ],
             "MetaItems": [
               {

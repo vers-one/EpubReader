@@ -35,11 +35,8 @@ namespace VersOne.Epub.Internal
                 }
             }
             string navFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, navManifestItem.Href);
-            IZipFileEntry? navFileEntry = epubFile.GetEntry(navFileEntryPath);
-            if (navFileEntry == null)
-            {
+            IZipFileEntry navFileEntry = epubFile.GetEntry(navFileEntryPath) ??
                 throw new Epub3NavException($"EPUB parsing error: navigation file {navFileEntryPath} not found in the EPUB file.");
-            }
             if (navFileEntry.Length > Int32.MaxValue)
             {
                 throw new Epub3NavException($"EPUB parsing error: navigation file {navFileEntryPath} is larger than 2 GB.");
@@ -50,16 +47,8 @@ namespace VersOne.Epub.Internal
                 navDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace xhtmlNamespace = navDocument.Root.Name.Namespace;
-            XElement htmlNode = navDocument.Element(xhtmlNamespace + "html");
-            if (htmlNode == null)
-            {
-                throw new Epub3NavException("EPUB parsing error: navigation file does not contain html element.");
-            }
-            XElement bodyNode = htmlNode.Element(xhtmlNamespace + "body");
-            if (bodyNode == null)
-            {
-                throw new Epub3NavException("EPUB parsing error: navigation file does not contain body element.");
-            }
+            XElement htmlNode = navDocument.Element(xhtmlNamespace + "html") ?? throw new Epub3NavException("EPUB parsing error: navigation file does not contain html element.");
+            XElement bodyNode = htmlNode.Element(xhtmlNamespace + "body") ?? throw new Epub3NavException("EPUB parsing error: navigation file does not contain body element.");
             List<Epub3Nav> navs = new();
             foreach (XElement navNode in bodyNode.Elements(xhtmlNamespace + "nav"))
             {

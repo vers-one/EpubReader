@@ -48,10 +48,10 @@ namespace VersOne.Epub.Internal
         {
             SchemaReader schemaReader = new(epubReaderOptions);
             EpubSchema schema = await schemaReader.ReadSchemaAsync(epubFile).ConfigureAwait(false);
-            string title = schema.Package.Metadata.Titles.FirstOrDefault() ?? String.Empty;
+            string title = schema.Package.Metadata.Titles.FirstOrDefault()?.Title ?? String.Empty;
             List<string> authorList = schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
             string author = String.Join(", ", authorList);
-            string? description = schema.Package.Metadata.Description;
+            string? description = schema.Package.Metadata.Descriptions.FirstOrDefault()?.Description;
             ContentReader contentReader = new(environmentDependencies, epubReaderOptions);
             EpubContentRef content = await Task.Run(() => contentReader.ParseContentMap(schema, epubFile)).ConfigureAwait(false);
             return new(epubFile, filePath, title, author, authorList, description, schema, content);

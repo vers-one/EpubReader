@@ -42,11 +42,13 @@ namespace VersOne.Epub.Test.Unit.TestData
 
         public const string FULL_OPF_FILE_CONTENT = $"""
             <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="3.0">
+            <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="3.0"
+                     unique-identifier="book-uid">
               <metadata>
                 <dc:title>{BOOK_TITLE}</dc:title>
                 <dc:creator>{BOOK_AUTHOR}</dc:creator>
                 <dc:description>{BOOK_DESCRIPTION}</dc:description>
+                <dc:identifier id="book-uid">{BOOK_UID}</dc:identifier>
               </metadata>
               <manifest>
                 <item id="item-1" href="{CHAPTER1_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />

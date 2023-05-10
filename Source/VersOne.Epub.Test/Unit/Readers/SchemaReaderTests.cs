@@ -29,10 +29,11 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private const string OPF_PACKAGE_FILE = $"""
             <?xml version='1.0' encoding='UTF-8'?>
-            <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="3.0">
+            <package xmlns="http://www.idpf.org/2007/opf" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="3.0" unique-identifier="book-uid">
               <metadata>
                 <dc:title>Test title</dc:title>
                 <dc:creator>John Doe</dc:creator>
+                <dc:identifier id="book-uid">9781234567890</dc:identifier>
               </metadata>
               <manifest>
                 <item id="item-1" href="chapter1.html" media-type="application/xhtml+xml" />
@@ -137,18 +138,30 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: new EpubPackage
                 (
+                    uniqueIdentifier: "book-uid",
                     epubVersion: EpubVersion.EPUB_3,
                     metadata: new EpubMetadata
                     (
-                        titles: new List<string>()
+                        titles: new List<EpubMetadataTitle>()
                         {
-                            "Test title"
+                            new EpubMetadataTitle
+                            (
+                                title: "Test title"
+                            )
                         },
                         creators: new List<EpubMetadataCreator>()
                         {
                             new EpubMetadataCreator
                             (
                                 creator: "John Doe"
+                            )
+                        },
+                        identifiers: new List<EpubMetadataIdentifier>()
+                        {
+                            new EpubMetadataIdentifier
+                            (
+                                identifier: "9781234567890",
+                                id: "book-uid"
                             )
                         }
                     ),
