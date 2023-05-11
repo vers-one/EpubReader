@@ -215,6 +215,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             testContentDownloader.AddByteRemoteFile(REMOTE_FONT_CONTENT_FILE_HREF, TestEpubFiles.REMOTE_FONT_FILE_CONTENT);
             testContentDownloader.AddTextRemoteFile(REMOTE_XML_CONTENT_FILE_HREF, TestEpubFiles.REMOTE_XML_FILE_CONTENT);
             testContentDownloader.AddByteRemoteFile(REMOTE_AUDIO_CONTENT_FILE_HREF, TestEpubFiles.REMOTE_AUDIO_FILE_CONTENT);
+            testContentDownloader.AddByteRemoteFile(REMOTE_VIDEO_CONTENT_FILE_HREF, TestEpubFiles.REMOTE_VIDEO_FILE_CONTENT);
             return new()
             {
                 ContentDownloaderOptions = new ContentDownloaderOptions()

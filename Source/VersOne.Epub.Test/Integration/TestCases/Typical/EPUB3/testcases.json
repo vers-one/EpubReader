@@ -95,6 +95,24 @@
       },
       {
         "$id": 11,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/chapter1-audio.mp3",
+        "FilePath": "Content/chapter1-audio.mp3",
+        "Key": "chapter1-audio.mp3",
+        "ContentType": "AUDIO_MP3",
+        "ContentMimeType": "audio/mpeg"
+      },
+      {
+        "$id": 12,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/title.mp3",
+        "FilePath": "Content/title.mp3",
+        "Key": "title.mp3",
+        "ContentType": "AUDIO_MP3",
+        "ContentMimeType": "audio/mpeg"
+      },
+      {
+        "$id": 13,
         "$type": "EpubLocalTextContentFile",
         "$content": "epub://Content/chapter1.smil",
         "FilePath": "Content/chapter1.smil",
@@ -103,16 +121,7 @@
         "ContentMimeType": "application/smil+xml"
       },
       {
-        "$id": 12,
-        "$type": "EpubLocalByteContentFile",
-        "$content": "epub://Content/chapter1-audio.mp3",
-        "FilePath": "Content/chapter1-audio.mp3",
-        "Key": "chapter1-audio.mp3",
-        "ContentType": "OTHER",
-        "ContentMimeType": "audio/mpeg"
-      },
-      {
-        "$id": 13,
+        "$id": 14,
         "$type": "EpubLocalByteContentFile",
         "$content": "epub://Content/chapter2.xml",
         "FilePath": "Content/chapter2.xml",
@@ -121,22 +130,13 @@
         "ContentMimeType": "text/example+xml"
       },
       {
-        "$id": 14,
+        "$id": 15,
         "$type": "EpubLocalByteContentFile",
         "$content": "epub://Content/chapter3.xml",
         "FilePath": "Content/chapter3.xml",
         "Key": "chapter3.xml",
         "ContentType": "OTHER",
         "ContentMimeType": "application/z3998-auth+xml"
-      },
-      {
-        "$id": 15,
-        "$type": "EpubLocalByteContentFile",
-        "$content": "epub://Content/title.mp3",
-        "FilePath": "Content/title.mp3",
-        "Key": "title.mp3",
-        "ContentType": "OTHER",
-        "ContentMimeType": "audio/mpeg"
       },
       {
         "$id": 16,
@@ -386,7 +386,8 @@
                 "MediaType": "application/xhtml+xml",
                 "Relationships": [
                   "RECORD"
-                ]
+                ],
+                "HrefLanguage": null
               },
               {
                 "Href": "https://example.com/onix/123",
@@ -398,7 +399,8 @@
                 "Relationships": [
                   "RECORD",
                   "ONIX_RECORD"
-                ]
+                ],
+                "HrefLanguage": null
               },
               {
                 "Href": "book.atom",
@@ -406,7 +408,8 @@
                 "MediaType": "application/atom+xml;type=entry;profile=opds-catalog",
                 "Relationships": [
                   "RECORD"
-                ]
+                ],
+                "HrefLanguage": null
               },
               {
                 "Href": "title.mp3",
@@ -415,7 +418,8 @@
                 "Refines": "#title",
                 "Relationships": [
                   "VOICING"
-                ]
+                ],
+                "HrefLanguage": null
               }
             ],
             "MetaItems": [
@@ -988,6 +992,16 @@
             }
           }
         },
+        "Audio": {
+          "Local": {
+            "chapter1-audio.mp3": {
+              "$ref": 11
+            },
+            "title.mp3": {
+              "$ref": 12
+            }
+          }
+        },
         "AllFiles": {
           "Local": {
             "front.html": {
@@ -1020,19 +1034,19 @@
             "font.ttf": {
               "$ref": 10
             },
-            "chapter1.smil": {
+            "chapter1-audio.mp3": {
               "$ref": 11
             },
-            "chapter1-audio.mp3": {
+            "title.mp3": {
               "$ref": 12
             },
-            "chapter2.xml": {
+            "chapter1.smil": {
               "$ref": 13
             },
-            "chapter3.xml": {
+            "chapter2.xml": {
               "$ref": 14
             },
-            "title.mp3": {
+            "chapter3.xml": {
               "$ref": 15
             },
             "book.atom": {

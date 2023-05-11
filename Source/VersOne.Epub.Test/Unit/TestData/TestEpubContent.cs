@@ -23,6 +23,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 css: new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(),
                 images: new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>(),
                 fonts: new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>(),
+                audio: new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>(),
                 allFiles: new EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>
                 (
                     local: new Dictionary<string, EpubLocalContentFile>()
@@ -134,6 +135,27 @@ namespace VersOne.Epub.Test.Unit.TestData
                         }
                     }
                 ),
+                audio: new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>
+                (
+                    local: new Dictionary<string, EpubLocalByteContentFile>()
+                    {
+                        {
+                            AUDIO1_FILE_NAME,
+                            Audio1File
+                        },
+                        {
+                            AUDIO2_FILE_NAME,
+                            Audio2File
+                        }
+                    },
+                    remote: new Dictionary<string, EpubRemoteByteContentFile>()
+                    {
+                        {
+                            REMOTE_AUDIO_CONTENT_FILE_HREF,
+                            populateRemoteFilesContents ? RemoteAudioContentFile : RemoteAudioContentFileWithNoContent
+                        }
+                    }
+                ),
                 allFiles: new EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>
                 (
                     local: new Dictionary<string, EpubLocalContentFile>()
@@ -171,8 +193,16 @@ namespace VersOne.Epub.Test.Unit.TestData
                             Font2File
                         },
                         {
-                            AUDIO_FILE_NAME,
-                            AudioFile
+                            AUDIO1_FILE_NAME,
+                            Audio1File
+                        },
+                        {
+                            AUDIO2_FILE_NAME,
+                            Audio2File
+                        },
+                        {
+                            VIDEO_FILE_NAME,
+                            VideoFile
                         },
                         {
                             NAV_FILE_NAME,
@@ -212,6 +242,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                         {
                             REMOTE_AUDIO_CONTENT_FILE_HREF,
                             populateRemoteFilesContents ? RemoteAudioContentFile : RemoteAudioContentFileWithNoContent
+                        },
+                        {
+                            REMOTE_VIDEO_CONTENT_FILE_HREF,
+                            populateRemoteFilesContents ? RemoteVideoContentFile : RemoteVideoContentFileWithNoContent
                         }
                     }
                 )
@@ -298,14 +332,34 @@ namespace VersOne.Epub.Test.Unit.TestData
                 content: TestEpubFiles.FONT2_FILE_CONTENT
             );
 
-        public static EpubLocalByteContentFile AudioFile =>
+        public static EpubLocalByteContentFile Audio1File =>
             new
             (
-                key: AUDIO_FILE_NAME,
-                contentType: OTHER_CONTENT_TYPE,
+                key: AUDIO1_FILE_NAME,
+                contentType: AUDIO_CONTENT_TYPE,
                 contentMimeType: AUDIO_MPEG_CONTENT_MIME_TYPE,
-                filePath: AUDIO_FILE_PATH,
+                filePath: AUDIO1_FILE_PATH,
                 content: TestEpubFiles.AUDIO_FILE_CONTENT
+            );
+
+        public static EpubLocalByteContentFile Audio2File =>
+            new
+            (
+                key: AUDIO2_FILE_NAME,
+                contentType: AUDIO_CONTENT_TYPE,
+                contentMimeType: AUDIO_MPEG_CONTENT_MIME_TYPE,
+                filePath: AUDIO2_FILE_PATH,
+                content: TestEpubFiles.AUDIO_FILE_CONTENT
+            );
+
+        public static EpubLocalByteContentFile VideoFile =>
+            new
+            (
+                key: VIDEO_FILE_NAME,
+                contentType: OTHER_CONTENT_TYPE,
+                contentMimeType: VIDEO_MP4_CONTENT_MIME_TYPE,
+                filePath: VIDEO_FILE_PATH,
+                content: TestEpubFiles.VIDEO_FILE_CONTENT
             );
 
         public static EpubRemoteTextContentFile RemoteHtmlContentFile =>
@@ -412,7 +466,7 @@ namespace VersOne.Epub.Test.Unit.TestData
             new
             (
                 key: REMOTE_AUDIO_CONTENT_FILE_HREF,
-                contentType: OTHER_CONTENT_TYPE,
+                contentType: AUDIO_CONTENT_TYPE,
                 contentMimeType: AUDIO_MPEG_CONTENT_MIME_TYPE,
                 url: REMOTE_AUDIO_CONTENT_FILE_HREF,
                 content: TestEpubFiles.REMOTE_AUDIO_FILE_CONTENT
@@ -422,9 +476,29 @@ namespace VersOne.Epub.Test.Unit.TestData
             new
             (
                 key: REMOTE_AUDIO_CONTENT_FILE_HREF,
-                contentType: OTHER_CONTENT_TYPE,
+                contentType: AUDIO_CONTENT_TYPE,
                 contentMimeType: AUDIO_MPEG_CONTENT_MIME_TYPE,
                 url: REMOTE_AUDIO_CONTENT_FILE_HREF,
+                content: null
+            );
+
+        public static EpubRemoteByteContentFile RemoteVideoContentFile =>
+            new
+            (
+                key: REMOTE_VIDEO_CONTENT_FILE_HREF,
+                contentType: OTHER_CONTENT_TYPE,
+                contentMimeType: VIDEO_MP4_CONTENT_MIME_TYPE,
+                url: REMOTE_VIDEO_CONTENT_FILE_HREF,
+                content: TestEpubFiles.REMOTE_VIDEO_FILE_CONTENT
+            );
+
+        public static EpubRemoteByteContentFile RemoteVideoContentFileWithNoContent =>
+            new
+            (
+                key: REMOTE_VIDEO_CONTENT_FILE_HREF,
+                contentType: OTHER_CONTENT_TYPE,
+                contentMimeType: VIDEO_MP4_CONTENT_MIME_TYPE,
+                url: REMOTE_VIDEO_CONTENT_FILE_HREF,
                 content: null
             );
 

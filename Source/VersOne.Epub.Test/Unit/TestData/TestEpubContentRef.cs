@@ -24,6 +24,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(),
                 images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(),
                 fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(),
+                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(),
                 allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
                 (
                     local: new Dictionary<string, EpubLocalContentFileRef>()
@@ -135,6 +136,27 @@ namespace VersOne.Epub.Test.Unit.TestData
                         }
                     }
                 ),
+                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
+                    {
+                        {
+                            AUDIO1_FILE_NAME,
+                            Audio1FileRef
+                        },
+                        {
+                            AUDIO2_FILE_NAME,
+                            Audio2FileRef
+                        }
+                    },
+                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
+                    {
+                        {
+                            REMOTE_AUDIO_CONTENT_FILE_HREF,
+                            RemoteAudioContentFileRef
+                        }
+                    }
+                ),
                 allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
                 (
                     local: new Dictionary<string, EpubLocalContentFileRef>()
@@ -172,8 +194,16 @@ namespace VersOne.Epub.Test.Unit.TestData
                             Font2FileRef
                         },
                         {
-                            AUDIO_FILE_NAME,
-                            AudioFileRef
+                            AUDIO1_FILE_NAME,
+                            Audio1FileRef
+                        },
+                        {
+                            AUDIO2_FILE_NAME,
+                            Audio2FileRef
+                        },
+                        {
+                            VIDEO_FILE_NAME,
+                            VideoFileRef
                         },
                         {
                             NAV_FILE_NAME,
@@ -213,6 +243,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                         {
                             REMOTE_AUDIO_CONTENT_FILE_HREF,
                             RemoteAudioContentFileRef
+                        },
+                        {
+                            REMOTE_VIDEO_CONTENT_FILE_HREF,
+                            RemoteVideoContentFileRef
                         }
                     }
                 )
@@ -243,9 +277,15 @@ namespace VersOne.Epub.Test.Unit.TestData
         public static EpubLocalByteContentFileRef Font2FileRef =>
             CreateLocalByteContentFileRef(FONT2_FILE_NAME, FONT_CONTENT_TYPE, FONT_CONTENT_MIME_TYPE);
         
-        public static EpubLocalByteContentFileRef AudioFileRef =>
-            CreateLocalByteContentFileRef(AUDIO_FILE_NAME, OTHER_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
-        
+        public static EpubLocalByteContentFileRef Audio1FileRef =>
+            CreateLocalByteContentFileRef(AUDIO1_FILE_NAME, AUDIO_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
+
+        public static EpubLocalByteContentFileRef Audio2FileRef =>
+            CreateLocalByteContentFileRef(AUDIO2_FILE_NAME, AUDIO_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
+
+        public static EpubLocalByteContentFileRef VideoFileRef =>
+            CreateLocalByteContentFileRef(VIDEO_FILE_NAME, OTHER_CONTENT_TYPE, VIDEO_MP4_CONTENT_MIME_TYPE);
+
         public static EpubRemoteTextContentFileRef RemoteHtmlContentFileRef =>
             CreateRemoteTextContentFileRef(REMOTE_HTML_CONTENT_FILE_HREF, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
         
@@ -262,8 +302,11 @@ namespace VersOne.Epub.Test.Unit.TestData
             CreateRemoteTextContentFileRef(REMOTE_XML_CONTENT_FILE_HREF, XML_CONTENT_TYPE, XML_CONTENT_MIME_TYPE);
         
         public static EpubRemoteByteContentFileRef RemoteAudioContentFileRef =>
-            CreateRemoteByteContentFileRef(REMOTE_AUDIO_CONTENT_FILE_HREF, OTHER_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
-        
+            CreateRemoteByteContentFileRef(REMOTE_AUDIO_CONTENT_FILE_HREF, AUDIO_CONTENT_TYPE, AUDIO_MPEG_CONTENT_MIME_TYPE);
+
+        public static EpubRemoteByteContentFileRef RemoteVideoContentFileRef =>
+            CreateRemoteByteContentFileRef(REMOTE_VIDEO_CONTENT_FILE_HREF, OTHER_CONTENT_TYPE, VIDEO_MP4_CONTENT_MIME_TYPE);
+
         public static EpubLocalTextContentFileRef NavFileRef =>
             CreateLocalTextContentFileRef(NAV_FILE_NAME, HTML_CONTENT_TYPE, HTML_CONTENT_MIME_TYPE);
         

@@ -10,6 +10,7 @@
             CompareContentCollectionRefs(expected.Css, actual.Css);
             CompareContentCollectionRefs(expected.Images, actual.Images);
             CompareContentCollectionRefs(expected.Fonts, actual.Fonts);
+            CompareContentCollectionRefs(expected.Audio, actual.Audio);
             CompareContentCollectionRefs(expected.AllFiles, actual.AllFiles);
         }
 

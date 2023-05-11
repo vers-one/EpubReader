@@ -67,7 +67,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                                             audio: new SmilAudio
                                             (
                                                 id: "audio3",
-                                                src: AUDIO_FILE_NAME,
+                                                src: AUDIO1_FILE_NAME,
                                                 clipBegin: "0:24:18.123",
                                                 clipEnd: "0:24:28.764"
                                             )
@@ -87,7 +87,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                                             audio: new SmilAudio
                                             (
                                                 id: "audio4",
-                                                src: AUDIO_FILE_NAME,
+                                                src: AUDIO1_FILE_NAME,
                                                 clipBegin: "0:24:28.764",
                                                 clipEnd: "0:24:50.010"
                                             )
@@ -109,7 +109,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                                     audio: new SmilAudio
                                     (
                                         id: null,
-                                        src: AUDIO_FILE_NAME,
+                                        src: AUDIO1_FILE_NAME,
                                         clipBegin: "0:23:34.221",
                                         clipEnd: "0:23:59.003"
                                     )
@@ -126,7 +126,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                                     audio: new SmilAudio
                                     (
                                         id: null,
-                                        src: AUDIO_FILE_NAME,
+                                        src: AUDIO1_FILE_NAME,
                                         clipBegin: "0:23:59.003",
                                         clipEnd: "0:24:15.000"
                                     )

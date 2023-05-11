@@ -78,13 +78,13 @@ namespace VersOne.Epub.Test.Unit.TestData
                         new EpubSpineItemRef
                         (
                             id: "itemref-1",
-                            idRef: "item-1",
+                            idRef: "item-html-1",
                             isLinear: true
                         ),
                         new EpubSpineItemRef
                         (
                             id: "itemref-2",
-                            idRef: "item-2",
+                            idRef: "item-html-2",
                             isLinear: true
                         )
                     }

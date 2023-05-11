@@ -18,12 +18,14 @@
         /// <param name="css">All CSS file references of the EPUB book.</param>
         /// <param name="images">All image file references of the EPUB book.</param>
         /// <param name="fonts">All embedded font file references of the EPUB book.</param>
+        /// <param name="audio">All audio file references of the EPUB book.</param>
         /// <param name="allFiles">All content file references of the EPUB book.</param>
         public EpubContentRef(EpubLocalByteContentFileRef? cover = null, EpubLocalTextContentFileRef? navigationHtmlFile = null,
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>? html = null,
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>? css = null,
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>? images = null,
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>? fonts = null,
+            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>? audio = null,
             EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>? allFiles = null)
         {
             Cover = cover;
@@ -32,6 +34,7 @@
             Css = css ?? new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>();
             Images = images ?? new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>();
             Fonts = fonts ?? new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>();
+            Audio = audio ?? new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>();
             AllFiles = allFiles ?? new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>();
         }
 
@@ -64,6 +67,11 @@
         /// Gets all embedded font file references of the EPUB book.
         /// </summary>
         public EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> Fonts { get; }
+
+        /// <summary>
+        /// Gets all audio file references of the EPUB book.
+        /// </summary>
+        public EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> Audio { get; }
 
         /// <summary>
         /// Gets all content file references of the EPUB book.

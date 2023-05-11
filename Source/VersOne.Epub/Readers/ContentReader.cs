@@ -24,6 +24,7 @@ namespace VersOne.Epub.Internal
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> css = new();
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> images = new();
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> fonts = new();
+            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> audio = new();
             EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef> allFiles = new();
             EpubLocalContentLoader localContentLoader = new(environmentDependencies, epubFile, epubSchema.ContentDirectoryPath, epubReaderOptions.ContentReaderOptions);
             EpubRemoteContentLoader? remoteContentLoader = null;
@@ -45,6 +46,7 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.DTBOOK:
                     case EpubContentType.DTBOOK_NCX:
                     case EpubContentType.SMIL:
+                    case EpubContentType.SCRIPT:
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
                             string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, href);
@@ -95,11 +97,20 @@ namespace VersOne.Epub.Internal
                                 case EpubContentType.IMAGE_JPEG:
                                 case EpubContentType.IMAGE_PNG:
                                 case EpubContentType.IMAGE_SVG:
+                                case EpubContentType.IMAGE_WEBP:
                                     images.Local[href] = localByteContentFile;
                                     break;
                                 case EpubContentType.FONT_TRUETYPE:
                                 case EpubContentType.FONT_OPENTYPE:
+                                case EpubContentType.FONT_SFNT:
+                                case EpubContentType.FONT_WOFF:
+                                case EpubContentType.FONT_WOFF2:
                                     fonts.Local[href] = localByteContentFile;
+                                    break;
+                                case EpubContentType.AUDIO_MP3:
+                                case EpubContentType.AUDIO_MP4:
+                                case EpubContentType.AUDIO_OGG:
+                                    audio.Local[href] = localByteContentFile;
                                     break;
                             }
                             allFiles.Local[href] = localByteContentFile;
@@ -114,11 +125,20 @@ namespace VersOne.Epub.Internal
                                 case EpubContentType.IMAGE_JPEG:
                                 case EpubContentType.IMAGE_PNG:
                                 case EpubContentType.IMAGE_SVG:
+                                case EpubContentType.IMAGE_WEBP:
                                     images.Remote[href] = remoteByteContentFile;
                                     break;
                                 case EpubContentType.FONT_TRUETYPE:
                                 case EpubContentType.FONT_OPENTYPE:
+                                case EpubContentType.FONT_SFNT:
+                                case EpubContentType.FONT_WOFF:
+                                case EpubContentType.FONT_WOFF2:
                                     fonts.Remote[href] = remoteByteContentFile;
+                                    break;
+                                case EpubContentType.AUDIO_MP3:
+                                case EpubContentType.AUDIO_MP4:
+                                case EpubContentType.AUDIO_OGG:
+                                    audio.Remote[href] = remoteByteContentFile;
                                     break;
                             }
                             allFiles.Remote[href] = remoteByteContentFile;
@@ -127,7 +147,7 @@ namespace VersOne.Epub.Internal
                 }
             }
             cover = BookCoverReader.ReadBookCover(epubSchema, images);
-            return new(cover, navigationHtmlFile, html, css, images, fonts, allFiles);
+            return new(cover, navigationHtmlFile, html, css, images, fonts, audio, allFiles);
         }
 
         private static EpubContentType GetContentTypeByContentMimeType(string contentMimeType)
@@ -141,13 +161,21 @@ namespace VersOne.Epub.Internal
                 "application/xml" => EpubContentType.XML,
                 "text/css" => EpubContentType.CSS,
                 "text/x-oeb1-css" => EpubContentType.OEB1_CSS,
+                "application/javascript" or "application/ecmascript" or "text/javascript" => EpubContentType.SCRIPT,
                 "image/gif" => EpubContentType.IMAGE_GIF,
                 "image/jpeg" => EpubContentType.IMAGE_JPEG,
                 "image/png" => EpubContentType.IMAGE_PNG,
                 "image/svg+xml" => EpubContentType.IMAGE_SVG,
-                "font/truetype" or "application/x-font-truetype" => EpubContentType.FONT_TRUETYPE,
-                "font/opentype" or "application/vnd.ms-opentype" => EpubContentType.FONT_OPENTYPE,
+                "image/webp" => EpubContentType.IMAGE_WEBP,
+                "font/truetype" or "font/ttf" or "application/x-font-truetype" => EpubContentType.FONT_TRUETYPE,
+                "font/opentype" or "font/otf" or "application/vnd.ms-opentype" => EpubContentType.FONT_OPENTYPE,
+                "font/sfnt" or "application/font-sfnt" => EpubContentType.FONT_SFNT,
+                "font/woff" or "application/font-woff" => EpubContentType.FONT_WOFF,
+                "font/woff2" => EpubContentType.FONT_WOFF2,
                 "application/smil+xml" => EpubContentType.SMIL,
+                "audio/mpeg" => EpubContentType.AUDIO_MP3,
+                "audio/mp4" => EpubContentType.AUDIO_MP4,
+                "audio/ogg" or "audio/ogg; codecs=opus" => EpubContentType.AUDIO_OGG,
                 _ => EpubContentType.OTHER
             };
         }

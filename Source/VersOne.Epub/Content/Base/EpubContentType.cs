@@ -41,6 +41,11 @@
         OEB1_CSS,
 
         /// <summary>
+        /// A file with either 'application/javascript', 'application/ecmascript', or 'text/javascript' MIME type.
+        /// </summary>
+        SCRIPT,
+
+        /// <summary>
         /// A file with 'image/gif' MIME type.
         /// </summary>
         IMAGE_GIF,
@@ -61,19 +66,54 @@
         IMAGE_SVG,
 
         /// <summary>
-        /// A file with either 'font/truetype' or 'application/x-font-truetype' MIME type.
+        /// A file with 'image/webp' MIME type.
+        /// </summary>
+        IMAGE_WEBP,
+
+        /// <summary>
+        /// A file with either 'font/truetype', 'font/ttf', or 'application/x-font-truetype' MIME type.
         /// </summary>
         FONT_TRUETYPE,
 
         /// <summary>
-        /// A file with either 'font/opentype' or 'application/vnd.ms-opentype' MIME type.
+        /// A file with either 'font/opentype', 'font/otf' or 'application/vnd.ms-opentype' MIME type.
         /// </summary>
         FONT_OPENTYPE,
+
+        /// <summary>
+        /// A file with 'font/sfnt' or 'application/font-sfnt' MIME type.
+        /// </summary>
+        FONT_SFNT,
+
+        /// <summary>
+        /// A file with either 'font/woff' or 'application/font-woff' MIME type.
+        /// </summary>
+        FONT_WOFF,
+
+        /// <summary>
+        /// A file with 'font/woff2' MIME type.
+        /// </summary>
+        FONT_WOFF2,
 
         /// <summary>
         /// A file with 'application/smil+xml' MIME type.
         /// </summary>
         SMIL,
+
+        /// <summary>
+        /// A file with 'audio/mpeg' MIME type.
+        /// </summary>
+        AUDIO_MP3,
+
+        /// <summary>
+        /// A file with 'audio/mp4' MIME type.
+        /// </summary>
+        AUDIO_MP4,
+
+        /// <summary>
+        /// A file with either 'audio/ogg' or 'audio/ogg; codecs=opus' MIME type.
+        /// </summary>
+        AUDIO_OGG,
 
         /// <summary>
         /// A file with a MIME type which is not present in this enumeration.
