@@ -176,6 +176,7 @@ namespace VersOne.Epub.Test.Comparers
             Assert.Equal(expected.Properties, actual.Properties);
             Assert.Equal(expected.Refines, actual.Refines);
             Assert.Equal(expected.Relationships, actual.Relationships);
+            Assert.Equal(expected.HrefLanguage, actual.HrefLanguage);
         }
 
         public static void CompareEpubMetadataMetas(EpubMetadataMeta expected, EpubMetadataMeta actual)

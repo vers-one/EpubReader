@@ -584,7 +584,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 {
                                     EpubMetadataLinkRelationship.RECORD,
                                     EpubMetadataLinkRelationship.ONIX_RECORD
-                                }
+                                },
+                                hrefLanguage: null
                             )
                         },
                         id: "collection-1",
