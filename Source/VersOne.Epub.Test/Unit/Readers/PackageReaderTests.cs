@@ -95,7 +95,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 </metadata>
                 <collection role="http://example.org/roles/unit" id="collection-2" dir="rtl" xml:lang="is">
                   <metadata>
-                    <dc:title id="collection-2-title" dir="rtl" xml:lang="is">Test title for collection 2</dc:title>
+                    <dc:title id="collection-2-title" dir="auto" xml:lang="is">Test title for collection 2</dc:title>
                   </metadata>
                 </collection>
                 <link id="collection-1-link" rel="record onix-record" href="https://example.com/onix/123" media-type="application/xml" properties="onix" />
@@ -557,7 +557,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                         (
                                             title: "Test title for collection 2",
                                             id: "collection-2-title",
-                                            textDirection: EpubTextDirection.RIGHT_TO_LEFT,
+                                            textDirection: EpubTextDirection.AUTO,
                                             language: "is"
                                         )
                                     }
