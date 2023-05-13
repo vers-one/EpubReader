@@ -41,7 +41,7 @@ namespace VersOne.Epub.Test.Unit.Readers
               <dc:coverage id="coverage-2" dir="rtl" lang="is">1700-1850</dc:coverage>
               <dc:rights id="rights-1" dir="ltr" lang="en">Public domain in the USA</dc:rights>
               <dc:rights id="rights-2" dir="rtl" lang="is">All rights reserved</dc:rights>
-              <link id="link-1" rel="record" href="front.html#meta-json" media-type="application/xhtml+xml" />
+              <link id="link-1" rel="record" href="front.html#meta-json" media-type="application/xhtml+xml" hreflang="en" />
               <link id="link-2" rel="record onix-record" href="https://example.com/onix/123" media-type="application/xml" properties="onix" />
               <link id="link-3" rel="record" href="book.atom" media-type="application/atom+xml;type=entry;profile=opds-catalog" />
               <link id="link-4" rel="voicing" refines="#title-1" href="title.mp3" media-type="audio/mpeg" />
@@ -324,7 +324,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                         relationships: new List<EpubMetadataLinkRelationship>()
                         {
                             EpubMetadataLinkRelationship.RECORD
-                        }
+                        },
+                        hrefLanguage: "en"
                     ),
                     new EpubMetadataLink
                     (
@@ -340,7 +341,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                         {
                             EpubMetadataLinkRelationship.RECORD,
                             EpubMetadataLinkRelationship.ONIX_RECORD
-                        }
+                        },
+                        hrefLanguage: null
                     ),
                     new EpubMetadataLink
                     (
@@ -352,7 +354,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                         relationships: new List<EpubMetadataLinkRelationship>()
                         {
                             EpubMetadataLinkRelationship.RECORD
-                        }
+                        },
+                        hrefLanguage: null
                     ),
                     new EpubMetadataLink
                     (
@@ -364,7 +367,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                         relationships: new List<EpubMetadataLinkRelationship>()
                         {
                             EpubMetadataLinkRelationship.VOICING
-                        }
+                        },
+                        hrefLanguage: null
                     )
                 },
                 metaItems: new List<EpubMetadataMeta>()

@@ -112,6 +112,7 @@ namespace VersOne.Epub.Internal
             List<EpubMetadataLinkProperty>? properties = null;
             string? refines = null;
             List<EpubMetadataLinkRelationship>? relationships = null;
+            string? hrefLanguage = null;
             foreach (XAttribute linkNodeAttribute in linkNode.Attributes())
             {
                 string attributeValue = linkNodeAttribute.Value;
@@ -135,6 +136,9 @@ namespace VersOne.Epub.Internal
                     case "rel":
                         relationships = EpubMetadataLinkRelationshipParser.ParseRelationshipList(attributeValue);
                         break;
+                    case "hreflang":
+                        hrefLanguage = attributeValue;
+                        break;
                 }
             }
             if (href == null)
@@ -145,7 +149,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new EpubPackageException("Incorrect EPUB metadata link: rel is missing.");
             }
-            return new(href, id, mediaType, properties, refines, relationships);
+            return new(href, id, mediaType, properties, refines, relationships, hrefLanguage);
         }
 
         private static EpubMetadataTitle ReadTitle(XElement titleNode)

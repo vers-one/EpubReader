@@ -38,18 +38,12 @@ namespace VersOne.Epub.Internal
                 foreach (Epub2NcxNavigationPoint navigationPoint in navigationPoints)
                 {
                     EpubNavigationItemType type = EpubNavigationItemType.LINK;
-                    Epub2NcxNavigationLabel? firstNavigationLabel = navigationPoint.NavigationLabels.FirstOrDefault();
-                    if (firstNavigationLabel == null)
-                    {
+                    Epub2NcxNavigationLabel? firstNavigationLabel = navigationPoint.NavigationLabels.FirstOrDefault() ??
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: navigation point \"{navigationPoint.Id}\" should contain at least one navigation label.");
-                    }
                     string title = firstNavigationLabel.Text;
                     EpubNavigationItemLink link = new(navigationPoint.Content.Source, epubSchema.ContentDirectoryPath);
-                    EpubLocalTextContentFileRef? htmlContentFileRef = GetHtmlContentFileRef(epubContentRef, link.ContentFileName);
-                    if (htmlContentFileRef == null)
-                    {
+                    EpubLocalTextContentFileRef? htmlContentFileRef = GetHtmlContentFileRef(epubContentRef, link.ContentFileName) ??
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{navigationPoint.Content.Source}\" not found in EPUB manifest.");
-                    }
                     List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, navigationPoint.ChildNavigationPoints);
                     result.Add(new EpubNavigationItemRef(type, title, link, htmlContentFileRef, nestedItems));
                 }

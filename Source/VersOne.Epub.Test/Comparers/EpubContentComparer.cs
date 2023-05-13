@@ -10,6 +10,7 @@
             CompareContentCollections(expected.Css, actual.Css, CompareEpubLocalTextContentFiles, CompareEpubRemoteTextContentFiles);
             CompareContentCollections(expected.Images, actual.Images, CompareEpubLocalByteContentFiles, CompareEpubRemoteByteContentFiles);
             CompareContentCollections(expected.Fonts, actual.Fonts, CompareEpubLocalByteContentFiles, CompareEpubRemoteByteContentFiles);
+            CompareContentCollections(expected.Audio, actual.Audio, CompareEpubLocalByteContentFiles, CompareEpubRemoteByteContentFiles);
             CompareContentCollections(expected.AllFiles, actual.AllFiles, CompareLocalEpubContentFilesWithContent, CompareRemoteEpubContentFilesWithContent);
         }
 

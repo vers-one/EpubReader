@@ -7,6 +7,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Common
         [Theory(DisplayName = "Converting a string to EpubTextDirection should succeed")]
         [InlineData("ltr", EpubTextDirection.LEFT_TO_RIGHT)]
         [InlineData("rtl", EpubTextDirection.RIGHT_TO_LEFT)]
+        [InlineData("auto", EpubTextDirection.AUTO)]
         [InlineData("test-unknown-property", EpubTextDirection.UNKNOWN)]
         [InlineData("", EpubTextDirection.UNKNOWN)]
         [InlineData(null, EpubTextDirection.UNKNOWN)]

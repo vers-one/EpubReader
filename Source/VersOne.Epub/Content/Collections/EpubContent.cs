@@ -14,12 +14,14 @@
         /// <param name="css">All CSS files of the EPUB book.</param>
         /// <param name="images">All image files of the EPUB book.</param>
         /// <param name="fonts">All embedded font files of the EPUB book.</param>
+        /// <param name="audio">All audio files of the EPUB book.</param>
         /// <param name="allFiles">All content files of the EPUB book.</param>
         public EpubContent(EpubLocalByteContentFile? cover = null, EpubLocalTextContentFile? navigationHtmlFile = null,
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>? html = null,
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>? css = null,
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>? images = null,
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>? fonts = null,
+            EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>? audio = null,
             EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>? allFiles = null)
         {
             Cover = cover;
@@ -28,6 +30,7 @@
             Css = css ?? new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>();
             Images = images ?? new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>();
             Fonts = fonts ?? new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>();
+            Audio = audio ?? new EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>();
             AllFiles = allFiles ?? new EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>();
         }
 
@@ -60,6 +63,11 @@
         /// Gets all embedded font files of the EPUB book.
         /// </summary>
         public EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> Fonts { get; }
+
+        /// <summary>
+        /// Gets all audio files of the EPUB book.
+        /// </summary>
+        public EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> Audio { get; }
 
         /// <summary>
         /// Gets all content files of the EPUB book.

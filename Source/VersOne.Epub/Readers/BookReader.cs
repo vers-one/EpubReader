@@ -117,6 +117,7 @@ namespace VersOne.Epub.Internal
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> css = await ReadTextContentFiles(contentRef.Css).ConfigureAwait(false);
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> images = await ReadByteContentFiles(contentRef.Images).ConfigureAwait(false);
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> fonts = await ReadByteContentFiles(contentRef.Fonts).ConfigureAwait(false);
+            EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> audio = await ReadByteContentFiles(contentRef.Audio).ConfigureAwait(false);
             EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile> allFiles = new();
             foreach (KeyValuePair<string, EpubLocalTextContentFile> localTextContentFile in html.Local.Concat(css.Local))
             {
@@ -126,11 +127,11 @@ namespace VersOne.Epub.Internal
             {
                 allFiles.Remote.Add(remoteTextContentFile.Key, remoteTextContentFile.Value);
             }
-            foreach (KeyValuePair<string, EpubLocalByteContentFile> localByteContentFile in images.Local.Concat(fonts.Local))
+            foreach (KeyValuePair<string, EpubLocalByteContentFile> localByteContentFile in images.Local.Concat(fonts.Local).Concat(audio.Local))
             {
                 allFiles.Local.Add(localByteContentFile.Key, localByteContentFile.Value);
             }
-            foreach (KeyValuePair<string, EpubRemoteByteContentFile> remoteByteContentFile in images.Remote.Concat(fonts.Remote))
+            foreach (KeyValuePair<string, EpubRemoteByteContentFile> remoteByteContentFile in images.Remote.Concat(fonts.Remote).Concat(audio.Remote))
             {
                 allFiles.Remote.Add(remoteByteContentFile.Key, remoteByteContentFile.Value);
             }
@@ -170,7 +171,7 @@ namespace VersOne.Epub.Internal
             {
                 navigationHtmlFile = html.Local[contentRef.NavigationHtmlFile.Key];
             }
-            return new(cover, navigationHtmlFile, html, css, images, fonts, allFiles);
+            return new(cover, navigationHtmlFile, html, css, images, fonts, audio, allFiles);
         }
 
         private async Task<EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>> ReadTextContentFiles(

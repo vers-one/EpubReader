@@ -51,28 +51,31 @@ namespace VersOne.Epub.Test.Unit.TestData
                 <dc:identifier id="book-uid">{BOOK_UID}</dc:identifier>
               </metadata>
               <manifest>
-                <item id="item-1" href="{CHAPTER1_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />
-                <item id="item-2" href="{CHAPTER2_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />
-                <item id="item-3" href="{STYLES1_FILE_NAME}" media-type="{CSS_CONTENT_MIME_TYPE}" />
-                <item id="item-4" href="{STYLES2_FILE_NAME}" media-type="{CSS_CONTENT_MIME_TYPE}" />
-                <item id="item-5" href="{IMAGE1_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
-                <item id="item-6" href="{IMAGE2_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
-                <item id="item-7" href="{FONT1_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
-                <item id="item-8" href="{FONT2_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
-                <item id="item-9" href="{AUDIO_FILE_NAME}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
-                <item id="item-10" href="{REMOTE_HTML_CONTENT_FILE_HREF}" media-type="{HTML_CONTENT_MIME_TYPE}" />
-                <item id="item-11" href="{REMOTE_CSS_CONTENT_FILE_HREF}" media-type="{CSS_CONTENT_MIME_TYPE}" />
-                <item id="item-12" href="{REMOTE_IMAGE_CONTENT_FILE_HREF}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
-                <item id="item-13" href="{REMOTE_FONT_CONTENT_FILE_HREF}" media-type="{FONT_CONTENT_MIME_TYPE}" />
-                <item id="item-14" href="{REMOTE_XML_CONTENT_FILE_HREF}" media-type="{XML_CONTENT_MIME_TYPE}" />
-                <item id="item-15" href="{REMOTE_AUDIO_CONTENT_FILE_HREF}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
+                <item id="item-html-1" href="{CHAPTER1_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />
+                <item id="item-html-2" href="{CHAPTER2_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" />
+                <item id="item-css-1" href="{STYLES1_FILE_NAME}" media-type="{CSS_CONTENT_MIME_TYPE}" />
+                <item id="item-css-2" href="{STYLES2_FILE_NAME}" media-type="{CSS_CONTENT_MIME_TYPE}" />
+                <item id="item-image-1" href="{IMAGE1_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
+                <item id="item-image-2" href="{IMAGE2_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
+                <item id="item-font-1" href="{FONT1_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
+                <item id="item-font-2" href="{FONT2_FILE_NAME}" media-type="{FONT_CONTENT_MIME_TYPE}" />
+                <item id="item-audio-1" href="{AUDIO1_FILE_NAME}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
+                <item id="item-audio-2" href="{AUDIO2_FILE_NAME}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
+                <item id="item-video" href="{VIDEO_FILE_NAME}" media-type="{VIDEO_MP4_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-html" href="{REMOTE_HTML_CONTENT_FILE_HREF}" media-type="{HTML_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-css" href="{REMOTE_CSS_CONTENT_FILE_HREF}" media-type="{CSS_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-image" href="{REMOTE_IMAGE_CONTENT_FILE_HREF}" media-type="{IMAGE_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-font" href="{REMOTE_FONT_CONTENT_FILE_HREF}" media-type="{FONT_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-xml" href="{REMOTE_XML_CONTENT_FILE_HREF}" media-type="{XML_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-audio" href="{REMOTE_AUDIO_CONTENT_FILE_HREF}" media-type="{AUDIO_MPEG_CONTENT_MIME_TYPE}" />
+                <item id="item-remote-video" href="{REMOTE_VIDEO_CONTENT_FILE_HREF}" media-type="{VIDEO_MP4_CONTENT_MIME_TYPE}" />
                 <item id="item-toc" href="{NAV_FILE_NAME}" media-type="{HTML_CONTENT_MIME_TYPE}" properties="nav" />
                 <item id="item-cover" href="{COVER_FILE_NAME}" media-type="{IMAGE_CONTENT_MIME_TYPE}" properties="cover-image" />
                 <item id="ncx" href="{NCX_FILE_NAME}" media-type="{NCX_CONTENT_MIME_TYPE}" />
               </manifest>
               <spine toc="ncx">
-                <itemref id="itemref-1" idref="item-1" />
-                <itemref id="itemref-2" idref="item-2" />
+                <itemref id="itemref-1" idref="item-html-1" />
+                <itemref id="itemref-2" idref="item-html-2" />
               </spine>
             </package>
             """;
@@ -142,6 +145,8 @@ namespace VersOne.Epub.Test.Unit.TestData
         public static readonly byte[] FONT2_FILE_CONTENT = new byte[] { 0x00, 0x01, 0x00, 0x02 };
 
         public static readonly byte[] AUDIO_FILE_CONTENT = new byte[] { 0x49, 0x44, 0x33, 0x03 };
+        
+        public static readonly byte[] VIDEO_FILE_CONTENT = new byte[] { 0x00, 0x00, 0x00, 0x20 };
 
         public const string REMOTE_HTML_FILE_CONTENT = "<html><head><title>Remote HTML file</title></head><body><h1>Remote HTML file content</h1></body></html>";
 
@@ -154,6 +159,8 @@ namespace VersOne.Epub.Test.Unit.TestData
         public const string REMOTE_XML_FILE_CONTENT = "<test>Remote XML file</test>";
 
         public static readonly byte[] REMOTE_AUDIO_FILE_CONTENT = new byte[] { 0x49, 0x44, 0x33, 0x04 };
+
+        public static readonly byte[] REMOTE_VIDEO_FILE_CONTENT = new byte[] { 0x00, 0x00, 0x00, 0x21 };
 
         public static TestZipFile CreateMinimalTestEpubFile()
         {
@@ -185,7 +192,9 @@ namespace VersOne.Epub.Test.Unit.TestData
             result.AddEntry(IMAGE2_FILE_PATH, IMAGE2_FILE_CONTENT);
             result.AddEntry(FONT1_FILE_PATH, FONT1_FILE_CONTENT);
             result.AddEntry(FONT2_FILE_PATH, FONT2_FILE_CONTENT);
-            result.AddEntry(AUDIO_FILE_PATH, AUDIO_FILE_CONTENT);
+            result.AddEntry(AUDIO1_FILE_PATH, AUDIO_FILE_CONTENT);
+            result.AddEntry(AUDIO2_FILE_PATH, AUDIO_FILE_CONTENT);
+            result.AddEntry(VIDEO_FILE_PATH, VIDEO_FILE_CONTENT);
             result.AddEntry(NAV_FILE_PATH, FULL_NAV_FILE_CONTENT);
             result.AddEntry(COVER_FILE_PATH, COVER_FILE_CONTENT);
             result.AddEntry(NCX_FILE_PATH, NCX_FILE_CONTENT);

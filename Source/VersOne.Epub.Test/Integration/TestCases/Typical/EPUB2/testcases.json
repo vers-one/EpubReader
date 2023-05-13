@@ -90,11 +90,20 @@
         "$content": "epub://Content/chapter1-audio.mp3",
         "FilePath": "Content/chapter1-audio.mp3",
         "Key": "chapter1-audio.mp3",
-        "ContentType": "OTHER",
+        "ContentType": "AUDIO_MP3",
         "ContentMimeType": "audio/mpeg"
       },
       {
         "$id": 11,
+        "$type": "EpubLocalByteContentFile",
+        "$content": "epub://Content/title.mp3",
+        "FilePath": "Content/title.mp3",
+        "Key": "title.mp3",
+        "ContentType": "AUDIO_MP3",
+        "ContentMimeType": "audio/mpeg"
+      },
+      {
+        "$id": 12,
         "$type": "EpubLocalByteContentFile",
         "$content": "epub://Content/chapter2.xml",
         "FilePath": "Content/chapter2.xml",
@@ -103,22 +112,13 @@
         "ContentMimeType": "text/example+xml"
       },
       {
-        "$id": 12,
+        "$id": 13,
         "$type": "EpubLocalByteContentFile",
         "$content": "epub://Content/chapter3.xml",
         "FilePath": "Content/chapter3.xml",
         "Key": "chapter3.xml",
         "ContentType": "OTHER",
         "ContentMimeType": "application/z3998-auth+xml"
-      },
-      {
-        "$id": 13,
-        "$type": "EpubLocalByteContentFile",
-        "$content": "epub://Content/title.mp3",
-        "FilePath": "Content/title.mp3",
-        "Key": "title.mp3",
-        "ContentType": "OTHER",
-        "ContentMimeType": "audio/mpeg"
       },
       {
         "$id": 14,
@@ -740,6 +740,16 @@
             }
           }
         },
+        "Audio": {
+          "Local": {
+            "chapter1-audio.mp3": {
+              "$ref": 10
+            },
+            "title.mp3": {
+              "$ref": 11
+            }
+          }
+        },
         "AllFiles": {
           "Local": {
             "front.html": {
@@ -772,13 +782,13 @@
             "chapter1-audio.mp3": {
               "$ref": 10
             },
-            "chapter2.xml": {
+            "title.mp3": {
               "$ref": 11
             },
-            "chapter3.xml": {
+            "chapter2.xml": {
               "$ref": 12
             },
-            "title.mp3": {
+            "chapter3.xml": {
               "$ref": 13
             },
             "toc.ncx": {

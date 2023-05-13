@@ -7,10 +7,9 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
         [Fact(DisplayName = "Converting a string to EpubMetadataLinkRelationship list should succeed")]
         public void ParsePropertyListTest()
         {
-            string stringValue = "acquire alternate marc21xml-record mods-record onix-record record voicing xml-signature xmp-record test-unknown-property";
+            string stringValue = "alternate marc21xml-record mods-record onix-record record voicing xml-signature xmp-record test-unknown-property";
             List<EpubMetadataLinkRelationship> expectedRelationshipList = new()
             {
-                EpubMetadataLinkRelationship.ACQUIRE,
                 EpubMetadataLinkRelationship.ALTERNATE,
                 EpubMetadataLinkRelationship.MARC21XML_RECORD,
                 EpubMetadataLinkRelationship.MODS_RECORD,

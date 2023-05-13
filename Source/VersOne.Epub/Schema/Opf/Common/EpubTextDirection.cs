@@ -20,6 +20,11 @@ namespace VersOne.Epub.Schema
         RIGHT_TO_LEFT,
 
         /// <summary>
+        /// Direction is determined using the Unicode Bidirectional Algorithm.
+        /// </summary>
+        AUTO,
+
+        /// <summary>
         /// A text direction which is not present in this enumeration.
         /// </summary>
         UNKNOWN
@@ -39,6 +44,7 @@ namespace VersOne.Epub.Schema
             {
                 "ltr" => EpubTextDirection.LEFT_TO_RIGHT,
                 "rtl" => EpubTextDirection.RIGHT_TO_LEFT,
+                "auto" => EpubTextDirection.AUTO,
                 _ => EpubTextDirection.UNKNOWN
             };
         }

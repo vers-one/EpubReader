@@ -463,6 +463,7 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                     { nameof(EpubContent.Css), PropertyDefaultValue.EMPTY_OBJECT },
                     { nameof(EpubContent.Images), PropertyDefaultValue.EMPTY_OBJECT },
                     { nameof(EpubContent.Fonts), PropertyDefaultValue.EMPTY_OBJECT },
+                    { nameof(EpubContent.Audio), PropertyDefaultValue.EMPTY_OBJECT },
                     { nameof(EpubContent.AllFiles), PropertyDefaultValue.EMPTY_OBJECT }
                 }
             );

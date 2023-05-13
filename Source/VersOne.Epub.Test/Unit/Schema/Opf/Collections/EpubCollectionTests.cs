@@ -68,7 +68,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                     {
                         EpubMetadataLinkRelationship.RECORD,
                         EpubMetadataLinkRelationship.ONIX_RECORD
-                    }
+                    },
+                    hrefLanguage: null
                 )
             };
 

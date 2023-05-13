@@ -12,16 +12,10 @@ namespace VersOne.Epub.Schema
     public enum EpubMetadataLinkRelationship
     {
         /// <summary>
-        /// <para>The 'acquire' property. Used in EPUB previews to identify where the full version of the EPUB book can be acquired.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-acquire" /> for more information.</para>
-        /// </summary>
-        ACQUIRE = 1,
-
-        /// <summary>
         /// <para>The 'alternate' property. Identifies an alternate representation of the EPUB book or a collection.</para>
         /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-alternate" /> for more information.</para>
         /// </summary>
-        ALTERNATE,
+        ALTERNATE = 1,
 
         /// <summary>
         /// <para>The 'marc21xml-record' property. Indicates that the referenced resource is a MARC21 record.</para>
@@ -104,7 +98,6 @@ namespace VersOne.Epub.Schema
         {
             return stringValue.ToLowerInvariant() switch
             {
-                "acquire" => EpubMetadataLinkRelationship.ACQUIRE,
                 "alternate" => EpubMetadataLinkRelationship.ALTERNATE,
                 "marc21xml-record" => EpubMetadataLinkRelationship.MARC21XML_RECORD,
                 "mods-record" => EpubMetadataLinkRelationship.MODS_RECORD,

@@ -54,109 +54,199 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         new EpubManifestItem
                         (
-                            id: "item-1",
+                            id: "item-html",
                             href: "text.html",
                             mediaType: "application/xhtml+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-2",
+                            id: "item-dtb",
                             href: "doc.dtb",
                             mediaType: "application/x-dtbook+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-3",
+                            id: "item-ncx",
                             href: "toc.ncx",
                             mediaType: "application/x-dtbncx+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-4",
+                            id: "item-oeb",
                             href: "oeb.html",
                             mediaType: "text/x-oeb1-document"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-5",
+                            id: "item-xml",
                             href: "file.xml",
                             mediaType: "application/xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-6",
+                            id: "item-css",
                             href: "styles.css",
                             mediaType: "text/css"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-7",
+                            id: "item-oebcss",
                             href: "oeb.css",
                             mediaType: "text/x-oeb1-css"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-8",
-                            href: "image1.gif",
+                            id: "item-js-1",
+                            href: "script1.js",
+                            mediaType: "application/javascript"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-js-2",
+                            href: "script2.js",
+                            mediaType: "application/ecmascript"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-js-3",
+                            href: "script3.js",
+                            mediaType: "text/javascript"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-gif",
+                            href: "image.gif",
                             mediaType: "image/gif"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-9",
-                            href: "image2.jpg",
+                            id: "item-jpg",
+                            href: "image.jpg",
                             mediaType: "image/jpeg"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-10",
-                            href: "image3.png",
+                            id: "item-png",
+                            href: "image.png",
                             mediaType: "image/png"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-11",
-                            href: "image4.svg",
+                            id: "item-svg",
+                            href: "image.svg",
                             mediaType: "image/svg+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-12",
+                            id: "item-webp",
+                            href: "image.webp",
+                            mediaType: "image/webp"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-ttf-1",
                             href: "font1.ttf",
                             mediaType: "font/truetype"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-13",
+                            id: "item-ttf-2",
                             href: "font2.ttf",
+                            mediaType: "font/ttf"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-ttf-3",
+                            href: "font3.ttf",
                             mediaType: "application/x-font-truetype"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-14",
-                            href: "font3.otf",
+                            id: "item-otf-1",
+                            href: "font1.otf",
                             mediaType: "font/opentype"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-15",
-                            href: "font4.otf",
+                            id: "item-otf-2",
+                            href: "font2.otf",
+                            mediaType: "font/otf"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-otf-3",
+                            href: "font3.otf",
                             mediaType: "application/vnd.ms-opentype"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-16",
+                            id: "item-sfnt-1",
+                            href: "font.aat",
+                            mediaType: "font/sfnt"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-sfnt-2",
+                            href: "font.sil",
+                            mediaType: "application/font-sfnt"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-woff-1",
+                            href: "font1.woff",
+                            mediaType: "font/woff"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-woff-2",
+                            href: "font2.woff",
+                            mediaType: "application/font-woff"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-woff2",
+                            href: "font.woff2",
+                            mediaType: "font/woff2"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-smil",
                             href: "narration.smil",
                             mediaType: "application/smil+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-17",
+                            id: "item-mp3",
+                            href: "audio.mp3",
+                            mediaType: "audio/mpeg"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-mp4",
+                            href: "audio.mp4",
+                            mediaType: "audio/mp4"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-ogg-1",
+                            href: "audio1.opus",
+                            mediaType: "audio/ogg"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-ogg-2",
+                            href: "audio2.opus",
+                            mediaType: "audio/ogg; codecs=opus"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-video",
                             href: "video.mp4",
                             mediaType: "video/mp4"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-18",
+                            id: "item-cover",
                             href: "cover.jpg",
                             mediaType: "image/jpeg",
                             properties: new List<EpubManifestProperty>
@@ -166,7 +256,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-19",
+                            id: "item-toc",
                             href: "toc.html",
                             mediaType: "application/xhtml+xml",
                             properties: new List<EpubManifestProperty>
@@ -176,76 +266,98 @@ namespace VersOne.Epub.Test.Unit.Readers
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-20",
+                            id: "item-remote-html",
                             href: "https://example.com/books/123/test.html",
                             mediaType: "application/xhtml+xml"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-21",
+                            id: "item-remote-css",
                             href: "https://example.com/books/123/test.css",
                             mediaType: "text/css"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-22",
+                            id: "item-remote-jpg",
                             href: "https://example.com/books/123/image.jpg",
                             mediaType: "image/jpeg"
                         ),
                         new EpubManifestItem
                         (
-                            id: "item-23",
+                            id: "item-remote-ttf",
                             href: "https://example.com/books/123/font.ttf",
                             mediaType: "font/truetype"
+                        ),
+                        new EpubManifestItem
+                        (
+                            id: "item-remote-mp3",
+                            href: "https://example.com/books/123/audio.mp3",
+                            mediaType: "audio/mpeg"
                         )
                     }
                 )
             );
-            EpubLocalTextContentFileRef expectedFileRef1 = CreateLocalTextFileRef("text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubLocalTextContentFileRef expectedFileRef2 = CreateLocalTextFileRef("doc.dtb", EpubContentType.DTBOOK, "application/x-dtbook+xml");
-            EpubLocalTextContentFileRef expectedFileRef3 = CreateLocalTextFileRef("toc.ncx", EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
-            EpubLocalTextContentFileRef expectedFileRef4 = CreateLocalTextFileRef("oeb.html", EpubContentType.OEB1_DOCUMENT, "text/x-oeb1-document");
-            EpubLocalTextContentFileRef expectedFileRef5 = CreateLocalTextFileRef("file.xml", EpubContentType.XML, "application/xml");
-            EpubLocalTextContentFileRef expectedFileRef6 = CreateLocalTextFileRef("styles.css", EpubContentType.CSS, "text/css");
-            EpubLocalTextContentFileRef expectedFileRef7 = CreateLocalTextFileRef("oeb.css", EpubContentType.OEB1_CSS, "text/x-oeb1-css");
-            EpubLocalByteContentFileRef expectedFileRef8 = CreateLocalByteFileRef("image1.gif", EpubContentType.IMAGE_GIF, "image/gif");
-            EpubLocalByteContentFileRef expectedFileRef9 = CreateLocalByteFileRef("image2.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubLocalByteContentFileRef expectedFileRef10 = CreateLocalByteFileRef("image3.png", EpubContentType.IMAGE_PNG, "image/png");
-            EpubLocalByteContentFileRef expectedFileRef11 = CreateLocalByteFileRef("image4.svg", EpubContentType.IMAGE_SVG, "image/svg+xml");
-            EpubLocalByteContentFileRef expectedFileRef12 = CreateLocalByteFileRef("font1.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
-            EpubLocalByteContentFileRef expectedFileRef13 = CreateLocalByteFileRef("font2.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
-            EpubLocalByteContentFileRef expectedFileRef14 = CreateLocalByteFileRef("font3.otf", EpubContentType.FONT_OPENTYPE, "font/opentype");
-            EpubLocalByteContentFileRef expectedFileRef15 = CreateLocalByteFileRef("font4.otf", EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
-            EpubLocalTextContentFileRef expectedFileRef16 = CreateLocalTextFileRef("narration.smil", EpubContentType.SMIL, "application/smil+xml");
-            EpubLocalByteContentFileRef expectedFileRef17 = CreateLocalByteFileRef("video.mp4", EpubContentType.OTHER, "video/mp4");
-            EpubLocalByteContentFileRef expectedFileRef18 = CreateLocalByteFileRef("cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubLocalTextContentFileRef expectedFileRef19 = CreateLocalTextFileRef("toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubRemoteTextContentFileRef expectedFileRef20 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubRemoteTextContentFileRef expectedFileRef21 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
-            EpubRemoteByteContentFileRef expectedFileRef22 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
-            EpubRemoteByteContentFileRef expectedFileRef23 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubLocalTextContentFileRef expectedHtmlFileRef = CreateLocalTextFileRef("text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubLocalTextContentFileRef expectedDtbFileRef = CreateLocalTextFileRef("doc.dtb", EpubContentType.DTBOOK, "application/x-dtbook+xml");
+            EpubLocalTextContentFileRef expectedNcxFileRef = CreateLocalTextFileRef("toc.ncx", EpubContentType.DTBOOK_NCX, "application/x-dtbncx+xml");
+            EpubLocalTextContentFileRef expectedOebFileRef = CreateLocalTextFileRef("oeb.html", EpubContentType.OEB1_DOCUMENT, "text/x-oeb1-document");
+            EpubLocalTextContentFileRef expectedXmlFileRef = CreateLocalTextFileRef("file.xml", EpubContentType.XML, "application/xml");
+            EpubLocalTextContentFileRef expectedCssFileRef = CreateLocalTextFileRef("styles.css", EpubContentType.CSS, "text/css");
+            EpubLocalTextContentFileRef expectedOebCssFileRef = CreateLocalTextFileRef("oeb.css", EpubContentType.OEB1_CSS, "text/x-oeb1-css");
+            EpubLocalTextContentFileRef expectedJs1FileRef = CreateLocalTextFileRef("script1.js", EpubContentType.SCRIPT, "application/javascript");
+            EpubLocalTextContentFileRef expectedJs2FileRef = CreateLocalTextFileRef("script2.js", EpubContentType.SCRIPT, "application/ecmascript");
+            EpubLocalTextContentFileRef expectedJs3FileRef = CreateLocalTextFileRef("script3.js", EpubContentType.SCRIPT, "text/javascript");
+            EpubLocalByteContentFileRef expectedGifFileRef = CreateLocalByteFileRef("image.gif", EpubContentType.IMAGE_GIF, "image/gif");
+            EpubLocalByteContentFileRef expectedJpgFileRef = CreateLocalByteFileRef("image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubLocalByteContentFileRef expectedPngFileRef = CreateLocalByteFileRef("image.png", EpubContentType.IMAGE_PNG, "image/png");
+            EpubLocalByteContentFileRef expectedSvgFileRef = CreateLocalByteFileRef("image.svg", EpubContentType.IMAGE_SVG, "image/svg+xml");
+            EpubLocalByteContentFileRef expectedWebpFileRef = CreateLocalByteFileRef("image.webp", EpubContentType.IMAGE_WEBP, "image/webp");
+            EpubLocalByteContentFileRef expectedTtf1FileRef = CreateLocalByteFileRef("font1.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubLocalByteContentFileRef expectedTtf2FileRef = CreateLocalByteFileRef("font2.ttf", EpubContentType.FONT_TRUETYPE, "font/ttf");
+            EpubLocalByteContentFileRef expectedTtf3FileRef = CreateLocalByteFileRef("font3.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
+            EpubLocalByteContentFileRef expectedOtf1FileRef = CreateLocalByteFileRef("font1.otf", EpubContentType.FONT_OPENTYPE, "font/opentype");
+            EpubLocalByteContentFileRef expectedOtf2FileRef = CreateLocalByteFileRef("font2.otf", EpubContentType.FONT_OPENTYPE, "font/otf");
+            EpubLocalByteContentFileRef expectedOtf3FileRef = CreateLocalByteFileRef("font3.otf", EpubContentType.FONT_OPENTYPE, "application/vnd.ms-opentype");
+            EpubLocalByteContentFileRef expectedSfnt1FileRef = CreateLocalByteFileRef("font.aat", EpubContentType.FONT_SFNT, "font/sfnt");
+            EpubLocalByteContentFileRef expectedSfnt2FileRef = CreateLocalByteFileRef("font.sil", EpubContentType.FONT_SFNT, "application/font-sfnt");
+            EpubLocalByteContentFileRef expectedWoff11FileRef = CreateLocalByteFileRef("font1.woff", EpubContentType.FONT_WOFF, "font/woff");
+            EpubLocalByteContentFileRef expectedWoff12FileRef = CreateLocalByteFileRef("font2.woff", EpubContentType.FONT_WOFF, "application/font-woff");
+            EpubLocalByteContentFileRef expectedWoff2FileRef = CreateLocalByteFileRef("font.woff2", EpubContentType.FONT_WOFF2, "font/woff2");
+            EpubLocalTextContentFileRef expectedSmilFileRef = CreateLocalTextFileRef("narration.smil", EpubContentType.SMIL, "application/smil+xml");
+            EpubLocalByteContentFileRef expectedMp3FileRef = CreateLocalByteFileRef("audio.mp3", EpubContentType.AUDIO_MP3, "audio/mpeg");
+            EpubLocalByteContentFileRef expectedMp4FileRef = CreateLocalByteFileRef("audio.mp4", EpubContentType.AUDIO_MP4, "audio/mp4");
+            EpubLocalByteContentFileRef expectedOgg1FileRef = CreateLocalByteFileRef("audio1.opus", EpubContentType.AUDIO_OGG, "audio/ogg");
+            EpubLocalByteContentFileRef expectedOgg2FileRef = CreateLocalByteFileRef("audio2.opus", EpubContentType.AUDIO_OGG, "audio/ogg; codecs=opus");
+            EpubLocalByteContentFileRef expectedVideoFileRef = CreateLocalByteFileRef("video.mp4", EpubContentType.OTHER, "video/mp4");
+            EpubLocalByteContentFileRef expectedCoverFileRef = CreateLocalByteFileRef("cover.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubLocalTextContentFileRef expectedTocFileRef = CreateLocalTextFileRef("toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubRemoteTextContentFileRef expectedRemoteHtmlFileRef = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            EpubRemoteTextContentFileRef expectedRemoteCssFileRef = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
+            EpubRemoteByteContentFileRef expectedRemoteJpgFileRef = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
+            EpubRemoteByteContentFileRef expectedRemoteTtfFileRef = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            EpubRemoteByteContentFileRef expectedRemoteMp3FileRef = CreateRemoteByteFileRef("https://example.com/books/123/audio.mp3", EpubContentType.AUDIO_MP3, "audio/mpeg");
             EpubContentRef expectedContentMap = new
             (
-                cover: expectedFileRef18,
-                navigationHtmlFile: expectedFileRef19,
+                cover: expectedCoverFileRef,
+                navigationHtmlFile: expectedTocFileRef,
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
                 (
                     local: new Dictionary<string, EpubLocalTextContentFileRef>()
                     {
                         {
                             "text.html",
-                            expectedFileRef1
+                            expectedHtmlFileRef
                         },
                         {
                             "toc.html",
-                            expectedFileRef19
+                            expectedTocFileRef
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.html",
-                            expectedFileRef20
+                            expectedRemoteHtmlFileRef
                         }
                     }
                 ),
@@ -255,14 +367,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         {
                             "styles.css",
-                            expectedFileRef6
+                            expectedCssFileRef
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.css",
-                            expectedFileRef21
+                            expectedRemoteCssFileRef
                         }
                     }
                 ),
@@ -271,31 +383,35 @@ namespace VersOne.Epub.Test.Unit.Readers
                     local: new Dictionary<string, EpubLocalByteContentFileRef>()
                     {
                         {
-                            "image1.gif",
-                            expectedFileRef8
+                            "image.gif",
+                            expectedGifFileRef
                         },
                         {
-                            "image2.jpg",
-                            expectedFileRef9
+                            "image.jpg",
+                            expectedJpgFileRef
                         },
                         {
-                            "image3.png",
-                            expectedFileRef10
+                            "image.png",
+                            expectedPngFileRef
                         },
                         {
-                            "image4.svg",
-                            expectedFileRef11
+                            "image.svg",
+                            expectedSvgFileRef
+                        },
+                        {
+                            "image.webp",
+                            expectedWebpFileRef
                         },
                         {
                             "cover.jpg",
-                            expectedFileRef18
+                            expectedCoverFileRef
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/image.jpg",
-                            expectedFileRef22
+                            expectedRemoteJpgFileRef
                         }
                     }
                 ),
@@ -305,26 +421,83 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         {
                             "font1.ttf",
-                            expectedFileRef12
+                            expectedTtf1FileRef
                         },
                         {
                             "font2.ttf",
-                            expectedFileRef13
+                            expectedTtf2FileRef
+                        },
+                        {
+                            "font3.ttf",
+                            expectedTtf3FileRef
+                        },
+                        {
+                            "font1.otf",
+                            expectedOtf1FileRef
+                        },
+                        {
+                            "font2.otf",
+                            expectedOtf2FileRef
                         },
                         {
                             "font3.otf",
-                            expectedFileRef14
+                            expectedOtf3FileRef
                         },
                         {
-                            "font4.otf",
-                            expectedFileRef15
+                            "font.aat",
+                            expectedSfnt1FileRef
+                        },
+                        {
+                            "font.sil",
+                            expectedSfnt2FileRef
+                        },
+                        {
+                            "font1.woff",
+                            expectedWoff11FileRef
+                        },
+                        {
+                            "font2.woff",
+                            expectedWoff12FileRef
+                        },
+                        {
+                            "font.woff2",
+                            expectedWoff2FileRef
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/font.ttf",
-                            expectedFileRef23
+                            expectedRemoteTtfFileRef
+                        }
+                    }
+                ),
+                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
+                (
+                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
+                    {
+                        {
+                            "audio.mp3",
+                            expectedMp3FileRef
+                        },
+                        {
+                            "audio.mp4",
+                            expectedMp4FileRef
+                        },
+                        {
+                            "audio1.opus",
+                            expectedOgg1FileRef
+                        },
+                        {
+                            "audio2.opus",
+                            expectedOgg2FileRef
+                        }
+                    },
+                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
+                    {
+                        {
+                            "https://example.com/books/123/audio.mp3",
+                            expectedRemoteMp3FileRef
                         }
                     }
                 ),
@@ -334,98 +507,162 @@ namespace VersOne.Epub.Test.Unit.Readers
                     {
                         {
                             "text.html",
-                            expectedFileRef1
+                            expectedHtmlFileRef
                         },
                         {
                             "doc.dtb",
-                            expectedFileRef2
+                            expectedDtbFileRef
                         },
                         {
                             "toc.ncx",
-                            expectedFileRef3
+                            expectedNcxFileRef
                         },
                         {
                             "oeb.html",
-                            expectedFileRef4
+                            expectedOebFileRef
                         },
                         {
                             "file.xml",
-                            expectedFileRef5
+                            expectedXmlFileRef
                         },
                         {
                             "styles.css",
-                            expectedFileRef6
+                            expectedCssFileRef
                         },
                         {
                             "oeb.css",
-                            expectedFileRef7
+                            expectedOebCssFileRef
                         },
                         {
-                            "image1.gif",
-                            expectedFileRef8
+                            "script1.js",
+                            expectedJs1FileRef
                         },
                         {
-                            "image2.jpg",
-                            expectedFileRef9
+                            "script2.js",
+                            expectedJs2FileRef
                         },
                         {
-                            "image3.png",
-                            expectedFileRef10
+                            "script3.js",
+                            expectedJs3FileRef
                         },
                         {
-                            "image4.svg",
-                            expectedFileRef11
+                            "image.gif",
+                            expectedGifFileRef
+                        },
+                        {
+                            "image.jpg",
+                            expectedJpgFileRef
+                        },
+                        {
+                            "image.png",
+                            expectedPngFileRef
+                        },
+                        {
+                            "image.svg",
+                            expectedSvgFileRef
+                        },
+                        {
+                            "image.webp",
+                            expectedWebpFileRef
                         },
                         {
                             "font1.ttf",
-                            expectedFileRef12
+                            expectedTtf1FileRef
                         },
                         {
                             "font2.ttf",
-                            expectedFileRef13
+                            expectedTtf2FileRef
+                        },
+                        {
+                            "font3.ttf",
+                            expectedTtf3FileRef
+                        },
+                        {
+                            "font1.otf",
+                            expectedOtf1FileRef
+                        },
+                        {
+                            "font2.otf",
+                            expectedOtf2FileRef
                         },
                         {
                             "font3.otf",
-                            expectedFileRef14
+                            expectedOtf3FileRef
                         },
                         {
-                            "font4.otf",
-                            expectedFileRef15
+                            "font.aat",
+                            expectedSfnt1FileRef
+                        },
+                        {
+                            "font.sil",
+                            expectedSfnt2FileRef
+                        },
+                        {
+                            "font1.woff",
+                            expectedWoff11FileRef
+                        },
+                        {
+                            "font2.woff",
+                            expectedWoff12FileRef
+                        },
+                        {
+                            "font.woff2",
+                            expectedWoff2FileRef
                         },
                         {
                             "narration.smil",
-                            expectedFileRef16
+                            expectedSmilFileRef
+                        },
+                        {
+                            "audio.mp3",
+                            expectedMp3FileRef
+                        },
+                        {
+                            "audio.mp4",
+                            expectedMp4FileRef
+                        },
+                        {
+                            "audio1.opus",
+                            expectedOgg1FileRef
+                        },
+                        {
+                            "audio2.opus",
+                            expectedOgg2FileRef
                         },
                         {
                             "video.mp4",
-                            expectedFileRef17
+                            expectedVideoFileRef
                         },
                         {
                             "cover.jpg",
-                            expectedFileRef18
+                            expectedCoverFileRef
                         },
                         {
                             "toc.html",
-                            expectedFileRef19
+                            expectedTocFileRef
                         }
                     },
                     remote: new Dictionary<string, EpubRemoteContentFileRef>()
                     {
                         {
                             "https://example.com/books/123/test.html",
-                            expectedFileRef20
+                            expectedRemoteHtmlFileRef
                         },
                         {
                             "https://example.com/books/123/test.css",
-                            expectedFileRef21
+                            expectedRemoteCssFileRef
                         },
                         {
                             "https://example.com/books/123/image.jpg",
-                            expectedFileRef22
+                            expectedRemoteJpgFileRef
                         },
                         {
                             "https://example.com/books/123/font.ttf",
-                            expectedFileRef23
+                            expectedRemoteTtfFileRef
+                        },
+                        {
+                            "https://example.com/books/123/audio.mp3",
+                            expectedRemoteMp3FileRef
                         }
                     }
                 )

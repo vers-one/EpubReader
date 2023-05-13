@@ -20,9 +20,10 @@ namespace VersOne.Epub.Schema
         /// </param>
         /// <param name="refines">A relative IRI that identifies the resource augmented by the link or <c>null</c> if the link doesn't specify any augmentation.</param>
         /// <param name="relationships">A list of properties that establish the relationship the resource has with the EPUB book.</param>
+        /// <param name="hrefLanguage">The language of the linked resource or <c>null</c> if the link doesn't specify the language of the linked resource.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="href" /> parameter is <c>null</c>.</exception>
         public EpubMetadataLink(string href, string? id = null, string? mediaType = null, List<EpubMetadataLinkProperty>? properties = null, string? refines = null,
-            List<EpubMetadataLinkRelationship>? relationships = null)
+            List<EpubMetadataLinkRelationship>? relationships = null, string? hrefLanguage = null)
         {
             Href = href ?? throw new ArgumentNullException(nameof(href));
             Id = id;
@@ -30,6 +31,7 @@ namespace VersOne.Epub.Schema
             Properties = properties;
             Refines = refines;
             Relationships = relationships ?? new List<EpubMetadataLinkRelationship>();
+            HrefLanguage = hrefLanguage;
         }
 
         /// <summary>
@@ -80,5 +82,14 @@ namespace VersOne.Epub.Schema
         /// </para>
         /// </summary>
         public List<EpubMetadataLinkRelationship> Relationships { get; }
+
+        /// <summary>
+        /// <para>Gets the language of the linked resource or <c>null</c> if the link doesn't specify the language of the linked resource.</para>
+        /// <para>
+        /// See <see href="https://www.w3.org/TR/epub-33/#attrdef-hreflang" />
+        /// and <see href="https://www.rfc-editor.org/info/bcp47" /> for more information.
+        /// </para>
+        /// </summary>
+        public string? HrefLanguage { get; }
     }
 }
