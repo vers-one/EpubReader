@@ -18,12 +18,6 @@ namespace VersOne.Epub.Schema
         ONIX = 1,
 
         /// <summary>
-        /// <para>The 'xmp' property. Indicates that the referenced resource is an XMP record.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-xmp" /> for more information.</para>
-        /// </summary>
-        XMP,
-
-        /// <summary>
         /// A EPUB metadata link property which is not present in this enumeration.
         /// </summary>
         UNKNOWN
@@ -45,7 +39,6 @@ namespace VersOne.Epub.Schema
             return stringValue.ToLowerInvariant() switch
             {
                 "onix" => EpubMetadataLinkProperty.ONIX,
-                "xmp" => EpubMetadataLinkProperty.XMP,
                 _ => EpubMetadataLinkProperty.UNKNOWN
             };
         }
