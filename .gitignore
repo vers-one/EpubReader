@@ -2,6 +2,7 @@
 packages/
 bin/
 obj/
+.misc/
 *.user
 Documentation/docfx_output/
 Documentation/reference/*.yml
