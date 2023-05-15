@@ -3,35 +3,27 @@ name: Publish to Nuget
 on: workflow_dispatch
 
 jobs:
-  create-release:
+  publish-to-nuget:
     runs-on: windows-2022
-
     env:
       Configuration: Release
       Solution_Name: Source\EpubReader.sln
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Install .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7
-
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1.3
-
-    - name: Restore dependencies
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration /p:RestorePackagesConfig=true
-
-    - name: Build solution
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
-  
-    - name: Make Nuget package
-      run: nuget.exe pack Source\VersOne.Epub\VersOne.Epub.nuspec
-  
-    - name: Publish Nuget package
-      run: nuget.exe push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }} -SkipDuplicate
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1.3
+      - name: Restore dependencies
+        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration /p:RestorePackagesConfig=true
+      - name: Build solution
+        run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+      - name: Make Nuget package
+        run: nuget.exe pack Source\VersOne.Epub\VersOne.Epub.nuspec
+      - name: Publish Nuget package
+        run: nuget.exe push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }} -SkipDuplicate

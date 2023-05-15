@@ -16,37 +16,28 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: windows-2022
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Install .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7
-
-    - name: Restore dependencies
-      run: dotnet restore .\Source\VersOne.Epub\VersOne.Epub.csproj
-
-    - name: Install DocFX
-      run: nuget install docfx.console -x
-
-    - name: Run DocFX
-      run: docfx.console\tools\docfx.exe Documentation\docfx.json
-
-    - name: Setup Pages
-      uses: actions/configure-pages@v1
-
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: './Documentation/docfx_output'
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@main
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7
+      - name: Restore dependencies
+        run: dotnet restore .\Source\VersOne.Epub\VersOne.Epub.csproj
+      - name: Install DocFX
+        run: nuget install docfx.console -x
+      - name: Run DocFX
+        run: docfx.console\tools\docfx.exe Documentation\docfx.json
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './Documentation/docfx_output'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@main

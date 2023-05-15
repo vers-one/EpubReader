@@ -7,33 +7,24 @@ on:
     branches: [ master ]
 
 jobs:
-
   test:
-
     runs-on: windows-2022
-
     env:
       Configuration: Debug
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Install .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7
-
-    - name: Build test project and its dependencies
-      run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
-
-    - name: Run unit tests
-      run: dotnet test Source\VersOne.Epub.Test --filter Unit --no-restore --collect:"XPlat Code Coverage" --settings Source\VersOne.Epub.Test\coverlet.runsettings
-
-    - name: Upload code coverage result to Codecov
-      uses: codecov/codecov-action@v3
-
-    - name: Run integration tests
-      run: dotnet test Source\VersOne.Epub.Test --filter Integration --no-restore
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7
+      - name: Build test project and its dependencies
+        run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
+      - name: Run unit tests
+        run: dotnet test Source\VersOne.Epub.Test --filter Unit --no-restore --collect:"XPlat Code Coverage" --settings Source\VersOne.Epub.Test\coverlet.runsettings
+      - name: Upload code coverage result to Codecov
+        uses: codecov/codecov-action@v3
+      - name: Run integration tests
+        run: dotnet test Source\VersOne.Epub.Test --filter Integration --no-restore
