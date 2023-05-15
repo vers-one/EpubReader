@@ -40,7 +40,7 @@ jobs:
       run: |
         7z a VersOne.Epub.Net46.zip .\Source\VersOne.Epub\bin\Release\net46\VersOne.Epub.dll
         7z a VersOne.Epub.NetStandard.zip .\Source\VersOne.Epub\bin\Release\netstandard1.3\VersOne.Epub.dll
-        7z a ConsoleDemo.zip .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net6.0\HtmlAgilityPack.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net6.0\VersOne.Epub.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net6.0\VersOne.Epub.ConsoleDemo.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net6.0\VersOne.Epub.ConsoleDemo.exe .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net6.0\VersOne.Epub.ConsoleDemo.deps.json .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net6.0\VersOne.Epub.ConsoleDemo.runtimeconfig.json
+        7z a ConsoleDemo.zip .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\HtmlAgilityPack.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.exe .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.deps.json .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.runtimeconfig.json
         7z a WpfDemo.zip .\Source\VersOne.Epub.WpfDemo\bin\Release\HtmlRenderer.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\HtmlRenderer.WPF.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\System.IO.Compression.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\VersOne.Epub.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\VersOne.Epub.WpfDemo.exe
   
     - name: Create release
