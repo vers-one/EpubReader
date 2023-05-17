@@ -56,22 +56,14 @@ namespace VersOne.Epub.Test.Unit.Readers
             );
             EpubLocalTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef("chapter1.html");
             EpubLocalTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef("chapter2.html");
+            List<EpubLocalTextContentFileRef> expectedHtmlLocal = new()
+            {
+                expectedHtmlFileRef1,
+                expectedHtmlFileRef2
+            };
             EpubContentRef epubContentRef = new
             (
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            "chapter1.html",
-                            expectedHtmlFileRef1
-                        },
-                        {
-                            "chapter2.html",
-                            expectedHtmlFileRef2
-                        }
-                    }
-                )
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(expectedHtmlLocal.AsReadOnly())
             );
             List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
             {
@@ -175,27 +167,22 @@ namespace VersOne.Epub.Test.Unit.Readers
                     }
                 )
             );
+            List<EpubRemoteTextContentFileRef> htmlRemote = new()
+            {
+                new EpubRemoteTextContentFileRef
+                (
+                    metadata: new EpubContentFileRefMetadata
+                    (
+                        key: remoteFileHref,
+                        contentType: EpubContentType.XHTML_1_1,
+                        contentMimeType: "application/xhtml+xml"
+                    ),
+                    epubContentLoader: new TestEpubContentLoader()
+                )
+            };
             EpubContentRef epubContentRef = new
             (
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            remoteFileHref,
-                            new EpubRemoteTextContentFileRef
-                            (
-                                metadata: new EpubContentFileRefMetadata
-                                (
-                                    key: remoteFileHref,
-                                    contentType: EpubContentType.XHTML_1_1,
-                                    contentMimeType: "application/xhtml+xml"
-                                ),
-                                epubContentLoader: new TestEpubContentLoader()
-                            )
-                        }
-                    }
-                )
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(null, htmlRemote.AsReadOnly())
             );
             Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
         }

@@ -11,7 +11,7 @@
             }
         }
 
-        public static void CompareDictionaries<TKey, TValue>(IDictionary<TKey, TValue> expected, IDictionary<TKey, TValue> actual, Action<TValue, TValue> elementValueComprarer)
+        public static void CompareDictionaries<TKey, TValue>(IDictionary<TKey, TValue> expected, IDictionary<TKey, TValue> actual, Action<TValue, TValue> elementValueComparer)
         {
             Assert.Equal(expected.Count, actual.Count);
             foreach (KeyValuePair<TKey, TValue> expectedKeyValuePair in expected)
@@ -20,7 +20,7 @@
                 TValue expectedValue = expectedKeyValuePair.Value;
                 if (actual.TryGetValue(expectedKey, out TValue? actualValue))
                 {
-                    elementValueComprarer(expectedValue, actualValue);
+                    elementValueComparer(expectedValue, actualValue);
                 }
                 else
                 {

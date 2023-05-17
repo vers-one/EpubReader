@@ -7,249 +7,113 @@ namespace VersOne.Epub.Test.Unit.TestData
     {
         public static EpubContentRef CreateMinimalTestEpubContentRefWithNavigation()
         {
+            List<EpubLocalTextContentFileRef> htmlLocal = new()
+            {
+                NavFileRef
+            };
+            List<EpubLocalContentFileRef> allFilesLocal = new()
+            {
+                NavFileRef
+            };
             return new
             (
                 cover: null,
                 navigationHtmlFile: NavFileRef,
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            NAV_FILE_NAME,
-                            NavFileRef
-                        }
-                    }
-                ),
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly()),
                 css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(),
                 images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(),
                 fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(),
                 audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(),
-                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalContentFileRef>()
-                    {
-                        {
-                            NAV_FILE_NAME,
-                            NavFileRef
-                        }
-                    }
-                )
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>(allFilesLocal.AsReadOnly())
             );
         }
 
         public static EpubContentRef CreateFullTestEpubContentRef()
         {
+            List<EpubLocalTextContentFileRef> htmlLocal = new()
+            {
+                Chapter1FileRef,
+                Chapter2FileRef,
+                NavFileRef
+            };
+            List<EpubRemoteTextContentFileRef> htmlRemote = new()
+            {
+                RemoteHtmlContentFileRef
+            };
+            List<EpubLocalTextContentFileRef> cssLocal = new()
+            {
+                Styles1FileRef,
+                Styles2FileRef
+            };
+            List<EpubRemoteTextContentFileRef> cssRemote = new()
+            {
+                RemoteCssContentFileRef
+            };
+            List<EpubLocalByteContentFileRef> imagesLocal = new()
+            {
+                Image1FileRef,
+                Image2FileRef,
+                CoverFileRef
+            };
+            List<EpubRemoteByteContentFileRef> imagesRemote = new()
+            {
+                RemoteImageContentFileRef
+            };
+            List<EpubLocalByteContentFileRef> fontsLocal = new()
+            {
+                Font1FileRef,
+                Font2FileRef
+            };
+            List<EpubRemoteByteContentFileRef> fontsRemote = new()
+            {
+                RemoteFontContentFileRef
+            };
+            List<EpubLocalByteContentFileRef> audioLocal = new()
+            {
+                Audio1FileRef,
+                Audio2FileRef
+            };
+            List<EpubRemoteByteContentFileRef> audioRemote = new()
+            {
+                RemoteAudioContentFileRef
+            };
+            List<EpubLocalContentFileRef> allFilesLocal = new()
+            {
+                Chapter1FileRef,
+                Chapter2FileRef,
+                Styles1FileRef,
+                Styles2FileRef,
+                Image1FileRef,
+                Image2FileRef,
+                Font1FileRef,
+                Font2FileRef,
+                Audio1FileRef,
+                Audio2FileRef,
+                VideoFileRef,
+                NavFileRef,
+                CoverFileRef,
+                NcxFileRef
+            };
+            List<EpubRemoteContentFileRef> allFilesRemote = new()
+            {
+                RemoteHtmlContentFileRef,
+                RemoteCssContentFileRef,
+                RemoteImageContentFileRef,
+                RemoteFontContentFileRef,
+                RemoteXmlContentFileRef,
+                RemoteAudioContentFileRef,
+                RemoteVideoContentFileRef
+            };
             return new EpubContentRef
             (
                 cover: CoverFileRef,
                 navigationHtmlFile: NavFileRef,
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            CHAPTER1_FILE_NAME,
-                            Chapter1FileRef
-                        },
-                        {
-                            CHAPTER2_FILE_NAME,
-                            Chapter2FileRef
-                        },
-                        {
-                            NAV_FILE_NAME,
-                            NavFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            REMOTE_HTML_CONTENT_FILE_HREF,
-                            RemoteHtmlContentFileRef
-                        }
-                    }
-                ),
-                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            STYLES1_FILE_NAME,
-                            Styles1FileRef
-                        },
-                        {
-                            STYLES2_FILE_NAME,
-                            Styles2FileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            REMOTE_CSS_CONTENT_FILE_HREF,
-                            RemoteCssContentFileRef
-                        }
-                    }
-                ),
-                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
-                    {
-                        {
-                            IMAGE1_FILE_NAME,
-                            Image1FileRef
-                        },
-                        {
-                            IMAGE2_FILE_NAME,
-                            Image2FileRef
-                        },
-                        {
-                            COVER_FILE_NAME,
-                            CoverFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            REMOTE_IMAGE_CONTENT_FILE_HREF,
-                            RemoteImageContentFileRef
-                        }
-                    }
-                ),
-                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
-                    {
-                        {
-                            FONT1_FILE_NAME,
-                            Font1FileRef
-                        },
-                        {
-                            FONT2_FILE_NAME,
-                            Font2FileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            REMOTE_FONT_CONTENT_FILE_HREF,
-                            RemoteFontContentFileRef
-                        }
-                    }
-                ),
-                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
-                    {
-                        {
-                            AUDIO1_FILE_NAME,
-                            Audio1FileRef
-                        },
-                        {
-                            AUDIO2_FILE_NAME,
-                            Audio2FileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            REMOTE_AUDIO_CONTENT_FILE_HREF,
-                            RemoteAudioContentFileRef
-                        }
-                    }
-                ),
-                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalContentFileRef>()
-                    {
-                        {
-                            CHAPTER1_FILE_NAME,
-                            Chapter1FileRef
-                        },
-                        {
-                            CHAPTER2_FILE_NAME,
-                            Chapter2FileRef
-                        },
-                        {
-                            STYLES1_FILE_NAME,
-                            Styles1FileRef
-                        },
-                        {
-                            STYLES2_FILE_NAME,
-                            Styles2FileRef
-                        },
-                        {
-                            IMAGE1_FILE_NAME,
-                            Image1FileRef
-                        },
-                        {
-                            IMAGE2_FILE_NAME,
-                            Image2FileRef
-                        },
-                        {
-                            FONT1_FILE_NAME,
-                            Font1FileRef
-                        },
-                        {
-                            FONT2_FILE_NAME,
-                            Font2FileRef
-                        },
-                        {
-                            AUDIO1_FILE_NAME,
-                            Audio1FileRef
-                        },
-                        {
-                            AUDIO2_FILE_NAME,
-                            Audio2FileRef
-                        },
-                        {
-                            VIDEO_FILE_NAME,
-                            VideoFileRef
-                        },
-                        {
-                            NAV_FILE_NAME,
-                            NavFileRef
-                        },
-                        {
-                            COVER_FILE_NAME,
-                            CoverFileRef
-                        },
-                        {
-                            NCX_FILE_NAME,
-                            NcxFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
-                    {
-                        {
-                            REMOTE_HTML_CONTENT_FILE_HREF,
-                            RemoteHtmlContentFileRef
-                        },
-                        {
-                            REMOTE_CSS_CONTENT_FILE_HREF,
-                            RemoteCssContentFileRef
-                        },
-                        {
-                            REMOTE_IMAGE_CONTENT_FILE_HREF,
-                            RemoteImageContentFileRef
-                        },
-                        {
-                            REMOTE_FONT_CONTENT_FILE_HREF,
-                            RemoteFontContentFileRef
-                        },
-                        {
-                            REMOTE_XML_CONTENT_FILE_HREF,
-                            RemoteXmlContentFileRef
-                        },
-                        {
-                            REMOTE_AUDIO_CONTENT_FILE_HREF,
-                            RemoteAudioContentFileRef
-                        },
-                        {
-                            REMOTE_VIDEO_CONTENT_FILE_HREF,
-                            RemoteVideoContentFileRef
-                        }
-                    }
-                )
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly(), htmlRemote.AsReadOnly()),
+                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(cssLocal.AsReadOnly(), cssRemote.AsReadOnly()),
+                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(imagesLocal.AsReadOnly(), imagesRemote.AsReadOnly()),
+                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(fontsLocal.AsReadOnly(), fontsRemote.AsReadOnly()),
+                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(audioLocal.AsReadOnly(), audioRemote.AsReadOnly()),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>(allFilesLocal.AsReadOnly(), allFilesRemote.AsReadOnly())
             );
         }
 

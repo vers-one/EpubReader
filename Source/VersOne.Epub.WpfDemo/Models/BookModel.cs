@@ -34,9 +34,9 @@ namespace VersOne.Epub.WpfDemo.Models
 
         public List<HtmlContentFileViewModel> GetReadingOrder(EpubBook epubBook)
         {
-            Dictionary<string, byte[]> images = epubBook.Content.Images.Local.ToDictionary(imageFile => imageFile.Key, imageFile => imageFile.Value.Content);
-            Dictionary<string, string> styleSheets = epubBook.Content.Css.Local.ToDictionary(cssFile => cssFile.Key, cssFile => cssFile.Value.Content);
-            Dictionary<string, byte[]> fonts = epubBook.Content.Fonts.Local.ToDictionary(fontFile => fontFile.Key, fontFile => fontFile.Value.Content);
+            Dictionary<string, byte[]> images = epubBook.Content.Images.Local.ToDictionary(imageFile => imageFile.Key, imageFile => imageFile.Content);
+            Dictionary<string, string> styleSheets = epubBook.Content.Css.Local.ToDictionary(cssFile => cssFile.Key, cssFile => cssFile.Content);
+            Dictionary<string, byte[]> fonts = epubBook.Content.Fonts.Local.ToDictionary(fontFile => fontFile.Key, fontFile => fontFile.Content);
             List<HtmlContentFileViewModel> result = new List<HtmlContentFileViewModel>();
             foreach (EpubLocalTextContentFile epubHtmlFile in epubBook.ReadingOrder)
             {

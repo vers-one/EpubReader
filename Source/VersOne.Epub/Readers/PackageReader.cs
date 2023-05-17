@@ -93,6 +93,8 @@ namespace VersOne.Epub.Internal
             XAttribute? manifestIdAttribute = manifestNode.Attribute("id");
             string? manifestId = manifestIdAttribute?.Value;
             List<EpubManifestItem> items = new();
+            HashSet<string> manifestItemIds = new();
+            HashSet<string> manifestItemHrefs = new();
             foreach (XElement manifestItemNode in manifestNode.Elements())
             {
                 if (manifestItemNode.CompareNameTo("item"))
@@ -164,6 +166,16 @@ namespace VersOne.Epub.Internal
                         }
                         throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing.");
                     }
+                    if (manifestItemIds.Contains(manifestItemId))
+                    {
+                        throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{manifestItemId}\" is not unique.");
+                    }
+                    manifestItemIds.Add(manifestItemId);
+                    if (manifestItemHrefs.Contains(href))
+                    {
+                        throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{href}\" is not unique.");
+                    }
+                    manifestItemHrefs.Add(href);
                     items.Add(new EpubManifestItem(manifestItemId, href, mediaType, mediaOverlay, requiredNamespace, requiredModules, fallback, fallbackStyle, properties));
                 }
             }

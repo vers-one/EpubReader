@@ -46,7 +46,7 @@
         [Fact(DisplayName = "Constructing a EpubRemoteTextContentFile instance with non-null parameters should succeed")]
         public void RemoteTextContentFileConstructorTest()
         {
-            EpubRemoteTextContentFile epubRemoteTextContentFile = new(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT);
+            EpubRemoteTextContentFile epubRemoteTextContentFile = new(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, TEXT_FILE_CONTENT);
             Assert.Equal(REMOTE_TEXT_FILE_HREF, epubRemoteTextContentFile.Key);
             Assert.Equal(TEXT_FILE_CONTENT_TYPE, epubRemoteTextContentFile.ContentType);
             Assert.Equal(TEXT_FILE_CONTENT_MIME_TYPE, epubRemoteTextContentFile.ContentMimeType);
@@ -59,7 +59,7 @@
         [Fact(DisplayName = "Constructing a EpubRemoteByteContentFile instance with non-null parameters should succeed")]
         public void RemoteByteContentFileConstructorTest()
         {
-            EpubRemoteByteContentFile epubRemoteByteContentFile = new(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT);
+            EpubRemoteByteContentFile epubRemoteByteContentFile = new(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, BYTE_FILE_CONTENT);
             Assert.Equal(REMOTE_BYTE_FILE_HREF, epubRemoteByteContentFile.Key);
             Assert.Equal(BYTE_FILE_CONTENT_TYPE, epubRemoteByteContentFile.ContentType);
             Assert.Equal(BYTE_FILE_CONTENT_MIME_TYPE, epubRemoteByteContentFile.ContentMimeType);
@@ -87,14 +87,14 @@
         public void RemoteTextContentFileConstructorWithNullKeyTest()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new EpubRemoteTextContentFile(null!, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT));
+                new EpubRemoteTextContentFile(null!, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, TEXT_FILE_CONTENT));
         }
 
         [Fact(DisplayName = "EpubRemoteByteContentFile constructor should throw ArgumentNullException if key parameter is null")]
         public void RemoteByteContentFileConstructorWithNullKeyTest()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new EpubRemoteByteContentFile(null!, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT));
+                new EpubRemoteByteContentFile(null!, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, BYTE_FILE_CONTENT));
         }
 
         [Fact(DisplayName = "EpubLocalTextContentFile constructor should throw ArgumentNullException if contentMimeType parameter is null")]
@@ -115,14 +115,14 @@
         public void RemoteTextContentFileConstructorWithNullContentMimeTypeTest()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new EpubRemoteTextContentFile(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, null!, REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT));
+                new EpubRemoteTextContentFile(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, null!, TEXT_FILE_CONTENT));
         }
 
         [Fact(DisplayName = "EpubRemoteByteContentFile constructor should throw ArgumentNullException if contentMimeType parameter is null")]
         public void RemoteByteContentFileConstructorWithNullContentMimeTypeTest()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                new EpubRemoteByteContentFile(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, null!, REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT));
+                new EpubRemoteByteContentFile(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, null!, BYTE_FILE_CONTENT));
         }
 
         [Fact(DisplayName = "EpubLocalTextContentFile constructor should throw ArgumentNullException if filePath parameter is null")]
@@ -137,20 +137,6 @@
         {
             Assert.Throws<ArgumentNullException>(() =>
                 new EpubLocalByteContentFile(LOCAL_BYTE_FILE_NAME, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, null!, BYTE_FILE_CONTENT));
-        }
-
-        [Fact(DisplayName = "EpubRemoteTextContentFile constructor should throw ArgumentNullException if url parameter is null")]
-        public void RemoteTextContentFileConstructorWithNullUrlTest()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-                new EpubRemoteTextContentFile(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, null!, TEXT_FILE_CONTENT));
-        }
-
-        [Fact(DisplayName = "EpubRemoteByteContentFile constructor should throw ArgumentNullException if url parameter is null")]
-        public void RemoteByteContentFileConstructorWithNullUrlTest()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-                new EpubRemoteByteContentFile(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, null!, BYTE_FILE_CONTENT));
         }
 
         [Fact(DisplayName = "EpubLocalTextContentFile constructor should throw ArgumentNullException if content parameter is null")]
@@ -170,7 +156,7 @@
         [Fact(DisplayName = "Constructing a EpubRemoteTextContentFile instance with null content parameter should succeed")]
         public void RemoteTextContentFileConstructorWithNullContentTest()
         {
-            EpubRemoteTextContentFile epubRemoteTextContentFile = new(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, REMOTE_TEXT_FILE_HREF, null);
+            EpubRemoteTextContentFile epubRemoteTextContentFile = new(REMOTE_TEXT_FILE_HREF, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE, null);
             Assert.Equal(REMOTE_TEXT_FILE_HREF, epubRemoteTextContentFile.Key);
             Assert.Equal(TEXT_FILE_CONTENT_TYPE, epubRemoteTextContentFile.ContentType);
             Assert.Equal(TEXT_FILE_CONTENT_MIME_TYPE, epubRemoteTextContentFile.ContentMimeType);
@@ -183,7 +169,7 @@
         [Fact(DisplayName = "Constructing a EpubRemoteByteContentFile instance with null content parameter should succeed")]
         public void RemoteByteContentFileConstructorWithNullContentTest()
         {
-            EpubRemoteByteContentFile epubRemoteByteContentFile = new(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, REMOTE_BYTE_FILE_HREF, null);
+            EpubRemoteByteContentFile epubRemoteByteContentFile = new(REMOTE_BYTE_FILE_HREF, BYTE_FILE_CONTENT_TYPE, BYTE_FILE_CONTENT_MIME_TYPE, null);
             Assert.Equal(REMOTE_BYTE_FILE_HREF, epubRemoteByteContentFile.Key);
             Assert.Equal(BYTE_FILE_CONTENT_TYPE, epubRemoteByteContentFile.ContentType);
             Assert.Equal(BYTE_FILE_CONTENT_MIME_TYPE, epubRemoteByteContentFile.ContentMimeType);

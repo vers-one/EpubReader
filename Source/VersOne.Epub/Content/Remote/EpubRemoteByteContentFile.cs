@@ -15,13 +15,11 @@ namespace VersOne.Epub
         /// <param name="key">The content file key as it is declared in the EPUB manifest (in the <see cref="EpubManifestItem.Href" /> property).</param>
         /// <param name="contentType">The type of the content of the file.</param>
         /// <param name="contentMimeType">The MIME type of the content of the file.</param>
-        /// <param name="url">The absolute URI of the remote content file (as it is specified in the EPUB manifest).</param>
         /// <param name="content">The content of the file.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="contentMimeType" /> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="url" /> parameter is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
-        public EpubRemoteByteContentFile(string key, EpubContentType contentType, string contentMimeType, string url, byte[]? content)
-            : base(key, contentType, contentMimeType, url)
+        public EpubRemoteByteContentFile(string key, EpubContentType contentType, string contentMimeType, byte[]? content)
+            : base(key, contentType, contentMimeType)
         {
             Content = content;
         }

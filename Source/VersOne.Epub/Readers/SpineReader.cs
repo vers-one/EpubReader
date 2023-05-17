@@ -11,16 +11,13 @@ namespace VersOne.Epub.Internal
             List<EpubLocalTextContentFileRef> result = new();
             foreach (EpubSpineItemRef spineItemRef in epubSchema.Package.Spine.Items)
             {
-                EpubManifestItem manifestItem = epubSchema.Package.Manifest.Items.FirstOrDefault(item => item.Id == spineItemRef.IdRef);
-                if (manifestItem == null)
-                {
+                EpubManifestItem manifestItem = epubSchema.Package.Manifest.Items.FirstOrDefault(item => item.Id == spineItemRef.IdRef) ??
                     throw new EpubPackageException($"Incorrect EPUB spine: item with IdRef = \"{spineItemRef.IdRef}\" is missing in the manifest.");
-                }
-                if (epubContentRef.Html.Remote.ContainsKey(manifestItem.Href))
+                if (epubContentRef.Html.ContainsRemoteFileRefWithUrl(manifestItem.Href))
                 {
                     throw new EpubPackageException($"Incorrect EPUB manifest: EPUB spine item \"{manifestItem.Href}\" cannot be a remote resource.");
                 }
-                if (!epubContentRef.Html.Local.TryGetValue(manifestItem.Href, out EpubLocalTextContentFileRef htmlContentFileRef))
+                if (!epubContentRef.Html.TryGetLocalFileRefByKey(manifestItem.Href, out EpubLocalTextContentFileRef htmlContentFileRef))
                 {
                     throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{spineItemRef.IdRef}\" is missing in the book.");
                 }

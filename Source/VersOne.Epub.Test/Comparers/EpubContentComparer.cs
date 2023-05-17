@@ -84,8 +84,8 @@
             where TLocalContentFile : EpubLocalContentFile
             where TRemoteContentFile : EpubRemoteContentFile
         {
-            CollectionComparer.CompareDictionaries(expected.Local, actual.Local, localContentFileComprarer);
-            CollectionComparer.CompareDictionaries(expected.Remote, actual.Remote, remoteContentFileComparer);
+            CollectionComparer.CompareCollections(expected.Local, actual.Local, localContentFileComprarer);
+            CollectionComparer.CompareCollections(expected.Remote, actual.Remote, remoteContentFileComparer);
         }
 
         private static void CompareLocalEpubContentFilesWithContent(EpubLocalContentFile? expected, EpubLocalContentFile? actual)

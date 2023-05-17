@@ -515,7 +515,8 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                 ignoredProperties: new()
                 {
                     nameof(EpubRemoteByteContentFile.ContentFileType),
-                    nameof(EpubRemoteByteContentFile.ContentLocation)
+                    nameof(EpubRemoteByteContentFile.ContentLocation),
+                    nameof(EpubRemoteByteContentFile.Url)
                 }
             );
             yield return CreateType<EpubRemoteTextContentFile>
@@ -524,7 +525,8 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
                 ignoredProperties: new()
                 {
                     nameof(EpubRemoteTextContentFile.ContentFileType),
-                    nameof(EpubRemoteTextContentFile.ContentLocation)
+                    nameof(EpubRemoteTextContentFile.ContentLocation),
+                    nameof(EpubRemoteTextContentFile.Url)
                 }
             );
             yield return CreateType<EpubReaderOptions>
