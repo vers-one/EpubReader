@@ -72,6 +72,10 @@ namespace VersOne.Epub
         /// <exception cref="ArgumentNullException"><paramref name="key" /> is <c>null</c>.</exception>
         public bool ContainsLocalFileWithKey(string key)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             return localByKey.ContainsKey(key);
         }
 
@@ -81,12 +85,23 @@ namespace VersOne.Epub
         /// <param name="key">The <see cref="EpubContentFile.Key" /> of the local content file to get.</param>
         /// <returns>The local content file with the specified <see cref="EpubContentFile.Key" /> value.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="key" /> is <c>null</c>.</exception>
-        /// <exception cref="KeyNotFoundException">
+        /// <exception cref="EpubContentCollectionException">
         /// Local content file with the specified <see cref="EpubContentFile.Key" /> value does not exist in this container.
         /// </exception>
         public TLocalContentFile GetLocalFileByKey(string key)
         {
-            return localByKey[key];
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+            try
+            {
+                return localByKey[key];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new EpubContentCollectionException($"Local content file with key = \"{key}\" does not exist in this container.");
+            }
         }
 
         /// <summary>
@@ -102,6 +117,10 @@ namespace VersOne.Epub
         /// <exception cref="ArgumentNullException"><paramref name="key" /> is <c>null</c>.</exception>
         public bool TryGetLocalFileByKey(string key, out TLocalContentFile localContentFile)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             return localByKey.TryGetValue(key, out localContentFile);
         }
 
@@ -115,6 +134,10 @@ namespace VersOne.Epub
         /// <exception cref="ArgumentNullException"><paramref name="filePath" /> is <c>null</c>.</exception>
         public bool ContainsLocalFileWithFilePath(string filePath)
         {
+            if (filePath == null)
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
             return localByFilePath.ContainsKey(filePath);
         }
 
@@ -124,12 +147,23 @@ namespace VersOne.Epub
         /// <param name="filePath">The <see cref="EpubLocalContentFile.FilePath" /> of the local content file to get.</param>
         /// <returns>The local content file with the specified <see cref="EpubLocalContentFile.FilePath" /> value.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="filePath" /> is <c>null</c>.</exception>
-        /// <exception cref="KeyNotFoundException">
+        /// <exception cref="EpubContentCollectionException">
         /// Local content file with the specified <see cref="EpubLocalContentFile.FilePath" /> value does not exist in this container.
         /// </exception>
         public TLocalContentFile GetLocalFileByFilePath(string filePath)
         {
-            return localByFilePath[filePath];
+            if (filePath == null)
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+            try
+            {
+                return localByFilePath[filePath];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new EpubContentCollectionException($"Local content file with file path = \"{filePath}\" does not exist in this container.");
+            }
         }
 
         /// <summary>
@@ -145,6 +179,10 @@ namespace VersOne.Epub
         /// <exception cref="ArgumentNullException"><paramref name="filePath" /> is <c>null</c>.</exception>
         public bool TryGetLocalFileByFilePath(string filePath, out TLocalContentFile localContentFile)
         {
+            if (filePath == null)
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
             return localByKey.TryGetValue(filePath, out localContentFile);
         }
 
@@ -158,6 +196,10 @@ namespace VersOne.Epub
         /// <exception cref="ArgumentNullException"><paramref name="url" /> is <c>null</c>.</exception>
         public bool ContainsRemoteFileWithUrl(string url)
         {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
             return remoteByUrl.ContainsKey(url);
         }
 
@@ -167,12 +209,23 @@ namespace VersOne.Epub
         /// <param name="url">The <see cref="EpubRemoteContentFile.Url" /> of the remote content file to get.</param>
         /// <returns>The remote content file with the specified <see cref="EpubRemoteContentFile.Url" /> value.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="url" /> is <c>null</c>.</exception>
-        /// <exception cref="KeyNotFoundException">
+        /// <exception cref="EpubContentCollectionException">
         /// Remote content file with the specified <see cref="EpubRemoteContentFile.Url" /> value does not exist in this container.
         /// </exception>
         public TRemoteContentFile GetRemoteFileByUrl(string url)
         {
-            return remoteByUrl[url];
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+            try
+            {
+                return remoteByUrl[url];
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new EpubContentCollectionException($"Remote content file with URL = \"{url}\" does not exist in this container.");
+            }
         }
 
         /// <summary>
@@ -188,6 +241,10 @@ namespace VersOne.Epub
         /// <exception cref="ArgumentNullException"><paramref name="url" /> is <c>null</c>.</exception>
         public bool TryGetRemoteFileByUrl(string url, out TRemoteContentFile remoteContentFile)
         {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
             return remoteByUrl.TryGetValue(url, out remoteContentFile);
         }
     }
