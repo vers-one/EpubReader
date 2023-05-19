@@ -4,6 +4,22 @@ namespace VersOne.Epub.Test.Unit.Utils
 {
     public class ContentPathUtilsTests
     {
+        [Theory(DisplayName = "Testing if the specified path is a local path should succeed")]
+        [InlineData("Directory/File.html", true)]
+        [InlineData("", true)]
+        [InlineData("https://example.com/books/123/chapter1.html", false)]
+        public void IsLocalPathWithNonNullPathTest(string path, bool expectedResult)
+        {
+            bool actualResult = ContentPathUtils.IsLocalPath(path);
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact(DisplayName = "IsLocalPath should throw ArgumentNullException if path parameter is null")]
+        public void IsLocalPathWithNullPathTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => ContentPathUtils.IsLocalPath(null!));
+        }
+
         [Theory(DisplayName = "Getting the directory path for a valid file path should succeed")]
         [InlineData("Directory/File.html", "Directory")]
         [InlineData("Directory/Subdirectory/File.html", "Directory/Subdirectory")]

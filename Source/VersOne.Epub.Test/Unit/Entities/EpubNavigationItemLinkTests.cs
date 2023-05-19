@@ -10,7 +10,7 @@
         private const string CONTENT_FILE_PATH = "OPS/content/chapter1.html";
         private const string ANCHOR = "section1";
 
-        [Fact(DisplayName = "Constructing a EpubNavigationItemLink instance with non-null contentFileUrlWithoutAnchor, contentFilePath, and anchor parameters should succeed")]
+        [Fact(DisplayName = "Constructing a EpubNavigationItemLink instance with non-null contentFileUrl, contentFilePath, and anchor parameters should succeed")]
         public void ExplicitConstructorWithNonNullParametersTest()
         {
             EpubNavigationItemLink epubNavigationItemLink = new(CONTENT_FILE_URL_WITHOUT_ANCHOR, CONTENT_FILE_PATH, ANCHOR);
@@ -19,13 +19,13 @@
             Assert.Equal(ANCHOR, epubNavigationItemLink.Anchor);
         }
 
-        [Fact(DisplayName = "Constructor should throw ArgumentNullException if contentFileUrlWithoutAnchor parameter is null")]
+        [Fact(DisplayName = "Constructor should throw ArgumentNullException if contentFileUrl parameter is null")]
         public void ExplicitConstructorWithNullContentFileUrlWithoutAnchorTest()
         {
             Assert.Throws<ArgumentNullException>(() => new EpubNavigationItemLink(null!, CONTENT_FILE_PATH, ANCHOR));
         }
 
-        [Fact(DisplayName = "Constructor should throw ArgumentException if contentFileUrlWithoutAnchor parameter is a remote URL")]
+        [Fact(DisplayName = "Constructor should throw ArgumentException if contentFileUrl parameter is a remote URL")]
         public void ExplicitConstructorWithRemoteContentFileUrlWithoutAnchorTest()
         {
             Assert.Throws<ArgumentException>(() => new EpubNavigationItemLink(REMOTE_FILE_URL, CONTENT_FILE_PATH, ANCHOR));
@@ -64,7 +64,7 @@
         [Fact(DisplayName = "Constructor should throw ArgumentException if contentFileUrlWithAnchor parameter is a remote URL")]
         public void UrlConstructorWithRemoteContentFileUrlWithAnchorTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubNavigationItemLink(REMOTE_FILE_URL, BASE_DIRECTORY_PATH));
+            Assert.Throws<ArgumentException>(() => new EpubNavigationItemLink(REMOTE_FILE_URL, BASE_DIRECTORY_PATH));
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if baseDirectoryPath parameter is null")]

@@ -48,7 +48,7 @@
           "Type": "LINK",
           "Title": "Chapter 1",
           "Link": {
-            "ContentFileName": "chapter1.html",
+            "ContentFileUrl": "chapter1.html",
             "ContentFilePath": "Content/chapter1.html",
             "Anchor": null
           },

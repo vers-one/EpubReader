@@ -39,19 +39,19 @@ namespace VersOne.Epub
         /// <summary>
         /// Initializes a new instance of the <see cref="EpubNavigationItemLink" /> class with specified content file URL without anchor, content file path, and anchor.
         /// </summary>
-        /// <param name="contentFileUrlWithoutAnchor">The file path portion of the content file URL.</param>
+        /// <param name="contentFileUrl">The file path portion of the content file URL without anchor.</param>
         /// <param name="contentFilePath">The file path portion of the content file URL converted to the absolute file path within the EPUB archive.</param>
         /// <param name="anchor">The anchor portion of the content file URL.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="contentFileUrlWithoutAnchor" /> parameter is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="contentFileUrl" /> parameter is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="contentFilePath" /> parameter is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">The <paramref name="contentFileUrlWithoutAnchor" /> parameter points to a remote URL.</exception>
-        public EpubNavigationItemLink(string contentFileUrlWithoutAnchor, string contentFilePath, string? anchor)
+        /// <exception cref="ArgumentException">The <paramref name="contentFileUrl" /> parameter points to a remote URL.</exception>
+        public EpubNavigationItemLink(string contentFileUrl, string contentFilePath, string? anchor)
         {
-            ContentFileUrl = contentFileUrlWithoutAnchor ?? throw new ArgumentNullException(nameof(contentFileUrlWithoutAnchor));
+            ContentFileUrl = contentFileUrl ?? throw new ArgumentNullException(nameof(contentFileUrl));
             ContentFilePath = contentFilePath ?? throw new ArgumentNullException(nameof(contentFilePath));
-            if (!ContentPathUtils.IsLocalPath(contentFileUrlWithoutAnchor))
+            if (!ContentPathUtils.IsLocalPath(contentFileUrl))
             {
-                throw new ArgumentException($"\"{contentFileUrlWithoutAnchor}\" points to a remote resource.");
+                throw new ArgumentException($"\"{contentFileUrl}\" points to a remote resource.");
             }
             Anchor = anchor;
         }
