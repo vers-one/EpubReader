@@ -25,7 +25,7 @@ namespace VersOne.Epub.Internal
             List<Smil> result = new();
             foreach (EpubManifestItem smilManifestItem in package.Manifest.Items.Where(manifestItem => manifestItem.MediaType.CompareOrdinalIgnoreCase("application/smil+xml")))
             {
-                string smilFilePath = ZipPathUtils.Combine(contentDirectoryPath, smilManifestItem.Href);
+                string smilFilePath = ContentPathUtils.Combine(contentDirectoryPath, smilManifestItem.Href);
                 Smil smil = await ReadSmilAsync(epubFile, smilFilePath);
                 result.Add(smil);
             }

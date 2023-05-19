@@ -2,7 +2,7 @@
 
 namespace VersOne.Epub.Test.Unit.Utils
 {
-    public class ZipPathUtilsTests
+    public class ContentPathUtilsTests
     {
         [Theory(DisplayName = "Getting the directory path for a valid file path should succeed")]
         [InlineData("Directory/File.html", "Directory")]
@@ -14,7 +14,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData("../File.html", "..")]
         public void GetDirectoryPathTest(string filePath, string expectedDirectoryPath)
         {
-            string actualDirectoryPath = ZipPathUtils.GetDirectoryPath(filePath);
+            string actualDirectoryPath = ContentPathUtils.GetDirectoryPath(filePath);
             Assert.Equal(expectedDirectoryPath, actualDirectoryPath);
         }
 
@@ -34,7 +34,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData(null, null, null)]
         public void CombineTest(string directory, string fileName, string expectedResult)
         {
-            string actualResult = ZipPathUtils.Combine(directory, fileName);
+            string actualResult = ContentPathUtils.Combine(directory, fileName);
             Assert.Equal(expectedResult, actualResult);
         }
     }

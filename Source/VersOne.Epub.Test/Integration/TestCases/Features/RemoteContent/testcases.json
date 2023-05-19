@@ -52,7 +52,6 @@
         "$id": 6,
         "$type": "EpubRemoteTextContentFile",
         "$content": null,
-        "Url": "https://os.vers.one/EpubReader/toc.html",
         "Key": "https://os.vers.one/EpubReader/toc.html",
         "ContentType": "XHTML_1_1",
         "ContentMimeType": "application/xhtml+xml"
@@ -61,7 +60,6 @@
         "$id": 7,
         "$type": "EpubRemoteTextContentFile",
         "$content": null,
-        "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
         "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
         "ContentType": "CSS",
         "ContentMimeType": "text/css"
@@ -70,7 +68,6 @@
         "$id": 8,
         "$type": "EpubRemoteByteContentFile",
         "$content": null,
-        "Url": "https://os.vers.one/EpubReader/images/logo.svg",
         "Key": "https://os.vers.one/EpubReader/images/logo.svg",
         "ContentType": "IMAGE_SVG",
         "ContentMimeType": "image/svg+xml"
@@ -79,7 +76,6 @@
         "$id": 9,
         "$type": "EpubRemoteByteContentFile",
         "$content": null,
-        "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
         "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
         "ContentType": "FONT_TRUETYPE",
         "ContentMimeType": "application/x-font-truetype"
@@ -205,88 +201,88 @@
           "$ref": 2
         },
         "Html": {
-          "Local": {
-            "chapter.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "toc.html": {
+            {
               "$ref": 2
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/toc.html": {
+          ],
+          "Remote": [
+            {
               "$ref": 6
             }
-          }
+          ]
         },
         "Css": {
-          "Local": {
-            "styles.css": {
+          "Local": [
+            {
               "$ref": 3
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/styles/docfx.css": {
+          ],
+          "Remote": [
+            {
               "$ref": 7
             }
-          }
+          ]
         },
         "Images": {
-          "Local": {
-            "cover.jpg": {
+          "Local": [
+            {
               "$ref": 4
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/images/logo.svg": {
+          ],
+          "Remote": [
+            {
               "$ref": 8
             }
-          }
+          ]
         },
         "Fonts": {
-          "Local": {
-            "font.ttf": {
+          "Local": [
+            {
               "$ref": 5
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
+          ],
+          "Remote": [
+            {
               "$ref": 9
             }
-          }
+          ]
         },
         "AllFiles": {
-          "Local": {
-            "chapter.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "toc.html": {
+            {
               "$ref": 2
             },
-            "styles.css": {
+            {
               "$ref": 3
             },
-            "cover.jpg": {
+            {
               "$ref": 4
             },
-            "font.ttf": {
+            {
               "$ref": 5
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/toc.html": {
+          ],
+          "Remote": [
+            {
               "$ref": 6
             },
-            "https://os.vers.one/EpubReader/styles/docfx.css": {
+            {
               "$ref": 7
             },
-            "https://os.vers.one/EpubReader/images/logo.svg": {
+            {
               "$ref": 8
             },
-            "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
+            {
               "$ref": 9
             }
-          }
+          ]
         }
       }
     }
@@ -349,7 +345,6 @@
         "$id": 15,
         "$type": "EpubRemoteTextContentFile",
         "$content": "https://os.vers.one/EpubReader/toc.html",
-        "Url": "https://os.vers.one/EpubReader/toc.html",
         "Key": "https://os.vers.one/EpubReader/toc.html",
         "ContentType": "XHTML_1_1",
         "ContentMimeType": "application/xhtml+xml"
@@ -358,7 +353,6 @@
         "$id": 16,
         "$type": "EpubRemoteTextContentFile",
         "$content": "https://os.vers.one/EpubReader/styles/docfx.css",
-        "Url": "https://os.vers.one/EpubReader/styles/docfx.css",
         "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
         "ContentType": "CSS",
         "ContentMimeType": "text/css"
@@ -367,7 +361,6 @@
         "$id": 17,
         "$type": "EpubRemoteByteContentFile",
         "$content": "https://os.vers.one/EpubReader/images/logo.svg",
-        "Url": "https://os.vers.one/EpubReader/images/logo.svg",
         "Key": "https://os.vers.one/EpubReader/images/logo.svg",
         "ContentType": "IMAGE_SVG",
         "ContentMimeType": "image/svg+xml"
@@ -376,7 +369,6 @@
         "$id": 18,
         "$type": "EpubRemoteByteContentFile",
         "$content": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-        "Url": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
         "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
         "ContentType": "FONT_TRUETYPE",
         "ContentMimeType": "application/x-font-truetype"
@@ -502,88 +494,88 @@
           "$ref": 11
         },
         "Html": {
-          "Local": {
-            "chapter.html": {
+          "Local": [
+            {
               "$ref": 10
             },
-            "toc.html": {
+            {
               "$ref": 11
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/toc.html": {
+          ],
+          "Remote": [
+            {
               "$ref": 15
             }
-          }
+          ]
         },
         "Css": {
-          "Local": {
-            "styles.css": {
+          "Local": [
+            {
               "$ref": 12
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/styles/docfx.css": {
+          ],
+          "Remote": [
+            {
               "$ref": 16
             }
-          }
+          ]
         },
         "Images": {
-          "Local": {
-            "cover.jpg": {
+          "Local": [
+            {
               "$ref": 13
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/images/logo.svg": {
+          ],
+          "Remote": [
+            {
               "$ref": 17
             }
-          }
+          ]
         },
         "Fonts": {
-          "Local": {
-            "font.ttf": {
+          "Local": [
+            {
               "$ref": 14
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
+          ],
+          "Remote": [
+            {
               "$ref": 18
             }
-          }
+          ]
         },
         "AllFiles": {
-          "Local": {
-            "chapter.html": {
+          "Local": [
+            {
               "$ref": 10
             },
-            "toc.html": {
+            {
               "$ref": 11
             },
-            "styles.css": {
+            {
               "$ref": 12
             },
-            "cover.jpg": {
+            {
               "$ref": 13
             },
-            "font.ttf": {
+            {
               "$ref": 14
             }
-          },
-          "Remote": {
-            "https://os.vers.one/EpubReader/toc.html": {
+          ],
+          "Remote": [
+            {
               "$ref": 15
             },
-            "https://os.vers.one/EpubReader/styles/docfx.css": {
+            {
               "$ref": 16
             },
-            "https://os.vers.one/EpubReader/images/logo.svg": {
+            {
               "$ref": 17
             },
-            "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf": {
+            {
               "$ref": 18
             }
-          }
+          ]
         }
       }
     }

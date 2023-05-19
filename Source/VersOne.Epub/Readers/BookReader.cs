@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -119,54 +118,61 @@ namespace VersOne.Epub.Internal
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> images = await ReadByteContentFiles(contentRef.Images).ConfigureAwait(false);
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> fonts = await ReadByteContentFiles(contentRef.Fonts).ConfigureAwait(false);
             EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> audio = await ReadByteContentFiles(contentRef.Audio).ConfigureAwait(false);
-            Dictionary<string, EpubLocalContentFile> allFilesLocal = new();
-            Dictionary<string, EpubRemoteContentFile> allFilesRemote = new();
+            List<EpubLocalContentFile> allFilesLocal = new();
+            HashSet<string> allFilesLocalKeys = new();
+            List<EpubRemoteContentFile> allFilesRemote = new();
+            HashSet<string> allFilesRemoteKeys = new();
             foreach (EpubLocalTextContentFile localTextContentFile in html.Local.Concat(css.Local))
             {
-                allFilesLocal.Add(localTextContentFile.Key, localTextContentFile);
+                allFilesLocal.Add(localTextContentFile);
+                allFilesLocalKeys.Add(localTextContentFile.Key);
             }
             foreach (EpubRemoteTextContentFile remoteTextContentFile in html.Remote.Concat(css.Remote))
             {
-                allFilesRemote.Add(remoteTextContentFile.Key, remoteTextContentFile);
+                allFilesRemote.Add(remoteTextContentFile);
+                allFilesRemoteKeys.Add(remoteTextContentFile.Key);
             }
             foreach (EpubLocalByteContentFile localByteContentFile in images.Local.Concat(fonts.Local).Concat(audio.Local))
             {
-                allFilesLocal.Add(localByteContentFile.Key, localByteContentFile);
+                allFilesLocal.Add(localByteContentFile);
+                allFilesLocalKeys.Add(localByteContentFile.Key);
             }
             foreach (EpubRemoteByteContentFile remoteByteContentFile in images.Remote.Concat(fonts.Remote).Concat(audio.Remote))
             {
-                allFilesRemote.Add(remoteByteContentFile.Key, remoteByteContentFile);
+                allFilesRemote.Add(remoteByteContentFile);
+                allFilesRemoteKeys.Add(remoteByteContentFile.Key);
             }
             foreach (EpubLocalContentFileRef localContentFileRef in contentRef.AllFiles.Local)
             {
-                if (!allFilesLocal.ContainsKey(localContentFileRef.Key))
+                if (!allFilesLocalKeys.Contains(localContentFileRef.Key))
                 {
                     if (localContentFileRef is EpubLocalTextContentFileRef)
                     {
-                        allFilesLocal.Add(localContentFileRef.Key, await ReadLocalTextContentFile(localContentFileRef).ConfigureAwait(false));
+                        allFilesLocal.Add(await ReadLocalTextContentFile(localContentFileRef).ConfigureAwait(false));
                     }
                     else
                     {
-                        allFilesLocal.Add(localContentFileRef.Key, await ReadLocalByteContentFile(localContentFileRef).ConfigureAwait(false));
+                        allFilesLocal.Add(await ReadLocalByteContentFile(localContentFileRef).ConfigureAwait(false));
                     }
+                    allFilesLocalKeys.Add(localContentFileRef.Key);
                 }
             }
             foreach (EpubRemoteContentFileRef remoteContentFileRef in contentRef.AllFiles.Remote)
             {
-                if (!allFilesRemote.ContainsKey(remoteContentFileRef.Key))
+                if (!allFilesRemoteKeys.Contains(remoteContentFileRef.Key))
                 {
                     if (remoteContentFileRef is EpubRemoteTextContentFileRef)
                     {
-                        allFilesRemote.Add(remoteContentFileRef.Key, await DownloadRemoteTextContentFile(remoteContentFileRef).ConfigureAwait(false));
+                        allFilesRemote.Add(await DownloadRemoteTextContentFile(remoteContentFileRef).ConfigureAwait(false));
                     }
                     else
                     {
-                        allFilesRemote.Add(remoteContentFileRef.Key, await DownloadRemoteByteContentFile(remoteContentFileRef).ConfigureAwait(false));
+                        allFilesRemote.Add(await DownloadRemoteByteContentFile(remoteContentFileRef).ConfigureAwait(false));
                     }
+                    allFilesRemoteKeys.Add(remoteContentFileRef.Key);
                 }
             }
-            EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile> allFiles =
-                new(new ReadOnlyCollection<EpubLocalContentFile>(allFilesLocal.Values.ToList()), new ReadOnlyCollection<EpubRemoteContentFile>(allFilesRemote.Values.ToList()));
+            EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile> allFiles = new(allFilesLocal.AsReadOnly(), allFilesRemote.AsReadOnly());
             if (contentRef.Cover != null)
             {
                 cover = images.GetLocalFileByKey(contentRef.Cover.Key);
@@ -208,7 +214,7 @@ namespace VersOne.Epub.Internal
             {
                 remote.Add(await DownloadRemoteByteContentFile(remoteByteContentFileRef).ConfigureAwait(false));
             }
-            EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> result = new();
+            EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> result = new(local.AsReadOnly(), remote.AsReadOnly());
             return result;
         }
 

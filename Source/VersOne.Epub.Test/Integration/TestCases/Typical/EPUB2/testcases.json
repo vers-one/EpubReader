@@ -698,103 +698,103 @@
           "$ref": 7
         },
         "Html": {
-          "Local": {
-            "front.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "cover.html": {
+            {
               "$ref": 2
             },
-            "chapter1.html": {
+            {
               "$ref": 3
             },
-            "chapter2.html": {
+            {
               "$ref": 4
             },
-            "chapter3.html": {
+            {
               "$ref": 5
             }
-          }
+          ]
         },
         "Css": {
-          "Local": {
-            "styles.css": {
+          "Local": [
+            {
               "$ref": 6
             }
-          }
+          ]
         },
         "Images": {
-          "Local": {
-            "cover.jpg": {
+          "Local": [
+            {
               "$ref": 7
             },
-            "image.jpg": {
+            {
               "$ref": 8
             }
-          }
+          ]
         },
         "Fonts": {
-          "Local": {
-            "font.ttf": {
+          "Local": [
+            {
               "$ref": 9
             }
-          }
+          ]
         },
         "Audio": {
-          "Local": {
-            "chapter1-audio.mp3": {
+          "Local": [
+            {
               "$ref": 10
             },
-            "title.mp3": {
+            {
               "$ref": 11
             }
-          }
+          ]
         },
         "AllFiles": {
-          "Local": {
-            "front.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "cover.html": {
+            {
               "$ref": 2
             },
-            "chapter1.html": {
+            {
               "$ref": 3
             },
-            "chapter2.html": {
+            {
               "$ref": 4
             },
-            "chapter3.html": {
+            {
               "$ref": 5
             },
-            "styles.css": {
+            {
               "$ref": 6
             },
-            "cover.jpg": {
+            {
               "$ref": 7
             },
-            "image.jpg": {
+            {
               "$ref": 8
             },
-            "font.ttf": {
+            {
               "$ref": 9
             },
-            "chapter1-audio.mp3": {
+            {
               "$ref": 10
             },
-            "title.mp3": {
+            {
               "$ref": 11
             },
-            "chapter2.xml": {
+            {
               "$ref": 12
             },
-            "chapter3.xml": {
+            {
               "$ref": 13
             },
-            "toc.ncx": {
+            {
               "$ref": 14
             }
-          }
+          ]
         }
       }
     }

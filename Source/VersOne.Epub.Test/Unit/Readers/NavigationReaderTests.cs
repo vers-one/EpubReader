@@ -133,7 +133,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point has no navigation labels")]
-        public void GetNavigationItemsForEpub2WithoutNavigationLabelsFile()
+        public void GetNavigationItemsForEpub2WithoutNavigationLabelsTest()
         {
             EpubSchema epubSchema = new
             (
@@ -173,8 +173,56 @@ namespace VersOne.Epub.Test.Unit.Readers
             Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
         }
 
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point points to a remote resource")]
+        public void GetNavigationItemsForEpub2WithRemoteNavigationPointSourceTest()
+        {
+            string remoteFileHref = "https://example.com/books/123/chapter1.html";
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new Epub2Ncx
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new Epub2NcxHead(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new Epub2NcxNavigationMap
+                    (
+                        items: new List<Epub2NcxNavigationPoint>()
+                        {
+                            new Epub2NcxNavigationPoint
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels: new List<Epub2NcxNavigationLabel>()
+                                {
+                                    new Epub2NcxNavigationLabel
+                                    (
+                                        text: "Test label"
+                                    )
+                                },
+                                content: new Epub2NcxContent
+                                (
+                                    source: remoteFileHref
+                                ),
+                                childNavigationPoints: null
+                            )
+                        }
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubContentRef epubContentRef = new();
+            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+        }
+
         [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if the file referenced by an NCX navigation point is missing in the EpubContentRef")]
-        public void GetNavigationItemsForEpub2WithMissingContentFile()
+        public void GetNavigationItemsForEpub2WithMissingContentFileTest()
         {
             EpubSchema epubSchema = new
             (
@@ -608,7 +656,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
-        [Fact(DisplayName = "GetNavigationItems should throw a Epub3NavException if the file referenced by a EPUB 3 navigational Li item is missing in the EpubContentRef")]
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub3NavException if the file referenced by a EPUB 3 navigation Li item is missing in the EpubContentRef")]
         public void GetNavigationItemsForEpub3WithMissingContentFile()
         {
             EpubSchema epubSchema = new
@@ -649,7 +697,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             Assert.Throws<Epub3NavException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
         }
 
-        [Fact(DisplayName = "GetNavigationItems should throw EpubPackageException if the content file referenced by a navigation item is a remote resource")]
+        [Fact(DisplayName = "GetNavigationItems should throw Epub3NavException if a EPUB 3 navigation anchor points to a remote resource")]
         public void GetNavigationItemsWithRemoteContentFileTest()
         {
             string remoteFileHref = "https://example.com/books/123/chapter1.html";
@@ -686,22 +734,16 @@ namespace VersOne.Epub.Test.Unit.Readers
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
-            EpubContentFileRefMetadata testTextContentFileRefMetadata = new(remoteFileHref, EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            EpubRemoteTextContentFileRef testTextContentFileRef = new(testTextContentFileRefMetadata, new TestEpubContentLoader());
             List<EpubLocalTextContentFileRef> htmlLocal = new()
             {
                 testNavigationHtmlFileRef
             };
-            List<EpubRemoteTextContentFileRef> htmlRemote = new()
-            {
-                testTextContentFileRef
-            };
             EpubContentRef epubContentRef = new
             (
                 navigationHtmlFile: testNavigationHtmlFileRef,
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly(), htmlRemote.AsReadOnly())
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly())
             );
-            Assert.Throws<EpubPackageException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+            Assert.Throws<Epub3NavException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
         }
 
         private static EpubLocalTextContentFileRef CreateTestNavigationFile()

@@ -75,11 +75,11 @@
       },
       "Content": {
         "AllFiles": {
-          "Local": {
-            "toc.ncx": {
+          "Local": [
+            {
               "$ref": 1
             }
-          }
+          ]
         }
       }
     }

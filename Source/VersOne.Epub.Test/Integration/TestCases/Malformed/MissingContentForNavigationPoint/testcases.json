@@ -117,21 +117,21 @@
       },
       "Content": {
         "Html": {
-          "Local": {
-            "chapter1.html": {
+          "Local": [
+            {
               "$ref": 1
             }
-          }
+          ]
         },
         "AllFiles": {
-          "Local": {
-            "chapter1.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "toc.ncx": {
+            {
               "$ref": 2
             }
-          }
+          ]
         }
       }
     }

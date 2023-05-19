@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace VersOne.Epub.Readers
+namespace VersOne.Epub.Internal
 {
     internal static class SmilClockParser
     {

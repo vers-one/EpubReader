@@ -80,17 +80,17 @@ namespace VersOne.Epub.Test.Unit.TestData
             {
                 Chapter1File,
                 Chapter2File,
+                FullNavFile,
                 Styles1File,
                 Styles2File,
                 Image1File,
                 Image2File,
+                CoverFile,
                 Font1File,
                 Font2File,
                 Audio1File,
                 Audio2File,
                 VideoFile,
-                FullNavFile,
-                CoverFile,
                 NcxFile
             };
             List<EpubRemoteContentFile> allFilesRemote = new()
@@ -99,8 +99,8 @@ namespace VersOne.Epub.Test.Unit.TestData
                 populateRemoteFilesContents? RemoteCssContentFile : RemoteCssContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteImageContentFile : RemoteImageContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteFontContentFile : RemoteFontContentFileWithNoContent,
-                populateRemoteFilesContents? RemoteXmlContentFile : RemoteXmlContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteAudioContentFile : RemoteAudioContentFileWithNoContent,
+                populateRemoteFilesContents? RemoteXmlContentFile : RemoteXmlContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteVideoContentFile : RemoteVideoContentFileWithNoContent
             };
             return new

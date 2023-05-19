@@ -38,7 +38,7 @@ namespace VersOne.Epub.Internal
             foreach (EpubManifestItem manifestItem in epubSchema.Package.Manifest.Items)
             {
                 string href = manifestItem.Href;
-                EpubContentLocation contentLocation = href.Contains("://") ? EpubContentLocation.REMOTE : EpubContentLocation.LOCAL;
+                EpubContentLocation contentLocation = ContentPathUtils.IsLocalPath(href) ? EpubContentLocation.LOCAL : EpubContentLocation.REMOTE;
                 string contentMimeType = manifestItem.MediaType;
                 EpubContentType contentType = GetContentTypeByContentMimeType(contentMimeType);
                 string contentDirectoryPath = epubSchema.ContentDirectoryPath;
@@ -56,7 +56,7 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.SCRIPT:
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
-                            string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, href);
+                            string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, href);
                             EpubLocalTextContentFileRef localTextContentFile = new(contentFileRefMetadata, contentFilePath, localContentLoader);
                             switch (contentType)
                             {
@@ -96,7 +96,7 @@ namespace VersOne.Epub.Internal
                     default:
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
-                            string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, href);
+                            string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, href);
                             EpubLocalByteContentFileRef localByteContentFile = new(contentFileRefMetadata, contentFilePath, localContentLoader);
                             switch (contentType)
                             {

@@ -183,7 +183,7 @@ namespace VersOne.Epub
             {
                 throw new ArgumentNullException(nameof(filePath));
             }
-            return localByKey.TryGetValue(filePath, out localContentFileRef);
+            return localByFilePath.TryGetValue(filePath, out localContentFileRef);
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace VersOne.Epub.Internal
         {
             RootFilePathReader rootFilePathReader = new(epubReaderOptions);
             string rootFilePath = await rootFilePathReader.GetRootFilePathAsync(epubFile).ConfigureAwait(false);
-            string contentDirectoryPath = ZipPathUtils.GetDirectoryPath(rootFilePath);
+            string contentDirectoryPath = ContentPathUtils.GetDirectoryPath(rootFilePath);
             PackageReader packageReader = new(epubReaderOptions);
             EpubPackage package = await packageReader.ReadPackageAsync(epubFile, rootFilePath).ConfigureAwait(false);
             Epub2NcxReader epub2NcxReader = new(epubReaderOptions);

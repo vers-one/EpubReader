@@ -19,7 +19,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7
+          dotnet-version: 7.0.203
       - name: Build test project and its dependencies
         run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
       - name: Run unit tests

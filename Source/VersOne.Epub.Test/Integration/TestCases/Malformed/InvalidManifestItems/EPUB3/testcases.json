@@ -107,24 +107,24 @@
           "$ref": 2
         },
         "Html": {
-          "Local": {
-            "chapter1.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "toc.html": {
+            {
               "$ref": 2
             }
-          }
+          ]
         },
         "AllFiles": {
-          "Local": {
-            "chapter1.html": {
+          "Local": [
+            {
               "$ref": 1
             },
-            "toc.html": {
+            {
               "$ref": 2
             }
-          }
+          ]
         }
       }
     }

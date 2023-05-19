@@ -3,7 +3,7 @@ using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Test.Unit.Mocks;
 
-namespace VersOne.Epub.Test.Unit.Content
+namespace VersOne.Epub.Test.Unit.Content.Loaders
 {
     public class EpubLocalContentLoaderTests
     {

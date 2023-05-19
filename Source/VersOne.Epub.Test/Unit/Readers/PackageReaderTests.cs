@@ -187,6 +187,32 @@ namespace VersOne.Epub.Test.Unit.Readers
             </package>
             """;
 
+        private const string OPF_FILE_WITH_DUPLICATING_MANIFEST_ITEM_IDS = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="unique" href="chapter1.html" media-type="application/xhtml+xml" />
+                <item id="duplicate" href="chapter2.html" media-type="application/xhtml+xml" />
+                <item id="duplicate" href="chapter3.html" media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
+        private const string OPF_FILE_WITH_DUPLICATING_MANIFEST_ITEM_HREFS = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="item-1" href="unique.html" media-type="application/xhtml+xml" />
+                <item id="item-2" href="duplicate.html" media-type="application/xhtml+xml" />
+                <item id="item-3" href="duplicate.html" media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
         private const string EPUB2_OPF_FILE_WITHOUT_SPINE_TOC = $"""
             <?xml version='1.0' encoding='UTF-8'?>
             <package xmlns="http://www.idpf.org/2007/opf" version="2.0">
@@ -751,6 +777,18 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadPackageWithoutManifestItemMediaTypeWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM, MinimalEpub3Package);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with duplicating 'id' attributes in manifest item XML nodes should fail with EpubPackageException")]
+        public async void ReadPackageWithDuplicatingManifestItemIdsTest()
+        {
+            await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITH_DUPLICATING_MANIFEST_ITEM_IDS);
+        }
+
+        [Fact(DisplayName = "Trying to read OPF package with duplicating 'href' attributes in manifest item XML nodes should fail with EpubPackageException")]
+        public async void ReadPackageWithDuplicatingManifestItemHrefsTest()
+        {
+            await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITH_DUPLICATING_MANIFEST_ITEM_HREFS);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node should fail with EpubPackageException")]

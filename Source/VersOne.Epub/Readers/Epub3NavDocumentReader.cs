@@ -34,7 +34,7 @@ namespace VersOne.Epub.Internal
                     throw new Epub3NavException("EPUB parsing error: NAV item not found in EPUB manifest.");
                 }
             }
-            string navFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, navManifestItem.Href);
+            string navFileEntryPath = ContentPathUtils.Combine(contentDirectoryPath, navManifestItem.Href);
             IZipFileEntry navFileEntry = epubFile.GetEntry(navFileEntryPath) ??
                 throw new Epub3NavException($"EPUB parsing error: navigation file {navFileEntryPath} not found in the EPUB file.");
             if (navFileEntry.Length > Int32.MaxValue)
