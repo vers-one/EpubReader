@@ -41,13 +41,14 @@ namespace VersOne.Epub.Internal
                     Epub2NcxNavigationLabel? firstNavigationLabel = navigationPoint.NavigationLabels.FirstOrDefault() ??
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: navigation point \"{navigationPoint.Id}\" should contain at least one navigation label.");
                     string title = firstNavigationLabel.Text;
-                    if (!ContentPathUtils.IsLocalPath(navigationPoint.Content.Source))
+                    string source = Uri.UnescapeDataString(navigationPoint.Content.Source);
+                    if (!ContentPathUtils.IsLocalPath(source))
                     {
-                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{navigationPoint.Content.Source}\" cannot be a remote resource.");
+                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" cannot be a remote resource.");
                     }
-                    EpubNavigationItemLink link = new(navigationPoint.Content.Source, epubSchema.ContentDirectoryPath);
+                    EpubNavigationItemLink link = new(source, epubSchema.ContentDirectoryPath);
                     EpubLocalTextContentFileRef? htmlContentFileRef = GetLocalHtmlContentFileRef(epubContentRef, link.ContentFilePath) ??
-                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{navigationPoint.Content.Source}\" not found in EPUB manifest.");
+                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" not found in EPUB manifest.");
                     List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, navigationPoint.ChildNavigationPoints);
                     result.Add(new EpubNavigationItemRef(type, title, link, htmlContentFileRef, nestedItems));
                 }
@@ -99,16 +100,17 @@ namespace VersOne.Epub.Internal
                         List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, epub3NavLi.ChildOl, epub3NavigationBaseDirectoryPath);
                         if (navAnchor.Href != null)
                         {
-                            if (!ContentPathUtils.IsLocalPath(navAnchor.Href))
+                            string href = Uri.UnescapeDataString(navAnchor.Href);
+                            if (!ContentPathUtils.IsLocalPath(href))
                             {
-                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: anchor href \"{navAnchor.Href}\" cannot be a remote resource.");
+                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: anchor href \"{href}\" cannot be a remote resource.");
                             }
                             type = EpubNavigationItemType.LINK;
-                            link = new(navAnchor.Href, epub3NavigationBaseDirectoryPath);
+                            link = new(href, epub3NavigationBaseDirectoryPath);
                             htmlContentFileRef = GetLocalHtmlContentFileRef(epubContentRef, link.ContentFilePath);
                             if (htmlContentFileRef == null)
                             {
-                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: target for anchor href \"{navAnchor.Href}\" not found in EPUB manifest.");
+                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: target for anchor href \"{href}\" not found in EPUB manifest.");
                             }
                         }
                         else
