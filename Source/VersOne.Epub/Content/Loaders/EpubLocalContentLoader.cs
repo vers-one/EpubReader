@@ -58,7 +58,7 @@ namespace VersOne.Epub.Internal
                 throw new ObjectDisposedException(nameof(epubFile), "EPUB file stored within this local content file loader has been disposed.");
             }
             ReplacementContentFileEntry? newReplacementContentFileEntry = null;
-            string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, contentFileRefMetadata.Key);
+            string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, contentFileRefMetadata.Key);
             IZipFileEntry? contentFileEntry = epubFile.GetEntry(contentFilePath);
             if (contentFileEntry == null)
             {

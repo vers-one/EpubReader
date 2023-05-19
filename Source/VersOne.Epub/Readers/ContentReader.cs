@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
@@ -20,18 +21,24 @@ namespace VersOne.Epub.Internal
         {
             EpubLocalByteContentFileRef? cover;
             EpubLocalTextContentFileRef? navigationHtmlFile = null;
-            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> html = new();
-            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> css = new();
-            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> images = new();
-            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> fonts = new();
-            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> audio = new();
-            EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef> allFiles = new();
+            List<EpubLocalTextContentFileRef> htmlLocal = new();
+            List<EpubRemoteTextContentFileRef> htmlRemote = new();
+            List<EpubLocalTextContentFileRef> cssLocal = new();
+            List<EpubRemoteTextContentFileRef> cssRemote = new();
+            List<EpubLocalByteContentFileRef> imagesLocal = new();
+            List<EpubRemoteByteContentFileRef> imagesRemote = new();
+            List<EpubLocalByteContentFileRef> fontsLocal = new();
+            List<EpubRemoteByteContentFileRef> fontsRemote = new();
+            List<EpubLocalByteContentFileRef> audioLocal = new();
+            List<EpubRemoteByteContentFileRef> audioRemote = new();
+            List<EpubLocalContentFileRef> allFilesLocal = new();
+            List<EpubRemoteContentFileRef> allFilesRemote = new();
             EpubLocalContentLoader localContentLoader = new(environmentDependencies, epubFile, epubSchema.ContentDirectoryPath, epubReaderOptions.ContentReaderOptions);
             EpubRemoteContentLoader? remoteContentLoader = null;
             foreach (EpubManifestItem manifestItem in epubSchema.Package.Manifest.Items)
             {
                 string href = manifestItem.Href;
-                EpubContentLocation contentLocation = href.Contains("://") ? EpubContentLocation.REMOTE : EpubContentLocation.LOCAL;
+                EpubContentLocation contentLocation = ContentPathUtils.IsLocalPath(href) ? EpubContentLocation.LOCAL : EpubContentLocation.REMOTE;
                 string contentMimeType = manifestItem.MediaType;
                 EpubContentType contentType = GetContentTypeByContentMimeType(contentMimeType);
                 string contentDirectoryPath = epubSchema.ContentDirectoryPath;
@@ -49,22 +56,22 @@ namespace VersOne.Epub.Internal
                     case EpubContentType.SCRIPT:
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
-                            string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, href);
+                            string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, href);
                             EpubLocalTextContentFileRef localTextContentFile = new(contentFileRefMetadata, contentFilePath, localContentLoader);
                             switch (contentType)
                             {
                                 case EpubContentType.XHTML_1_1:
-                                    html.Local[href] = localTextContentFile;
+                                    htmlLocal.Add(localTextContentFile);
                                     if (navigationHtmlFile == null && manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.NAV))
                                     {
                                         navigationHtmlFile = localTextContentFile;
                                     }
                                     break;
                                 case EpubContentType.CSS:
-                                    css.Local[href] = localTextContentFile;
+                                    cssLocal.Add(localTextContentFile);
                                     break;
                             }
-                            allFiles.Local[href] = localTextContentFile;
+                            allFilesLocal.Add(localTextContentFile);
                         }
                         else
                         {
@@ -73,23 +80,23 @@ namespace VersOne.Epub.Internal
                             switch (contentType)
                             {
                                 case EpubContentType.XHTML_1_1:
-                                    html.Remote[href] = remoteTextContentFile;
                                     if (manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.NAV))
                                     {
                                         throw new EpubPackageException($"Incorrect EPUB manifest: EPUB 3 navigation document \"{href}\" cannot be a remote resource.");
                                     }
+                                    htmlRemote.Add(remoteTextContentFile);
                                     break;
                                 case EpubContentType.CSS:
-                                    css.Remote[href] = remoteTextContentFile;
+                                    cssRemote.Add(remoteTextContentFile);
                                     break;
                             }
-                            allFiles.Remote[href] = remoteTextContentFile;
+                            allFilesRemote.Add(remoteTextContentFile);
                         }
                         break;
                     default:
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
-                            string contentFilePath = ZipPathUtils.Combine(contentDirectoryPath, href);
+                            string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, href);
                             EpubLocalByteContentFileRef localByteContentFile = new(contentFileRefMetadata, contentFilePath, localContentLoader);
                             switch (contentType)
                             {
@@ -98,22 +105,22 @@ namespace VersOne.Epub.Internal
                                 case EpubContentType.IMAGE_PNG:
                                 case EpubContentType.IMAGE_SVG:
                                 case EpubContentType.IMAGE_WEBP:
-                                    images.Local[href] = localByteContentFile;
+                                    imagesLocal.Add(localByteContentFile);
                                     break;
                                 case EpubContentType.FONT_TRUETYPE:
                                 case EpubContentType.FONT_OPENTYPE:
                                 case EpubContentType.FONT_SFNT:
                                 case EpubContentType.FONT_WOFF:
                                 case EpubContentType.FONT_WOFF2:
-                                    fonts.Local[href] = localByteContentFile;
+                                    fontsLocal.Add(localByteContentFile);
                                     break;
                                 case EpubContentType.AUDIO_MP3:
                                 case EpubContentType.AUDIO_MP4:
                                 case EpubContentType.AUDIO_OGG:
-                                    audio.Local[href] = localByteContentFile;
+                                    audioLocal.Add(localByteContentFile);
                                     break;
                             }
-                            allFiles.Local[href] = localByteContentFile;
+                            allFilesLocal.Add(localByteContentFile);
                         }
                         else
                         {
@@ -126,26 +133,32 @@ namespace VersOne.Epub.Internal
                                 case EpubContentType.IMAGE_PNG:
                                 case EpubContentType.IMAGE_SVG:
                                 case EpubContentType.IMAGE_WEBP:
-                                    images.Remote[href] = remoteByteContentFile;
+                                    imagesRemote.Add(remoteByteContentFile);
                                     break;
                                 case EpubContentType.FONT_TRUETYPE:
                                 case EpubContentType.FONT_OPENTYPE:
                                 case EpubContentType.FONT_SFNT:
                                 case EpubContentType.FONT_WOFF:
                                 case EpubContentType.FONT_WOFF2:
-                                    fonts.Remote[href] = remoteByteContentFile;
+                                    fontsRemote.Add(remoteByteContentFile);
                                     break;
                                 case EpubContentType.AUDIO_MP3:
                                 case EpubContentType.AUDIO_MP4:
                                 case EpubContentType.AUDIO_OGG:
-                                    audio.Remote[href] = remoteByteContentFile;
+                                    audioRemote.Add(remoteByteContentFile);
                                     break;
                             }
-                            allFiles.Remote[href] = remoteByteContentFile;
+                            allFilesRemote.Add(remoteByteContentFile);
                         }
                         break;
                 }
             }
+            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> html = new(htmlLocal.AsReadOnly(), htmlRemote.AsReadOnly());
+            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> css = new(cssLocal.AsReadOnly(), cssRemote.AsReadOnly());
+            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> images = new(imagesLocal.AsReadOnly(), imagesRemote.AsReadOnly());
+            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> fonts = new(fontsLocal.AsReadOnly(), fontsRemote.AsReadOnly());
+            EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> audio = new(audioLocal.AsReadOnly(), audioRemote.AsReadOnly());
+            EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef> allFiles = new(allFilesLocal.AsReadOnly(), allFilesRemote.AsReadOnly());
             cover = BookCoverReader.ReadBookCover(epubSchema, images);
             return new(cover, navigationHtmlFile, html, css, images, fonts, audio, allFiles);
         }

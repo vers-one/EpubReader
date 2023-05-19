@@ -2,9 +2,11 @@
 
 namespace VersOne.Epub.Internal
 {
-    internal static class ZipPathUtils
+    internal static class ContentPathUtils
     {
         private const string DIRECTORY_UP = "../";
+
+        public static bool IsLocalPath(string path) => path != null ? !path.Contains("://") : throw new ArgumentNullException(nameof(path));
 
         public static string GetDirectoryPath(string filePath)
         {

@@ -1,4 +1,4 @@
-﻿using VersOne.Epub.Readers;
+﻿using VersOne.Epub.Internal;
 using VersOne.Epub.Test.Comparers;
 
 namespace VersOne.Epub.Test.Unit.Readers

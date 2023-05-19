@@ -32,7 +32,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new Epub2NcxException($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
             }
-            string tocFileEntryPath = ZipPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
+            string tocFileEntryPath = ContentPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
             IZipFileEntry? tocFileEntry = epubFile.GetEntry(tocFileEntryPath);
             if (tocFileEntry == null)
             {

@@ -24,7 +24,7 @@
             else
             {
                 Assert.NotNull(actual);
-                Assert.Equal(expected.ContentFileName, actual.ContentFileName);
+                Assert.Equal(expected.ContentFileUrl, actual.ContentFileUrl);
                 Assert.Equal(expected.ContentFilePath, actual.ContentFilePath);
                 Assert.Equal(expected.Anchor, actual.Anchor);
             }

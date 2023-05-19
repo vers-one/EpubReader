@@ -34,7 +34,7 @@ namespace VersOne.Epub
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a <c>null</c> reference if no inner exception is specified.</param>
         /// <param name="smilFilePath">The path of the SMIL file that caused the error.</param>
-        public EpubSmilException(string message, Exception innerException, string smilFilePath)
+        public EpubSmilException(string message, Exception? innerException, string smilFilePath)
             : base(message, innerException)
         {
             SmilFilePath = smilFilePath;

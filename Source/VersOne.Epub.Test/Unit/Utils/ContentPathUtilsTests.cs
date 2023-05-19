@@ -2,8 +2,24 @@
 
 namespace VersOne.Epub.Test.Unit.Utils
 {
-    public class ZipPathUtilsTests
+    public class ContentPathUtilsTests
     {
+        [Theory(DisplayName = "Testing if the specified path is a local path should succeed")]
+        [InlineData("Directory/File.html", true)]
+        [InlineData("", true)]
+        [InlineData("https://example.com/books/123/chapter1.html", false)]
+        public void IsLocalPathWithNonNullPathTest(string path, bool expectedResult)
+        {
+            bool actualResult = ContentPathUtils.IsLocalPath(path);
+            Assert.Equal(expectedResult, actualResult);
+        }
+
+        [Fact(DisplayName = "IsLocalPath should throw ArgumentNullException if path parameter is null")]
+        public void IsLocalPathWithNullPathTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => ContentPathUtils.IsLocalPath(null!));
+        }
+
         [Theory(DisplayName = "Getting the directory path for a valid file path should succeed")]
         [InlineData("Directory/File.html", "Directory")]
         [InlineData("Directory/Subdirectory/File.html", "Directory/Subdirectory")]
@@ -14,7 +30,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData("../File.html", "..")]
         public void GetDirectoryPathTest(string filePath, string expectedDirectoryPath)
         {
-            string actualDirectoryPath = ZipPathUtils.GetDirectoryPath(filePath);
+            string actualDirectoryPath = ContentPathUtils.GetDirectoryPath(filePath);
             Assert.Equal(expectedDirectoryPath, actualDirectoryPath);
         }
 
@@ -34,7 +50,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData(null, null, null)]
         public void CombineTest(string directory, string fileName, string expectedResult)
         {
-            string actualResult = ZipPathUtils.Combine(directory, fileName);
+            string actualResult = ContentPathUtils.Combine(directory, fileName);
             Assert.Equal(expectedResult, actualResult);
         }
     }

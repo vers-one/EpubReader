@@ -41,9 +41,14 @@ namespace VersOne.Epub.Internal
                     Epub2NcxNavigationLabel? firstNavigationLabel = navigationPoint.NavigationLabels.FirstOrDefault() ??
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: navigation point \"{navigationPoint.Id}\" should contain at least one navigation label.");
                     string title = firstNavigationLabel.Text;
-                    EpubNavigationItemLink link = new(navigationPoint.Content.Source, epubSchema.ContentDirectoryPath);
-                    EpubLocalTextContentFileRef? htmlContentFileRef = GetHtmlContentFileRef(epubContentRef, link.ContentFileName) ??
-                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{navigationPoint.Content.Source}\" not found in EPUB manifest.");
+                    string source = Uri.UnescapeDataString(navigationPoint.Content.Source);
+                    if (!ContentPathUtils.IsLocalPath(source))
+                    {
+                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" cannot be a remote resource.");
+                    }
+                    EpubNavigationItemLink link = new(source, epubSchema.ContentDirectoryPath);
+                    EpubLocalTextContentFileRef? htmlContentFileRef = GetLocalHtmlContentFileRef(epubContentRef, link.ContentFilePath) ??
+                        throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" not found in EPUB manifest.");
                     List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, navigationPoint.ChildNavigationPoints);
                     result.Add(new EpubNavigationItemRef(type, title, link, htmlContentFileRef, nestedItems));
                 }
@@ -56,7 +61,7 @@ namespace VersOne.Epub.Internal
             List<EpubNavigationItemRef> result;
             if (epub3Nav != null)
             {
-                string epub3NavigationBaseDirectoryPath = ZipPathUtils.GetDirectoryPath(epub3NavDocumentFilePath);
+                string epub3NavigationBaseDirectoryPath = ContentPathUtils.GetDirectoryPath(epub3NavDocumentFilePath);
                 if (epub3Nav.Head != null)
                 {
                     result = new List<EpubNavigationItemRef>();
@@ -95,12 +100,17 @@ namespace VersOne.Epub.Internal
                         List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, epub3NavLi.ChildOl, epub3NavigationBaseDirectoryPath);
                         if (navAnchor.Href != null)
                         {
+                            string href = Uri.UnescapeDataString(navAnchor.Href);
+                            if (!ContentPathUtils.IsLocalPath(href))
+                            {
+                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: anchor href \"{href}\" cannot be a remote resource.");
+                            }
                             type = EpubNavigationItemType.LINK;
-                            link = new(navAnchor.Href, epub3NavigationBaseDirectoryPath);
-                            htmlContentFileRef = GetHtmlContentFileRef(epubContentRef, link.ContentFileName);
+                            link = new(href, epub3NavigationBaseDirectoryPath);
+                            htmlContentFileRef = GetLocalHtmlContentFileRef(epubContentRef, link.ContentFilePath);
                             if (htmlContentFileRef == null)
                             {
-                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: target for anchor href \"{navAnchor.Href}\" not found in EPUB manifest.");
+                                throw new Epub3NavException($"Incorrect EPUB 3 navigation document: target for anchor href \"{href}\" not found in EPUB manifest.");
                             }
                         }
                         else
@@ -122,13 +132,9 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static EpubLocalTextContentFileRef? GetHtmlContentFileRef(EpubContentRef epubContentRef, string contentFileKey)
+        private static EpubLocalTextContentFileRef? GetLocalHtmlContentFileRef(EpubContentRef epubContentRef, string localContentFilePath)
         {
-            if (epubContentRef.Html.Remote.ContainsKey(contentFileKey))
-            {
-                throw new EpubPackageException($"Incorrect EPUB manifest: item \"{contentFileKey}\" referenced in the navigation file cannot be a remote resource.");
-            }
-            if (!epubContentRef.Html.Local.TryGetValue(contentFileKey, out EpubLocalTextContentFileRef htmlContentFileRef))
+            if (!epubContentRef.Html.TryGetLocalFileRefByFilePath(localContentFilePath, out EpubLocalTextContentFileRef htmlContentFileRef))
             {
                 return null;
             }

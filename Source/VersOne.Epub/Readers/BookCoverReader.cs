@@ -50,16 +50,10 @@ namespace VersOne.Epub.Internal
                 throw new EpubPackageException("Incorrect EPUB metadata: cover item content is missing.");
             }
             EpubManifestItem coverManifestItem =
-                epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content));
-            if (coverManifestItem == null)
-            {
+                epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content)) ??
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
-            }
-            EpubLocalByteContentFileRef? result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href);
-            if (result == null)
-            {
+            EpubLocalByteContentFileRef result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href) ??
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
-            }
             return result;
         }
 
@@ -92,22 +86,19 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubLocalByteContentFileRef? result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href);
-            if (result == null)
-            {
+            EpubLocalByteContentFileRef result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href) ??
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
-            }
             return result;
         }
 
         private static EpubLocalByteContentFileRef? GetCoverImageContentRef(
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs, string coverImageContentFileKey)
         {
-            if (imageContentRefs.Remote.ContainsKey(coverImageContentFileKey))
+            if (imageContentRefs.ContainsRemoteFileRefWithUrl(coverImageContentFileKey))
             {
                 throw new EpubPackageException($"Incorrect EPUB manifest: EPUB cover image \"{coverImageContentFileKey}\" cannot be a remote resource.");
             }
-            if (!imageContentRefs.Local.TryGetValue(coverImageContentFileKey, out EpubLocalByteContentFileRef coverImageContentFileRef))
+            if (!imageContentRefs.TryGetLocalFileRefByKey(coverImageContentFileKey, out EpubLocalByteContentFileRef coverImageContentFileRef))
             {
                 return null;
             }

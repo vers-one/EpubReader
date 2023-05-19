@@ -1,6 +1,6 @@
 ﻿using VersOne.Epub.Test.Unit.Mocks;
 
-namespace VersOne.Epub.Test.Unit.Content
+namespace VersOne.Epub.Test.Unit.Content.Base
 {
     public class EpubContentFileRefTests
     {

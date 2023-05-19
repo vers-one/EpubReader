@@ -27,11 +27,11 @@ namespace VersOne.Epub.Test.Integration.Types
                 return null;
             }
             List<EpubContentFile> result = new(epubBook.Content.AllFiles.Local.Count + epubBook.Content.AllFiles.Remote.Count);
-            foreach (EpubContentFile epubContentFile in epubBook.Content.AllFiles.Local.Values)
+            foreach (EpubContentFile epubContentFile in epubBook.Content.AllFiles.Local)
             {
                 result.Add(epubContentFile);
             }
-            foreach (EpubContentFile epubContentFile in epubBook.Content.AllFiles.Remote.Values)
+            foreach (EpubContentFile epubContentFile in epubBook.Content.AllFiles.Remote)
             {
                 result.Add(epubContentFile);
             }

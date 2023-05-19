@@ -159,7 +159,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             EpubBookRef epubBookRef = CreateEpubBookRefWithReadingOrder(HTML_FILE_NAME, HTML_FILE_PATH);
             List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
             {
-                epubBookRef.Content.Html.Local[HTML_FILE_NAME]
+                epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME)
             };
             List<EpubLocalTextContentFileRef> actualReadingOrder = epubBookRef.GetReadingOrder();
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
@@ -171,7 +171,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             EpubBookRef epubBookRef = CreateEpubBookRefWithReadingOrder(HTML_FILE_NAME, HTML_FILE_PATH);
             List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
             {
-                epubBookRef.Content.Html.Local[HTML_FILE_NAME]
+                epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME)
             };
             List<EpubLocalTextContentFileRef> actualReadingOrder = await epubBookRef.GetReadingOrderAsync();
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
@@ -183,7 +183,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             EpubBookRef epubBookRef = CreateEpubBookRefWithNavigation(HTML_FILE_NAME, HTML_FILE_PATH, TEST_ANCHOR_TEXT);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
-                CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.Local[HTML_FILE_NAME])
+                CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME))
             };
             List<EpubNavigationItemRef>? actualNavigationItems = epubBookRef.GetNavigation();
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
@@ -195,7 +195,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             EpubBookRef epubBookRef = CreateEpubBookRefWithNavigation(HTML_FILE_NAME, HTML_FILE_PATH, TEST_ANCHOR_TEXT);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
             {
-                CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.Local[HTML_FILE_NAME])
+                CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME))
             };
             List<EpubNavigationItemRef>? actualNavigationItems = await epubBookRef.GetNavigationAsync();
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
@@ -263,6 +263,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         private static EpubBookRef CreateEpubBookRefWithReadingOrder(string htmlFileName, string htmlFilePath)
         {
             EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
+            List<EpubLocalTextContentFileRef> htmlLocal = new()
+            {
+                htmlFileRef
+            };
             return CreateEpubBookRef
             (
                 epubFile: new TestZipFile(),
@@ -291,16 +295,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                 ),
                 content: new EpubContentRef
                 (
-                    html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                    (
-                        local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                        {
-                            {
-                                htmlFileName,
-                                htmlFileRef
-                            }
-                        }
-                    )
+                    html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly())
                 )
             );
         }
@@ -309,6 +304,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         {
             EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
             EpubLocalTextContentFileRef navigationFileRef = CreateTestHtmlFileRef("toc.html", $"{CONTENT_DIRECTORY_PATH}/toc.html");
+            List<EpubLocalTextContentFileRef> htmlLocal = new()
+            {
+                htmlFileRef
+            };
             return CreateEpubBookRef
             (
                 epubFile: new TestZipFile(),
@@ -341,16 +340,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                 content: new EpubContentRef
                 (
                     navigationHtmlFile: navigationFileRef,
-                    html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                    (
-                        local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                        {
-                            {
-                                htmlFileName,
-                                htmlFileRef
-                            }
-                        }
-                    )
+                    html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly())
                 )
             );
         }

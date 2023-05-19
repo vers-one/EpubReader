@@ -336,336 +336,120 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubRemoteByteContentFileRef expectedRemoteJpgFileRef = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
             EpubRemoteByteContentFileRef expectedRemoteTtfFileRef = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
             EpubRemoteByteContentFileRef expectedRemoteMp3FileRef = CreateRemoteByteFileRef("https://example.com/books/123/audio.mp3", EpubContentType.AUDIO_MP3, "audio/mpeg");
+            List<EpubLocalTextContentFileRef> expectedHtmlLocal = new()
+            {
+                expectedHtmlFileRef,
+                expectedTocFileRef
+            };
+            List<EpubRemoteTextContentFileRef> expectedHtmlRemote = new()
+            {
+                expectedRemoteHtmlFileRef
+            };
+            List<EpubLocalTextContentFileRef> expectedCssLocal = new()
+            {
+                expectedCssFileRef
+            };
+            List<EpubRemoteTextContentFileRef> expectedCssRemote = new()
+            {
+                expectedRemoteCssFileRef
+            };
+            List<EpubLocalByteContentFileRef> expectedImagesLocal = new()
+            {
+                expectedGifFileRef,
+                expectedJpgFileRef,
+                expectedPngFileRef,
+                expectedSvgFileRef,
+                expectedWebpFileRef,
+                expectedCoverFileRef
+            };
+            List<EpubRemoteByteContentFileRef> expectedImagesRemote = new()
+            {
+                expectedRemoteJpgFileRef
+            };
+            List<EpubLocalByteContentFileRef> expectedFontsLocal = new()
+            {
+                expectedTtf1FileRef,
+                expectedTtf2FileRef,
+                expectedTtf3FileRef,
+                expectedOtf1FileRef,
+                expectedOtf2FileRef,
+                expectedOtf3FileRef,
+                expectedSfnt1FileRef,
+                expectedSfnt2FileRef,
+                expectedWoff11FileRef,
+                expectedWoff12FileRef,
+                expectedWoff2FileRef
+            };
+            List<EpubRemoteByteContentFileRef> expectedFontsRemote = new()
+            {
+                expectedRemoteTtfFileRef
+            };
+            List<EpubLocalByteContentFileRef> expectedAudioLocal = new()
+            {
+                expectedMp3FileRef,
+                expectedMp4FileRef,
+                expectedOgg1FileRef,
+                expectedOgg2FileRef
+            };
+            List<EpubRemoteByteContentFileRef> expectedAudioRemote = new()
+            {
+                expectedRemoteMp3FileRef
+            };
+            List<EpubLocalContentFileRef> expectedAllFilesLocal = new()
+            {
+                expectedHtmlFileRef,
+                expectedDtbFileRef,
+                expectedNcxFileRef,
+                expectedOebFileRef,
+                expectedXmlFileRef,
+                expectedCssFileRef,
+                expectedOebCssFileRef,
+                expectedJs1FileRef,
+                expectedJs2FileRef,
+                expectedJs3FileRef,
+                expectedGifFileRef,
+                expectedJpgFileRef,
+                expectedPngFileRef,
+                expectedSvgFileRef,
+                expectedWebpFileRef,
+                expectedTtf1FileRef,
+                expectedTtf2FileRef,
+                expectedTtf3FileRef,
+                expectedOtf1FileRef,
+                expectedOtf2FileRef,
+                expectedOtf3FileRef,
+                expectedSfnt1FileRef,
+                expectedSfnt2FileRef,
+                expectedWoff11FileRef,
+                expectedWoff12FileRef,
+                expectedWoff2FileRef,
+                expectedSmilFileRef,
+                expectedMp3FileRef,
+                expectedMp4FileRef,
+                expectedOgg1FileRef,
+                expectedOgg2FileRef,
+                expectedVideoFileRef,
+                expectedCoverFileRef,
+                expectedTocFileRef
+            };
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote = new()
+            {
+                expectedRemoteHtmlFileRef,
+                expectedRemoteCssFileRef,
+                expectedRemoteJpgFileRef,
+                expectedRemoteTtfFileRef,
+                expectedRemoteMp3FileRef
+            };
             EpubContentRef expectedContentMap = new
             (
                 cover: expectedCoverFileRef,
                 navigationHtmlFile: expectedTocFileRef,
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            "text.html",
-                            expectedHtmlFileRef
-                        },
-                        {
-                            "toc.html",
-                            expectedTocFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/test.html",
-                            expectedRemoteHtmlFileRef
-                        }
-                    }
-                ),
-                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalTextContentFileRef>()
-                    {
-                        {
-                            "styles.css",
-                            expectedCssFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/test.css",
-                            expectedRemoteCssFileRef
-                        }
-                    }
-                ),
-                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
-                    {
-                        {
-                            "image.gif",
-                            expectedGifFileRef
-                        },
-                        {
-                            "image.jpg",
-                            expectedJpgFileRef
-                        },
-                        {
-                            "image.png",
-                            expectedPngFileRef
-                        },
-                        {
-                            "image.svg",
-                            expectedSvgFileRef
-                        },
-                        {
-                            "image.webp",
-                            expectedWebpFileRef
-                        },
-                        {
-                            "cover.jpg",
-                            expectedCoverFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/image.jpg",
-                            expectedRemoteJpgFileRef
-                        }
-                    }
-                ),
-                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
-                    {
-                        {
-                            "font1.ttf",
-                            expectedTtf1FileRef
-                        },
-                        {
-                            "font2.ttf",
-                            expectedTtf2FileRef
-                        },
-                        {
-                            "font3.ttf",
-                            expectedTtf3FileRef
-                        },
-                        {
-                            "font1.otf",
-                            expectedOtf1FileRef
-                        },
-                        {
-                            "font2.otf",
-                            expectedOtf2FileRef
-                        },
-                        {
-                            "font3.otf",
-                            expectedOtf3FileRef
-                        },
-                        {
-                            "font.aat",
-                            expectedSfnt1FileRef
-                        },
-                        {
-                            "font.sil",
-                            expectedSfnt2FileRef
-                        },
-                        {
-                            "font1.woff",
-                            expectedWoff11FileRef
-                        },
-                        {
-                            "font2.woff",
-                            expectedWoff12FileRef
-                        },
-                        {
-                            "font.woff2",
-                            expectedWoff2FileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/font.ttf",
-                            expectedRemoteTtfFileRef
-                        }
-                    }
-                ),
-                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalByteContentFileRef>()
-                    {
-                        {
-                            "audio.mp3",
-                            expectedMp3FileRef
-                        },
-                        {
-                            "audio.mp4",
-                            expectedMp4FileRef
-                        },
-                        {
-                            "audio1.opus",
-                            expectedOgg1FileRef
-                        },
-                        {
-                            "audio2.opus",
-                            expectedOgg2FileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/audio.mp3",
-                            expectedRemoteMp3FileRef
-                        }
-                    }
-                ),
-                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
-                (
-                    local: new Dictionary<string, EpubLocalContentFileRef>()
-                    {
-                        {
-                            "text.html",
-                            expectedHtmlFileRef
-                        },
-                        {
-                            "doc.dtb",
-                            expectedDtbFileRef
-                        },
-                        {
-                            "toc.ncx",
-                            expectedNcxFileRef
-                        },
-                        {
-                            "oeb.html",
-                            expectedOebFileRef
-                        },
-                        {
-                            "file.xml",
-                            expectedXmlFileRef
-                        },
-                        {
-                            "styles.css",
-                            expectedCssFileRef
-                        },
-                        {
-                            "oeb.css",
-                            expectedOebCssFileRef
-                        },
-                        {
-                            "script1.js",
-                            expectedJs1FileRef
-                        },
-                        {
-                            "script2.js",
-                            expectedJs2FileRef
-                        },
-                        {
-                            "script3.js",
-                            expectedJs3FileRef
-                        },
-                        {
-                            "image.gif",
-                            expectedGifFileRef
-                        },
-                        {
-                            "image.jpg",
-                            expectedJpgFileRef
-                        },
-                        {
-                            "image.png",
-                            expectedPngFileRef
-                        },
-                        {
-                            "image.svg",
-                            expectedSvgFileRef
-                        },
-                        {
-                            "image.webp",
-                            expectedWebpFileRef
-                        },
-                        {
-                            "font1.ttf",
-                            expectedTtf1FileRef
-                        },
-                        {
-                            "font2.ttf",
-                            expectedTtf2FileRef
-                        },
-                        {
-                            "font3.ttf",
-                            expectedTtf3FileRef
-                        },
-                        {
-                            "font1.otf",
-                            expectedOtf1FileRef
-                        },
-                        {
-                            "font2.otf",
-                            expectedOtf2FileRef
-                        },
-                        {
-                            "font3.otf",
-                            expectedOtf3FileRef
-                        },
-                        {
-                            "font.aat",
-                            expectedSfnt1FileRef
-                        },
-                        {
-                            "font.sil",
-                            expectedSfnt2FileRef
-                        },
-                        {
-                            "font1.woff",
-                            expectedWoff11FileRef
-                        },
-                        {
-                            "font2.woff",
-                            expectedWoff12FileRef
-                        },
-                        {
-                            "font.woff2",
-                            expectedWoff2FileRef
-                        },
-                        {
-                            "narration.smil",
-                            expectedSmilFileRef
-                        },
-                        {
-                            "audio.mp3",
-                            expectedMp3FileRef
-                        },
-                        {
-                            "audio.mp4",
-                            expectedMp4FileRef
-                        },
-                        {
-                            "audio1.opus",
-                            expectedOgg1FileRef
-                        },
-                        {
-                            "audio2.opus",
-                            expectedOgg2FileRef
-                        },
-                        {
-                            "video.mp4",
-                            expectedVideoFileRef
-                        },
-                        {
-                            "cover.jpg",
-                            expectedCoverFileRef
-                        },
-                        {
-                            "toc.html",
-                            expectedTocFileRef
-                        }
-                    },
-                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/test.html",
-                            expectedRemoteHtmlFileRef
-                        },
-                        {
-                            "https://example.com/books/123/test.css",
-                            expectedRemoteCssFileRef
-                        },
-                        {
-                            "https://example.com/books/123/image.jpg",
-                            expectedRemoteJpgFileRef
-                        },
-                        {
-                            "https://example.com/books/123/font.ttf",
-                            expectedRemoteTtfFileRef
-                        },
-                        {
-                            "https://example.com/books/123/audio.mp3",
-                            expectedRemoteMp3FileRef
-                        }
-                    }
-                )
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(expectedHtmlLocal.AsReadOnly(), expectedHtmlRemote.AsReadOnly()),
+                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(expectedCssLocal.AsReadOnly(), expectedCssRemote.AsReadOnly()),
+                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(expectedImagesLocal.AsReadOnly(), expectedImagesRemote.AsReadOnly()),
+                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(expectedFontsLocal.AsReadOnly(), expectedFontsRemote.AsReadOnly()),
+                audio: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(expectedAudioLocal.AsReadOnly(), expectedAudioRemote.AsReadOnly()),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>(expectedAllFilesLocal.AsReadOnly(), expectedAllFilesRemote.AsReadOnly())
             );
             ContentReader contentReader = new(environmentDependencies);
             EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
@@ -698,42 +482,24 @@ namespace VersOne.Epub.Test.Unit.Readers
             );
             EpubRemoteTextContentFileRef expectedFileRef1 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
             EpubRemoteTextContentFileRef expectedFileRef2 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
+            List<EpubRemoteTextContentFileRef> expectedHtmlRemote = new()
+            {
+                expectedFileRef1
+            };
+            List<EpubRemoteTextContentFileRef> expectedCssRemote = new()
+            {
+                expectedFileRef2
+            };
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote = new()
+            {
+                expectedFileRef1,
+                expectedFileRef2
+            };
             EpubContentRef expectedContentMap = new
             (
-                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/test.html",
-                            expectedFileRef1
-                        }
-                    }
-                ),
-                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteTextContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/test.css",
-                            expectedFileRef2
-                        }
-                    }
-                ),
-                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/test.html",
-                            expectedFileRef1
-                        },
-                        {
-                            "https://example.com/books/123/test.css",
-                            expectedFileRef2
-                        }
-                    }
-                )
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(null, expectedHtmlRemote.AsReadOnly()),
+                css: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(null, expectedCssRemote.AsReadOnly()),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>(null, expectedAllFilesRemote.AsReadOnly())
             );
             ContentReader contentReader = new(environmentDependencies);
             EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
@@ -766,42 +532,24 @@ namespace VersOne.Epub.Test.Unit.Readers
             );
             EpubRemoteByteContentFileRef expectedFileRef1 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
             EpubRemoteByteContentFileRef expectedFileRef2 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
+            List<EpubRemoteByteContentFileRef> expectedImagesRemote = new()
+            {
+                expectedFileRef1
+            };
+            List<EpubRemoteByteContentFileRef> expectedFontsRemote = new()
+            {
+                expectedFileRef2
+            };
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote = new()
+            {
+                expectedFileRef1,
+                expectedFileRef2
+            };
             EpubContentRef expectedContentMap = new
             (
-                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/image.jpg",
-                            expectedFileRef1
-                        }
-                    }
-                ),
-                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteByteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/font.ttf",
-                            expectedFileRef2
-                        }
-                    }
-                ),
-                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>
-                (
-                    remote: new Dictionary<string, EpubRemoteContentFileRef>()
-                    {
-                        {
-                            "https://example.com/books/123/image.jpg",
-                            expectedFileRef1
-                        },
-                        {
-                            "https://example.com/books/123/font.ttf",
-                            expectedFileRef2
-                        }
-                    }
-                )
+                images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(null, expectedImagesRemote.AsReadOnly()),
+                fonts: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(null, expectedFontsRemote.AsReadOnly()),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>(null, expectedAllFilesRemote.AsReadOnly())
             );
             ContentReader contentReader = new(environmentDependencies);
             EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());

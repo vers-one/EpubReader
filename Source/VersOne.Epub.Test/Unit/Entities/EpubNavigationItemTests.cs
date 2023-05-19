@@ -11,7 +11,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         private static EpubNavigationItemLink Link =>
             new
             (
-                contentFileUrl: "../content/chapter1.html#section1",
+                contentFileUrlWithAnchor: "../content/chapter1.html#section1",
                 baseDirectoryPath: "OPS/toc"
             );
 
