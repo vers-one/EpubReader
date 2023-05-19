@@ -3,7 +3,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Authors>vers</Authors>
         <Copyright>vers, 2015-2022</Copyright>
-        <Version>3.3.0</Version>
+        <Version>3.3.1</Version>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
