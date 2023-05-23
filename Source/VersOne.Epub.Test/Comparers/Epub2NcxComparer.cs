@@ -25,7 +25,7 @@ namespace VersOne.Epub.Test.Comparers
         public static void CompareEpub2NcxHeads(Epub2NcxHead expected, Epub2NcxHead actual)
         {
             Assert.NotNull(actual);
-            CollectionComparer.CompareCollections(expected.Items, actual.Items, ComprareEpub2NcxHeadMetas);
+            CollectionComparer.CompareCollections(expected.Items, actual.Items, CompareEpub2NcxHeadMetas);
         }
 
         public static void CompareEpub2NcxNavigationMaps(Epub2NcxNavigationMap expected, Epub2NcxNavigationMap actual)
@@ -78,7 +78,7 @@ namespace VersOne.Epub.Test.Comparers
             CompareEpub2NcxContents(expected.Content, actual.Content);
         }
 
-        public static void ComprareEpub2NcxHeadMetas(Epub2NcxHeadMeta expected, Epub2NcxHeadMeta actual)
+        public static void CompareEpub2NcxHeadMetas(Epub2NcxHeadMeta expected, Epub2NcxHeadMeta actual)
         {
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.Content, actual.Content);
