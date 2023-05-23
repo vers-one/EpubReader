@@ -1,4 +1,10 @@
-﻿[*.cs]
+﻿[*]
+# Visual Studio Spell Checker configuration
+spelling_languages = en-us
+spelling_error_severity = error
+spelling_exclusion_path = .\spell_exclusion.dic
+
+[*.cs]
 
 # IDE0005: Using directive is unnecessary.
 dotnet_diagnostic.IDE0005.severity = error

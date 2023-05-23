@@ -79,12 +79,12 @@
         private static void CompareContentCollections<TLocalContentFile, TRemoteContentFile>(
             EpubContentCollection<TLocalContentFile, TRemoteContentFile> expected,
             EpubContentCollection<TLocalContentFile, TRemoteContentFile> actual,
-            Action<TLocalContentFile, TLocalContentFile> localContentFileComprarer,
+            Action<TLocalContentFile, TLocalContentFile> localContentFileComparer,
             Action<TRemoteContentFile, TRemoteContentFile> remoteContentFileComparer)
             where TLocalContentFile : EpubLocalContentFile
             where TRemoteContentFile : EpubRemoteContentFile
         {
-            CollectionComparer.CompareCollections(expected.Local, actual.Local, localContentFileComprarer);
+            CollectionComparer.CompareCollections(expected.Local, actual.Local, localContentFileComparer);
             CollectionComparer.CompareCollections(expected.Remote, actual.Remote, remoteContentFileComparer);
         }
 
