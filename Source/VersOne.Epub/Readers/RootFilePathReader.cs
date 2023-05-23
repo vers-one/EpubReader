@@ -18,11 +18,8 @@ namespace VersOne.Epub.Internal
         public async Task<string> GetRootFilePathAsync(IZipFile epubFile)
         {
             const string EPUB_CONTAINER_FILE_PATH = "META-INF/container.xml";
-            IZipFileEntry? containerFileEntry = epubFile.GetEntry(EPUB_CONTAINER_FILE_PATH);
-            if (containerFileEntry == null)
-            {
+            IZipFileEntry? containerFileEntry = epubFile.GetEntry(EPUB_CONTAINER_FILE_PATH) ??
                 throw new EpubContainerException($"EPUB parsing error: \"{EPUB_CONTAINER_FILE_PATH}\" file not found in the EPUB file.");
-            }
             XDocument containerDocument;
             using (Stream containerStream = containerFileEntry.Open())
             {
@@ -30,11 +27,8 @@ namespace VersOne.Epub.Internal
             }
             XNamespace cnsNamespace = "urn:oasis:names:tc:opendocument:xmlns:container";
             XAttribute? fullPathAttribute =
-                containerDocument.Element(cnsNamespace + "container")?.Element(cnsNamespace + "rootfiles")?.Element(cnsNamespace + "rootfile")?.Attribute("full-path");
-            if (fullPathAttribute == null)
-            {
+                containerDocument.Element(cnsNamespace + "container")?.Element(cnsNamespace + "rootfiles")?.Element(cnsNamespace + "rootfile")?.Attribute("full-path") ??
                 throw new EpubContainerException("EPUB parsing error: root file path not found in the EPUB container.");
-            }
             return fullPathAttribute.Value;
         }
     }

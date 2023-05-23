@@ -27,17 +27,11 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubManifestItem tocManifestItem = package.Manifest.Items.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId));
-            if (tocManifestItem == null)
-            {
+            EpubManifestItem tocManifestItem = package.Manifest.Items.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId)) ??
                 throw new Epub2NcxException($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
-            }
             string tocFileEntryPath = ContentPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
-            IZipFileEntry? tocFileEntry = epubFile.GetEntry(tocFileEntryPath);
-            if (tocFileEntry == null)
-            {
+            IZipFileEntry? tocFileEntry = epubFile.GetEntry(tocFileEntryPath) ??
                 throw new Epub2NcxException($"EPUB parsing error: TOC file {tocFileEntryPath} not found in the EPUB file.");
-            }
             if (tocFileEntry.Length > Int32.MaxValue)
             {
                 throw new Epub2NcxException($"EPUB parsing error: TOC file {tocFileEntryPath} is larger than 2 GB.");
@@ -48,22 +42,10 @@ namespace VersOne.Epub.Internal
                 containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace ncxNamespace = "http://www.daisy.org/z3986/2005/ncx/";
-            XElement ncxNode = containerDocument.Element(ncxNamespace + "ncx");
-            if (ncxNode == null)
-            {
-                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain ncx element.");
-            }
-            XElement headNode = ncxNode.Element(ncxNamespace + "head");
-            if (headNode == null)
-            {
-                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain head element.");
-            }
+            XElement ncxNode = containerDocument.Element(ncxNamespace + "ncx") ?? throw new Epub2NcxException("EPUB parsing error: TOC file does not contain ncx element.");
+            XElement headNode = ncxNode.Element(ncxNamespace + "head") ?? throw new Epub2NcxException("EPUB parsing error: TOC file does not contain head element.");
             Epub2NcxHead navigationHead = ReadNavigationHead(headNode);
-            XElement docTitleNode = ncxNode.Element(ncxNamespace + "docTitle");
-            if (docTitleNode == null)
-            {
-                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain docTitle element.");
-            }
+            XElement docTitleNode = ncxNode.Element(ncxNamespace + "docTitle") ?? throw new Epub2NcxException("EPUB parsing error: TOC file does not contain docTitle element.");
             string? docTitle = ReadNavigationDocTitle(docTitleNode);
             List<string> docAuthors = new();
             foreach (XElement docAuthorNode in ncxNode.Elements(ncxNamespace + "docAuthor"))
@@ -74,11 +56,7 @@ namespace VersOne.Epub.Internal
                     docAuthors.Add(navigationDocAuthor);
                 }
             }
-            XElement navMapNode = ncxNode.Element(ncxNamespace + "navMap");
-            if (navMapNode == null)
-            {
-                throw new Epub2NcxException("EPUB parsing error: TOC file does not contain navMap element.");
-            }
+            XElement navMapNode = ncxNode.Element(ncxNamespace + "navMap") ?? throw new Epub2NcxException("EPUB parsing error: TOC file does not contain navMap element.");
             Epub2NcxNavigationMap navMap = ReadNavigationMap(navMapNode, epubReaderOptions.Epub2NcxReaderOptions);
             XElement pageListNode = ncxNode.Element(ncxNamespace + "pageList");
             Epub2NcxPageList? pageList = null;
@@ -244,11 +222,8 @@ namespace VersOne.Epub.Internal
 
         private static Epub2NcxNavigationLabel ReadNavigationLabel(XElement navigationLabelNode)
         {
-            XElement navigationLabelTextNode = navigationLabelNode.Element(navigationLabelNode.Name.Namespace + "text");
-            if (navigationLabelTextNode == null)
-            {
+            XElement navigationLabelTextNode = navigationLabelNode.Element(navigationLabelNode.Name.Namespace + "text") ??
                 throw new Epub2NcxException("Incorrect EPUB navigation label: label text element is missing.");
-            }
             string text = navigationLabelTextNode.Value;
             return new(text);
         }

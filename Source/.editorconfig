@@ -1,4 +1,5 @@
 ﻿[*]
+
 # Visual Studio Spell Checker configuration
 spelling_languages = en-us
 spelling_error_severity = error
@@ -69,3 +70,6 @@ dotnet_diagnostic.SA1633.severity = none
 
 # SA1516: Elements should be separated by blank line
 dotnet_diagnostic.SA1516.severity = none
+
+# xUnit1004: Test methods should not be skipped
+dotnet_diagnostic.xUnit1004.severity = none
