@@ -256,6 +256,22 @@ namespace VersOne.Epub.Test.Unit.Readers
             </ncx>
             """;
 
+        private const string NCX_FILE_WITH_ESCAPED_CONTENT_SRC_ATTRIBUTE = """
+            <?xml version='1.0' encoding='utf-8'?>
+            <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/">
+              <head />
+              <docTitle />
+              <navMap>
+                <navPoint id="navpoint-1">
+                  <navLabel>
+                    <text>Chapter 1</text>
+                  </navLabel>
+                  <content src="chapter%31.html" />
+                </navPoint>
+              </navMap>
+            </ncx>
+            """;
+
         private const string NCX_FILE_WITHOUT_CONTENT_SRC_ATTRIBUTE = """
             <?xml version='1.0' encoding='utf-8'?>
             <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/">
@@ -875,6 +891,42 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub2NcxAsyncWithoutNavLabelTextTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVLABEL_TEXT_ELEMENT);
+        }
+
+        [Fact(DisplayName = "Reading an NCX file with a URI-escaped 'src' attribute in a 'content' XML element should succeed")]
+        public async void ReadEpub2NcxAsyncWithEscapedContentSrcTest()
+        {
+            Epub2Ncx expectedEpub2Ncx = new
+            (
+                filePath: NCX_FILE_PATH,
+                head: new Epub2NcxHead(),
+                docTitle: null,
+                docAuthors: null,
+                navMap: new Epub2NcxNavigationMap
+                (
+                    items: new List<Epub2NcxNavigationPoint>()
+                    {
+                        new Epub2NcxNavigationPoint
+                        (
+                            id: "navpoint-1",
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
+                            {
+                                new Epub2NcxNavigationLabel
+                                (
+                                    text: "Chapter 1"
+                                )
+                            },
+                            content: new Epub2NcxContent
+                            (
+                                source: "chapter1.html"
+                            )
+                        )
+                    }
+                ),
+                pageList: null,
+                navLists: null
+            );
+            await TestSuccessfulReadOperation(NCX_FILE_WITH_ESCAPED_CONTENT_SRC_ATTRIBUTE, expectedEpub2Ncx);
         }
 
         [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'content' XML element has no 'src' attribute")]

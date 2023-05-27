@@ -241,7 +241,7 @@ namespace VersOne.Epub.Internal
                         id = attributeValue;
                         break;
                     case "src":
-                        source = attributeValue;
+                        source = Uri.UnescapeDataString(attributeValue);
                         break;
                 }
             }

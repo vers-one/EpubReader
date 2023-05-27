@@ -145,6 +145,20 @@ namespace VersOne.Epub.Test.Unit.Readers
             </html>
             """;
 
+        private const string NAV_FILE_WITH_ESCAPED_HREF_IN_A_ELEMENT = """
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+              <body>
+                <nav epub:type="toc">
+                  <ol>
+                    <li>
+                      <a href="chapter%31.html">Chapter 1</a>
+                    </li>
+                  </ol>
+                </nav>
+              </body>
+            </html>
+            """;
+
         private static EpubPackage MinimalEpubPackageWithNav =>
             new
             (
@@ -400,6 +414,37 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadEpub3NavDocumentAsyncWithEmptyLiElement()
         {
             await TestFailingReadOperation(NAV_FILE_WITH_EMPTY_LI_ELEMENT);
+        }
+
+        [Fact(DisplayName = "Reading a NAV file with a URI-escaped 'href' attribute in an 'a' XML element should succeed")]
+        public async void ReadEpub3NavDocumentAsyncWithEscapedAHrefTest()
+        {
+            Epub3NavDocument expectedEpub3NavDocument = new
+            (
+                filePath: NAV_FILE_PATH,
+                navs: new List<Epub3Nav>()
+                {
+                    new Epub3Nav
+                    (
+                        type: Epub3StructuralSemanticsProperty.TOC,
+                        ol: new Epub3NavOl
+                        (
+                            lis: new List<Epub3NavLi>()
+                            {
+                                new Epub3NavLi
+                                (
+                                    anchor: new Epub3NavAnchor
+                                    (
+                                        href: "chapter1.html",
+                                        text: "Chapter 1"
+                                    )
+                                )
+                            }
+                        )
+                    )
+                }
+            );
+            await TestSuccessfulReadOperation(NAV_FILE_WITH_ESCAPED_HREF_IN_A_ELEMENT, expectedEpub3NavDocument);
         }
 
         private static async Task TestSuccessfulReadOperation(string navFileContent, Epub3NavDocument expectedEpub3NavDocument, EpubReaderOptions? epubReaderOptions = null)

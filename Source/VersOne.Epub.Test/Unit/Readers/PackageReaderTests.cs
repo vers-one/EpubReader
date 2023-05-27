@@ -165,6 +165,17 @@ namespace VersOne.Epub.Test.Unit.Readers
             </package>
             """;
 
+        private const string OPF_FILE_WITH_ESCAPED_HREF_IN_MANIFEST_ITEM = $"""
+            <?xml version='1.0' encoding='UTF-8'?>
+            <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+              <metadata />
+              <manifest>
+                <item id="item-1" href="chapter%31.html" media-type="application/xhtml+xml" />
+              </manifest>
+              <spine />
+            </package>
+            """;
+
         private const string OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM = $"""
             <?xml version='1.0' encoding='UTF-8'?>
             <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
@@ -741,6 +752,33 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async void ReadPackageWithoutManifestItemIdWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM, MinimalEpub3Package);
+        }
+
+        [Fact(DisplayName = "Read an OPF package with a URI-escaped 'href' attribute in a manifest item XML node should succeed")]
+        public async void ReadPackageWithEscapedManifestItemHrefTest()
+        {
+            EpubPackage expectedPackage = new
+            (
+                uniqueIdentifier: null,
+                epubVersion: EpubVersion.EPUB_3,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest
+                (
+                    id: null,
+                    items: new List<EpubManifestItem>()
+                    {
+                        new EpubManifestItem
+                        (
+                            id: "item-1",
+                            href: "chapter1.html",
+                            mediaType: "application/xhtml+xml"
+                        )
+                    }
+                ),
+                spine: new EpubSpine(),
+                guide: null
+            );
+            await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITH_ESCAPED_HREF_IN_MANIFEST_ITEM, expectedPackage);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node should fail with EpubPackageException")]
