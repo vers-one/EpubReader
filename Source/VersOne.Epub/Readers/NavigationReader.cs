@@ -41,7 +41,7 @@ namespace VersOne.Epub.Internal
                     Epub2NcxNavigationLabel? firstNavigationLabel = navigationPoint.NavigationLabels.FirstOrDefault() ??
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: navigation point \"{navigationPoint.Id}\" should contain at least one navigation label.");
                     string title = firstNavigationLabel.Text;
-                    string source = Uri.UnescapeDataString(navigationPoint.Content.Source);
+                    string source = navigationPoint.Content.Source;
                     if (!ContentPathUtils.IsLocalPath(source))
                     {
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" cannot be a remote resource.");
@@ -100,7 +100,7 @@ namespace VersOne.Epub.Internal
                         List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, epub3NavLi.ChildOl, epub3NavigationBaseDirectoryPath);
                         if (navAnchor.Href != null)
                         {
-                            string href = Uri.UnescapeDataString(navAnchor.Href);
+                            string href = navAnchor.Href;
                             if (!ContentPathUtils.IsLocalPath(href))
                             {
                                 throw new Epub3NavException($"Incorrect EPUB 3 navigation document: anchor href \"{href}\" cannot be a remote resource.");

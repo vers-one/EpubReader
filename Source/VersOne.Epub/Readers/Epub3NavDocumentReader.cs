@@ -170,7 +170,7 @@ namespace VersOne.Epub.Internal
                 switch (navAnchorNodeAttribute.GetLowerCaseLocalName())
                 {
                     case "href":
-                        href = attributeValue;
+                        href = Uri.UnescapeDataString(attributeValue);
                         break;
                     case "title":
                         title = attributeValue;
