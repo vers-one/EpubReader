@@ -1,37 +1,13 @@
-﻿using Newtonsoft.Json;
-using VersOne.Epub.Internal;
+﻿using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
-using Xunit.Abstractions;
 
 namespace VersOne.Epub.Test.Unit.Readers
 {
     public class PackageReaderTests
     {
-        public class ReadPackageTestData : IXunitSerializable
-        {
-            public required string Name { get; init; }
-            public required string OpfFileContent { get; init; }
-            public required EpubPackage ExpectedEpubPackage { get; init; }
-
-            public void Deserialize(IXunitSerializationInfo info)
-            {
-                JsonConvert.PopulateObject(info.GetValue<string>("Value"), this);
-            }
-
-            public void Serialize(IXunitSerializationInfo info)
-            {
-                info.AddValue("Value", JsonConvert.SerializeObject(this));
-            }
-
-            public override string ToString()
-            {
-                return Name;
-            }
-        }
-
         private const string CONTAINER_FILE_PATH = "META-INF/container.xml";
         private const string OPF_FILE_PATH = "content.opf";
 
@@ -671,27 +647,21 @@ namespace VersOne.Epub.Test.Unit.Readers
                 guide: null
             );
 
-        public static TheoryData<ReadPackageTestData> ReadMinimalPackageAsyncTestData
+        public static IEnumerable<object[]> ReadMinimalPackageAsyncTestData
         {
             get
             {
-                return new()
-                {
-                    new ReadPackageTestData { Name = "Minimal EPUB 2 package", OpfFileContent = MINIMAL_EPUB2_OPF_FILE, ExpectedEpubPackage = MinimalEpub2Package },
-                    new ReadPackageTestData { Name = "Minimal EPUB 3 package", OpfFileContent = MINIMAL_EPUB3_OPF_FILE, ExpectedEpubPackage = MinimalEpub3Package },
-                    new ReadPackageTestData { Name = "Minimal EPUB 3.1 package", OpfFileContent = MINIMAL_EPUB3_1_OPF_FILE, ExpectedEpubPackage = MinimalEpub31Package }
-                };
+                yield return new object[] { MINIMAL_EPUB2_OPF_FILE, MinimalEpub2Package };
+                yield return new object[] { MINIMAL_EPUB3_OPF_FILE, MinimalEpub3Package };
+                yield return new object[] { MINIMAL_EPUB3_1_OPF_FILE, MinimalEpub31Package };
             }
         }
 
-        public static TheoryData<ReadPackageTestData> ReadFullPackageAsyncTestData
+        public static IEnumerable<object[]> ReadFullPackageAsyncTestData
         {
             get
             {
-                return new()
-                {
-                    new ReadPackageTestData { Name = "Full EPUB 3 package", OpfFileContent = FULL_OPF_FILE, ExpectedEpubPackage = FullPackage },
-                };
+                yield return new object[] { FULL_OPF_FILE, FullPackage };
             }
         }
 
@@ -709,16 +679,16 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         [Theory(DisplayName = "Reading a minimal OPF package should succeed")]
         [MemberData(nameof(ReadMinimalPackageAsyncTestData))]
-        public async Task ReadMinimalPackageAsyncTest(ReadPackageTestData testData)
+        public async Task ReadMinimalPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
         {
-            await TestSuccessfulReadOperation(testData.OpfFileContent, testData.ExpectedEpubPackage);
+            await TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage);
         }
 
         [Theory(DisplayName = "Reading a full OPF package should succeed")]
         [MemberData(nameof(ReadFullPackageAsyncTestData))]
-        public async Task ReadFullPackageAsyncTest(ReadPackageTestData testData)
+        public async Task ReadFullPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
         {
-            await TestSuccessfulReadOperation(testData.OpfFileContent, testData.ExpectedEpubPackage);
+            await TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage);
         }
          
         [Fact(DisplayName = "Trying to read OPF package from the EPUB file with no OPF package should fail with EpubContainerException")]
