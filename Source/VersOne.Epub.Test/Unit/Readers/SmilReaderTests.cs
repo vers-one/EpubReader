@@ -163,7 +163,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     seqs: new List<SmilSeq>(),
                     pars: new List<SmilPar>()
                     {
-                        new SmilPar
+                        new
                         (
                             id: null,
                             epubTypes: null,
@@ -198,8 +198,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                     (
                         items: new List<XElement>()
                         {
-                            new XElement(SmilXmlNamespace + "item1", "value1"),
-                            new XElement(SmilXmlNamespace + "item2", "value2")
+                            new(SmilXmlNamespace + "item1", "value1"),
+                            new(SmilXmlNamespace + "item2", "value2")
                         }
                     )
                 ),
@@ -213,7 +213,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     epubTextRef: "chapter1.html",
                     seqs: new List<SmilSeq>()
                     {
-                        new SmilSeq
+                        new
                         (
                             id: "seq1",
                             epubTypes: new List<Epub3StructuralSemanticsProperty>()
@@ -223,7 +223,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                             epubTextRef: "chapter1.html#section1",
                             seqs: new List<SmilSeq>()
                             {
-                                new SmilSeq
+                                new
                                 (
                                     id: "seq2",
                                     epubTypes: null,
@@ -231,7 +231,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                     seqs: new List<SmilSeq>(),
                                     pars: new List<SmilPar>()
                                     {
-                                        new SmilPar
+                                        new
                                         (
                                             id: "par3",
                                             epubTypes: new List<Epub3StructuralSemanticsProperty>()
@@ -251,7 +251,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                                 clipEnd: "0:24:28.764"
                                             )
                                         ),
-                                        new SmilPar
+                                        new
                                         (
                                             id: "par4",
                                             epubTypes: new List<Epub3StructuralSemanticsProperty>()
@@ -276,7 +276,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                             },
                             pars: new List<SmilPar>()
                             {
-                                new SmilPar
+                                new
                                 (
                                     id: "par1",
                                     epubTypes: null,
@@ -293,7 +293,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                         clipEnd: "0:23:59.003"
                                     )
                                 ),
-                                new SmilPar
+                                new
                                 (
                                     id: "par2",
                                     epubTypes: null,
@@ -334,7 +334,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     seqs: new List<SmilSeq>(),
                     pars: new List<SmilPar>()
                     {
-                        new SmilPar
+                        new
                         (
                             id: null,
                             epubTypes: null,
@@ -369,19 +369,19 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Reading a minimal SMIL file should succeed")]
-        public async void ReadSmilAsyncWithMinimalSmilFileTest()
+        public async Task ReadSmilAsyncWithMinimalSmilFileTest()
         {
             await TestSuccessfulReadOperation(MINIMAL_SMIL_FILE, MinimalSmil);
         }
 
         [Fact(DisplayName = "Reading a full SMIL file should succeed")]
-        public async void ReadSmilAsyncWithFullSmilFileTest()
+        public async Task ReadSmilAsyncWithFullSmilFileTest()
         {
             await TestSuccessfulReadOperation(FULL_SMIL_FILE, FullSmil);
         }
 
         [Fact(DisplayName = "Reading all SMIL documents in a EPUB package should succeed")]
-        public async void ReadAllSmilDocumentsAsyncTest()
+        public async Task ReadAllSmilDocumentsAsyncTest()
         {
             TestZipFile testZipFile = new();
             string chapter1SmilFileName = "chapter1.smil";
@@ -398,7 +398,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if EPUB file is missing the specified SMIL file")]
-        public async void ReadSmilAsyncWithoutSmilFileTest()
+        public async Task ReadSmilAsyncWithoutSmilFileTest()
         {
             TestZipFile testZipFile = new();
             SmilReader smilReader = new();
@@ -406,7 +406,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the SMIL file is larger than 2 GB")]
-        public async void ReadSmilAsyncWithLargeSmilFileTest()
+        public async Task ReadSmilAsyncWithLargeSmilFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(SMIL_FILE_PATH, new Test4GbZipFileEntry());
@@ -415,55 +415,55 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the SMIL file has no 'smil' XML element")]
-        public async void ReadSmilAsyncWithoutSmilElementTest()
+        public async Task ReadSmilAsyncWithoutSmilElementTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_SMIL_ELEMENT);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the SMIL version in the file is not 3.0")]
-        public async void ReadSmilAsyncWithWrongSmilVersionTest()
+        public async Task ReadSmilAsyncWithWrongSmilVersionTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITH_WRONG_SMIL_VERSION);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the 'smil' XML element has no 'body' element")]
-        public async void ReadSmilAsyncWithoutBodyElementTest()
+        public async Task ReadSmilAsyncWithoutBodyElementTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_BODY_ELEMENT);
         }
 
         [Fact(DisplayName = "Non-metadata XML elements in the 'head' element should be ignored")]
-        public async void ReadSmilAsyncWithNonMetadataElementsInHeadTest()
+        public async Task ReadSmilAsyncWithNonMetadataElementsInHeadTest()
         {
             await TestSuccessfulReadOperation(MINIMAL_SMIL_FILE_WITH_NON_METADATA_ELEMENT_IN_HEAD, MinimalSmilWithEmptyHead);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the 'body' XML element has neither 'seq' nor 'par' elements")]
-        public async void ReadSmilAsyncWithoutSeqAndParElementsInBodyTest()
+        public async Task ReadSmilAsyncWithoutSeqAndParElementsInBodyTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_SEQ_AND_PAR_ELEMENTS_IN_BODY);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the 'seq' XML element has neither 'seq' nor 'par' elements")]
-        public async void ReadSmilAsyncWithoutSeqAndParElementsInSeqTest()
+        public async Task ReadSmilAsyncWithoutSeqAndParElementsInSeqTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_SEQ_AND_PAR_ELEMENTS_IN_SEQ);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the 'par' XML element has no 'text' element")]
-        public async void ReadSmilAsyncWithoutTextElementInParTest()
+        public async Task ReadSmilAsyncWithoutTextElementInParTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_TEXT_ELEMENT_IN_PAR);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the 'text' XML element has no 'src' attribute")]
-        public async void ReadSmilAsyncWithoutTextSrcAttributeTest()
+        public async Task ReadSmilAsyncWithoutTextSrcAttributeTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_TEXT_SRC_ATTRIBUTE);
         }
 
         [Fact(DisplayName = "ReadSmilAsync should throw EpubSmilException if the 'audio' XML element has no 'src' attribute")]
-        public async void ReadSmilAsyncWithoutAudioSrcAttributeTest()
+        public async Task ReadSmilAsyncWithoutAudioSrcAttributeTest()
         {
             await TestFailingReadOperation(SMIL_FILE_WITHOUT_AUDIO_SRC_ATTRIBUTE);
         }

@@ -11,9 +11,9 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Common
         [InlineData("test-unknown-property", EpubTextDirection.UNKNOWN)]
         [InlineData("", EpubTextDirection.UNKNOWN)]
         [InlineData(null, EpubTextDirection.UNKNOWN)]
-        public void ParseTest(string stringValue, EpubTextDirection expectedTextDirection)
+        public void ParseTest(string? stringValue, EpubTextDirection expectedTextDirection)
         {
-            EpubTextDirection actualTextDirection = EpubTextDirectionParser.Parse(stringValue);
+            EpubTextDirection actualTextDirection = EpubTextDirectionParser.Parse(stringValue!);
             Assert.Equal(expectedTextDirection, actualTextDirection);
         }
     }

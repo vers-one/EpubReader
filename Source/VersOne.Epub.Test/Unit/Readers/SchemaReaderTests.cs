@@ -126,7 +126,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Reading a typical schema from a EPUB file should succeed")]
-        public async void ReadSchemaAsyncTest()
+        public async Task ReadSchemaAsyncTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, META_INF_CONTAINER_FILE);
@@ -144,21 +144,21 @@ namespace VersOne.Epub.Test.Unit.Readers
                     (
                         titles: new List<EpubMetadataTitle>()
                         {
-                            new EpubMetadataTitle
+                            new
                             (
                                 title: "Test title"
                             )
                         },
                         creators: new List<EpubMetadataCreator>()
                         {
-                            new EpubMetadataCreator
+                            new
                             (
                                 creator: "John Doe"
                             )
                         },
                         identifiers: new List<EpubMetadataIdentifier>()
                         {
-                            new EpubMetadataIdentifier
+                            new
                             (
                                 identifier: "9781234567890",
                                 id: "book-uid"
@@ -169,19 +169,19 @@ namespace VersOne.Epub.Test.Unit.Readers
                     (
                         items: new List<EpubManifestItem>()
                         {
-                            new EpubManifestItem
+                            new
                             (
                                 id: "item-1",
                                 href: "chapter1.html",
                                 mediaType: "application/xhtml+xml"
                             ),
-                            new EpubManifestItem
+                            new
                             (
                                 id: "item-2",
                                 href: "chapter2.html",
                                 mediaType: "application/xhtml+xml"
                             ),
-                            new EpubManifestItem
+                            new
                             (
                                 id: "item-toc",
                                 href: NAV_FILE_NAME,
@@ -191,7 +191,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                     EpubManifestProperty.NAV
                                 }
                             ),
-                            new EpubManifestItem
+                            new
                             (
                                 id: "ncx",
                                 href: NCX_FILE_NAME,
@@ -204,13 +204,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                         toc: "ncx",
                         items: new List<EpubSpineItemRef>()
                         {
-                            new EpubSpineItemRef
+                            new
                             (
                                 id: "itemref-1",
                                 idRef: "item-1",
                                 isLinear: true
                             ),
-                            new EpubSpineItemRef
+                            new
                             (
                                 id: "itemref-2",
                                 idRef: "item-2",
@@ -227,7 +227,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     (
                         items: new List<Epub2NcxHeadMeta>()
                         {
-                            new Epub2NcxHeadMeta
+                            new
                             (
                                 name: "dtb:uid",
                                 content: "9781234567890"
@@ -243,12 +243,12 @@ namespace VersOne.Epub.Test.Unit.Readers
                     (
                         items: new List<Epub2NcxNavigationPoint>()
                         {
-                            new Epub2NcxNavigationPoint
+                            new
                             (
                                 id: "navpoint-1",
                                 navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    new Epub2NcxNavigationLabel
+                                    new
                                     (
                                         text: "Chapter 1"
                                     )
@@ -258,12 +258,12 @@ namespace VersOne.Epub.Test.Unit.Readers
                                     source: "chapter1.html"
                                 )
                             ),
-                            new Epub2NcxNavigationPoint
+                            new
                             (
                                 id: "navpoint-2",
                                 navigationLabels: new List<Epub2NcxNavigationLabel>()
                                 {
-                                    new Epub2NcxNavigationLabel
+                                    new
                                     (
                                         text: "Chapter 2"
                                     )
@@ -281,14 +281,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                     filePath: NAV_FILE_PATH,
                     navs: new List<Epub3Nav>()
                     {
-                        new Epub3Nav
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
                                 {
-                                    new Epub3NavLi
+                                    new
                                     (
                                         anchor: new Epub3NavAnchor
                                         (
@@ -296,7 +296,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                             text: "Chapter 1"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
                                         anchor: new Epub3NavAnchor
                                         (
@@ -311,7 +311,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 ),
                 mediaOverlays: new List<Smil>()
                 {
-                    new Smil
+                    new
                     (
                         id: null,
                         version: SmilVersion.SMIL_3,
@@ -325,7 +325,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                             seqs: new List<SmilSeq>(),
                             pars: new List<SmilPar>()
                             {
-                                new SmilPar
+                                new
                                 (
                                     id: "sentence1",
                                     epubTypes: null,
@@ -342,7 +342,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                         clipEnd: "10s"
                                     )
                                 ),
-                                new SmilPar
+                                new
                                 (
                                     id: "sentence2",
                                     epubTypes: null,
@@ -359,7 +359,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                         clipEnd: "20s"
                                     )
                                 ),
-                                new SmilPar
+                                new
                                 (
                                     id: "sentence3",
                                     epubTypes: null,

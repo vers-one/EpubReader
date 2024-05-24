@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net7.0</TargetFramework>
-        <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-        <Authors>vers</Authors>
-        <Copyright>vers, 2015-2022</Copyright>
-        <Version>3.3.1</Version>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+		<Authors>vers</Authors>
+		<Copyright>vers, 2015-2024</Copyright>
+		<Version>3.3.1</Version>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<DocumentationFile></DocumentationFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
-    <ItemGroup>
-      <AdditionalFiles Include="stylecop.json" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.0.0.68202">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.406">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\VersOne.Epub\VersOne.Epub.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<AdditionalFiles Include="stylecop.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="9.25.0.90414">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.406">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\VersOne.Epub\VersOne.Epub.csproj" />
+	</ItemGroup>
 </Project>

@@ -46,7 +46,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Opening a full EPUB book from a file asynchronously should succeed")]
-        public async void OpenBookFromFileAsyncTest()
+        public async Task OpenBookFromFileAsyncTest()
         {
             TestZipFile testEpubFile = TestEpubFiles.CreateFullTestEpubFile();
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
@@ -80,7 +80,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Opening a full EPUB book from a stream asynchronously should succeed")]
-        public async void OpenBookFromStreamAsyncTest()
+        public async Task OpenBookFromStreamAsyncTest()
         {
             TestZipFile testEpubFile = TestEpubFiles.CreateFullTestEpubFile();
             MemoryStream epubFileStream = new();
@@ -99,7 +99,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "OpenBookAsync should throw FileNotFoundException if the specified file does not exist")]
-        public async void OpenBookFromFileAsyncWithMissingFileTest()
+        public async Task OpenBookFromFileAsyncWithMissingFileTest()
         {
             BookRefReader bookRefReader = new(environmentDependencies, null);
             await Assert.ThrowsAsync<FileNotFoundException>(() => bookRefReader.OpenBookAsync(EPUB_FILE_PATH));
@@ -115,7 +115,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "OpenBookAsync should rethrow EPUB parsing exceptions")]
-        public async void OpenBookFromFileAsyncWithIncorrectEpubTest()
+        public async Task OpenBookFromFileAsyncWithIncorrectEpubTest()
         {
             TestZipFile incorrectEpubFile = new();
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, incorrectEpubFile);

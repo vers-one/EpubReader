@@ -27,20 +27,20 @@ namespace VersOne.Epub.Test.Unit.Utils
             );
 
         [Fact(DisplayName = "Loading a regular XML 1.0 file should succeed")]
-        public async void TestXml10File()
+        public async Task TestXml10File()
         {
             XDocument actualXDocument = await XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_0_FILE), new XmlReaderOptions());
             CompareXDocuments(ExpectedXDocument, actualXDocument);
         }
 
         [Fact(DisplayName = "Loading an XML 1.1 file with XmlReaderOptions.SkipXmlHeaders = false should throw XmlException")]
-        public async void TestXml11FileThrowsException()
+        public async Task TestXml11FileThrowsException()
         {
             await Assert.ThrowsAsync<XmlException>(() => XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_1_FILE), new XmlReaderOptions()));
         }
 
         [Fact(DisplayName = "Loading an XML 1.1 file with null XmlReaderOptions should throw XmlException")]
-        public async void TestXml11FileWithNullXmlReaderOptionsThrowsException()
+        public async Task TestXml11FileWithNullXmlReaderOptionsThrowsException()
         {
             await Assert.ThrowsAsync<XmlException>(() => XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_1_FILE), null));
         }
@@ -48,7 +48,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [Theory(DisplayName = "Loading either an XML 1.1 file or an XML file without a header with XmlReaderOptions.SkipXmlHeaders = true should succeed")]
         [InlineData(XML_1_1_FILE)]
         [InlineData(XML_BODY)]
-        public async void TestXml11FileWorkaround(string xmlFileContent)
+        public async Task TestXml11FileWorkaround(string xmlFileContent)
         {
             XmlReaderOptions xmlReaderOptions = new()
             {
@@ -59,7 +59,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         }
 
         [Fact(DisplayName = "Loading a file with just XML 1.1 header and no other content with XmlReaderOptions.SkipXmlHeaders = true should throw XmlException")]
-        public async void TestXml11EmptyFileThrowsException()
+        public async Task TestXml11EmptyFileThrowsException()
         {
             XmlReaderOptions xmlReaderOptions = new()
             {
@@ -68,13 +68,13 @@ namespace VersOne.Epub.Test.Unit.Utils
             await Assert.ThrowsAsync<XmlException>(() => XmlUtils.LoadDocumentAsync(StreamUtils.CreateMemoryStreamForString(XML_1_1_HEADER), xmlReaderOptions));
         }
 
-        private void CompareXDocuments(XDocument expected, XDocument actual)
+        private static void CompareXDocuments(XDocument expected, XDocument actual)
         {
             Assert.NotNull(actual);
             CompareXElements(expected.Root, actual.Root);
         }
 
-        private void CompareXElements(XElement? expected, XElement? actual)
+        private static void CompareXElements(XElement? expected, XElement? actual)
         {
             if (expected == null)
             {

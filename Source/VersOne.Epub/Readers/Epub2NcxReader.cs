@@ -27,7 +27,7 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubManifestItem tocManifestItem = package.Manifest.Items.FirstOrDefault(item => item.Id.CompareOrdinalIgnoreCase(tocId)) ??
+            EpubManifestItem tocManifestItem = package.Manifest.Items.Find(item => item.Id.CompareOrdinalIgnoreCase(tocId)) ??
                 throw new Epub2NcxException($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
             string tocFileEntryPath = ContentPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
             IZipFileEntry? tocFileEntry = epubFile.GetEntry(tocFileEntryPath) ??

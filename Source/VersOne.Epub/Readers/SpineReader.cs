@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using VersOne.Epub.Schema;
 
 namespace VersOne.Epub.Internal
@@ -11,7 +10,7 @@ namespace VersOne.Epub.Internal
             List<EpubLocalTextContentFileRef> result = new();
             foreach (EpubSpineItemRef spineItemRef in epubSchema.Package.Spine.Items)
             {
-                EpubManifestItem manifestItem = epubSchema.Package.Manifest.Items.FirstOrDefault(item => item.Id == spineItemRef.IdRef) ??
+                EpubManifestItem manifestItem = epubSchema.Package.Manifest.Items.Find(item => item.Id == spineItemRef.IdRef) ??
                     throw new EpubPackageException($"Incorrect EPUB spine: item with IdRef = \"{spineItemRef.IdRef}\" is missing in the manifest.");
                 if (epubContentRef.Html.ContainsRemoteFileRefWithUrl(manifestItem.Href))
                 {

@@ -139,9 +139,9 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
         [InlineData("test-unknown-property", Epub3StructuralSemanticsProperty.UNKNOWN)]
         [InlineData("", Epub3StructuralSemanticsProperty.UNKNOWN)]
         [InlineData(null, Epub3StructuralSemanticsProperty.UNKNOWN)]
-        public void ParseTest(string stringValue, Epub3StructuralSemanticsProperty expectedStructuralSemanticsProperty)
+        public void ParseTest(string? stringValue, Epub3StructuralSemanticsProperty expectedStructuralSemanticsProperty)
         {
-            Epub3StructuralSemanticsProperty actualStructuralSemanticsProperty = Epub3StructuralSemanticsPropertyParser.ParseProperty(stringValue);
+            Epub3StructuralSemanticsProperty actualStructuralSemanticsProperty = Epub3StructuralSemanticsPropertyParser.ParseProperty(stringValue!);
             Assert.Equal(expectedStructuralSemanticsProperty, actualStructuralSemanticsProperty);
         }
     }

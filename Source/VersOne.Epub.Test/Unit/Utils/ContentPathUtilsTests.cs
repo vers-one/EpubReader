@@ -48,9 +48,9 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData(null, "../File.html", "../File.html")]
         [InlineData("Directory", null, "Directory")]
         [InlineData(null, null, null)]
-        public void CombineTest(string directory, string fileName, string expectedResult)
+        public void CombineTest(string? directory, string? fileName, string? expectedResult)
         {
-            string actualResult = ContentPathUtils.Combine(directory, fileName);
+            string actualResult = ContentPathUtils.Combine(directory!, fileName!);
             Assert.Equal(expectedResult, actualResult);
         }
     }

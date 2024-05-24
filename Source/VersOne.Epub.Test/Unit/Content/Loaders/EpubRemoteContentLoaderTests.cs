@@ -49,7 +49,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "Loading text file content asynchronously should succeed")]
-        public async void LoadContentAsTextAsyncTest()
+        public async Task LoadContentAsTextAsyncTest()
         {
             TestContentDownloader testContentDownloader = new(TEXT_FILE_HREF, TEXT_FILE_CONTENT);
             EpubRemoteContentLoader epubRemoteContentLoader = CreateEpubRemoteContentLoader(testContentDownloader);
@@ -67,7 +67,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "Loading byte file content asynchronously should succeed")]
-        public async void LoadContentAsBytesAsyncTest()
+        public async Task LoadContentAsBytesAsyncTest()
         {
             TestContentDownloader testContentDownloader = new(BYTE_FILE_HREF, BYTE_FILE_CONTENT);
             EpubRemoteContentLoader epubRemoteContentLoader = CreateEpubRemoteContentLoader(testContentDownloader);
@@ -86,7 +86,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "Getting file content stream asynchronously should succeed")]
-        public async void GetContentStreamAsyncTest()
+        public async Task GetContentStreamAsyncTest()
         {
             using MemoryStream testContentStream = new();
             TestContentDownloader testContentDownloader = new(TEXT_FILE_HREF, testContentStream);
@@ -120,7 +120,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentDownloaderException if ContentDownloaderOptions.DownloadContent is false")]
-        public async void LoadContentAsTextAsyncWithDownloadContentFalseTest()
+        public async Task LoadContentAsTextAsyncWithDownloadContentFalseTest()
         {
             ContentDownloaderOptions contentDownloaderOptions = new()
             {
@@ -142,7 +142,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentDownloaderException if ContentDownloaderOptions.DownloadContent is false")]
-        public async void LoadContentAsBytesAsyncWithDownloadContentFalseTest()
+        public async Task LoadContentAsBytesAsyncWithDownloadContentFalseTest()
         {
             ContentDownloaderOptions contentDownloaderOptions = new()
             {
@@ -164,7 +164,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentDownloaderException if ContentDownloaderOptions.DownloadContent is false")]
-        public async void GetContentStreamAsyncWithDownloadContentFalseTest()
+        public async Task GetContentStreamAsyncWithDownloadContentFalseTest()
         {
             ContentDownloaderOptions contentDownloaderOptions = new()
             {

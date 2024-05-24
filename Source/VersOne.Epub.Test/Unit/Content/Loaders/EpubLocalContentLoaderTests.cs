@@ -65,7 +65,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "Loading content of an existing text file asynchronously should succeed")]
-        public async void LoadContentAsTextAsyncTest()
+        public async Task LoadContentAsTextAsyncTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, TEXT_FILE_CONTENT);
@@ -85,7 +85,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "Loading content of an existing byte file asynchronously should succeed")]
-        public async void LoadContentAsBytesAsyncTest()
+        public async Task LoadContentAsBytesAsyncTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(BYTE_FILE_PATH, BYTE_FILE_CONTENT);
@@ -106,7 +106,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "Getting content stream of an existing file asynchronously should succeed")]
-        public async void GetContentStreamAsyncTest()
+        public async Task GetContentStreamAsyncTest()
         {
             TestZipFile testZipFile = new();
             using MemoryStream testContentStream = new();
@@ -138,7 +138,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentException if the file is missing in the EPUB archive")]
-        public async void LoadContentAsTextAsyncWithMissingFileTest()
+        public async Task LoadContentAsTextAsyncWithMissingFileTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
@@ -154,7 +154,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is missing in the EPUB archive")]
-        public async void LoadContentAsBytesAsyncWithMissingFileTest()
+        public async Task LoadContentAsBytesAsyncWithMissingFileTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
@@ -170,7 +170,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentException if the file is missing in the EPUB archive")]
-        public async void GetContentStreamAsyncWithMissingFileTest()
+        public async Task GetContentStreamAsyncWithMissingFileTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
@@ -187,7 +187,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentException if the file is larger than 2 GB")]
-        public async void LoadContentAsTextAsyncWithLargeFileTest()
+        public async Task LoadContentAsTextAsyncWithLargeFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
@@ -205,7 +205,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is larger than 2 GB")]
-        public async void LoadContentAsBytesAsyncWithLargeFileTest()
+        public async Task LoadContentAsBytesAsyncWithLargeFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(BYTE_FILE_PATH, new Test4GbZipFileEntry());
@@ -223,7 +223,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentException if the file is larger than 2 GB")]
-        public async void GetContentStreamAsyncWithLargeFileTest()
+        public async Task GetContentStreamAsyncWithLargeFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
@@ -241,7 +241,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsTextAsync should throw ObjectDisposedException if the EPUB file is disposed")]
-        public async void LoadContentAsTextAsyncWithDisposedEpubFileTest()
+        public async Task LoadContentAsTextAsyncWithDisposedEpubFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.Dispose();
@@ -259,7 +259,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "LoadContentAsBytesAsync should throw ObjectDisposedException if the EPUB file is disposed")]
-        public async void LoadContentAsBytesAsyncWithDisposedEpubFileTest()
+        public async Task LoadContentAsBytesAsyncWithDisposedEpubFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.Dispose();
@@ -277,7 +277,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         }
 
         [Fact(DisplayName = "GetContentStreamAsync should throw ObjectDisposedException if the EPUB file is disposed")]
-        public async void GetContentStreamAsyncWithDisposedEpubFileTest()
+        public async Task GetContentStreamAsyncWithDisposedEpubFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.Dispose();
