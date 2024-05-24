@@ -40,7 +40,7 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubMetadataMeta coverMetaItem = metaItems.FirstOrDefault(metaItem => metaItem.Name.CompareOrdinalIgnoreCase("cover"));
+            EpubMetadataMeta coverMetaItem = metaItems.Find(metaItem => metaItem.Name.CompareOrdinalIgnoreCase("cover"));
             if (coverMetaItem == null)
             {
                 return null;
@@ -50,7 +50,7 @@ namespace VersOne.Epub.Internal
                 throw new EpubPackageException("Incorrect EPUB metadata: cover item content is missing.");
             }
             EpubManifestItem coverManifestItem =
-                epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content)) ??
+                epubSchema.Package.Manifest.Items.Find(manifestItem => manifestItem.Id.CompareOrdinalIgnoreCase(coverMetaItem.Content)) ??
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{coverMetaItem.Content}\" is missing.");
             EpubLocalByteContentFileRef result = GetCoverImageContentRef(imageContentRefs, coverManifestItem.Href) ??
                 throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{coverManifestItem.Href}\" is missing.");
@@ -80,7 +80,7 @@ namespace VersOne.Epub.Internal
         private static EpubLocalByteContentFileRef? ReadEpub3Cover(
             EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs)
         {
-            EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.Items.FirstOrDefault(manifestItem => manifestItem.Properties != null &&
+            EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.Items.Find(manifestItem => manifestItem.Properties != null &&
                 manifestItem.Properties.Contains(EpubManifestProperty.COVER_IMAGE));
             if (coverManifestItem == null || coverManifestItem.Href == null)
             {

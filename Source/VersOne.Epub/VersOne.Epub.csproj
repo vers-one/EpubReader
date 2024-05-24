@@ -2,24 +2,24 @@
     <PropertyGroup>
         <TargetFrameworks>net46;netstandard1.3;netstandard2.0</TargetFrameworks>
         <Authors>vers</Authors>
-        <Copyright>vers, 2015-2022</Copyright>
+        <Copyright>vers, 2015-2024</Copyright>
         <Version>3.3.1</Version>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-		<DocumentationFile></DocumentationFile>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+        <DocumentationFile></DocumentationFile>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <LangVersion>10.0</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.0.0.68202">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.25.0.90414">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.406">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="System.IO.Compression" Version="4.3.0" />
         <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />

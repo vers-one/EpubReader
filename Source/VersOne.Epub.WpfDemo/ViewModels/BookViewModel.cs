@@ -219,7 +219,7 @@ namespace VersOne.Epub.WpfDemo.ViewModels
             ReadingOrder = new ObservableCollection<HtmlContentFileViewModel>(bookModel.GetReadingOrder(epubBook));
             if (ReadingOrder.Any())
             {
-                CurrentHtmlContentFile = ReadingOrder.First();
+                CurrentHtmlContentFile = ReadingOrder[0];
                 if (ReadingOrder.Count > 1)
                 {
                     nextHtmlContentFile = ReadingOrder[1];

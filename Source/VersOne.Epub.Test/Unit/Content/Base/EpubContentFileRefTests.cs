@@ -145,7 +145,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Reading local text content file asynchronously should succeed")]
-        public async void LocalTextContentFileRefReadContentAsyncTest()
+        public async Task LocalTextContentFileRefReadContentAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
             EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
@@ -163,7 +163,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Reading local byte content file asynchronously should succeed")]
-        public async void LocalByteContentFileRefReadContentAsyncTest()
+        public async Task LocalByteContentFileRefReadContentAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
             EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testEpubContentLoader);
@@ -181,7 +181,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Reading local content file as text asynchronously should succeed")]
-        public async void LocalContentFileRefReadContentAsTextAsyncTest()
+        public async Task LocalContentFileRefReadContentAsTextAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
             EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
@@ -199,7 +199,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Reading local content file as bytes asynchronously should succeed")]
-        public async void LocalContentFileRefReadContentAsBytesAsyncTest()
+        public async Task LocalContentFileRefReadContentAsBytesAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
             EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testEpubContentLoader);
@@ -218,7 +218,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Getting local content file stream asynchronously should succeed")]
-        public async void LocalContentFileRefGetContentStreamAsyncTest()
+        public async Task LocalContentFileRefGetContentStreamAsyncTest()
         {
             using MemoryStream testStream = new();
             TestEpubContentLoader testEpubContentLoader = new(testStream);
@@ -237,7 +237,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Downloading remote text content file asynchronously should succeed")]
-        public async void RemoteTextContentFileRefDownloadContentAsyncTest()
+        public async Task RemoteTextContentFileRefDownloadContentAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
             EpubRemoteTextContentFileRef epubRemoteTextContentFileRef = new(RemoteTextFileRefMetadata, testEpubContentLoader);
@@ -255,7 +255,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Downloading remote byte content file asynchronously should succeed")]
-        public async void RemoteByteContentFileRefDownloadContentAsyncTest()
+        public async Task RemoteByteContentFileRefDownloadContentAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
             EpubRemoteByteContentFileRef epubRemoteByteContentFileRef = new(RemoteByteFileRefMetadata, testEpubContentLoader);
@@ -273,7 +273,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Downloading remote content file as text asynchronously should succeed")]
-        public async void RemoteContentFileRefDownloadContentAsTextAsyncTest()
+        public async Task RemoteContentFileRefDownloadContentAsTextAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
             EpubRemoteTextContentFileRef epubRemoteTextContentFileRef = new(RemoteTextFileRefMetadata, testEpubContentLoader);
@@ -291,7 +291,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Downloading remote content file as bytes asynchronously should succeed")]
-        public async void RemoteContentFileRefDownloadContentAsBytesAsyncTest()
+        public async Task RemoteContentFileRefDownloadContentAsBytesAsyncTest()
         {
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
             EpubRemoteByteContentFileRef epubRemoteByteContentFileRef = new(RemoteByteFileRefMetadata, testEpubContentLoader);
@@ -310,7 +310,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         }
 
         [Fact(DisplayName = "Getting remote content file stream asynchronously should succeed")]
-        public async void RemoteContentFileRefGetDownloadingContentStreamAsyncTest()
+        public async Task RemoteContentFileRefGetDownloadingContentStreamAsyncTest()
         {
             MemoryStream testStream = new();
             TestEpubContentLoader testEpubContentLoader = new(testStream);

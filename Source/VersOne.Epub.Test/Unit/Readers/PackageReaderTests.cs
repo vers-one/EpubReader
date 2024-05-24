@@ -332,21 +332,21 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     titles: new List<EpubMetadataTitle>()
                     {
-                        new EpubMetadataTitle
+                        new
                         (
                             title: "Test title"
                         )
                     },
                     creators: new List<EpubMetadataCreator>()
                     {
-                        new EpubMetadataCreator
+                        new
                         (
                             creator: "John Doe"
                         )
                     },
                     identifiers: new List<EpubMetadataIdentifier>()
                     {
-                        new EpubMetadataIdentifier
+                        new
                         (
                             identifier: "9781234567890",
                             id: "book-uid"
@@ -354,14 +354,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                     },
                     languages: new List<EpubMetadataLanguage>()
                     {
-                        new EpubMetadataLanguage
+                        new
                         (
                             language: "en"
                         )
                     },
                     metaItems: new List<EpubMetadataMeta>()
                     {
-                        new EpubMetadataMeta
+                        new
                         (
                             name: null,
                             content: "2021-12-31T00:00:00Z",
@@ -374,19 +374,19 @@ namespace VersOne.Epub.Test.Unit.Readers
                     id: "manifest-id",
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-front",
                             href: "front.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "cover",
                             href: "cover.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "cover-image",
                             href: "cover.jpg",
@@ -396,19 +396,19 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 EpubManifestProperty.COVER_IMAGE
                             }
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-css",
                             href: "styles.css",
                             mediaType: "text/css"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-font",
                             href: "font.ttf",
                             mediaType: "application/x-font-truetype"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-1",
                             href: "chapter1.html",
@@ -420,19 +420,19 @@ namespace VersOne.Epub.Test.Unit.Readers
                             fallbackStyle: null,
                             properties: null
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-1-smil",
                             href: "chapter1.smil",
                             mediaType: "application/smil+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-2",
                             href: "chapter2.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-2-fall",
                             href: "chapter2.xml",
@@ -444,13 +444,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                             fallbackStyle: "item-css",
                             properties: null
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-3",
                             href: "chapter3.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-3-fall",
                             href: "chapter3.xml",
@@ -462,31 +462,31 @@ namespace VersOne.Epub.Test.Unit.Readers
                             fallbackStyle: null,
                             properties: null
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-3-remote-audio",
                             href: "http://example.com/audio/123/chapter3.mp4",
                             mediaType: "audio/mp4"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-image",
                             href: "image.jpg",
                             mediaType: "image/jpeg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-title-audio",
                             href: "title.mp3",
                             mediaType: "audio/mpeg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-atom",
                             href: "book.atom",
                             mediaType: "application/atom+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-toc",
                             href: "toc.html",
@@ -496,7 +496,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 EpubManifestProperty.NAV
                             }
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "ncx",
                             href: "toc.ncx",
@@ -511,25 +511,25 @@ namespace VersOne.Epub.Test.Unit.Readers
                     toc: "ncx",
                     items: new List<EpubSpineItemRef>()
                     {
-                        new EpubSpineItemRef
+                        new
                         (
                             id: "itemref-1",
                             idRef: "item-front",
                             isLinear: true
                         ),
-                        new EpubSpineItemRef
+                        new
                         (
                             id: "itemref-2",
                             idRef: "item-toc",
                             isLinear: false
                         ),
-                        new EpubSpineItemRef
+                        new
                         (
                             id: "itemref-3",
                             idRef: "item-1",
                             isLinear: true
                         ),
-                        new EpubSpineItemRef
+                        new
                         (
                             id: "itemref-4",
                             idRef: "item-2",
@@ -539,7 +539,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 EpubSpineProperty.PAGE_SPREAD_LEFT
                             }
                         ),
-                        new EpubSpineItemRef
+                        new
                         (
                             id: "itemref-5",
                             idRef: "item-3",
@@ -555,7 +555,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     items: new List<EpubGuideReference>()
                     {
-                        new EpubGuideReference
+                        new
                         (
                             type: "toc",
                             title: "Contents",
@@ -565,14 +565,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                 ),
                 collections: new List<EpubCollection>()
                 {
-                    new EpubCollection
+                    new
                     (
                         role: "http://example.org/roles/group",
                         metadata: new EpubMetadata
                         (
                             titles: new List<EpubMetadataTitle>()
                             {
-                                new EpubMetadataTitle
+                                new
                                 (
                                     title: "Test title for collection 1",
                                     id: "collection-1-title",
@@ -583,14 +583,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                         ),
                         nestedCollections: new List<EpubCollection>()
                         {
-                            new EpubCollection
+                            new
                             (
                                 role: "http://example.org/roles/unit",
                                 metadata: new EpubMetadata
                                 (
                                     titles: new List<EpubMetadataTitle>()
                                     {
-                                        new EpubMetadataTitle
+                                        new
                                         (
                                             title: "Test title for collection 2",
                                             id: "collection-2-title",
@@ -608,7 +608,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         },
                         links: new List<EpubMetadataLink>()
                         {
-                            new EpubMetadataLink
+                            new
                             (
                                 href: "https://example.com/onix/123",
                                 id: "collection-1-link",
@@ -679,20 +679,20 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         [Theory(DisplayName = "Reading a minimal OPF package should succeed")]
         [MemberData(nameof(ReadMinimalPackageAsyncTestData))]
-        public async void ReadMinimalPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
+        public async Task ReadMinimalPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
         {
             await TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage);
         }
 
         [Theory(DisplayName = "Reading a full OPF package should succeed")]
         [MemberData(nameof(ReadFullPackageAsyncTestData))]
-        public async void ReadFullPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
+        public async Task ReadFullPackageAsyncTest(string opfFileContent, EpubPackage expectedEpubPackage)
         {
             await TestSuccessfulReadOperation(opfFileContent, expectedEpubPackage);
         }
          
         [Fact(DisplayName = "Trying to read OPF package from the EPUB file with no OPF package should fail with EpubContainerException")]
-        public async void ReadPackageWithNoOpfFileTest()
+        public async Task ReadPackageWithNoOpfFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);
@@ -701,61 +701,61 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Trying to read OPF package with non-supported EPUB version should fail with EpubPackageException")]
-        public async void ReadPackageWithNonSupportedEpubVersionTest()
+        public async Task ReadPackageWithNonSupportedEpubVersionTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITH_NON_SUPPORTED_EPUB_VERSION);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'package' XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutPackageNodeTest()
+        public async Task ReadPackageWithoutPackageNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_PACKAGE);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'metadata' XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutMetadataNodeTest()
+        public async Task ReadPackageWithoutMetadataNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_METADATA);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'manifest' XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestNodeTest()
+        public async Task ReadPackageWithoutManifestNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_MANIFEST);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'spine' XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutSpineNodeTest()
+        public async Task ReadPackageWithoutSpineNodeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_SPINE);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'version' attribute in a package XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutVersionTest()
+        public async Task ReadPackageWithoutVersionTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_VERSION_IN_PACKAGE);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemIdTest()
+        public async Task ReadPackageWithoutManifestItemIdTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemIdWithNullPackageReaderOptionsTest()
+        public async Task ReadPackageWithoutManifestItemIdWithNullPackageReaderOptionsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'id' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
-        public async void ReadPackageWithoutManifestItemIdWithSkippingInvalidManifestItemsTest()
+        public async Task ReadPackageWithoutManifestItemIdWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_ID_IN_MANIFEST_ITEM, MinimalEpub3Package);
         }
 
         [Fact(DisplayName = "Read an OPF package with a URI-escaped 'href' attribute in a manifest item XML node should succeed")]
-        public async void ReadPackageWithEscapedManifestItemHrefTest()
+        public async Task ReadPackageWithEscapedManifestItemHrefTest()
         {
             EpubPackage expectedPackage = new
             (
@@ -767,7 +767,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     id: null,
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-1",
                             href: "chapter1.html",
@@ -782,79 +782,79 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemHrefTest()
+        public async Task ReadPackageWithoutManifestItemHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemHrefWithNullPackageReaderOptionsTest()
+        public async Task ReadPackageWithoutManifestItemHrefWithNullPackageReaderOptionsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
-        public async void ReadPackageWithoutManifestItemHrefWithSkippingInvalidManifestItemsTest()
+        public async Task ReadPackageWithoutManifestItemHrefWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_HREF_IN_MANIFEST_ITEM, MinimalEpub3Package);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemMediaTypeTest()
+        public async Task ReadPackageWithoutManifestItemMediaTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadPackageWithoutManifestItemMediaTypeWithNullPackageReaderOptionsTest()
+        public async Task ReadPackageWithoutManifestItemMediaTypeWithNullPackageReaderOptionsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'media-type' attribute in a manifest item XML node with SkipInvalidManifestItems = true should succeed")]
-        public async void ReadPackageWithoutManifestItemMediaTypeWithSkippingInvalidManifestItemsTest()
+        public async Task ReadPackageWithoutManifestItemMediaTypeWithSkippingInvalidManifestItemsTest()
         {
             await TestSuccessfulReadOperationWithSkippingInvalidManifestItems(OPF_FILE_WITHOUT_MEDIA_TYPE_IN_MANIFEST_ITEM, MinimalEpub3Package);
         }
 
         [Fact(DisplayName = "Trying to read OPF package with duplicating 'id' attributes in manifest item XML nodes should fail with EpubPackageException")]
-        public async void ReadPackageWithDuplicatingManifestItemIdsTest()
+        public async Task ReadPackageWithDuplicatingManifestItemIdsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITH_DUPLICATING_MANIFEST_ITEM_IDS);
         }
 
         [Fact(DisplayName = "Trying to read OPF package with duplicating 'href' attributes in manifest item XML nodes should fail with EpubPackageException")]
-        public async void ReadPackageWithDuplicatingManifestItemHrefsTest()
+        public async Task ReadPackageWithDuplicatingManifestItemHrefsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(OPF_FILE_WITH_DUPLICATING_MANIFEST_ITEM_HREFS);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node should fail with EpubPackageException")]
-        public async void ReadEpub2PackageWithoutSpineTocTest()
+        public async Task ReadEpub2PackageWithoutSpineTocTest()
         {
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadEpub2PackageWithoutSpineTocWithNullPackageReaderOptionsTest()
+        public async Task ReadEpub2PackageWithoutSpineTocWithNullPackageReaderOptionsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(EPUB2_OPF_FILE_WITHOUT_SPINE_TOC);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node should fail with EpubPackageException")]
-        public async void ReadEpub2PackageWithEmptySpineTocTest()
+        public async Task ReadEpub2PackageWithEmptySpineTocTest()
         {
             await TestFailingReadOperation(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package with empty 'toc' attribute in the spine XML node and null PackageReaderOptions should fail with EpubPackageException")]
-        public async void ReadEpub2PackageWithEmptySpineTocWithNullPackageReaderOptionsTest()
+        public async Task ReadEpub2PackageWithEmptySpineTocWithNullPackageReaderOptionsTest()
         {
             await TestFailingReadOperationWithNullPackageReaderOptions(EPUB2_OPF_FILE_WITH_EMPTY_SPINE_TOC);
         }
 
         [Fact(DisplayName = "Trying to read EPUB 2 OPF package without 'toc' attribute in the spine XML node with IgnoreMissingToc = true should succeed")]
-        public async void ReadEpub2PackageWithoutSpineTocWithIgnoreMissingTocTest()
+        public async Task ReadEpub2PackageWithoutSpineTocWithIgnoreMissingTocTest()
         {
             EpubReaderOptions epubReaderOptions = new()
             {
@@ -867,25 +867,25 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'idref' attribute in a spine item ref XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutSpineItemRefIdRefTest()
+        public async Task ReadPackageWithoutSpineItemRefIdRefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_IDREF_IN_SPINE_ITEMREF);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'type' attribute in a guide reference XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutGuideReferenceTypeTest()
+        public async Task ReadPackageWithoutGuideReferenceTypeTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_TYPE_IN_GUIDE_REFERENCE);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'href' attribute in a guide reference XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutGuideReferenceHrefTest()
+        public async Task ReadPackageWithoutGuideReferenceHrefTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_HREF_IN_GUIDE_REFERENCE);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'role' attribute in a collection XML node should fail with EpubPackageException")]
-        public async void ReadPackageWithoutCollectionRoleTest()
+        public async Task ReadPackageWithoutCollectionRoleTest()
         {
             await TestFailingReadOperation(OPF_FILE_WITHOUT_ROLE_IN_COLLECTION);
         }

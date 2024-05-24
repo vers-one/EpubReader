@@ -59,7 +59,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Getting root file path from a ZIP archive with a correct container file should succeed")]
-        public async void TestGetRootFilePathAsyncWithCorrectContainerFile()
+        public async Task TestGetRootFilePathAsyncWithCorrectContainerFile()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, CORRECT_CONTAINER_FILE);
@@ -69,7 +69,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "Getting root file path from a ZIP archive without a container file should throw EpubContainerException")]
-        public async void TestGetRootFilePathAsyncWithNoContainerFile()
+        public async Task TestGetRootFilePathAsyncWithNoContainerFile()
         {
             TestZipFile testZipFile = new();
             RootFilePathReader rootFilePathReader = new();
@@ -81,7 +81,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         [InlineData(INCORRECT_CONTAINER_FILE_NO_ROOTFILE_ELEMENT)]
         [InlineData(INCORRECT_CONTAINER_FILE_NO_ROOTFILES_ELEMENT)]
         [InlineData(INCORRECT_CONTAINER_FILE_NO_CONTAINER_ELEMENT)]
-        public async void TestGetRootFilePathAsyncWithIncorrectContainerFile(string containerFileContent)
+        public async Task TestGetRootFilePathAsyncWithIncorrectContainerFile(string containerFileContent)
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(EPUB_CONTAINER_FILE_PATH, containerFileContent);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
@@ -22,7 +21,7 @@ namespace VersOne.Epub.Internal
 
         public async Task<Epub3NavDocument?> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
-            EpubManifestItem navManifestItem = package.Manifest.Items.FirstOrDefault(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
+            EpubManifestItem navManifestItem = package.Manifest.Items.Find(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
             if (navManifestItem == null)
             {
                 if (package.EpubVersion == EpubVersion.EPUB_2)

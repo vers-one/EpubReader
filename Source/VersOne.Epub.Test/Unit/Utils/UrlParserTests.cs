@@ -7,7 +7,7 @@ namespace VersOne.Epub.Test.Unit.Utils
         [Theory(DisplayName = "Parsing URLs with or without anchor should succeed")]
         [InlineData("file.html#anchor", "file.html", "anchor")]
         [InlineData("file.html", "file.html", null)]
-        public void ConstructorWithNonNullUrlTest(string url, string expectedPath, string expectedAnchor)
+        public void ConstructorWithNonNullUrlTest(string url, string expectedPath, string? expectedAnchor)
         {
             UrlParser urlParser = new(url);
             Assert.Equal(expectedPath, urlParser.Path);

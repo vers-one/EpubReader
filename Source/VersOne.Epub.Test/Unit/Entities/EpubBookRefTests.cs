@@ -128,7 +128,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         }
 
         [Fact(DisplayName = "Reading the existing cover asynchronously should succeed")]
-        public async void ReadCoverAsyncTest()
+        public async Task ReadCoverAsyncTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithCover(COVER_FILE_CONTENT);
             byte[]? coverContent = await epubBookRef.ReadCoverAsync();
@@ -145,7 +145,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         }
 
         [Fact(DisplayName = "ReadCoverAsync should return null if the cover is missing")]
-        public async void ReadCoverAsyncWithoutCoverTest()
+        public async Task ReadCoverAsyncWithoutCoverTest()
         {
             TestZipFile testZipFile = new();
             EpubBookRef epubBookRef = CreateEpubBookRef(testZipFile, EpubVersion.EPUB_3);
@@ -166,7 +166,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         }
 
         [Fact(DisplayName = "Getting reading order asynchronously should succeed")]
-        public async void GetReadingOrderAsyncTest()
+        public async Task GetReadingOrderAsyncTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithReadingOrder(HTML_FILE_NAME, HTML_FILE_PATH);
             List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
@@ -190,7 +190,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         }
 
         [Fact(DisplayName = "Getting navigation items asynchronously should succeed")]
-        public async void GetNavigationAsyncTest()
+        public async Task GetNavigationAsyncTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithNavigation(HTML_FILE_NAME, HTML_FILE_PATH, TEST_ANCHOR_TEXT);
             List<EpubNavigationItemRef> expectedNavigationItems = new()
@@ -218,7 +218,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         }
 
         [Fact(DisplayName = "GetNavigationAsync should return null for EPUB 2 books with no navigation")]
-        public async void GetNavigationAsyncForEpub2WithNoNavigationTest()
+        public async Task GetNavigationAsyncForEpub2WithNoNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_2);
             List<EpubNavigationItemRef>? navigationItems = await epubBookRef.GetNavigationAsync();
@@ -226,7 +226,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         }
 
         [Fact(DisplayName = "GetNavigationAsync should return null for EPUB 3 books with no navigation")]
-        public async void GetNavigationAsyncForEpub3WithNoNavigationTest()
+        public async Task GetNavigationAsyncForEpub3WithNoNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRef(new TestZipFile(), EpubVersion.EPUB_3);
             List<EpubNavigationItemRef>? navigationItems = await epubBookRef.GetNavigationAsync();
@@ -275,7 +275,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                 (
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-1",
                             href: htmlFileName,
@@ -287,7 +287,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                 (
                     items: new List<EpubSpineItemRef>()
                     {
-                        new EpubSpineItemRef
+                        new
                         (
                             idRef: "item-1"
                         )
@@ -317,14 +317,14 @@ namespace VersOne.Epub.Test.Unit.Entities
                     filePath: navigationFileRef.FilePath,
                     navs: new List<Epub3Nav>()
                     {
-                        new Epub3Nav
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
                                 lis: new List<Epub3NavLi>()
                                 {
-                                    new Epub3NavLi
+                                    new
                                     (
                                         anchor: new Epub3NavAnchor
                                         (

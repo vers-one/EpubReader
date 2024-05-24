@@ -69,11 +69,11 @@ namespace VersOne.Epub.Test.Integration.Runner
             return testCaseSerializer.Deserialize(testCasePath, testEpubPath);
         }
 
-        public static IEnumerable<object[]> GetTestCaseDirectories()
+        public static TheoryData<string> GetTestCaseDirectories()
         {
             List<string> directories = new();
             GetTestCaseDirectories(rootTestCasesDirectory, directories);
-            return directories.Select(directory => new[] { directory });
+            return new(directories);
         }
 
         private static void GetTestCaseDirectories(string currentDirectory, List<string> directories)
