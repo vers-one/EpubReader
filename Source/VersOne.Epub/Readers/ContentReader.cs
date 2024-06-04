@@ -105,6 +105,7 @@ namespace VersOne.Epub.Internal
                                 case EpubContentType.IMAGE_PNG:
                                 case EpubContentType.IMAGE_SVG:
                                 case EpubContentType.IMAGE_WEBP:
+                                case EpubContentType.IMAGE_BMP:
                                     imagesLocal.Add(localByteContentFile);
                                     break;
                                 case EpubContentType.FONT_TRUETYPE:
@@ -133,6 +134,7 @@ namespace VersOne.Epub.Internal
                                 case EpubContentType.IMAGE_PNG:
                                 case EpubContentType.IMAGE_SVG:
                                 case EpubContentType.IMAGE_WEBP:
+                                case EpubContentType.IMAGE_BMP:
                                     imagesRemote.Add(remoteByteContentFile);
                                     break;
                                 case EpubContentType.FONT_TRUETYPE:
@@ -180,6 +182,7 @@ namespace VersOne.Epub.Internal
                 "image/png" => EpubContentType.IMAGE_PNG,
                 "image/svg+xml" => EpubContentType.IMAGE_SVG,
                 "image/webp" => EpubContentType.IMAGE_WEBP,
+                "image/bmp" => EpubContentType.IMAGE_BMP,
                 "font/truetype" or "font/ttf" or "application/x-font-truetype" => EpubContentType.FONT_TRUETYPE,
                 "font/opentype" or "font/otf" or "application/vnd.ms-opentype" => EpubContentType.FONT_OPENTYPE,
                 "font/sfnt" or "application/font-sfnt" => EpubContentType.FONT_SFNT,
