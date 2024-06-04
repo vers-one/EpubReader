@@ -16,15 +16,15 @@ jobs:
       Solution_Name: Source\EpubReader.sln
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Install .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 7
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.1.3
+        uses: microsoft/setup-msbuild@v2
       - name: Restore dependencies
         run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration /p:RestorePackagesConfig=true
       - name: Build solution
@@ -36,7 +36,7 @@ jobs:
           7z a ConsoleDemo.zip .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\HtmlAgilityPack.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.dll .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.exe .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.deps.json .\Source\VersOne.Epub.ConsoleDemo\bin\Release\net7.0\VersOne.Epub.ConsoleDemo.runtimeconfig.json
           7z a WpfDemo.zip .\Source\VersOne.Epub.WpfDemo\bin\Release\HtmlRenderer.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\HtmlRenderer.WPF.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\System.IO.Compression.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\VersOne.Epub.dll .\Source\VersOne.Epub.WpfDemo\bin\Release\VersOne.Epub.WpfDemo.exe
       - name: Create release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.event.inputs.version }}
           draft: true
