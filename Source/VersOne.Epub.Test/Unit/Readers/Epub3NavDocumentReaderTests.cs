@@ -159,6 +159,19 @@ namespace VersOne.Epub.Test.Unit.Readers
             </html>
             """;
 
+        private const string NAV_FILE_WITH_WITH_NON_TOP_LEVEL_NAV_ELEMENT = """
+            <html xmlns="http://www.w3.org/1999/xhtml">
+              <body>
+                <div>
+                  <nav>
+                    <h1>Test header</h1>
+                    <ol />
+                  </nav>
+                </div>
+              </body>
+            </html>
+            """;
+
         private static EpubPackage MinimalEpubPackageWithNav =>
             new
             (
@@ -445,6 +458,12 @@ namespace VersOne.Epub.Test.Unit.Readers
                 }
             );
             await TestSuccessfulReadOperation(NAV_FILE_WITH_ESCAPED_HREF_IN_A_ELEMENT, expectedEpub3NavDocument);
+        }
+
+        [Fact(DisplayName = "Reading a NAV file with non-top-level 'nav' element should succeed")]
+        public async Task ReadEpub3NavDocumentAsyncWithNonTopLevelNavElementTest()
+        {
+            await TestSuccessfulReadOperation(NAV_FILE_WITH_WITH_NON_TOP_LEVEL_NAV_ELEMENT, MinimalEpub3NavDocumentWithHeader);
         }
 
         private static async Task TestSuccessfulReadOperation(string navFileContent, Epub3NavDocument expectedEpub3NavDocument, EpubReaderOptions? epubReaderOptions = null)

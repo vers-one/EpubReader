@@ -49,12 +49,24 @@ namespace VersOne.Epub.Internal
             XElement htmlNode = navDocument.Element(xhtmlNamespace + "html") ?? throw new Epub3NavException("EPUB parsing error: navigation file does not contain html element.");
             XElement bodyNode = htmlNode.Element(xhtmlNamespace + "body") ?? throw new Epub3NavException("EPUB parsing error: navigation file does not contain body element.");
             List<Epub3Nav> navs = new();
-            foreach (XElement navNode in bodyNode.Elements(xhtmlNamespace + "nav"))
-            {
-                Epub3Nav epub3Nav = ReadEpub3Nav(navNode);
-                navs.Add(epub3Nav);
-            }
+            ReadEpub3NavsWithinContainerElement(bodyNode, navs);
             return new(navFileEntryPath, navs);
+        }
+
+        private static void ReadEpub3NavsWithinContainerElement(XElement containerElement, List<Epub3Nav> resultNavs)
+        {
+            foreach (XElement childElement in containerElement.Elements())
+            {
+                if (childElement.GetLowerCaseLocalName() == "nav")
+                {
+                    Epub3Nav epub3Nav = ReadEpub3Nav(childElement);
+                    resultNavs.Add(epub3Nav);
+                }
+                else
+                {
+                    ReadEpub3NavsWithinContainerElement(childElement, resultNavs);
+                }
+            }
         }
 
         private static Epub3Nav ReadEpub3Nav(XElement navNode)
