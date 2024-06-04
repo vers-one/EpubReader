@@ -5,7 +5,7 @@
 		<RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
 		<Authors>vers</Authors>
 		<Copyright>vers, 2015-2024</Copyright>
-		<Version>3.3.1</Version>
+		<Version>3.3.2</Version>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<DocumentationFile></DocumentationFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
