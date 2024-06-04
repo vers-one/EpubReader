@@ -52,199 +52,205 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-html",
                             href: "text.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-dtb",
                             href: "doc.dtb",
                             mediaType: "application/x-dtbook+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-ncx",
                             href: "toc.ncx",
                             mediaType: "application/x-dtbncx+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-oeb",
                             href: "oeb.html",
                             mediaType: "text/x-oeb1-document"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-xml",
                             href: "file.xml",
                             mediaType: "application/xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-css",
                             href: "styles.css",
                             mediaType: "text/css"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-oebcss",
                             href: "oeb.css",
                             mediaType: "text/x-oeb1-css"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-js-1",
                             href: "script1.js",
                             mediaType: "application/javascript"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-js-2",
                             href: "script2.js",
                             mediaType: "application/ecmascript"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-js-3",
                             href: "script3.js",
                             mediaType: "text/javascript"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-gif",
                             href: "image.gif",
                             mediaType: "image/gif"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-jpg",
                             href: "image.jpg",
                             mediaType: "image/jpeg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-png",
                             href: "image.png",
                             mediaType: "image/png"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-svg",
                             href: "image.svg",
                             mediaType: "image/svg+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-webp",
                             href: "image.webp",
                             mediaType: "image/webp"
                         ),
-                        new EpubManifestItem
+                        new
+                        (
+                            id: "item-bmp",
+                            href: "image.bmp",
+                            mediaType: "image/bmp"
+                        ),
+                        new
                         (
                             id: "item-ttf-1",
                             href: "font1.ttf",
                             mediaType: "font/truetype"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-ttf-2",
                             href: "font2.ttf",
                             mediaType: "font/ttf"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-ttf-3",
                             href: "font3.ttf",
                             mediaType: "application/x-font-truetype"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-otf-1",
                             href: "font1.otf",
                             mediaType: "font/opentype"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-otf-2",
                             href: "font2.otf",
                             mediaType: "font/otf"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-otf-3",
                             href: "font3.otf",
                             mediaType: "application/vnd.ms-opentype"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-sfnt-1",
                             href: "font.aat",
                             mediaType: "font/sfnt"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-sfnt-2",
                             href: "font.sil",
                             mediaType: "application/font-sfnt"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-woff-1",
                             href: "font1.woff",
                             mediaType: "font/woff"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-woff-2",
                             href: "font2.woff",
                             mediaType: "application/font-woff"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-woff2",
                             href: "font.woff2",
                             mediaType: "font/woff2"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-smil",
                             href: "narration.smil",
                             mediaType: "application/smil+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-mp3",
                             href: "audio.mp3",
                             mediaType: "audio/mpeg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-mp4",
                             href: "audio.mp4",
                             mediaType: "audio/mp4"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-ogg-1",
                             href: "audio1.opus",
                             mediaType: "audio/ogg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-ogg-2",
                             href: "audio2.opus",
                             mediaType: "audio/ogg; codecs=opus"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-video",
                             href: "video.mp4",
                             mediaType: "video/mp4"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-cover",
                             href: "cover.jpg",
@@ -254,7 +260,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 EpubManifestProperty.COVER_IMAGE
                             }
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-toc",
                             href: "toc.html",
@@ -264,31 +270,31 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 EpubManifestProperty.NAV
                             }
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-remote-html",
                             href: "https://example.com/books/123/test.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-remote-css",
                             href: "https://example.com/books/123/test.css",
                             mediaType: "text/css"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-remote-jpg",
                             href: "https://example.com/books/123/image.jpg",
                             mediaType: "image/jpeg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-remote-ttf",
                             href: "https://example.com/books/123/font.ttf",
                             mediaType: "font/truetype"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-remote-mp3",
                             href: "https://example.com/books/123/audio.mp3",
@@ -312,6 +318,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubLocalByteContentFileRef expectedPngFileRef = CreateLocalByteFileRef("image.png", EpubContentType.IMAGE_PNG, "image/png");
             EpubLocalByteContentFileRef expectedSvgFileRef = CreateLocalByteFileRef("image.svg", EpubContentType.IMAGE_SVG, "image/svg+xml");
             EpubLocalByteContentFileRef expectedWebpFileRef = CreateLocalByteFileRef("image.webp", EpubContentType.IMAGE_WEBP, "image/webp");
+            EpubLocalByteContentFileRef expectedBmpFileRef = CreateLocalByteFileRef("image.bmp", EpubContentType.IMAGE_BMP, "image/bmp");
             EpubLocalByteContentFileRef expectedTtf1FileRef = CreateLocalByteFileRef("font1.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
             EpubLocalByteContentFileRef expectedTtf2FileRef = CreateLocalByteFileRef("font2.ttf", EpubContentType.FONT_TRUETYPE, "font/ttf");
             EpubLocalByteContentFileRef expectedTtf3FileRef = CreateLocalByteFileRef("font3.ttf", EpubContentType.FONT_TRUETYPE, "application/x-font-truetype");
@@ -360,6 +367,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedPngFileRef,
                 expectedSvgFileRef,
                 expectedWebpFileRef,
+                expectedBmpFileRef,
                 expectedCoverFileRef
             };
             List<EpubRemoteByteContentFileRef> expectedImagesRemote = new()
@@ -412,6 +420,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedPngFileRef,
                 expectedSvgFileRef,
                 expectedWebpFileRef,
+                expectedBmpFileRef,
                 expectedTtf1FileRef,
                 expectedTtf2FileRef,
                 expectedTtf3FileRef,
@@ -465,13 +474,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-1",
                             href: "https://example.com/books/123/test.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-2",
                             href: "https://example.com/books/123/test.css",
@@ -515,13 +524,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-1",
                             href: "https://example.com/books/123/image.jpg",
                             mediaType: "image/jpeg"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-2",
                             href: "https://example.com/books/123/font.ttf",
@@ -565,7 +574,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 (
                     items: new List<EpubManifestItem>()
                     {
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-toc",
                             href: "http://example.com/toc.html",

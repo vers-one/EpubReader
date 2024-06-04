@@ -71,6 +71,11 @@
         IMAGE_WEBP,
 
         /// <summary>
+        /// A file with 'image/bmp' MIME type.
+        /// </summary>
+        IMAGE_BMP,
+
+        /// <summary>
         /// A file with either 'font/truetype', 'font/ttf', or 'application/x-font-truetype' MIME type.
         /// </summary>
         FONT_TRUETYPE,
