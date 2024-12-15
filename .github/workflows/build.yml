@@ -20,7 +20,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7
+          dotnet-version: 9
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
       - name: Restore dependencies
