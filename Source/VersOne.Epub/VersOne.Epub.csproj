@@ -11,6 +11,7 @@
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <LangVersion>10.0</LangVersion>
         <Nullable>enable</Nullable>
+        <CheckNotRecommendedTargetFramework>false</CheckNotRecommendedTargetFramework>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="SonarAnalyzer.CSharp" Version="9.25.0.90414">
