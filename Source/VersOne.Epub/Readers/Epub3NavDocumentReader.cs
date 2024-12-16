@@ -59,8 +59,11 @@ namespace VersOne.Epub.Internal
             {
                 if (childElement.GetLowerCaseLocalName() == "nav")
                 {
-                    Epub3Nav epub3Nav = ReadEpub3Nav(childElement);
-                    resultNavs.Add(epub3Nav);
+                    Epub3Nav? epub3Nav = ReadEpub3Nav(childElement);
+                    if (epub3Nav != null)
+                    {
+                        resultNavs.Add(epub3Nav);
+                    }
                 }
                 else
                 {
@@ -69,7 +72,7 @@ namespace VersOne.Epub.Internal
             }
         }
 
-        private static Epub3Nav ReadEpub3Nav(XElement navNode)
+        private static Epub3Nav? ReadEpub3Nav(XElement navNode)
         {
             Epub3StructuralSemanticsProperty? type = null;
             bool isHidden = false;
@@ -87,6 +90,10 @@ namespace VersOne.Epub.Internal
                         isHidden = true;
                         break;
                 }
+            }
+            if (type == null)
+            {
+                return null;
             }
             foreach (XElement navChildNode in navNode.Elements())
             {
