@@ -50,9 +50,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string MINIMAL_NAV_FILE_WITH_H1_HEADER = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <h1>Test header</h1>
                   <ol />
                 </nav>
@@ -61,9 +61,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string MINIMAL_NAV_FILE_WITH_H2_HEADER = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <h2>Test header</h2>
                   <ol />
                 </nav>
@@ -72,9 +72,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string MINIMAL_NAV_FILE_WITH_H3_HEADER = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <h3>Test header</h3>
                   <ol />
                 </nav>
@@ -83,9 +83,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string MINIMAL_NAV_FILE_WITH_H4_HEADER = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <h4>Test header</h4>
                   <ol />
                 </nav>
@@ -94,9 +94,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string MINIMAL_NAV_FILE_WITH_H5_HEADER = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <h5>Test header</h5>
                   <ol />
                 </nav>
@@ -105,9 +105,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string MINIMAL_NAV_FILE_WITH_H6_HEADER = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <h6>Test header</h6>
                   <ol />
                 </nav>
@@ -126,17 +126,17 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string NAV_FILE_WITHOUT_TOP_OL_ELEMENT = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav />
+                <nav epub:type="toc" />
               </body>
             </html>
             """;
 
         private const string NAV_FILE_WITH_EMPTY_LI_ELEMENT = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
-                <nav>
+                <nav epub:type="toc">
                   <ol>
                     <li />
                   </ol>
@@ -160,14 +160,36 @@ namespace VersOne.Epub.Test.Unit.Readers
             """;
 
         private const string NAV_FILE_WITH_WITH_NON_TOP_LEVEL_NAV_ELEMENT = """
-            <html xmlns="http://www.w3.org/1999/xhtml">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
               <body>
                 <div>
-                  <nav>
+                  <nav epub:type="toc">
                     <h1>Test header</h1>
                     <ol />
                   </nav>
                 </div>
+              </body>
+            </html>
+            """;
+
+        private const string NAV_FILE_WITHOUT_TYPE_IN_NAV_ELEMENT = """
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+              <body>
+                <nav>
+                  <ol>
+                    <li>
+                      <a href="chapter1.html">Chapter 1</a>
+                    </li>
+                  </ol>
+                </nav>
+              </body>
+            </html>
+            """;
+
+        private const string MINIMAL_NAV_FILE_WITHOUT_TYPE_IN_NAV_ELEMENT = """
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+              <body>
+                <nav />
               </body>
             </html>
             """;
@@ -290,7 +312,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 {
                     new
                     (
-                        type: null,
+                        type: Epub3StructuralSemanticsProperty.TOC,
                         isHidden: false,
                         head: "Test header",
                         ol: new Epub3NavOl()
@@ -464,6 +486,18 @@ namespace VersOne.Epub.Test.Unit.Readers
         public async Task ReadEpub3NavDocumentAsyncWithNonTopLevelNavElementTest()
         {
             await TestSuccessfulReadOperation(NAV_FILE_WITH_WITH_NON_TOP_LEVEL_NAV_ELEMENT, MinimalEpub3NavDocumentWithHeader);
+        }
+
+        [Fact(DisplayName = "'nav' elements without 'type' attribute should be ignored")]
+        public async Task ReadEpub3NavDocumentAsyncWithNavElementWithoutTypeTest()
+        {
+            await TestSuccessfulReadOperation(NAV_FILE_WITHOUT_TYPE_IN_NAV_ELEMENT, MinimalEpub3NavDocument);
+        }
+
+        [Fact(DisplayName = "'nav' elements without 'type' attribute that don't conform to EPUB standard should not throw an exception")]
+        public async Task ReadEpub3NavDocumentAsyncWithNonEpubNavElementWithoutTypeTest()
+        {
+            await TestSuccessfulReadOperation(MINIMAL_NAV_FILE_WITHOUT_TYPE_IN_NAV_ELEMENT, MinimalEpub3NavDocument);
         }
 
         private static async Task TestSuccessfulReadOperation(string navFileContent, Epub3NavDocument expectedEpub3NavDocument, EpubReaderOptions? epubReaderOptions = null)
