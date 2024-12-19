@@ -8,13 +8,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="EpubReaderOptions" /> class.
         /// </summary>
-        public EpubReaderOptions()
+        /// <param name="preset">An optional preset to initialize the <see cref="EpubReaderOptions" /> class with a predefined set of options.</param>
+        public EpubReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
-            PackageReaderOptions = new PackageReaderOptions();
-            ContentReaderOptions = new ContentReaderOptions();
-            ContentDownloaderOptions = new ContentDownloaderOptions();
-            Epub2NcxReaderOptions = new Epub2NcxReaderOptions();
-            XmlReaderOptions = new XmlReaderOptions();
+            PackageReaderOptions = new PackageReaderOptions(preset);
+            ContentReaderOptions = new ContentReaderOptions(preset);
+            ContentDownloaderOptions = new ContentDownloaderOptions(preset);
+            Epub2NcxReaderOptions = new Epub2NcxReaderOptions(preset);
+            XmlReaderOptions = new XmlReaderOptions(preset);
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace VersOne.Epub.Options
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace VersOne.Epub.Options
 {
     /// <summary>
     /// Various options to configure the behavior of the EPUB 2 NCX navigation document reader.
@@ -8,7 +10,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Epub2NcxReaderOptions" /> class.
         /// </summary>
-        public Epub2NcxReaderOptions()
+        /// <param name="preset">An optional preset to initialize the <see cref="Epub2NcxReaderOptions" /> class with a predefined set of options.</param>
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
+        public Epub2NcxReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
             IgnoreMissingContentForNavigationPoints = false;
         }

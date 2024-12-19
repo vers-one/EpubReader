@@ -1,4 +1,5 @@
-﻿using VersOne.Epub.Environment;
+﻿using System.Diagnostics.CodeAnalysis;
+using VersOne.Epub.Environment;
 
 namespace VersOne.Epub.Options
 {
@@ -7,6 +8,18 @@ namespace VersOne.Epub.Options
     /// </summary>
     public class ContentDownloaderOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentDownloaderOptions" /> class.
+        /// </summary>
+        /// <param name="preset">An optional preset to initialize the <see cref="ContentDownloaderOptions" /> class with a predefined set of options.</param>
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
+        public ContentDownloaderOptions(EpubReaderOptionsPreset? preset = null)
+        {
+            DownloadContent = false;
+            DownloaderUserAgent = null;
+            CustomContentDownloader = null;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether the content downloader should download remote resources specified in the EPUB manifest.
         /// If it's set to <c>false</c>, then <see cref="EpubRemoteTextContentFile.Content" /> and <see cref="EpubRemoteByteContentFile.Content" /> will always be <c>null</c>
