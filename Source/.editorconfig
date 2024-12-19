@@ -28,6 +28,9 @@ dotnet_diagnostic.IDE0060.severity = error
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = error
 
+# IDE0130: Namespace does not match folder structure
+dotnet_style_namespace_match_folder = false
+
 # S1168: Empty arrays and collections should be returned instead of null
 dotnet_diagnostic.S1168.severity = none
 
