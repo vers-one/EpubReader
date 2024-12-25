@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Unit.Mocks;
 
@@ -52,15 +53,15 @@ namespace VersOne.Epub.Test.Unit.Readers
                 epubVersion: EpubVersion.EPUB_2,
                 guide: new EpubGuide
                 (
-                    items: new List<EpubGuideReference>()
-                    {
-                        new EpubGuideReference
+                    items:
+                    [
+                        new
                         (
                             type: "cover",
                             title: null,
                             href: LOCAL_COVER_FILE_NAME
                         )
-                    }
+                    ]
                 )
             );
             EpubLocalByteContentFileRef expectedCoverImageFileRef = CreateLocalTestImageFileRef();
@@ -75,15 +76,15 @@ namespace VersOne.Epub.Test.Unit.Readers
                 epubVersion: EpubVersion.EPUB_2,
                 guide: new EpubGuide
                 (
-                    items: new List<EpubGuideReference>()
-                    {
-                        new EpubGuideReference
+                    items:
+                    [
+                        new
                         (
                             type: "cover",
                             title: null,
                             href: LOCAL_COVER_FILE_NAME
                         )
-                    }
+                    ]
                 )
             );
             TestSuccessfulReadOperation(epubSchema, null);
@@ -131,8 +132,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestFailingReadOperation(epubSchema);
         }
 
-        [Fact(DisplayName = "ReadBookCover should throw EpubPackageException if the manifest item with the ID specified in the cover meta item is missing")]
-        public void ReadBookCoverForEpub2WithMissingManifestItemTest()
+        [Fact(DisplayName = "ReadBookCover should throw EpubPackageException if the manifest item with the ID specified in the cover meta item is missing and BookCoverReaderOptions.Epub2MetadataIgnoreMissingManifestItem is false")]
+        public void ReadBookCoverForEpub2WithMissingManifestItemWithoutIgnoringErrorOptionTest()
         {
             EpubSchema epubSchema = CreateEmptyEpubSchema(EpubVersion.EPUB_2);
             epubSchema.Package.Metadata.MetaItems.Add(new EpubMetadataMeta
@@ -141,6 +142,22 @@ namespace VersOne.Epub.Test.Unit.Readers
                 content: "cover-image"
             ));
             TestFailingReadOperation(epubSchema);
+        }
+
+        [Fact(DisplayName = "ReadBookCover should return null if the manifest item with the ID specified in the cover meta item is missing and BookCoverReaderOptions.Epub2MetadataIgnoreMissingManifestItem is false")]
+        public void ReadBookCoverForEpub2WithMissingManifestItemWithIgnoringErrorOptionTest()
+        {
+            EpubSchema epubSchema = CreateEmptyEpubSchema(EpubVersion.EPUB_2);
+            epubSchema.Package.Metadata.MetaItems.Add(new EpubMetadataMeta
+            (
+                name: "cover",
+                content: "cover-image"
+            ));
+            BookCoverReaderOptions bookCoverReaderOptions = new()
+            {
+                Epub2MetadataIgnoreMissingManifestItem = true
+            };
+            TestSuccessfulReadOperation(epubSchema, null, bookCoverReaderOptions);
         }
 
         [Fact(DisplayName = "ReadBookCover should throw EpubPackageException if the image referenced by the cover manifest item is missing in the EPUB 2 file")]
@@ -169,15 +186,15 @@ namespace VersOne.Epub.Test.Unit.Readers
                 epubVersion: EpubVersion.EPUB_2,
                 guide: new EpubGuide
                 (
-                    items: new List<EpubGuideReference>()
-                    {
-                        new EpubGuideReference
+                    items:
+                    [
+                        new
                         (
                             type: "test-type",
                             title: null,
                             href: "test.jpg"
                         )
-                    }
+                    ]
                 )
             );
             TestSuccessfulReadOperation(epubSchema, null);
@@ -191,15 +208,15 @@ namespace VersOne.Epub.Test.Unit.Readers
                 epubVersion: EpubVersion.EPUB_3,
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
-                        new EpubManifestItem
+                    items:
+                    [
+                        new
                         (
                             id: "test-image",
                             href: "test.jpg",
                             mediaType: COVER_FILE_CONTENT_MIME_TYPE
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "test-item-with-property",
                             href: "toc.html",
@@ -209,7 +226,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 EpubManifestProperty.NAV
                             }
                         )
-                    }
+                    ]
                 )
             );
             TestSuccessfulReadOperation(epubSchema, null);
@@ -224,10 +241,10 @@ namespace VersOne.Epub.Test.Unit.Readers
                 id: "cover-image",
                 href: LOCAL_COVER_FILE_NAME,
                 mediaType: COVER_FILE_CONTENT_MIME_TYPE,
-                properties: new List<EpubManifestProperty>()
-                {
+                properties:
+                [
                     EpubManifestProperty.COVER_IMAGE
-                }
+                ]
             ));
             TestFailingReadOperation(epubSchema);
         }
@@ -260,15 +277,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                 epubVersion: EpubVersion.EPUB_2,
                 guide: new EpubGuide
                 (
-                    items: new List<EpubGuideReference>()
-                    {
-                        new EpubGuideReference
-                        (
+                    items:
+                    [
+                        new                        (
                             type: "cover",
                             title: null,
                             href: REMOTE_COVER_FILE_HREF
                         )
-                    }
+                    ]
                 )
             );
             EpubRemoteByteContentFileRef remoteTestImageFileRef = CreateRemoteTestImageFileRef();
@@ -285,30 +301,35 @@ namespace VersOne.Epub.Test.Unit.Readers
                 id: "cover-image",
                 href: REMOTE_COVER_FILE_HREF,
                 mediaType: COVER_FILE_CONTENT_MIME_TYPE,
-                properties: new List<EpubManifestProperty>()
-                {
+                properties:
+                [
                     EpubManifestProperty.COVER_IMAGE
-                }
+                ]
             ));
             EpubRemoteByteContentFileRef remoteTestImageFileRef = CreateRemoteTestImageFileRef();
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs = CreateImageContentRefs(remoteImageFileRef: remoteTestImageFileRef);
             TestFailingReadOperation(epubSchema, imageContentRefs);
         }
 
-        private static void TestSuccessfulReadOperation(EpubSchema epubSchema, EpubLocalByteContentFileRef? expectedLocalCoverImageFileRef)
+        private static void TestSuccessfulReadOperation(EpubSchema epubSchema, EpubLocalByteContentFileRef? expectedLocalCoverImageFileRef,
+            BookCoverReaderOptions? bookCoverReaderOptions = null)
         {
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs =
                 expectedLocalCoverImageFileRef != null
                 ? CreateImageContentRefs(localImageFileRef: expectedLocalCoverImageFileRef)
                 : new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>();
-            EpubLocalByteContentFileRef? actualCoverImageFileRef = BookCoverReader.ReadBookCover(epubSchema, imageContentRefs);
+            EpubLocalByteContentFileRef? actualCoverImageFileRef =
+                BookCoverReader.ReadBookCover(epubSchema, imageContentRefs, bookCoverReaderOptions ?? new BookCoverReaderOptions());
             Assert.Equal(expectedLocalCoverImageFileRef, actualCoverImageFileRef);
         }
 
-        private static void TestFailingReadOperation(EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>? imageContentRefs = null)
+        private static void TestFailingReadOperation(
+            EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>? imageContentRefs = null,
+            BookCoverReaderOptions? bookCoverReaderOptions = null)
         {
             imageContentRefs ??= new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>();
-            Assert.Throws<EpubPackageException>(() => BookCoverReader.ReadBookCover(epubSchema, imageContentRefs));
+            Assert.Throws<EpubPackageException>(() =>
+                BookCoverReader.ReadBookCover(epubSchema, imageContentRefs, bookCoverReaderOptions ?? new BookCoverReaderOptions()));
         }
 
         private static EpubSchema CreateEmptyEpubSchema(EpubVersion epubVersion, EpubManifest? manifest = null, EpubGuide? guide = null)

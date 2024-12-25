@@ -11,12 +11,18 @@
         /// <param name="preset">An optional preset to initialize the <see cref="EpubReaderOptions" /> class with a predefined set of options.</param>
         public EpubReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
+            BookCoverReaderOptions = new BookCoverReaderOptions(preset);
             PackageReaderOptions = new PackageReaderOptions(preset);
             ContentReaderOptions = new ContentReaderOptions(preset);
             ContentDownloaderOptions = new ContentDownloaderOptions(preset);
             Epub2NcxReaderOptions = new Epub2NcxReaderOptions(preset);
             XmlReaderOptions = new XmlReaderOptions(preset);
         }
+
+        /// <summary>
+        /// Gets or sets EPUB content reader options which is used for loading the EPUB book cover image.
+        /// </summary>
+        public BookCoverReaderOptions BookCoverReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB OPF package reader options.
