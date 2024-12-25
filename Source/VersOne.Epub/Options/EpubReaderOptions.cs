@@ -11,18 +11,14 @@
         /// <param name="preset">An optional preset to initialize the <see cref="EpubReaderOptions" /> class with a predefined set of options.</param>
         public EpubReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
-            BookCoverReaderOptions = new BookCoverReaderOptions(preset);
             PackageReaderOptions = new PackageReaderOptions(preset);
             ContentReaderOptions = new ContentReaderOptions(preset);
             ContentDownloaderOptions = new ContentDownloaderOptions(preset);
+            BookCoverReaderOptions = new BookCoverReaderOptions(preset);
+            SpineReaderOptions = new SpineReaderOptions(preset);
             Epub2NcxReaderOptions = new Epub2NcxReaderOptions(preset);
             XmlReaderOptions = new XmlReaderOptions(preset);
         }
-
-        /// <summary>
-        /// Gets or sets EPUB content reader options which is used for loading the EPUB book cover image.
-        /// </summary>
-        public BookCoverReaderOptions BookCoverReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB OPF package reader options.
@@ -38,6 +34,16 @@
         /// Gets or sets EPUB content downloader options which is used for downloading remote content files.
         /// </summary>
         public ContentDownloaderOptions ContentDownloaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB content reader options which is used for loading the EPUB book cover image.
+        /// </summary>
+        public BookCoverReaderOptions BookCoverReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB spine reader options which is used for parsing the default reading order of the EPUB book.
+        /// </summary>
+        public SpineReaderOptions SpineReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB 2 NCX navigation document reader options.

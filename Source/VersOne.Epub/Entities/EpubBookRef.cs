@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 
 namespace VersOne.Epub
 {
@@ -24,12 +25,15 @@ namespace VersOne.Epub
         /// <param name="description">The book's description or <c>null</c> if the description is not present in the book.</param>
         /// <param name="schema">The parsed EPUB schema of the book.</param>
         /// <param name="content">The collection of references to the book's content files within the EPUB archive.</param>
+        /// <param name="epubReaderOptions">Various options to configure the behavior of the EPUB reader.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="epubFile" /> parameter is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="title" /> parameter is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="author" /> parameter is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="schema" /> parameter is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="content" /> parameter is <c>null</c>.</exception>
-        public EpubBookRef(IZipFile epubFile, string? filePath, string title, string author, List<string>? authorList, string? description, EpubSchema schema, EpubContentRef content)
+        public EpubBookRef(
+            IZipFile epubFile, string? filePath, string title, string author, List<string>? authorList, string? description, EpubSchema schema,
+            EpubContentRef content, EpubReaderOptions? epubReaderOptions = null)
         {
             EpubFile = epubFile ?? throw new ArgumentNullException(nameof(epubFile));
             FilePath = filePath;
@@ -39,6 +43,7 @@ namespace VersOne.Epub
             Description = description;
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             Content = content ?? throw new ArgumentNullException(nameof(content));
+            EpubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
             isDisposed = false;
         }
 
@@ -91,6 +96,11 @@ namespace VersOne.Epub
         public IZipFile EpubFile { get; }
 
         /// <summary>
+        /// Gets the options that configure the behavior of the EPUB reader.
+        /// </summary>
+        public EpubReaderOptions EpubReaderOptions { get; }
+
+        /// <summary>
         /// Loads the book's cover image from the EPUB file.
         /// </summary>
         /// <returns>Book's cover image or <c>null</c> if there is no cover.</returns>
@@ -132,7 +142,7 @@ namespace VersOne.Epub
         /// </returns>
         public async Task<List<EpubLocalTextContentFileRef>> GetReadingOrderAsync()
         {
-            return await Task.Run(() => SpineReader.GetReadingOrder(Schema, Content)).ConfigureAwait(false);
+            return await Task.Run(() => SpineReader.GetReadingOrder(Schema, Content, EpubReaderOptions.SpineReaderOptions)).ConfigureAwait(false);
         }
 
         /// <summary>
