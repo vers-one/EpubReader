@@ -3,7 +3,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Authors>vers</Authors>
         <Copyright>vers, 2015-2024</Copyright>
-        <Version>3.3.2</Version>
+        <Version>3.3.3</Version>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 		<RunSettingsFilePath>$(MSBuildProjectDirectory)\coverlet.runsettings</RunSettingsFilePath>

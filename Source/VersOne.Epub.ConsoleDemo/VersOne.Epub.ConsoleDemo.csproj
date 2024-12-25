@@ -4,7 +4,7 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<Authors>vers</Authors>
 		<Copyright>vers, 2015-2024</Copyright>
-		<Version>3.3.2</Version>
+		<Version>3.3.3</Version>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<DocumentationFile></DocumentationFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
