@@ -161,7 +161,7 @@ namespace VersOne.Epub.Internal
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> fonts = new(fontsLocal.AsReadOnly(), fontsRemote.AsReadOnly());
             EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> audio = new(audioLocal.AsReadOnly(), audioRemote.AsReadOnly());
             EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef> allFiles = new(allFilesLocal.AsReadOnly(), allFilesRemote.AsReadOnly());
-            cover = BookCoverReader.ReadBookCover(epubSchema, images);
+            cover = BookCoverReader.ReadBookCover(epubSchema, images, epubReaderOptions.BookCoverReaderOptions);
             return new(cover, navigationHtmlFile, html, css, images, fonts, audio, allFiles);
         }
 
