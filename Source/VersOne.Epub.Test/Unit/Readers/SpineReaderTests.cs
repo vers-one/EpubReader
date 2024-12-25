@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Unit.Mocks;
 
@@ -11,8 +12,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = CreateEpubSchema();
             EpubContentRef epubContentRef = new();
-            List<EpubLocalTextContentFileRef> expectedReadingOrder = new();
-            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef);
+            List<EpubLocalTextContentFileRef> expectedReadingOrder = [];
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef, new SpineReaderOptions());
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
@@ -23,87 +24,125 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
-                        new EpubManifestItem
+                    items:
+                    [
+                        new
                         (
                             id: "item-1",
                             href: "chapter1.html",
                             mediaType: "application/xhtml+xml"
                         ),
-                        new EpubManifestItem
+                        new
                         (
                             id: "item-2",
                             href: "chapter2.html",
                             mediaType: "application/xhtml+xml"
                         )
-                    }
+                    ]
                 ),
                 spine: new EpubSpine
                 (
-                    items: new List<EpubSpineItemRef>()
-                    {
-                        new EpubSpineItemRef
+                    items:
+                    [
+                        new
                         (
                             idRef: "item-1"
                         ),
-                        new EpubSpineItemRef
+                        new
                         (
                             idRef: "item-2"
                         )
-                    }
+                    ]
                 )
             );
             EpubLocalTextContentFileRef expectedHtmlFileRef1 = CreateTestHtmlFileRef("chapter1.html");
             EpubLocalTextContentFileRef expectedHtmlFileRef2 = CreateTestHtmlFileRef("chapter2.html");
-            List<EpubLocalTextContentFileRef> expectedHtmlLocal = new()
-            {
+            List<EpubLocalTextContentFileRef> expectedHtmlLocal =
+            [
                 expectedHtmlFileRef1,
                 expectedHtmlFileRef2
-            };
+            ];
             EpubContentRef epubContentRef = new
             (
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(expectedHtmlLocal.AsReadOnly())
             );
-            List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
-            {
+            List<EpubLocalTextContentFileRef> expectedReadingOrder =
+            [
                 expectedHtmlFileRef1,
                 expectedHtmlFileRef2
-            };
-            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef);
+            ];
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef, new SpineReaderOptions());
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
-        [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no manifest item with ID matching to the ID ref of a spine item")]
-        public void GetReadingOrderWithMissingManifestItemTest()
+        [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no manifest item with ID matching to the ID ref of a spine item and SpineReaderOptions.IgnoreMissingManifestItems is false")]
+        public void GetReadingOrderWithMissingManifestItemWithoutIgnoringErrorsTest()
         {
             EpubSchema epubSchema = CreateEpubSchema
             (
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
-                        new EpubManifestItem
+                    items:
+                    [
+                        new
                         (
                             id: "item-2",
                             href: "chapter2.html",
                             mediaType: "application/xhtml+xml"
                         )
-                    }
+                    ]
                 ),
                 spine: new EpubSpine
                 (
-                    items: new List<EpubSpineItemRef>()
-                    {
-                        new EpubSpineItemRef
+                    items:
+                    [
+                        new
                         (
                             idRef: "item-1"
                         )
-                    }
+                    ]
                 )
             );
             EpubContentRef epubContentRef = new();
-            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef, new SpineReaderOptions()));
+        }
+
+        [Fact(DisplayName = "GetReadingOrder should skip non-existent manifest items if SpineReaderOptions.IgnoreMissingManifestItems is true")]
+        public void GetReadingOrderWithMissingManifestItemWithIgnoringErrorsTest()
+        {
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items:
+                    [
+                        new
+                        (
+                            id: "item-2",
+                            href: "chapter2.html",
+                            mediaType: "application/xhtml+xml"
+                        )
+                    ]
+                ),
+                spine: new EpubSpine
+                (
+                    items:
+                    [
+                        new
+                        (
+                            idRef: "item-1"
+                        )
+                    ]
+                )
+            );
+            EpubContentRef epubContentRef = new();
+            SpineReaderOptions spineReaderOptions = new()
+            {
+                IgnoreMissingManifestItems = true
+            };
+            List<EpubLocalTextContentFileRef> expectedReadingOrder = [];
+            List<EpubLocalTextContentFileRef> actualReadingOrder = SpineReader.GetReadingOrder(epubSchema, epubContentRef, spineReaderOptions);
+            Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
 
         [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if there is no HTML content file referenced by a manifest item")]
@@ -111,31 +150,31 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             EpubSchema epubSchema = CreateEpubSchema
             (
-                manifest: new EpubManifest
+                manifest: new
                 (
-                    items: new List<EpubManifestItem>()
-                    {
-                        new EpubManifestItem
+                    items:
+                    [
+                        new
                         (
                             id: "item-1",
                             href: "chapter1.html",
                             mediaType: "application/xhtml+xml"
                         )
-                    }
+                    ]
                 ),
-                spine: new EpubSpine
+                spine: new
                 (
-                    items: new List<EpubSpineItemRef>()
-                    {
-                        new EpubSpineItemRef
+                    items:
+                    [
+                        new
                         (
                             idRef: "item-1"
                         )
-                    }
+                    ]
                 )
             );
             EpubContentRef epubContentRef = new();
-            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef, new SpineReaderOptions()));
         }
 
         [Fact(DisplayName = "GetReadingOrder should throw EpubPackageException if the HTML content file referenced by a spine item is a remote resource")]
@@ -144,34 +183,34 @@ namespace VersOne.Epub.Test.Unit.Readers
             string remoteFileHref = "https://example.com/books/123/chapter1.html";
             EpubSchema epubSchema = CreateEpubSchema
             (
-                manifest: new EpubManifest
+                manifest: new
                 (
-                    items: new List<EpubManifestItem>()
-                    {
-                        new EpubManifestItem
+                    items:
+                    [
+                        new
                         (
                             id: "item-1",
                             href: remoteFileHref,
                             mediaType: "application/xhtml+xml"
                         )
-                    }
+                    ]
                 ),
-                spine: new EpubSpine
+                spine: new
                 (
-                    items: new List<EpubSpineItemRef>()
-                    {
-                        new EpubSpineItemRef
+                    items:
+                    [
+                        new
                         (
                             idRef: "item-1"
                         )
-                    }
+                    ]
                 )
             );
-            List<EpubRemoteTextContentFileRef> htmlRemote = new()
-            {
-                new EpubRemoteTextContentFileRef
+            List<EpubRemoteTextContentFileRef> htmlRemote =
+            [
+                new
                 (
-                    metadata: new EpubContentFileRefMetadata
+                    metadata: new
                     (
                         key: remoteFileHref,
                         contentType: EpubContentType.XHTML_1_1,
@@ -179,19 +218,19 @@ namespace VersOne.Epub.Test.Unit.Readers
                     ),
                     epubContentLoader: new TestEpubContentLoader()
                 )
-            };
+            ];
             EpubContentRef epubContentRef = new
             (
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(null, htmlRemote.AsReadOnly())
             );
-            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef));
+            Assert.Throws<EpubPackageException>(() => SpineReader.GetReadingOrder(epubSchema, epubContentRef, new SpineReaderOptions()));
         }
 
         private static EpubSchema CreateEpubSchema(EpubManifest? manifest = null, EpubSpine? spine = null)
         {
             return new
             (
-                package: new EpubPackage
+                package: new
                 (
                     uniqueIdentifier: null,
                     epubVersion: EpubVersion.EPUB_3,

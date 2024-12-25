@@ -54,7 +54,7 @@ namespace VersOne.Epub.Internal
             string? description = schema.Package.Metadata.Descriptions.FirstOrDefault()?.Description;
             ContentReader contentReader = new(environmentDependencies, epubReaderOptions);
             EpubContentRef content = await Task.Run(() => contentReader.ParseContentMap(schema, epubFile)).ConfigureAwait(false);
-            return new(epubFile, filePath, title, author, authorList, description, schema, content);
+            return new(epubFile, filePath, title, author, authorList, description, schema, content, epubReaderOptions);
         }
 
         private IZipFile GetZipFile(string filePath)
