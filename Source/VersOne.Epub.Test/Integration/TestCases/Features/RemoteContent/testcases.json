@@ -52,7 +52,7 @@
         "$id": 6,
         "$type": "EpubRemoteTextContentFile",
         "$content": null,
-        "Key": "https://os.vers.one/EpubReader/toc.html",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/toc.html",
         "ContentType": "XHTML_1_1",
         "ContentMimeType": "application/xhtml+xml"
       },
@@ -60,7 +60,7 @@
         "$id": 7,
         "$type": "EpubRemoteTextContentFile",
         "$content": null,
-        "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/styles.css",
         "ContentType": "CSS",
         "ContentMimeType": "text/css"
       },
@@ -68,15 +68,15 @@
         "$id": 8,
         "$type": "EpubRemoteByteContentFile",
         "$content": null,
-        "Key": "https://os.vers.one/EpubReader/images/logo.svg",
-        "ContentType": "IMAGE_SVG",
-        "ContentMimeType": "image/svg+xml"
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/image.jpg",
+        "ContentType": "IMAGE_JPEG",
+        "ContentMimeType": "image/jpeg"
       },
       {
         "$id": 9,
         "$type": "EpubRemoteByteContentFile",
         "$content": null,
-        "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/font.ttf",
         "ContentType": "FONT_TRUETYPE",
         "ContentMimeType": "application/x-font-truetype"
       }
@@ -143,22 +143,22 @@
               },
               {
                 "Id": "html-remote",
-                "Href": "https://os.vers.one/EpubReader/toc.html",
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/toc.html",
                 "MediaType": "application/xhtml+xml"
               },
               {
                 "Id": "css-remote",
-                "Href": "https://os.vers.one/EpubReader/styles/docfx.css",
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/styles.css",
                 "MediaType": "text/css"
               },
               {
                 "Id": "image-remote",
-                "Href": "https://os.vers.one/EpubReader/images/logo.svg",
-                "MediaType": "image/svg+xml"
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/image.jpg",
+                "MediaType": "image/jpeg"
               },
               {
                 "Id": "font-remote",
-                "Href": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/font.ttf",
                 "MediaType": "application/x-font-truetype"
               },
               {
@@ -344,32 +344,32 @@
       {
         "$id": 15,
         "$type": "EpubRemoteTextContentFile",
-        "$content": "https://os.vers.one/EpubReader/toc.html",
-        "Key": "https://os.vers.one/EpubReader/toc.html",
+        "$content": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/toc.html",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/toc.html",
         "ContentType": "XHTML_1_1",
         "ContentMimeType": "application/xhtml+xml"
       },
       {
         "$id": 16,
         "$type": "EpubRemoteTextContentFile",
-        "$content": "https://os.vers.one/EpubReader/styles/docfx.css",
-        "Key": "https://os.vers.one/EpubReader/styles/docfx.css",
+        "$content": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/styles.css",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/styles.css",
         "ContentType": "CSS",
         "ContentMimeType": "text/css"
       },
       {
         "$id": 17,
         "$type": "EpubRemoteByteContentFile",
-        "$content": "https://os.vers.one/EpubReader/images/logo.svg",
-        "Key": "https://os.vers.one/EpubReader/images/logo.svg",
-        "ContentType": "IMAGE_SVG",
-        "ContentMimeType": "image/svg+xml"
+        "$content": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/image.jpg",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/image.jpg",
+        "ContentType": "IMAGE_JPEG",
+        "ContentMimeType": "image/jpeg"
       },
       {
         "$id": 18,
         "$type": "EpubRemoteByteContentFile",
-        "$content": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
-        "Key": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+        "$content": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/font.ttf",
+        "Key": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/font.ttf",
         "ContentType": "FONT_TRUETYPE",
         "ContentMimeType": "application/x-font-truetype"
       }
@@ -436,22 +436,22 @@
               },
               {
                 "Id": "html-remote",
-                "Href": "https://os.vers.one/EpubReader/toc.html",
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/toc.html",
                 "MediaType": "application/xhtml+xml"
               },
               {
                 "Id": "css-remote",
-                "Href": "https://os.vers.one/EpubReader/styles/docfx.css",
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/styles.css",
                 "MediaType": "text/css"
               },
               {
                 "Id": "image-remote",
-                "Href": "https://os.vers.one/EpubReader/images/logo.svg",
-                "MediaType": "image/svg+xml"
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/image.jpg",
+                "MediaType": "image/jpeg"
               },
               {
                 "Id": "font-remote",
-                "Href": "https://os.vers.one/EpubReader/fonts/glyphicons-halflings-regular.ttf",
+                "Href": "https://raw.githubusercontent.com/vers-one/EpubReader/refs/heads/master/Source/VersOne.Epub.Test/Integration/TestRemoteFiles/font.ttf",
                 "MediaType": "application/x-font-truetype"
               },
               {
