@@ -23,13 +23,13 @@
                 "files": [
                     "*.md",
                     "toc.yml",
-                    "getting-started/**.md",
-                    "reference/**.md",
-                    "reference/**.yml",
-                    "examples/**.md",
+                    "getting-started/*.md",
+                    "reference/*.md",
+                    "reference/*.yml",
+                    "examples/*.md",
                     "examples/toc.yml",
-                    "malformed-epub/**.md",
-                    "faq/**.md"
+                    "malformed-epub/*.md",
+                    "faq/*.md"
                 ]
             }
         ],
@@ -49,8 +49,8 @@
             "default",
             "templates/default"
         ],
-        "xrefService": [
-            "https://xref.docs.microsoft.com/query?uid={uid}"
+        "xref": [
+            "https://learn.microsoft.com/en-us/dotnet/.xrefmap.json"
         ],
         "postProcessors": [],
         "markdownEngineName": "markdig",
