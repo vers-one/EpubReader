@@ -29,9 +29,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore .\Source\VersOne.Epub\VersOne.Epub.csproj
       - name: Install DocFX
-        run: nuget install docfx.console -x
+        run: dotnet tool install -g docfx
       - name: Run DocFX
-        run: docfx.console\tools\docfx.exe Documentation\docfx.json
+        run: docfx build Documentation\docfx.json
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
