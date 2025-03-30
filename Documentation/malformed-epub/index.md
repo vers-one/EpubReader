@@ -37,18 +37,18 @@ EpubReaderOptions options = new()
 ## Missing content files
 
 The [`item` element](https://www.w3.org/publishing/epub32/epub-packages.html#sec-item-elem) within the EPUB manifest has a required `href` attribute which points to a content file in the EPUB archive. There are [some EPUB books](https://github.com/vers-one/EpubReader/issues/25) that declare content files in the EPUB manifest which do not exist in the actual EPUB archive. This causes EpubReader to throw the *"EPUB parsing error: file ... was not found in the EPUB file"* exception. Such exception is thrown immediately, if application uses [`EpubReader.ReadBook`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_ReadBook_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) / [`EpubReader.ReadBookAsync`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_ReadBookAsync_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) methods because they try to load the whole content of the book into memory. [`EpubReader.OpenBook`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_OpenBook_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) and [`EpubReader.OpenBookAsync`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_OpenBookAsync_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) methods don't load the content, so the exception will be thrown only during an attempt to call any of those methods for a missing file:
-* [`EpubContentFileRef`](xref:VersOne.Epub.EpubContentFileRef) class:
-  * [`GetContentStream`](xref:VersOne.Epub.EpubContentFileRef#VersOne_Epub_EpubContentFileRef_GetContentStream)
-  * [`ReadContentAsBytes`](xref:VersOne.Epub.EpubContentFileRef#VersOne_Epub_EpubContentFileRef_ReadContentAsBytes)
-  * [`ReadContentAsBytesAsync`](xref:VersOne.Epub.EpubContentFileRef#VersOne_Epub_EpubContentFileRef_ReadContentAsBytesAsync)
-  * [`ReadContentAsText`](xref:VersOne.Epub.EpubContentFileRef#VersOne_Epub_EpubContentFileRef_ReadContentAsText)
-  * [`ReadContentAsTextAsync`](xref:VersOne.Epub.EpubContentFileRef#VersOne_Epub_EpubContentFileRef_ReadContentAsTextAsync)
-* [`EpubByteContentFileRef`](xref:VersOne.Epub.EpubByteContentFileRef) class:
-  * [`ReadContent`](xref:VersOne.Epub.EpubByteContentFileRef#VersOne_Epub_EpubByteContentFileRef_ReadContent)
-  * [`ReadContentAsync`](xref:VersOne.Epub.EpubByteContentFileRef#VersOne_Epub_EpubByteContentFileRef_ReadContentAsync)
-* [`EpubTextContentFileRef`](xref:VersOne.Epub.EpubTextContentFileRef) class:
-  * [`ReadContent`](xref:VersOne.Epub.EpubTextContentFileRef#VersOne_Epub_EpubTextContentFileRef_ReadContent)
-  * [`ReadContentAsync`](xref:VersOne.Epub.EpubTextContentFileRef#VersOne_Epub_EpubTextContentFileRef_ReadContentAsync)
+* [`EpubLocalContentFileRef`](xref:VersOne.Epub.EpubLocalContentFileRef) class:
+  * [`GetContentStream`](xref:VersOne.Epub.EpubLocalContentFileRef#VersOne_Epub_EpubLocalContentFileRef_GetContentStream)
+  * [`ReadContentAsBytes`](xref:VersOne.Epub.EpubLocalContentFileRef#VersOne_Epub_EpubLocalContentFileRef_ReadContentAsBytes)
+  * [`ReadContentAsBytesAsync`](xref:VersOne.Epub.EpubLocalContentFileRef#VersOne_Epub_EpubLocalContentFileRef_ReadContentAsBytesAsync)
+  * [`ReadContentAsText`](xref:VersOne.Epub.EpubLocalContentFileRef#VersOne_Epub_EpubLocalContentFileRef_ReadContentAsText)
+  * [`ReadContentAsTextAsync`](xref:VersOne.Epub.EpubLocalContentFileRef#VersOne_Epub_EpubLocalContentFileRef_ReadContentAsTextAsync)
+* [`EpubLocalByteContentFileRef`](xref:VersOne.Epub.EpubLocalByteContentFileRef) class:
+  * [`ReadContent`](xref:VersOne.Epub.EpubLocalByteContentFileRef#VersOne_Epub_EpubLocalByteContentFileRef_ReadContent)
+  * [`ReadContentAsync`](xref:VersOne.Epub.EpubLocalByteContentFileRef#VersOne_Epub_EpubLocalByteContentFileRef_ReadContentAsync)
+* [`EpubLocalTextContentFileRef`](xref:VersOne.Epub.EpubLocalTextContentFileRef) class:
+  * [`ReadContent`](xref:VersOne.Epub.EpubLocalTextContentFileRef#VersOne_Epub_EpubLocalTextContentFileRef_ReadContent)
+  * [`ReadContentAsync`](xref:VersOne.Epub.EpubLocalTextContentFileRef#VersOne_Epub_EpubLocalTextContentFileRef_ReadContentAsync)
 
 [`ContentReaderOptions.ContentFileMissing`](xref:VersOne.Epub.Options.ContentReaderOptions#VersOne_Epub_Options_ContentReaderOptions_ContentFileMissing) event can be used to detect those issues and to instruct EpubReader how to handle missing content files. Application can choose one of the following options:
 
