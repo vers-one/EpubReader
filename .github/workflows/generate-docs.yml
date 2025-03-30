@@ -31,6 +31,7 @@ jobs:
       - name: Install DocFX
         run: dotnet tool install -g docfx
       - name: Run DocFX
+        run: docfx metadata --logLevel verbose Documentation\docfx.json
         run: docfx build Documentation\docfx.json
       - name: Setup Pages
         uses: actions/configure-pages@v5
