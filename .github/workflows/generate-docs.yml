@@ -30,10 +30,8 @@ jobs:
         run: dotnet restore .\Source\VersOne.Epub\VersOne.Epub.csproj
       - name: Install DocFX
         run: dotnet tool install -g docfx
-      - name: Run DocFX metadata
-        run: docfx metadata --logLevel verbose Documentation\docfx.json
       - name: Run DocFX
-        run: docfx build Documentation\docfx.json
+        run: docfx Documentation\docfx.json
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
