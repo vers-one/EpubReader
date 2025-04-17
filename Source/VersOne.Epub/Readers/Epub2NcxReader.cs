@@ -14,6 +14,7 @@ namespace VersOne.Epub.Internal
     internal class Epub2NcxReader
     {
         private readonly EpubReaderOptions epubReaderOptions;
+        private string tocFileEntryPath = string.Empty;
 
         public Epub2NcxReader(EpubReaderOptions? epubReaderOptions = null)
         {
@@ -29,7 +30,7 @@ namespace VersOne.Epub.Internal
             }
             EpubManifestItem tocManifestItem = package.Manifest.Items.Find(item => item.Id.CompareOrdinalIgnoreCase(tocId)) ??
                 throw new Epub2NcxException($"EPUB parsing error: TOC item {tocId} not found in EPUB manifest.");
-            string tocFileEntryPath = ContentPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
+            tocFileEntryPath = ContentPathUtils.Combine(contentDirectoryPath, tocManifestItem.Href);
             IZipFileEntry? tocFileEntry = epubFile.GetEntry(tocFileEntryPath) ??
                 throw new Epub2NcxException($"EPUB parsing error: TOC file {tocFileEntryPath} not found in the EPUB file.");
             if (tocFileEntry.Length > Int32.MaxValue)
@@ -136,8 +137,31 @@ namespace VersOne.Epub.Internal
             }
             return null;
         }
+        private static string NormalizeRelativePath(string basePath, string relativePath)
+        {
+            if (!relativePath.Contains(".."))
+            {
+                return relativePath;
+            }
 
-        private static Epub2NcxNavigationMap ReadNavigationMap(XElement navigationMapNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
+            string baseDir = Path.GetDirectoryName(basePath) ?? string.Empty;
+            string[] baseParts = baseDir.Replace('\\', '/').Split('/');
+            string[] relParts = relativePath.Replace('\\', '/').Split('/');
+            Stack<string> stack = new(baseParts);
+            foreach (string part in relParts)
+            {
+                if (part == ".." && stack.Count > 0)
+                {
+                    stack.Pop();
+                }
+                else if (part != "." && part != string.Empty)
+                {
+                    stack.Push(part);
+                }
+            }
+            return string.Join("/", stack.Reverse());
+        }
+        private Epub2NcxNavigationMap ReadNavigationMap(XElement navigationMapNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
         {
             List<Epub2NcxNavigationPoint> items = new();
             foreach (XElement navigationPointNode in navigationMapNode.Elements())
@@ -154,7 +178,7 @@ namespace VersOne.Epub.Internal
             return new(items);
         }
 
-        private static Epub2NcxNavigationPoint? ReadNavigationPoint(XElement navigationPointNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
+        private Epub2NcxNavigationPoint? ReadNavigationPoint(XElement navigationPointNode, Epub2NcxReaderOptions epub2NcxReaderOptions)
         {
             string? id = null;
             string? @class = null;
@@ -220,7 +244,7 @@ namespace VersOne.Epub.Internal
             return new(id, @class, playOrder, navigationLabels, content, childNavigationPoints);
         }
 
-        private static Epub2NcxNavigationLabel ReadNavigationLabel(XElement navigationLabelNode)
+        private Epub2NcxNavigationLabel ReadNavigationLabel(XElement navigationLabelNode)
         {
             XElement navigationLabelTextNode = navigationLabelNode.Element(navigationLabelNode.Name.Namespace + "text") ??
                 throw new Epub2NcxException("Incorrect EPUB navigation label: label text element is missing.");
@@ -228,7 +252,7 @@ namespace VersOne.Epub.Internal
             return new(text);
         }
 
-        private static Epub2NcxContent ReadNavigationContent(XElement navigationContentNode)
+        private Epub2NcxContent ReadNavigationContent(XElement navigationContentNode)
         {
             string? id = null;
             string? source = null;
@@ -241,7 +265,7 @@ namespace VersOne.Epub.Internal
                         id = attributeValue;
                         break;
                     case "src":
-                        source = Uri.UnescapeDataString(attributeValue);
+                        source = Uri.UnescapeDataString(NormalizeRelativePath(this.tocFileEntryPath, attributeValue));
                         break;
                 }
             }
@@ -252,7 +276,7 @@ namespace VersOne.Epub.Internal
             return new(id, source);
         }
 
-        private static Epub2NcxPageList ReadNavigationPageList(XElement navigationPageListNode)
+        private Epub2NcxPageList ReadNavigationPageList(XElement navigationPageListNode)
         {
             List<Epub2NcxPageTarget> items = new();
             foreach (XElement pageTargetNode in navigationPageListNode.Elements())
@@ -266,7 +290,7 @@ namespace VersOne.Epub.Internal
             return new(items);
         }
 
-        private static Epub2NcxPageTarget ReadNavigationPageTarget(XElement navigationPageTargetNode)
+        private Epub2NcxPageTarget ReadNavigationPageTarget(XElement navigationPageTargetNode)
         {
             string? id = null;
             string? value = null;
@@ -324,7 +348,7 @@ namespace VersOne.Epub.Internal
             return new(id, value, type, @class, playOrder, navigationLabels, content);
         }
 
-        private static Epub2NcxNavigationList ReadNavigationList(XElement navigationListNode)
+        private Epub2NcxNavigationList ReadNavigationList(XElement navigationListNode)
         {
             string? id = null;
             string? @class = null;
@@ -364,7 +388,7 @@ namespace VersOne.Epub.Internal
             return new(id, @class, navigationLabels, navigationTargets);
         }
 
-        private static Epub2NcxNavigationTarget ReadNavigationTarget(XElement navigationTargetNode)
+        private Epub2NcxNavigationTarget ReadNavigationTarget(XElement navigationTargetNode)
         {
             string? id = null;
             string? @class = null;
