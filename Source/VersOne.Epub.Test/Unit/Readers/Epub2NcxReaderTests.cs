@@ -123,7 +123,38 @@ namespace VersOne.Epub.Test.Unit.Readers
               </navList>
             </ncx>
             """;
-
+            private const string RELATIVE_NCX_FILE = """
+            <?xml version='1.0' encoding='UTF-8'?>
+            <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+              <head>
+                <meta name="dtb:uid" content="9781234567890" />
+                <meta name="dtb:depth" content="1" />
+                <meta name="dtb:generator" content="EpubWriter" />
+                <meta name="dtb:totalPageCount" content="0" />
+                <meta name="dtb:maxPageNumber" content="0" />
+                <meta name="location" content="https://example.com/books/123/ncx" scheme="URI" />
+              </head>
+              <docTitle>
+                <text>Test title</text>
+              </docTitle>
+              <docAuthor>
+                <text>John Doe</text>
+              </docAuthor>
+              <docAuthor>
+                <text>Jane Doe</text>
+              </docAuthor>
+              <navMap>
+                <navPoint id="Page_1">
+                  <navLabel><text>第 001 頁</text></navLabel>
+                  <content src="../html/page-205260.html"/>
+                </navPoint> 
+                <navPoint id="Page_2">
+                  <navLabel><text>第 002 頁</text></navLabel>
+                  <content src="../html/page-251876.html"/>
+                </navPoint> 
+              </navMap>
+            </ncx>
+            """;
         private const string NCX_FILE_WITHOUT_NCX_ELEMENT = """
             <?xml version='1.0' encoding='utf-8'?>
             <test />
@@ -422,7 +453,90 @@ namespace VersOne.Epub.Test.Unit.Readers
                 pageList: null,
                 navLists: null
             );
-
+        private static Epub2Ncx RelativeEpub2Ncx =>
+            new
+            (
+                filePath: NCX_FILE_PATH,
+                head: new Epub2NcxHead
+                (
+                    items: new List<Epub2NcxHeadMeta>
+                    {
+                        new
+                        (
+                            name: "dtb:uid",
+                            content: "9781234567890"
+                        ),
+                        new
+                        (
+                            name: "dtb:depth",
+                            content: "1"
+                        ),
+                        new
+                        (
+                            name: "dtb:generator",
+                            content: "EpubWriter"
+                        ),
+                        new
+                        (
+                            name: "dtb:totalPageCount",
+                            content: "0"
+                        ),
+                        new
+                        (
+                            name: "dtb:maxPageNumber",
+                            content: "0"
+                        ),
+                        new
+                        (
+                            name: "location",
+                            content: "https://example.com/books/123/ncx",
+                            scheme: "URI"
+                        )
+                    }
+                ),
+                docTitle: "Test title",
+                docAuthors: new List<string>()
+                {
+                    "John Doe",
+                    "Jane Doe"
+                },
+                navMap: new Epub2NcxNavigationMap
+                (
+                    items: new List<Epub2NcxNavigationPoint>()
+                    {
+                        new
+                        (
+                            id: "Page_1",
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
+                            {
+                                new
+                                (
+                                    text: "第 001 頁"
+                                )
+                            },
+                            content: new Epub2NcxContent
+                            (
+                                source: "html/page-205260.html"
+                            )
+                        ),
+                        new
+                        (
+                            id: "Page_2",
+                            navigationLabels: new List<Epub2NcxNavigationLabel>()
+                            {
+                                new
+                                (
+                                    text: "第 002 頁"
+                                )
+                            },
+                            content: new Epub2NcxContent
+                            (
+                                source: "html/page-251876.html"
+                            )
+                        )
+                    }
+                )
+            );
         private static Epub2Ncx FullEpub2Ncx =>
             new
             (
@@ -742,7 +856,11 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             await TestSuccessfulReadOperation(FULL_NCX_FILE, FullEpub2Ncx);
         }
-
+        [Fact(DisplayName = "Reading a relative path NCX file should succeed")]
+        public async Task ReadEpub2NcxAsyncWithRelativeNcxFileTest()
+        {
+            await TestSuccessfulReadOperation(RELATIVE_NCX_FILE, RelativeEpub2Ncx);
+        }
         [Fact(DisplayName = "ReadEpub2NcxAsync should return null if EpubPackage is missing spine TOC")]
         public async Task ReadEpub2NcxAsyncWithoutTocTest()
         {
