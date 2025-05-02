@@ -132,6 +132,146 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
 
+        [Fact(DisplayName = "Getting navigation items for EPUB 2 schemas with relative file paths within the NCX file should succeed")]
+        public void GetNavigationItemsForEpub2WithRelativePathsTest()
+        {
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new
+                (
+                    filePath: $"toc/{NCX_FILE_NAME}",
+                    head: new(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new
+                    (
+                        items:
+                        [
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Chapter 1"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "chapter1.html"
+                                ),
+                                childNavigationPoints: null
+                            ),
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Chapter 2"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "Subdirectory/chapter2.html"
+                                ),
+                                childNavigationPoints: null
+                            ),
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Chapter 3"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "../chapter3.html"
+                                ),
+                                childNavigationPoints: null
+                            ),
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Chapter 4"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "../OtherDirectory/chapter4.html"
+                                ),
+                                childNavigationPoints: null
+                            ),
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Chapter 5"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "../OtherDirectory/Subdirectory/chapter5.html"
+                                ),
+                                childNavigationPoints: null
+                            )
+                        ]
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubLocalTextContentFileRef test1TextContentFileRef = CreateTestHtmlFile("toc", "chapter1.html");
+            EpubLocalTextContentFileRef test2TextContentFileRef = CreateTestHtmlFile("toc/Subdirectory", "chapter2.html");
+            EpubLocalTextContentFileRef test3TextContentFileRef = CreateTestHtmlFile(null, "chapter3.html");
+            EpubLocalTextContentFileRef test4TextContentFileRef = CreateTestHtmlFile("OtherDirectory", "chapter4.html");
+            EpubLocalTextContentFileRef test5TextContentFileRef = CreateTestHtmlFile("OtherDirectory/Subdirectory", "chapter5.html");
+            EpubContentRef epubContentRef = CreateContentRef(null, test1TextContentFileRef, test2TextContentFileRef, test3TextContentFileRef,
+                test4TextContentFileRef, test5TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationLink("Chapter 1", "toc", "chapter1.html", test1TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Chapter 2", "toc", "Subdirectory/chapter2.html", test2TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem3 = CreateNavigationLink("Chapter 3", "toc", "../chapter3.html", test3TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem4 = CreateNavigationLink("Chapter 4", "toc", "../OtherDirectory/chapter4.html", test4TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem5 = CreateNavigationLink("Chapter 5", "toc", "../OtherDirectory/Subdirectory/chapter5.html",
+                test5TextContentFileRef);
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
+                expectedNavigationItem1,
+                expectedNavigationItem2,
+                expectedNavigationItem3,
+                expectedNavigationItem4,
+                expectedNavigationItem5
+            ];
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+        }
+
         [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point has no navigation labels")]
         public void GetNavigationItemsForEpub2WithoutNavigationLabelsTest()
         {
@@ -380,6 +520,100 @@ namespace VersOne.Epub.Test.Unit.Readers
             expectedNavigationItem1.NestedItems.AddRange([expectedNavigationItem2, expectedNavigationItem4]);
             expectedNavigationItem2.NestedItems.Add(expectedNavigationItem3);
             expectedNavigationItem4.NestedItems.Add(expectedNavigationItem5);
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
+                expectedNavigationItem1
+            ];
+            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+        }
+
+        [Fact(DisplayName = "Getting navigation items for EPUB 3 schemas with relative file paths within the NAV file should succeed")]
+        public void GetNavigationItemsForEpub3WithRelativePathsTest()
+        {
+            EpubSchema epubSchema = new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new
+                (
+                    filePath: $"nav/{NAV_FILE_NAME}",
+                    navs:
+                    [
+                        new
+                        (
+                            type: Epub3StructuralSemanticsProperty.TOC,
+                            isHidden: false,
+                            head: "Test header",
+                            ol: new
+                            (
+                                lis:
+                                [
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Chapter 1",
+                                            href: "chapter1.html"
+                                        )
+                                    ),
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Chapter 2",
+                                            href: "Subdirectory/chapter2.html"
+                                        )
+                                    ),
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Chapter 3",
+                                            href: "../chapter3.html"
+                                        )
+                                    ),
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Chapter 4",
+                                            href: "../OtherDirectory/chapter4.html"
+                                        )
+                                    ),
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Chapter 5",
+                                            href: "../OtherDirectory/Subdirectory/chapter5.html"
+                                        )
+                                    ),
+                                ]
+                            )
+                        )
+                    ]
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
+            EpubLocalTextContentFileRef test1TextContentFileRef = CreateTestHtmlFile("nav", "chapter1.html");
+            EpubLocalTextContentFileRef test2TextContentFileRef = CreateTestHtmlFile("nav/Subdirectory", "chapter2.html");
+            EpubLocalTextContentFileRef test3TextContentFileRef = CreateTestHtmlFile(null, "chapter3.html");
+            EpubLocalTextContentFileRef test4TextContentFileRef = CreateTestHtmlFile("OtherDirectory", "chapter4.html");
+            EpubLocalTextContentFileRef test5TextContentFileRef = CreateTestHtmlFile("OtherDirectory/Subdirectory", "chapter5.html");
+            EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef, test1TextContentFileRef, test2TextContentFileRef, test3TextContentFileRef,
+                test4TextContentFileRef, test5TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationHeader("Test header");
+            EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Chapter 1", "nav", "chapter1.html", test1TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem3 = CreateNavigationLink("Chapter 2", "nav", "Subdirectory/chapter2.html", test2TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem4 = CreateNavigationLink("Chapter 3", "nav", "../chapter3.html", test3TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem5 = CreateNavigationLink("Chapter 4", "nav", "../OtherDirectory/chapter4.html", test4TextContentFileRef);
+            EpubNavigationItemRef expectedNavigationItem6 = CreateNavigationLink("Chapter 5", "nav", "../OtherDirectory/Subdirectory/chapter5.html",
+                test5TextContentFileRef);
+            expectedNavigationItem1.NestedItems.AddRange([expectedNavigationItem2, expectedNavigationItem3, expectedNavigationItem4, expectedNavigationItem5,
+                expectedNavigationItem6]);
             List<EpubNavigationItemRef> expectedNavigationItems =
             [
                 expectedNavigationItem1
@@ -753,8 +987,13 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private static EpubLocalTextContentFileRef CreateTestHtmlFile(string htmlFileName)
         {
+            return CreateTestHtmlFile(CONTENT_DIRECTORY_PATH, htmlFileName);
+        }
+
+        private static EpubLocalTextContentFileRef CreateTestHtmlFile(string? directory, string htmlFileName)
+        {
             return new(new EpubContentFileRefMetadata(htmlFileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"),
-                $"{CONTENT_DIRECTORY_PATH}/{htmlFileName}", new TestEpubContentLoader());
+                directory != null ? $"{directory}/{htmlFileName}" : htmlFileName, new TestEpubContentLoader());
         }
 
         private static EpubPackage CreateEmptyPackage(EpubVersion epubVersion)
@@ -772,11 +1011,16 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private static EpubNavigationItemRef CreateNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
         {
+            return CreateNavigationLink(title, CONTENT_DIRECTORY_PATH, htmlFileUrl, htmlFileRef);
+        }
+
+        private static EpubNavigationItemRef CreateNavigationLink(string title, string directory, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)
+        {
             return new
             (
                 type: EpubNavigationItemType.LINK,
                 title: title,
-                link: new(htmlFileUrl, CONTENT_DIRECTORY_PATH),
+                link: new(htmlFileUrl, directory),
                 htmlContentFileRef: htmlFileRef,
                 nestedItems: null
             );

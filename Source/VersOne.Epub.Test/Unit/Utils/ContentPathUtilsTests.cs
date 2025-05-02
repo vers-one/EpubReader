@@ -40,6 +40,8 @@ namespace VersOne.Epub.Test.Unit.Utils
         [InlineData("", "File.html", "File.html")]
         [InlineData(null, "File.html", "File.html")]
         [InlineData("Directory/Subdirectory", "../File.html", "Directory/File.html")]
+        [InlineData("Directory//Subdirectory", "..//File.html", "Directory/File.html")]
+        [InlineData("Directory///Subdirectory", "..///File.html", "Directory/File.html")]
         [InlineData("Directory", "../File.html", "File.html")]
         [InlineData("Directory/Subdirectory/Subsubdirectory", "../../File.html", "Directory/File.html")]
         [InlineData("Directory/Subdirectory", "../../File.html", "File.html")]
