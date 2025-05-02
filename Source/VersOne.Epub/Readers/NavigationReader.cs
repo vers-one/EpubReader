@@ -21,16 +21,17 @@ namespace VersOne.Epub.Internal
 
         public static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub2Ncx epub2Ncx)
         {
-            return GetNavigationItems(epubSchema, epubContentRef, epub2Ncx.NavMap.Items);
+            return GetNavigationItems(epubSchema, epubContentRef, epub2Ncx.NavMap.Items, ContentPathUtils.GetDirectoryPath(epub2Ncx.FilePath));
         }
 
         public static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub3NavDocument epub3NavDocument)
         {
             return GetNavigationItems(epubSchema, epubContentRef, epub3NavDocument.Navs.Find(nav => nav.Type == Epub3StructuralSemanticsProperty.TOC),
-                epub3NavDocument.FilePath);
+                ContentPathUtils.GetDirectoryPath(epub3NavDocument.FilePath));
         }
 
-        private static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, List<Epub2NcxNavigationPoint> navigationPoints)
+        private static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef,
+            List<Epub2NcxNavigationPoint> navigationPoints, string epub2NcxBaseDirectoryPath)
         {
             List<EpubNavigationItemRef> result = new();
             if (navigationPoints != null)
@@ -46,22 +47,23 @@ namespace VersOne.Epub.Internal
                     {
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" cannot be a remote resource.");
                     }
-                    EpubNavigationItemLink link = new(source, epubSchema.ContentDirectoryPath);
+                    EpubNavigationItemLink link = new(source, epub2NcxBaseDirectoryPath);
                     EpubLocalTextContentFileRef? htmlContentFileRef = GetLocalHtmlContentFileRef(epubContentRef, link.ContentFilePath) ??
                         throw new Epub2NcxException($"Incorrect EPUB 2 NCX: content source \"{source}\" not found in EPUB manifest.");
-                    List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, navigationPoint.ChildNavigationPoints);
+                    List<EpubNavigationItemRef> nestedItems = GetNavigationItems(epubSchema, epubContentRef, navigationPoint.ChildNavigationPoints,
+                        epub2NcxBaseDirectoryPath);
                     result.Add(new EpubNavigationItemRef(type, title, link, htmlContentFileRef, nestedItems));
                 }
             }
             return result;
         }
 
-        private static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub3Nav epub3Nav, string epub3NavDocumentFilePath)
+        private static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub3Nav epub3Nav,
+            string epub3NavigationBaseDirectoryPath)
         {
             List<EpubNavigationItemRef> result;
             if (epub3Nav != null)
             {
-                string epub3NavigationBaseDirectoryPath = ContentPathUtils.GetDirectoryPath(epub3NavDocumentFilePath);
                 if (epub3Nav.Head != null)
                 {
                     result = new List<EpubNavigationItemRef>();

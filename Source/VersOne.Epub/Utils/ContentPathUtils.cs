@@ -23,6 +23,8 @@ namespace VersOne.Epub.Internal
 
         public static string Combine(string directory, string fileName)
         {
+            directory = RemoveRepeatingSlashes(directory);
+            fileName = RemoveRepeatingSlashes(fileName);
             if (String.IsNullOrEmpty(directory))
             {
                 return fileName;
@@ -41,6 +43,19 @@ namespace VersOne.Epub.Internal
                 }
                 return String.IsNullOrEmpty(directory) ? fileName : String.Concat(directory, '/', fileName);
             }
+        }
+
+        private static string RemoveRepeatingSlashes(string path)
+        {
+            if (String.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+            while (path.Contains("//"))
+            {
+                path = path.Replace("//", "/");
+            }
+            return path;
         }
     }
 }
