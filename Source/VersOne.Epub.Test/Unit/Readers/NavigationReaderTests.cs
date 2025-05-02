@@ -35,13 +35,13 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubSchema epubSchema = new
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new Epub2Ncx
+                epub2Ncx: new
                 (
                     filePath: NCX_FILE_PATH,
-                    head: new Epub2NcxHead(),
+                    head: new(),
                     docTitle: null,
                     docAuthors: null,
-                    navMap: new Epub2NcxNavigationMap(),
+                    navMap: new(),
                     pageList: null,
                     navLists: null
                 ),
@@ -50,7 +50,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
-            List<EpubNavigationItemRef> expectedNavigationItems = new();
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -61,56 +61,56 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubSchema epubSchema = new
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new Epub2Ncx
+                epub2Ncx: new
                 (
                     filePath: NCX_FILE_PATH,
-                    head: new Epub2NcxHead(),
+                    head: new(),
                     docTitle: null,
                     docAuthors: null,
-                    navMap: new Epub2NcxNavigationMap
+                    navMap: new
                     (
-                        items: new List<Epub2NcxNavigationPoint>()
-                        {
-                            new Epub2NcxNavigationPoint
+                        items:
+                        [
+                            new
                             (
                                 id: String.Empty,
                                 @class: null,
                                 playOrder: null,
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
-                                    new Epub2NcxNavigationLabel
+                                navigationLabels:
+                                [
+                                    new
                                     (
                                         text: "Test label 1"
                                     ),
-                                    new Epub2NcxNavigationLabel
+                                    new
                                     (
                                         text: "Test label 2"
                                     )
-                                },
-                                content: new Epub2NcxContent
+                                ],
+                                content: new
                                 (
                                     source: "chapter1.html"
                                 ),
-                                childNavigationPoints: new List<Epub2NcxNavigationPoint>()
-                                {
-                                    new Epub2NcxNavigationPoint
+                                childNavigationPoints:
+                                [
+                                    new
                                     (
                                         id: String.Empty,
-                                        navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                        {
-                                            new Epub2NcxNavigationLabel
+                                        navigationLabels:
+                                        [
+                                            new
                                             (
                                                 text: "Test label 3"
                                             )
-                                        },
-                                        content: new Epub2NcxContent
+                                        ],
+                                        content: new
                                         (
                                             source: "chapter1.html#section-1"
                                         )
                                     )
-                                }
+                                ]
                             )
-                        }
+                        ]
                     ),
                     pageList: null,
                     navLists: null
@@ -124,10 +124,10 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubNavigationItemRef expectedNavigationItem1 = CreateNavigationLink("Test label 1", "chapter1.html", testTextContentFileRef);
             EpubNavigationItemRef expectedNavigationItem2 = CreateNavigationLink("Test label 3", "chapter1.html#section-1", testTextContentFileRef);
             expectedNavigationItem1.NestedItems.Add(expectedNavigationItem2);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 expectedNavigationItem1
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -138,29 +138,29 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubSchema epubSchema = new
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new Epub2Ncx
+                epub2Ncx: new
                 (
                     filePath: NCX_FILE_PATH,
-                    head: new Epub2NcxHead(),
+                    head: new(),
                     docTitle: null,
                     docAuthors: null,
-                    navMap: new Epub2NcxNavigationMap
+                    navMap: new
                     (
-                        items: new List<Epub2NcxNavigationPoint>()
-                        {
-                            new Epub2NcxNavigationPoint
+                        items:
+                        [
+                            new
                             (
                                 id: String.Empty,
                                 @class: null,
                                 playOrder: null,
-                                navigationLabels: new List<Epub2NcxNavigationLabel>(),
-                                content: new Epub2NcxContent
+                                navigationLabels: [],
+                                content: new
                                 (
                                     source: "chapter1.html"
                                 ),
                                 childNavigationPoints: null
                             )
-                        }
+                        ]
                     ),
                     pageList: null,
                     navLists: null
@@ -180,35 +180,35 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubSchema epubSchema = new
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new Epub2Ncx
+                epub2Ncx: new
                 (
                     filePath: NCX_FILE_PATH,
-                    head: new Epub2NcxHead(),
+                    head: new(),
                     docTitle: null,
                     docAuthors: null,
-                    navMap: new Epub2NcxNavigationMap
+                    navMap: new
                     (
-                        items: new List<Epub2NcxNavigationPoint>()
-                        {
-                            new Epub2NcxNavigationPoint
+                        items:
+                        [
+                            new
                             (
                                 id: String.Empty,
                                 @class: null,
                                 playOrder: null,
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
-                                    new Epub2NcxNavigationLabel
+                                navigationLabels:
+                                [
+                                    new
                                     (
                                         text: "Test label"
                                     )
-                                },
-                                content: new Epub2NcxContent
+                                ],
+                                content: new
                                 (
                                     source: remoteFileHref
                                 ),
                                 childNavigationPoints: null
                             )
-                        }
+                        ]
                     ),
                     pageList: null,
                     navLists: null
@@ -227,35 +227,35 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubSchema epubSchema = new
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new Epub2Ncx
+                epub2Ncx: new
                 (
                     filePath: NCX_FILE_PATH,
-                    head: new Epub2NcxHead(),
+                    head: new(),
                     docTitle: null,
                     docAuthors: null,
-                    navMap: new Epub2NcxNavigationMap
+                    navMap: new
                     (
-                        items: new List<Epub2NcxNavigationPoint>()
-                        {
-                            new Epub2NcxNavigationPoint
+                        items:
+                        [
+                            new
                             (
                                 id: String.Empty,
                                 @class: null,
                                 playOrder: null,
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
-                                    new Epub2NcxNavigationLabel
+                                navigationLabels:
+                                [
+                                    new
                                     (
                                         text: "Test label"
                                     )
-                                },
-                                content: new Epub2NcxContent
+                                ],
+                                content: new
                                 (
                                     source: "chapter1.html"
                                 ),
                                 childNavigationPoints: null
                             )
-                        }
+                        ]
                     ),
                     pageList: null,
                     navLists: null
@@ -275,7 +275,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH
                 ),
@@ -283,7 +283,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
-            List<EpubNavigationItemRef> expectedNavigationItems = new();
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -295,36 +295,36 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             isHidden: false,
                             head: "Test header",
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi
+                                lis:
+                                [
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: "Test text 1",
                                             title: "Test title 1",
                                             alt: "Test alt 1",
                                             href: "chapter1.html"
                                         ),
-                                        childOl: new Epub3NavOl
+                                        childOl: new
                                         (
-                                            lis: new List<Epub3NavLi>()
-                                            {
-                                                new Epub3NavLi
+                                            lis:
+                                            [
+                                                new
                                                 (
-                                                    anchor: new Epub3NavAnchor
+                                                    anchor: new
                                                     (
                                                         text: "Test text 2",
                                                         title: "Test title 2",
@@ -332,24 +332,24 @@ namespace VersOne.Epub.Test.Unit.Readers
                                                         href: "chapter1.html#section-1"
                                                     )
                                                 )
-                                            }
+                                            ]
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        span: new Epub3NavSpan
+                                        span: new
                                         (
                                             text: "Test text 3",
                                             title: "Test title 3",
                                             alt: "Test alt 3"
                                         ),
-                                        childOl: new Epub3NavOl
+                                        childOl: new
                                         (
-                                            lis: new List<Epub3NavLi>()
-                                            {
-                                                new Epub3NavLi
+                                            lis:
+                                            [
+                                                new
                                                 (
-                                                    anchor: new Epub3NavAnchor
+                                                    anchor: new
                                                     (
                                                         text: "Test text 4",
                                                         title: "Test title 4",
@@ -357,13 +357,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                                                         href: "chapter2.html"
                                                     )
                                                 )
-                                            }
+                                            ]
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
@@ -377,13 +377,13 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubNavigationItemRef expectedNavigationItem3 = CreateNavigationLink("Test text 2", "chapter1.html#section-1", testTextContentFileRef1);
             EpubNavigationItemRef expectedNavigationItem4 = CreateNavigationHeader("Test text 3");
             EpubNavigationItemRef expectedNavigationItem5 = CreateNavigationLink("Test text 4", "chapter2.html", testTextContentFileRef2);
-            expectedNavigationItem1.NestedItems.AddRange(new[] { expectedNavigationItem2, expectedNavigationItem4 });
+            expectedNavigationItem1.NestedItems.AddRange([expectedNavigationItem2, expectedNavigationItem4]);
             expectedNavigationItem2.NestedItems.Add(expectedNavigationItem3);
             expectedNavigationItem4.NestedItems.Add(expectedNavigationItem5);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 expectedNavigationItem1
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -395,32 +395,32 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             isHidden: false,
                             head: null,
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi
+                                lis:
+                                [
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: "Test text",
                                             href: "chapter1.html"
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
@@ -428,10 +428,10 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 CreateNavigationLink("Test text", "chapter1.html", testTextContentFileRef)
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -443,30 +443,30 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi()
-                                }
+                                lis:
+                                [
+                                    new()
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
-            List<EpubNavigationItemRef> expectedNavigationItems = new();
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -478,40 +478,40 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi
+                                lis:
+                                [
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: "Null href test",
                                             href: null
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 CreateNavigationHeader("Null href test")
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -523,30 +523,30 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi
+                                lis:
+                                [
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: String.Empty,
                                             title: "Test title 1",
                                             href: "chapter1.html"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: String.Empty,
                                             title: null,
@@ -554,9 +554,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                                             href: "chapter1.html"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: String.Empty,
                                             title: String.Empty,
@@ -564,9 +564,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                                             href: "chapter1.html"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: String.Empty,
                                             title: null,
@@ -574,9 +574,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                                             href: "chapter1.html"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: String.Empty,
                                             title: null,
@@ -584,54 +584,54 @@ namespace VersOne.Epub.Test.Unit.Readers
                                             href: "chapter1.html"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        span: new Epub3NavSpan
+                                        span: new
                                         (
                                             text: String.Empty,
                                             title: "Test title 6"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        span: new Epub3NavSpan
+                                        span: new
                                         (
                                             text: String.Empty,
                                             title: null,
                                             alt: "Test alt 7"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        span: new Epub3NavSpan
+                                        span: new
                                         (
                                             text: String.Empty,
                                             title: String.Empty,
                                             alt: "Test alt 8"
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        span: new Epub3NavSpan
+                                        span: new
                                         (
                                             text: String.Empty,
                                             title: null,
                                             alt: null
                                         )
                                     ),
-                                    new Epub3NavLi
+                                    new
                                     (
-                                        span: new Epub3NavSpan
+                                        span: new
                                         (
                                             text: String.Empty,
                                             title: null,
                                             alt: String.Empty
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
@@ -639,8 +639,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile("chapter1.html");
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef, testTextContentFileRef);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 CreateNavigationLink("Test title 1", "chapter1.html", testTextContentFileRef),
                 CreateNavigationLink("Test alt 2", "chapter1.html", testTextContentFileRef),
                 CreateNavigationLink("Test alt 3", "chapter1.html", testTextContentFileRef),
@@ -651,7 +651,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 CreateNavigationHeader("Test alt 8"),
                 CreateNavigationHeader(String.Empty),
                 CreateNavigationHeader(String.Empty),
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -663,32 +663,32 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             isHidden: false,
                             head: null,
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi
+                                lis:
+                                [
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: "Test text",
                                             href: "chapter1.html"
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
@@ -705,39 +705,39 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 package: CreateEmptyPackage(EpubVersion.EPUB_3),
                 epub2Ncx: null,
-                epub3NavDocument: new Epub3NavDocument
+                epub3NavDocument: new
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
-                        new Epub3Nav
+                    navs:
+                    [
+                        new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
-                            ol: new Epub3NavOl
+                            ol: new
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
-                                    new Epub3NavLi
+                                lis:
+                                [
+                                    new
                                     (
-                                        anchor: new Epub3NavAnchor
+                                        anchor: new
                                         (
                                             text: "Test text",
                                             href: remoteFileHref
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 mediaOverlays: null,
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
-            List<EpubLocalTextContentFileRef> htmlLocal = new()
-            {
+            List<EpubLocalTextContentFileRef> htmlLocal =
+            [
                 testNavigationHtmlFileRef
-            };
+            ];
             EpubContentRef epubContentRef = new
             (
                 navigationHtmlFile: testNavigationHtmlFileRef,
@@ -763,9 +763,9 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 uniqueIdentifier: null,
                 epubVersion: epubVersion,
-                metadata: new EpubMetadata(),
-                manifest: new EpubManifest(),
-                spine: new EpubSpine(),
+                metadata: new(),
+                manifest: new(),
+                spine: new(),
                 guide: null
             );
         }
@@ -776,7 +776,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 type: EpubNavigationItemType.LINK,
                 title: title,
-                link: new EpubNavigationItemLink(htmlFileUrl, CONTENT_DIRECTORY_PATH),
+                link: new(htmlFileUrl, CONTENT_DIRECTORY_PATH),
                 htmlContentFileRef: htmlFileRef,
                 nestedItems: null
             );
@@ -796,7 +796,7 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private static EpubContentRef CreateContentRef(EpubLocalTextContentFileRef? navigationHtmlFile, params EpubLocalTextContentFileRef[] htmlFiles)
         {
-            List<EpubLocalTextContentFileRef> local = new();
+            List<EpubLocalTextContentFileRef> local = [];
             if (navigationHtmlFile != null)
             {
                 local.Add(navigationHtmlFile);
