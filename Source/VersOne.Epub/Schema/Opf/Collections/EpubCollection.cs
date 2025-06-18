@@ -10,7 +10,7 @@ namespace VersOne.Epub.Schema
     /// back into a meaningful unit (e.g., an index split across multiple documents), identifying resources for specialized purposes
     /// (e.g., preview content), or collecting together resources that present additional information about this EPUB book.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#elemdef-collection" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-collection-elem" /> for more information.</para>
     /// </summary>
     public class EpubCollection
     {
@@ -39,43 +39,43 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets the role of this collection.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-collection-role" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-collection-role" /> for more information.</para>
         /// </summary>
         public string Role { get; }
 
         /// <summary>
         /// <para>Gets the EPUB meta information included into this collection or <c>null</c> if the collection doesn't have any meta information.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#elemdef-collection-metadata" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#sec-defining-collection-types" /> for more information.</para>
         /// </summary>
         public EpubMetadata? Metadata { get; }
 
         /// <summary>
         /// <para>Gets a list of sub-collections included in this collection.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#elemdef-collection" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#elemdef-collection" /> for more information.</para>
         /// </summary>
         public List<EpubCollection> NestedCollections { get; }
 
         /// <summary>
         /// <para>Gets a list of metadata links. Links are used to associate resources with this collection, such as metadata records.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#elemdef-collection-link" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-collection-role" /> for more information.</para>
         /// </summary>
         public List<EpubMetadataLink> Links { get; }
 
         /// <summary>
         /// <para>Gets the unique ID of this collection or <c>null</c> if the collection doesn't have an ID.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-id" /> for more information.</para>
         /// </summary>
         public string? Id { get; }
 
         /// <summary>
         /// <para>Gets the text direction of this collection or <c>null</c> if the collection doesn't specify a text direction.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-dir" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-dir" /> for more information.</para>
         /// </summary>
         public EpubTextDirection? TextDirection { get; }
 
         /// <summary>
         /// <para>Gets the language of this collection or <c>null</c> if the collection doesn't specify the language.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-xml-lang" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-xml-lang" /> for more information.</para>
         /// </summary>
         public string? Language { get; }
     }

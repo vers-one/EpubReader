@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
     /// <summary>
     /// <para>EPUB manifest. Provides an exhaustive list of the content items that constitute the EPUB book.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-manifest-elem" />
+    /// See <see href="https://www.w3.org/TR/epub/#sec-manifest-elem" />
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.3" /> for more information.
     /// </para>
     /// </summary>
@@ -25,7 +25,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the ID of the manifest or <c>null</c> if the manifest doesn't specify an ID.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub/#attrdef-id" /> for more information.
         /// </para>
         /// </summary>
         public string? Id { get; }
@@ -33,7 +33,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets a list of the content items that constitute the EPUB book.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-manifest-elem" />
+        /// See <see href="https://www.w3.org/TR/epub/#sec-manifest-elem" />
         /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.3" /> for more information.
         /// </para>
         /// </summary>

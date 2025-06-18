@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>Text direction of the content.</para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-dir" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-dir" /> for more information.</para>
     /// </summary>
     public enum EpubTextDirection
     {

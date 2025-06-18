@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>Page progression direction within the spine. Represents the global direction in which the content flows.</para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-spine-page-progression-direction" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-spine-page-progression-direction" /> for more information.</para>
     /// </summary>
     public enum EpubPageProgressionDirection
     {

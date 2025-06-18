@@ -7,7 +7,7 @@ namespace VersOne.Epub.Schema
     /// Parsed content of the reference to an element (typically, a textual element) in the EPUB content document.
     /// This class corresponds to the &lt;text&gt; element in a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-mediaoverlays.html#sec-smil-text-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-smil-text-elem" /> for more information.</para>
     /// </summary>
     public class SmilText
     {

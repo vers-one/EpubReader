@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
     /// <summary>
     /// <para>The date of the publication or some other event associated with the EPUB book.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf-dcdate" />,
+    /// See <see href="https://www.w3.org/TR/epub/#sec-opf-dcdate" />,
     /// <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2.7" />,
     /// and <see href="http://purl.org/dc/elements/1.1/date" /> for more information.
     /// </para>
@@ -31,7 +31,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the date of the event.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf-dcdate" />,
+        /// See <see href="https://www.w3.org/TR/epub/#sec-opf-dcdate" />,
         /// <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2.7" />,
         /// and <see href="http://purl.org/dc/elements/1.1/date" /> for more information.
         /// </para>
@@ -40,7 +40,7 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets the unique ID of this EPUB metadata date item.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-id" /> for more information.</para>
         /// </summary>
         public string? Id { get; }
 

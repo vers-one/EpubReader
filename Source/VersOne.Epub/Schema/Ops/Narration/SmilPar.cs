@@ -8,7 +8,7 @@ namespace VersOne.Epub.Schema
     /// Parsed content of a SMIL phrase which identifies a text and audio component to synchronize during playback.
     /// This class corresponds to the &lt;par&gt; element in a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-mediaoverlays.html#sec-smil-par-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-smil-par-elem" /> for more information.</para>
     /// </summary>
     public class SmilPar
     {
