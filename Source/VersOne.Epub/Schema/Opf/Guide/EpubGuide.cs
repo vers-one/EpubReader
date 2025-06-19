@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
     /// <summary>
     /// <para>EPUB 2 guide. Provides machine-processable navigation to the key structural components of the EPUB book (e.g., cover page, table of contents, etc.).</para>
     /// <para>
-    /// See <see href="https://www.w3.org/TR/epub/#sec-opf2-guide" />
+    /// See <see href="https://www.w3.org/TR/epub-33/#sec-opf2-guide" />
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.6" /> for more information.
     /// </para>
     /// </summary>
@@ -23,7 +23,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets a list of EPUB 2 guide references to the key structural components of the EPUB book (e.g., cover page, table of contents, etc.).</para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#sec-opf2-guide" />
+        /// See <see href="https://www.w3.org/TR/epub-33/#sec-opf2-guide" />
         /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.6" /> for more information.
         /// </para>
         /// </summary>

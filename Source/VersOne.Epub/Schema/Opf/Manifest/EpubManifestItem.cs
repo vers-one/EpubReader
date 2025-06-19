@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>An item within the <see cref="EpubManifest" />. Represents a single content item of the EPUB book.</para>
-    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-item-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-item-elem" /> for more information.</para>
     /// </summary>
     public class EpubManifestItem
     {
@@ -72,8 +72,8 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the unique ID of this EPUB manifest item.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#attrdef-id" />
-        /// and <see href="https://www.w3.org/TR/epub/#sec-item-elem" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#attrdef-id" />
+        /// and <see href="https://www.w3.org/TR/epub-33/#sec-item-elem" /> for more information.
         /// </para>
         /// </summary>
         public string Id { get; }
@@ -81,15 +81,15 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the URI to the content item represented by this EPUB manifest item.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#attrdef-href" />
-        /// and <see href="https://www.w3.org/TR/epub/#sec-item-elem" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#attrdef-href" />
+        /// and <see href="https://www.w3.org/TR/epub-33/#sec-item-elem" /> for more information.
         /// </para>
         /// </summary>
         public string Href { get; }
 
         /// <summary>
         /// <para>Gets the MIME media type of the content item represented by this EPUB manifest item.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-item-media-type" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-item-media-type" /> for more information.</para>
         /// </summary>
         public string MediaType { get; }
 
@@ -98,7 +98,7 @@ namespace VersOne.Epub.Schema
         /// Gets the ID of the media overlay document for the content item represented by this EPUB manifest item
         /// or <c>null</c> if the content item doesn't have a media overlay document.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-item-media-overlay" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-item-media-overlay" /> for more information.</para>
         /// </summary>
         public string? MediaOverlay { get; }
 
@@ -125,7 +125,7 @@ namespace VersOne.Epub.Schema
         /// Gets the ID of the fallback for the content item represented by this EPUB manifest item
         /// or <c>null</c> if the content item does not have a fallback.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-item-fallback" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-item-fallback" /> for more information.</para>
         /// </summary>
         public string? Fallback { get; }
 
@@ -141,9 +141,9 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the list of properties of this EPUB manifest item or <c>null</c> if the manifest item doesn't declare properties.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#attrdef-properties" />,
-        /// <see href="https://www.w3.org/TR/epub/#sec-item-elem" />,
-        /// and <see href="https://www.w3.org/TR/epub/#app-item-properties-vocab" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#attrdef-properties" />,
+        /// <see href="https://www.w3.org/TR/epub-33/#sec-item-elem" />,
+        /// and <see href="https://www.w3.org/TR/epub-33/#app-item-properties-vocab" /> for more information.
         /// </para>
         /// </summary>
         public List<EpubManifestProperty>? Properties { get; }

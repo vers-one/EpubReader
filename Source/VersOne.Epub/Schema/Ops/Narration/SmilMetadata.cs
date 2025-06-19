@@ -10,7 +10,7 @@ namespace VersOne.Epub.Schema
     /// This class corresponds to the &lt;metadata&gt; element in a media overlay document.
     /// The content of this XML element is not parsed because EPUB 3 SMIL standard doesn't put any restrictions on its structure.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-smil-metadata-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-smil-metadata-elem" /> for more information.</para>
     /// </summary>
     public class SmilMetadata
     {

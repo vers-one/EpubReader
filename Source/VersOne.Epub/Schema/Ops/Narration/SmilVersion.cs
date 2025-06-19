@@ -3,7 +3,7 @@
     /// <summary>
     /// <para>Version of the SMIL specification to which the given media overlay document conforms.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/TR/epub/#sec-smil-smil-elem" /> for more information.
+    /// See <see href="https://www.w3.org/TR/epub-33/#sec-smil-smil-elem" /> for more information.
     /// </para>
     /// </summary>
     public enum SmilVersion

@@ -5,7 +5,7 @@
     /// Parsed content of the media overlay head which acts as a container for metadata elements.
     /// This class corresponds to the &lt;head&gt; element in a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-smil-head-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-smil-head-elem" /> for more information.</para>
     /// </summary>
     public class SmilHead
     {

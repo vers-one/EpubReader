@@ -7,43 +7,43 @@ namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>Property of <see cref="EpubSpineItemRef" />.</para>
-    /// <para>See <see href="https://www.w3.org/TR/epub/#app-itemref-properties-vocab" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#app-itemref-properties-vocab" /> for more information.</para>
     /// </summary>
     public enum EpubSpineProperty
     {
         /// <summary>
         /// <para>The 'rendition:layout-pre-paginated' property. Specifies that the given spine item is pre-paginated.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#layout-pre-paginated" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#layout-pre-paginated" /> for more information.</para>
         /// </summary>
         LAYOUT_PRE_PAGINATED = 1,
 
         /// <summary>
         /// <para>The 'rendition:layout-reflowable' property. Specifies that the given spine item is reflowable.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#layout-reflowable" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#layout-reflowable" /> for more information.</para>
         /// </summary>
         LAYOUT_REFLOWABLE,
 
         /// <summary>
         /// <para>The 'rendition:orientation-auto' property. Specifies that the reading application determines the orientation to render the spine item in.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#orientation-auto" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#orientation-auto" /> for more information.</para>
         /// </summary>
         ORIENTATION_AUTO,
 
         /// <summary>
         /// <para>The 'rendition:orientation-landscape' property. Specifies that the reading application should render the given spine item in landscape orientation.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#orientation-landscape" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#orientation-landscape" /> for more information.</para>
         /// </summary>
         ORIENTATION_LANDSCAPE,
 
         /// <summary>
         /// <para>The 'rendition:orientation-portrait' property. Specifies that the reading application should render the given spine item in portrait orientation.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#orientation-portrait" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#orientation-portrait" /> for more information.</para>
         /// </summary>
         ORIENTATION_PORTRAIT,
 
         /// <summary>
         /// <para>The 'rendition:spread-auto' property. Specifies that the reading application determines when to render a synthetic spread for the spine item.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#spread-auto" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#spread-auto" /> for more information.</para>
         /// </summary>
         SPREAD_AUTO,
 
@@ -51,7 +51,7 @@ namespace VersOne.Epub.Schema
         /// <para>
         /// The 'rendition:spread-both' property. Specifies that the reading application should render a synthetic spread for the spine item in both portrait and landscape orientations.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#spread-both" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#spread-both" /> for more information.</para>
         /// </summary>
         SPREAD_BOTH,
 
@@ -59,19 +59,19 @@ namespace VersOne.Epub.Schema
         /// <para>
         /// The 'rendition:spread-landscape' property. Specifies that the reading application should render a synthetic spread for the spine item only when in landscape orientation.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#spread-landscape" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#spread-landscape" /> for more information.</para>
         /// </summary>
         SPREAD_LANDSCAPE,
 
         /// <summary>
         /// <para>The 'rendition:spread-none' property. Specifies that the reading application should not render a synthetic spread for the spine item.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#spread-none" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#spread-none" /> for more information.</para>
         /// </summary>
         SPREAD_NONE,
 
         /// <summary>
         /// <para>The 'rendition:page-spread-center' property. Indicates that the spine item should be centered.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#page-spread-center" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#page-spread-center" /> for more information.</para>
         /// </summary>
         PAGE_SPREAD_CENTER,
 
@@ -81,8 +81,8 @@ namespace VersOne.Epub.Schema
         /// Indicates that the first page of the associated spine item represents the left-hand side of a two-page spread.
         /// </para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#fxl-page-spread-left" />
-        /// or <see href="https://www.w3.org/TR/epub/#page-spread-left" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#fxl-page-spread-left" />
+        /// or <see href="https://www.w3.org/TR/epub-33/#page-spread-left" /> for more information.
         /// </para>
         /// </summary>
         PAGE_SPREAD_LEFT,
@@ -93,15 +93,15 @@ namespace VersOne.Epub.Schema
         /// Indicates that the first page of the associated spine item represents the right-hand side of a two-page spread.
         /// </para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#fxl-page-spread-right" />
-        /// or <see href="https://www.w3.org/TR/epub/#page-spread-right" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#fxl-page-spread-right" />
+        /// or <see href="https://www.w3.org/TR/epub-33/#page-spread-right" /> for more information.
         /// </para>
         /// </summary>
         PAGE_SPREAD_RIGHT,
 
         /// <summary>
         /// <para>The 'rendition:flow-paginated' property. Indicates that the EPUB creator preference is to dynamically paginate content overflow.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#flow-paginated" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#flow-paginated" /> for more information.</para>
         /// </summary>
         FLOW_PAGINATED,
 
@@ -111,7 +111,7 @@ namespace VersOne.Epub.Schema
         /// Indicates that the EPUB creator preference is to provide a scrolled view for overflow content,
         /// and that consecutive spine items with this property are to be rendered as a continuous scroll.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#flow-scrolled-continuous" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#flow-scrolled-continuous" /> for more information.</para>
         /// </summary>
         FLOW_SCROLLED_CONTINUOUS,
 
@@ -121,19 +121,19 @@ namespace VersOne.Epub.Schema
         /// Indicates that the EPUB creator preference is to provide a scrolled view for overflow content,
         /// and each spine item with this property is to be rendered as a separate scrollable document.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#flow-scrolled-doc" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#flow-scrolled-doc" /> for more information.</para>
         /// </summary>
         FLOW_SCROLLED_DOC,
 
         /// <summary>
         /// <para>The 'rendition:flow-auto' property. Indicates that the EPUB creator has no preference for overflow content handling.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#flow-auto" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#flow-auto" /> for more information.</para>
         /// </summary>
         FLOW_AUTO,
 
         /// <summary>
         /// <para>The 'rendition:align-x-center' property. Specifies that the given spine item should be centered horizontally in the viewport or spread.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#align-x-center" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#align-x-center" /> for more information.</para>
         /// </summary>
         ALIGN_X_CENTER,
 

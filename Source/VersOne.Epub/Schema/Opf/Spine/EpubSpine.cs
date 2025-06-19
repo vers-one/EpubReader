@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
     /// <summary>
     /// <para>EPUB spine. Defines an ordered list of <see cref="EpubSpineItemRef" /> items that represent the default reading order of the EPUB book.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/TR/epub/#sec-pkg-spine" />
+    /// See <see href="https://www.w3.org/TR/epub-33/#sec-pkg-spine" />
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4" /> for more information.
     /// </para>
     /// </summary>
@@ -34,7 +34,7 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets the unique ID of this EPUB spine or <c>null</c> if the spine doesn't have an ID.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-id" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-id" /> for more information.</para>
         /// </summary>
         public string? Id { get; }
 
@@ -43,7 +43,7 @@ namespace VersOne.Epub.Schema
         /// Gets the page progression direction which defines the global direction in which the content flows
         /// or <c>null</c> if the spine doesn't specify a page progression direction.
         /// </para>
-        /// <para>See <see href="https://www.w3.org/TR/epub/#attrdef-spine-page-progression-direction" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-spine-page-progression-direction" /> for more information.</para>
         /// </summary>
         public EpubPageProgressionDirection? PageProgressionDirection { get; }
 
@@ -59,7 +59,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets an ordered list of <see cref="EpubSpineItemRef" /> items that represent the default reading order of the EPUB book.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/TR/epub/#sec-pkg-spine" />
+        /// See <see href="https://www.w3.org/TR/epub-33/#sec-pkg-spine" />
         /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4" /> for more information.
         /// </para>
         /// </summary>

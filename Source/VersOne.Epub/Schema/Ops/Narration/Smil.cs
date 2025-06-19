@@ -7,7 +7,7 @@ namespace VersOne.Epub.Schema
     /// Parsed content of a EPUB 3 media overlay document.
     /// This class corresponds to the &lt;smil&gt; element which is the root element for a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-smil-smil-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-smil-smil-elem" /> for more information.</para>
     /// </summary>
     public class Smil
     {

@@ -14,7 +14,7 @@ assignees: ''
 <!-- Please provide a link to a sample EPUB file reproducing the bug (unless this EPUB file is under copyright restrictions). -->
 
 ## EPUB specification link
-<!-- If you believe that the library violates some parts of the EPUB standard, provide a link to a relevant EPUB specification section. EPUB 2 specification can be found here: http://idpf.org/epub/201 and the latest version of EPUB 3 specification is located here: https://www.w3.org/TR/epub/ -->
+<!-- If you believe that the library violates some parts of the EPUB standard, provide a link to a relevant EPUB specification section. EPUB 2 specification can be found here: http://idpf.org/epub/201 and the latest version of EPUB 3 specification is located here: https://www.w3.org/TR/epub-33/ -->
 
 ## Additional context
 <!-- Add any other context about the problem here. -->

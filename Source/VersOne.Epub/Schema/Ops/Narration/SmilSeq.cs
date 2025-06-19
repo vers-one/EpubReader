@@ -10,7 +10,7 @@ namespace VersOne.Epub.Schema
     /// It allows the structure inherent in these containers to be retained in the media overlay document.
     /// This class corresponds to the &lt;seq&gt; element in a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/TR/epub/#sec-smil-seq-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-smil-seq-elem" /> for more information.</para>
     /// </summary>
     public class SmilSeq
     {
