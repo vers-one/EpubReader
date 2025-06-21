@@ -45,7 +45,7 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets the EPUB meta information included into this collection or <c>null</c> if the collection doesn't have any meta information.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-defining-collection-types" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-metadata-elem" /> for more information.</para>
         /// </summary>
         public EpubMetadata? Metadata { get; }
 
@@ -57,7 +57,7 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets a list of metadata links. Links are used to associate resources with this collection, such as metadata records.</para>
-        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-collection-role" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-link-elem" /> for more information.</para>
         /// </summary>
         public List<EpubMetadataLink> Links { get; }
 
