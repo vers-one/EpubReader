@@ -8,7 +8,7 @@ namespace VersOne.Epub.Schema
     /// (e.g., annotations or a dictionary packaged in EPUB format).
     /// </para>
     /// <para>
-    /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf-dctype" />,
+    /// See <see href="https://www.w3.org/TR/epub-33/#sec-opf-dctype" />,
     /// <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2.8" />,
     /// and <see href="http://purl.org/dc/elements/1.1/type" /> for more information.
     /// </para>
@@ -30,7 +30,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the name of the type.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf-dctype" />,
+        /// See <see href="https://www.w3.org/TR/epub-33/#sec-opf-dctype" />,
         /// <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2.8" />,
         /// and <see href="http://purl.org/dc/elements/1.1/type" /> for more information.
         /// </para>
@@ -39,7 +39,7 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets the unique ID of this type metadata element or <c>null</c> if the type metadata element doesn't have an ID.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-id" /> for more information.</para>
         /// </summary>
         public string? Id { get; }
     }

@@ -5,7 +5,7 @@ namespace VersOne.Epub.Schema
     /// <summary>
     /// <para>Represents a source of the EPUB book. A source is a related resource from which the EPUB book is derived.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf-dcmes-optional-def" />,
+    /// See <see href="https://www.w3.org/TR/epub-33/#sec-opf-dcmes-optional-def" />,
     /// <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2.11" />,
     /// and <see href="http://purl.org/dc/elements/1.1/source" /> for more information.
     /// </para>
@@ -27,7 +27,7 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// <para>Gets the source value.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf-dcmes-optional-def" />,
+        /// See <see href="https://www.w3.org/TR/epub-33/#sec-opf-dcmes-optional-def" />,
         /// <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2.11" />,
         /// and <see href="http://purl.org/dc/elements/1.1/source" /> for more information.
         /// </para>
@@ -36,7 +36,7 @@ namespace VersOne.Epub.Schema
 
         /// <summary>
         /// <para>Gets the unique ID of this source metadata element or <c>null</c> if the source metadata element doesn't have an ID.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-id" /> for more information.</para>
         /// </summary>
         public string? Id { get; }
     }

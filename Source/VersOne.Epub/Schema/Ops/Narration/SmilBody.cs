@@ -8,7 +8,7 @@ namespace VersOne.Epub.Schema
     /// Parsed content of the media overlay body which is the starting point for the presentation contained in the media overlay document.
     /// This class corresponds to the &lt;body&gt; element in a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-mediaoverlays.html#elemdef-smil-body" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#elemdef-smil-body" /> for more information.</para>
     /// </summary>
     public class SmilBody
     {

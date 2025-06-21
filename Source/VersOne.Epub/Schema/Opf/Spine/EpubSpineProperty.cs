@@ -7,7 +7,7 @@ namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>Property of <see cref="EpubSpineItemRef" />.</para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-itemref-property-values" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#app-itemref-properties-vocab" /> for more information.</para>
     /// </summary>
     public enum EpubSpineProperty
     {

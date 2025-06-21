@@ -5,8 +5,8 @@ namespace VersOne.Epub.Schema
     /// <summary>
     /// <para>A generic metadata item of the EPUB book.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-meta-elem" />,
-    /// <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-opf2-meta" />,
+    /// See <see href="https://www.w3.org/TR/epub-33/#sec-meta-elem" />,
+    /// <see href="https://www.w3.org/TR/epub-33/#sec-opf2-meta" />,
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2" /> for more information.
     /// </para>
     /// </summary>
@@ -56,14 +56,14 @@ namespace VersOne.Epub.Schema
         /// <para>Gets the content (i.e. value) of the EPUB 2 generic metadata item or the metadata expression of the EPUB 3 generic metadata item.</para>
         /// <para>
         /// See <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2" />
-        /// and <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-meta-elem" /> for more information.
+        /// and <see href="https://www.w3.org/TR/epub-33/#sec-meta-elem" /> for more information.
         /// </para>
         /// </summary>
         public string Content { get; }
 
         /// <summary>
         /// <para>Gets the unique ID of this EPUB 3 generic metadata item or <c>null</c> if the generic metadata item doesn't have an ID.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-id" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-id" /> for more information.</para>
         /// </summary>
         public string? Id { get; }
 
@@ -72,7 +72,7 @@ namespace VersOne.Epub.Schema
         /// Gets a relative IRI that identifies the resource augmented by the EPUB 3 generic metadata item
         /// or <c>null</c> if the generic metadata item doesn't specify any augmentation.</para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-refines" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#attrdef-refines" /> for more information.
         /// </para>
         /// </summary>
         public string? Refines { get; }
@@ -84,7 +84,7 @@ namespace VersOne.Epub.Schema
         /// </para>
         /// <para>
         /// See <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.2" />
-        /// and <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-meta-elem" /> for more information.
+        /// and <see href="https://www.w3.org/TR/epub-33/#sec-meta-elem" /> for more information.
         /// </para>
         /// </summary>
         public string? Property { get; }
@@ -95,20 +95,20 @@ namespace VersOne.Epub.Schema
         /// or <c>null</c> if the generic metadata item doesn't specify a scheme for the expression.
         /// </para>
         /// <para>
-        /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-scheme" /> for more information.
+        /// See <see href="https://www.w3.org/TR/epub-33/#attrdef-scheme" /> for more information.
         /// </para>
         /// </summary>
         public string? Scheme { get; }
 
         /// <summary>
         /// <para>Gets the text direction of this EPUB 3 generic metadata item or <c>null</c> if the generic metadata item doesn't specify a text direction.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-dir" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-dir" /> for more information.</para>
         /// </summary>
         public EpubTextDirection? TextDirection { get; }
 
         /// <summary>
         /// <para>Gets the language of this EPUB 3 generic metadata item or <c>null</c> if the generic metadata item doesn't specify the language.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#attrdef-xml-lang" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#attrdef-xml-lang" /> for more information.</para>
         /// </summary>
         public string? Language { get; }
     }

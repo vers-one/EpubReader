@@ -7,7 +7,7 @@ namespace VersOne.Epub
     /// <summary>
     /// <para>Parsed content of all EPUB schema files (OPF package and EPUB 2 NCX / EPUB 3 OPS navigation document) of the EPUB book.</para>
     /// <para>
-    /// See <see href="https://www.w3.org/publishing/epub32/epub-packages.html" />
+    /// See <see href="https://www.w3.org/TR/epub-33/" />
     /// and <see href="https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm" /> for more information.
     /// </para>
     /// </summary>
@@ -36,7 +36,7 @@ namespace VersOne.Epub
 
         /// <summary>
         /// <para>Gets the parsed content of the OPF package of the EPUB book.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-package-doc" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-package-doc" /> for more information.</para>
         /// </summary>
         public EpubPackage Package { get; }
 
@@ -48,13 +48,13 @@ namespace VersOne.Epub
 
         /// <summary>
         /// <para>Gets the parsed content of the EPUB 3 navigation document of the book or <c>null</c> if the navigation document is not present.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-package-nav" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-nav" /> for more information.</para>
         /// </summary>
         public Epub3NavDocument? Epub3NavDocument { get; }
 
         /// <summary>
         /// <para>Gets a list of all SMIL (EPUB media overlay) documents in the book.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-mediaoverlays.html" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-media-overlays" /> for more information.</para>
         /// </summary>
         public List<Smil> MediaOverlays { get; }
 

@@ -7,13 +7,13 @@ namespace VersOne.Epub.Schema
 {
     /// <summary>
     /// <para>Property of <see cref="EpubMetadataLink" />.</para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-link-properties" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-link-properties" /> for more information.</para>
     /// </summary>
     public enum EpubMetadataLinkProperty
     {
         /// <summary>
         /// <para>The 'onix' property. Indicates that the referenced resource is an ONIX record.</para>
-        /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-packages.html#sec-onix" /> for more information.</para>
+        /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-onix" /> for more information.</para>
         /// </summary>
         ONIX = 1,
 

@@ -7,7 +7,7 @@ namespace VersOne.Epub.Schema
     /// Parsed content of the reference to a clip of audio media.
     /// This class corresponds to the &lt;audio&gt; element in a media overlay document.
     /// </para>
-    /// <para>See <see href="https://www.w3.org/publishing/epub32/epub-mediaoverlays.html#sec-smil-audio-elem" /> for more information.</para>
+    /// <para>See <see href="https://www.w3.org/TR/epub-33/#sec-smil-audio-elem" /> for more information.</para>
     /// </summary>
     public class SmilAudio
     {
