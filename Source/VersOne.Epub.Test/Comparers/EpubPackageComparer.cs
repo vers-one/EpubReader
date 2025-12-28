@@ -4,8 +4,13 @@ namespace VersOne.Epub.Test.Comparers
 {
     internal static class EpubPackageComparer
     {
-        public static void CompareEpubPackages(EpubPackage expected, EpubPackage actual)
+        public static void CompareEpubPackages(EpubPackage? expected, EpubPackage? actual)
         {
+            if (expected == null)
+            {
+                Assert.Null(actual);
+                return;
+            }
             Assert.NotNull(actual);
             Assert.Equal(expected.UniqueIdentifier, actual.UniqueIdentifier);
             Assert.Equal(expected.EpubVersion, actual.EpubVersion);

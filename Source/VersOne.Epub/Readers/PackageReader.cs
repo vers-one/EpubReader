@@ -13,23 +13,40 @@ namespace VersOne.Epub.Internal
     internal class PackageReader
     {
         private readonly EpubReaderOptions epubReaderOptions;
+        private readonly PackageReaderOptions packageReaderOptions;
 
         public PackageReader(EpubReaderOptions? epubReaderOptions = null)
         {
             this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+            packageReaderOptions = this.epubReaderOptions.PackageReaderOptions ?? new PackageReaderOptions();
         }
 
-        public async Task<EpubPackage> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
+        public async Task<EpubPackage?> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
         {
-            IZipFileEntry? rootFileEntry = epubFile.GetEntry(rootFilePath) ?? throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
+            IZipFileEntry? rootFileEntry = epubFile.GetEntry(rootFilePath);
+            if (rootFileEntry == null)
+            {
+                if (packageReaderOptions.IgnoreMissingRootFile)
+                {
+                    return null;
+                }
+                throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
+            }
             XDocument containerDocument;
             using (Stream containerStream = rootFileEntry.Open())
             {
                 containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
-            XElement packageNode = containerDocument.Element(opfNamespace + "package") ??
+            XElement? packageNode = containerDocument.Element(opfNamespace + "package");
+            if (packageNode == null)
+            {
+                if (packageReaderOptions.IgnoreMissingPackageNode)
+                {
+                    return null;
+                }
                 throw new EpubPackageException("EPUB parsing error: package XML element not found in the package file.");
+            }
             string? uniqueIdentifier = null;
             string? epubVersionString = null;
             string? id = null;
@@ -61,23 +78,40 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
+            EpubVersion epubVersion;
             if (epubVersionString == null)
             {
-                throw new EpubPackageException("EPUB parsing error: EPUB version is not specified in the package.");
+                epubVersion = packageReaderOptions.FallbackEpubVersion ??
+                    throw new EpubPackageException("EPUB parsing error: EPUB version is not specified in the package.");
             }
-            EpubVersion epubVersion = epubVersionString switch
+            else
             {
-                "2.0" => EpubVersion.EPUB_2,
-                "3.0" => EpubVersion.EPUB_3,
-                "3.1" => EpubVersion.EPUB_3_1,
-                _ => throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionString}\".")
-            };
-            XElement metadataNode = packageNode.Element(opfNamespace + "metadata") ?? throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
+                epubVersion = epubVersionString switch
+                {
+                    "2.0" => EpubVersion.EPUB_2,
+                    "3.0" => EpubVersion.EPUB_3,
+                    "3.1" => EpubVersion.EPUB_3_1,
+                    _ => packageReaderOptions.FallbackEpubVersion ?? throw new EpubPackageException($"Unsupported EPUB version: \"{epubVersionString}\".")
+                };
+            }
+            XElement? metadataNode = packageNode.Element(opfNamespace + "metadata");
+            if (metadataNode == null && !packageReaderOptions.IgnoreMissingMetadataNode)
+            {
+                throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
+            }
             EpubMetadata metadata = MetadataReader.ReadMetadata(metadataNode);
-            XElement manifestNode = packageNode.Element(opfNamespace + "manifest") ?? throw new EpubPackageException("EPUB parsing error: manifest not found in the package.");
-            EpubManifest manifest = ReadManifest(manifestNode, epubReaderOptions.PackageReaderOptions);
-            XElement spineNode = packageNode.Element(opfNamespace + "spine") ?? throw new EpubPackageException("EPUB parsing error: spine not found in the package.");
-            EpubSpine spine = ReadSpine(spineNode, epubVersion, epubReaderOptions.PackageReaderOptions);
+            XElement? manifestNode = packageNode.Element(opfNamespace + "manifest");
+            if (manifestNode == null && !packageReaderOptions.IgnoreMissingManifestNode)
+            {
+                throw new EpubPackageException("EPUB parsing error: manifest not found in the package.");
+            }
+            EpubManifest manifest = ReadManifest(manifestNode);
+            XElement? spineNode = packageNode.Element(opfNamespace + "spine");
+            if (spineNode == null && !packageReaderOptions.IgnoreMissingSpineNode)
+            {
+                throw new EpubPackageException("EPUB parsing error: spine not found in the package.");
+            }
+            EpubSpine spine = ReadSpine(spineNode, epubVersion);
             EpubGuide? guide = null;
             XElement guideNode = packageNode.Element(opfNamespace + "guide");
             if (guideNode != null)
@@ -88,163 +122,185 @@ namespace VersOne.Epub.Internal
             return new(uniqueIdentifier, epubVersion, metadata, manifest, spine, guide, collections, id, textDirection, prefix, language);
         }
 
-        private static EpubManifest ReadManifest(XElement manifestNode, PackageReaderOptions packageReaderOptions)
+        private EpubManifest ReadManifest(XElement? manifestNode)
         {
-            XAttribute? manifestIdAttribute = manifestNode.Attribute("id");
+            XAttribute? manifestIdAttribute = manifestNode?.Attribute("id");
             string? manifestId = manifestIdAttribute?.Value;
             List<EpubManifestItem> items = new();
             HashSet<string> manifestItemIds = new();
             HashSet<string> manifestItemHrefs = new();
-            foreach (XElement manifestItemNode in manifestNode.Elements())
+            if (manifestNode != null)
             {
-                if (manifestItemNode.CompareNameTo("item"))
+                foreach (XElement manifestItemNode in manifestNode.Elements())
                 {
-                    string? manifestItemId = null;
-                    string? href = null;
-                    string? mediaType = null;
-                    string? mediaOverlay = null;
-                    string? requiredNamespace = null;
-                    string? requiredModules = null;
-                    string? fallback = null;
-                    string? fallbackStyle = null;
-                    List<EpubManifestProperty>? properties = null;
-                    foreach (XAttribute manifestItemNodeAttribute in manifestItemNode.Attributes())
+                    if (manifestItemNode.CompareNameTo("item"))
                     {
-                        string attributeValue = manifestItemNodeAttribute.Value;
-                        switch (manifestItemNodeAttribute.GetLowerCaseLocalName())
+                        string? manifestItemId = null;
+                        string? href = null;
+                        string? mediaType = null;
+                        string? mediaOverlay = null;
+                        string? requiredNamespace = null;
+                        string? requiredModules = null;
+                        string? fallback = null;
+                        string? fallbackStyle = null;
+                        List<EpubManifestProperty>? properties = null;
+                        foreach (XAttribute manifestItemNodeAttribute in manifestItemNode.Attributes())
                         {
-                            case "id":
-                                manifestItemId = attributeValue;
-                                break;
-                            case "href":
-                                href = Uri.UnescapeDataString(attributeValue);
-                                break;
-                            case "media-type":
-                                mediaType = attributeValue;
-                                break;
-                            case "media-overlay":
-                                mediaOverlay = attributeValue;
-                                break;
-                            case "required-namespace":
-                                requiredNamespace = attributeValue;
-                                break;
-                            case "required-modules":
-                                requiredModules = attributeValue;
-                                break;
-                            case "fallback":
-                                fallback = attributeValue;
-                                break;
-                            case "fallback-style":
-                                fallbackStyle = attributeValue;
-                                break;
-                            case "properties":
-                                properties = EpubManifestPropertyParser.ParsePropertyList(attributeValue);
-                                break;
+                            string attributeValue = manifestItemNodeAttribute.Value;
+                            switch (manifestItemNodeAttribute.GetLowerCaseLocalName())
+                            {
+                                case "id":
+                                    manifestItemId = attributeValue;
+                                    break;
+                                case "href":
+                                    href = Uri.UnescapeDataString(attributeValue);
+                                    break;
+                                case "media-type":
+                                    mediaType = attributeValue;
+                                    break;
+                                case "media-overlay":
+                                    mediaOverlay = attributeValue;
+                                    break;
+                                case "required-namespace":
+                                    requiredNamespace = attributeValue;
+                                    break;
+                                case "required-modules":
+                                    requiredModules = attributeValue;
+                                    break;
+                                case "fallback":
+                                    fallback = attributeValue;
+                                    break;
+                                case "fallback-style":
+                                    fallbackStyle = attributeValue;
+                                    break;
+                                case "properties":
+                                    properties = EpubManifestPropertyParser.ParsePropertyList(attributeValue);
+                                    break;
+                            }
                         }
-                    }
-                    if (manifestItemId == null)
-                    {
-                        if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
+                        if (manifestItemId == null)
                         {
-                            continue;
+                            if (packageReaderOptions.SkipInvalidManifestItems)
+                            {
+                                continue;
+                            }
+                            throw new EpubPackageException("Incorrect EPUB manifest: item ID is missing.");
                         }
-                        throw new EpubPackageException("Incorrect EPUB manifest: item ID is missing.");
-                    }
-                    if (href == null)
-                    {
-                        if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
+                        if (href == null)
                         {
-                            continue;
+                            if (packageReaderOptions.SkipInvalidManifestItems)
+                            {
+                                continue;
+                            }
+                            throw new EpubPackageException("Incorrect EPUB manifest: item href is missing.");
                         }
-                        throw new EpubPackageException("Incorrect EPUB manifest: item href is missing.");
-                    }
-                    if (mediaType == null)
-                    {
-                        if (packageReaderOptions != null && packageReaderOptions.SkipInvalidManifestItems)
+                        if (mediaType == null)
                         {
-                            continue;
+                            if (packageReaderOptions.SkipInvalidManifestItems)
+                            {
+                                continue;
+                            }
+                            throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing.");
                         }
-                        throw new EpubPackageException("Incorrect EPUB manifest: item media type is missing.");
+                        if (manifestItemIds.Contains(manifestItemId))
+                        {
+                            if (packageReaderOptions.SkipDuplicateManifestItemIds)
+                            {
+                                continue;
+                            }
+                            throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{manifestItemId}\" is not unique.");
+                        }
+                        manifestItemIds.Add(manifestItemId);
+                        if (manifestItemHrefs.Contains(href))
+                        {
+                            if (packageReaderOptions.SkipDuplicateManifestHrefs)
+                            {
+                                continue;
+                            }
+                            throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{href}\" is not unique.");
+                        }
+                        manifestItemHrefs.Add(href);
+                        items.Add(new EpubManifestItem(manifestItemId, href, mediaType, mediaOverlay, requiredNamespace, requiredModules, fallback, fallbackStyle, properties));
                     }
-                    if (manifestItemIds.Contains(manifestItemId))
-                    {
-                        throw new EpubPackageException($"Incorrect EPUB manifest: item with ID = \"{manifestItemId}\" is not unique.");
-                    }
-                    manifestItemIds.Add(manifestItemId);
-                    if (manifestItemHrefs.Contains(href))
-                    {
-                        throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{href}\" is not unique.");
-                    }
-                    manifestItemHrefs.Add(href);
-                    items.Add(new EpubManifestItem(manifestItemId, href, mediaType, mediaOverlay, requiredNamespace, requiredModules, fallback, fallbackStyle, properties));
                 }
             }
             return new(manifestId, items);
         }
 
-        private static EpubSpine ReadSpine(XElement spineNode, EpubVersion epubVersion, PackageReaderOptions packageReaderOptions)
+        private EpubSpine ReadSpine(XElement? spineNode, EpubVersion epubVersion)
         {
             string? spineId = null;
             EpubPageProgressionDirection? pageProgressionDirection = null;
             string? toc = null;
             List<EpubSpineItemRef> items = new();
-            foreach (XAttribute spineNodeAttribute in spineNode.Attributes())
+            if (spineNode != null)
             {
-                string attributeValue = spineNodeAttribute.Value;
-                switch (spineNodeAttribute.GetLowerCaseLocalName())
+                foreach (XAttribute spineNodeAttribute in spineNode.Attributes())
                 {
-                    case "id":
-                        spineId = attributeValue;
-                        break;
-                    case "page-progression-direction":
-                        pageProgressionDirection = EpubPageProgressionDirectionParser.Parse(attributeValue);
-                        break;
-                    case "toc":
-                        toc = attributeValue;
-                        break;
+                    string attributeValue = spineNodeAttribute.Value;
+                    switch (spineNodeAttribute.GetLowerCaseLocalName())
+                    {
+                        case "id":
+                            spineId = attributeValue;
+                            break;
+                        case "page-progression-direction":
+                            pageProgressionDirection = EpubPageProgressionDirectionParser.Parse(attributeValue);
+                            break;
+                        case "toc":
+                            toc = attributeValue;
+                            break;
+                    }
                 }
-            }
-            if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(toc) && (packageReaderOptions == null || !packageReaderOptions.IgnoreMissingToc))
-            {
-                throw new EpubPackageException("Incorrect EPUB spine: TOC is missing.");
-            }
-            foreach (XElement spineItemNode in spineNode.Elements())
-            {
-                if (spineItemNode.CompareNameTo("itemref"))
+                if (epubVersion == EpubVersion.EPUB_2 && String.IsNullOrWhiteSpace(toc))
                 {
-                    string? spineItemRefId = null;
-                    string? idRef = null;
-                    bool isLinear;
-                    List<EpubSpineProperty>? properties = null;
-                    foreach (XAttribute spineItemNodeAttribute in spineItemNode.Attributes())
+                    if (!packageReaderOptions.IgnoreMissingToc)
                     {
-                        string attributeValue = spineItemNodeAttribute.Value;
-                        switch (spineItemNodeAttribute.GetLowerCaseLocalName())
+                        throw new EpubPackageException("Incorrect EPUB spine: TOC is missing.");
+                    }
+                    toc = null;
+                }
+                foreach (XElement spineItemNode in spineNode.Elements())
+                {
+                    if (spineItemNode.CompareNameTo("itemref"))
+                    {
+                        string? spineItemRefId = null;
+                        string? idRef = null;
+                        bool isLinear;
+                        List<EpubSpineProperty>? properties = null;
+                        foreach (XAttribute spineItemNodeAttribute in spineItemNode.Attributes())
                         {
-                            case "id":
-                                spineItemRefId = attributeValue;
-                                break;
-                            case "idref":
-                                idRef = attributeValue;
-                                break;
-                            case "properties":
-                                properties = EpubSpinePropertyParser.ParsePropertyList(attributeValue);
-                                break;
+                            string attributeValue = spineItemNodeAttribute.Value;
+                            switch (spineItemNodeAttribute.GetLowerCaseLocalName())
+                            {
+                                case "id":
+                                    spineItemRefId = attributeValue;
+                                    break;
+                                case "idref":
+                                    idRef = attributeValue;
+                                    break;
+                                case "properties":
+                                    properties = EpubSpinePropertyParser.ParsePropertyList(attributeValue);
+                                    break;
+                            }
                         }
+                        if (idRef == null)
+                        {
+                            if (packageReaderOptions.SkipInvalidSpineItems)
+                            {
+                                continue;
+                            }
+                            throw new EpubPackageException("Incorrect EPUB spine: item ID ref is missing.");
+                        }
+                        XAttribute linearAttribute = spineItemNode.Attribute("linear");
+                        isLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
+                        items.Add(new EpubSpineItemRef(spineItemRefId, idRef, isLinear, properties));
                     }
-                    if (idRef == null)
-                    {
-                        throw new EpubPackageException("Incorrect EPUB spine: item ID ref is missing.");
-                    }
-                    XAttribute linearAttribute = spineItemNode.Attribute("linear");
-                    isLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
-                    items.Add(new EpubSpineItemRef(spineItemRefId, idRef, isLinear, properties));
                 }
             }
             return new(spineId, pageProgressionDirection, toc, items);
         }
 
-        private static EpubGuide ReadGuide(XElement guideNode)
+        private EpubGuide ReadGuide(XElement guideNode)
         {
             List<EpubGuideReference> items = new();
             foreach (XElement guideReferenceNode in guideNode.Elements())
@@ -272,10 +328,18 @@ namespace VersOne.Epub.Internal
                     }
                     if (type == null)
                     {
+                        if (packageReaderOptions.SkipInvalidGuideReferences)
+                        {
+                            continue;
+                        }
                         throw new EpubPackageException("Incorrect EPUB guide: item type is missing.");
                     }
                     if (href == null)
                     {
+                        if (packageReaderOptions.SkipInvalidGuideReferences)
+                        {
+                            continue;
+                        }
                         throw new EpubPackageException("Incorrect EPUB guide: item href is missing.");
                     }
                     items.Add(new EpubGuideReference(type, title, href));
@@ -284,17 +348,21 @@ namespace VersOne.Epub.Internal
             return new(items);
         }
 
-        private static List<EpubCollection> ReadCollections(XElement packageNode)
+        private List<EpubCollection> ReadCollections(XElement packageNode)
         {
             List<EpubCollection> result = new();
             foreach (XElement collectionNode in packageNode.Elements(packageNode.Name.Namespace + "collection"))
             {
-                result.Add(ReadCollection(collectionNode));
+                EpubCollection? epubCollection = ReadCollection(collectionNode);
+                if (epubCollection != null)
+                {
+                    result.Add(epubCollection);
+                }
             }
             return result;
         }
 
-        private static EpubCollection ReadCollection(XElement collectionNode)
+        private EpubCollection? ReadCollection(XElement collectionNode)
         {
             string? role = null;
             string? id = null;
@@ -321,6 +389,10 @@ namespace VersOne.Epub.Internal
             }
             if (role == null)
             {
+                if (packageReaderOptions.SkipInvalidCollections)
+                {
+                    return null;
+                }
                 throw new EpubPackageException("Incorrect EPUB collection: collection role is missing.");
             }
             EpubMetadata? metadata = null;
@@ -334,8 +406,11 @@ namespace VersOne.Epub.Internal
                         metadata = MetadataReader.ReadMetadata(collectionChildNode);
                         break;
                     case "collection":
-                        EpubCollection nestedCollection = ReadCollection(collectionChildNode);
-                        nestedCollections.Add(nestedCollection);
+                        EpubCollection? nestedCollection = ReadCollection(collectionChildNode);
+                        if (nestedCollection != null)
+                        {
+                            nestedCollections.Add(nestedCollection);
+                        }
                         break;
                     case "link":
                         EpubMetadataLink link = MetadataReader.ReadLink(collectionChildNode);

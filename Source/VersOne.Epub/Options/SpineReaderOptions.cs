@@ -9,7 +9,7 @@ namespace VersOne.Epub.Options
     public class SpineReaderOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpineReaderOptions"/> class.
+        /// Initializes a new instance of the <see cref="SpineReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="SpineReaderOptions" /> class with a predefined set of options.</param>
         [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]

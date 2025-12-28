@@ -134,33 +134,33 @@ namespace VersOne.Epub.Test.Unit.TestData
 
         public const string STYLES2_FILE_CONTENT = ".text{color:#020202}";
 
-        public static readonly byte[] IMAGE1_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x01 };
+        public static readonly byte[] IMAGE1_FILE_CONTENT = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x01];
 
-        public static readonly byte[] IMAGE2_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x02 };
+        public static readonly byte[] IMAGE2_FILE_CONTENT = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x02];
 
-        public static readonly byte[] COVER_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0xff };
+        public static readonly byte[] COVER_FILE_CONTENT = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0xff];
 
-        public static readonly byte[] FONT1_FILE_CONTENT = new byte[] { 0x00, 0x01, 0x00, 0x01 };
+        public static readonly byte[] FONT1_FILE_CONTENT = [0x00, 0x01, 0x00, 0x01];
 
-        public static readonly byte[] FONT2_FILE_CONTENT = new byte[] { 0x00, 0x01, 0x00, 0x02 };
+        public static readonly byte[] FONT2_FILE_CONTENT = [0x00, 0x01, 0x00, 0x02];
 
-        public static readonly byte[] AUDIO_FILE_CONTENT = new byte[] { 0x49, 0x44, 0x33, 0x03 };
+        public static readonly byte[] AUDIO_FILE_CONTENT = [0x49, 0x44, 0x33, 0x03];
         
-        public static readonly byte[] VIDEO_FILE_CONTENT = new byte[] { 0x00, 0x00, 0x00, 0x20 };
+        public static readonly byte[] VIDEO_FILE_CONTENT = [0x00, 0x00, 0x00, 0x20];
 
         public const string REMOTE_HTML_FILE_CONTENT = "<html><head><title>Remote HTML file</title></head><body><h1>Remote HTML file content</h1></body></html>";
 
         public const string REMOTE_CSS_FILE_CONTENT = ".remote-text{color:#030303}";
 
-        public static readonly byte[] REMOTE_IMAGE_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x03 };
+        public static readonly byte[] REMOTE_IMAGE_FILE_CONTENT = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x03];
 
-        public static readonly byte[] REMOTE_FONT_FILE_CONTENT = new byte[] { 0x00, 0x01, 0x00, 0x03 };
+        public static readonly byte[] REMOTE_FONT_FILE_CONTENT = [0x00, 0x01, 0x00, 0x03];
 
         public const string REMOTE_XML_FILE_CONTENT = "<test>Remote XML file</test>";
 
-        public static readonly byte[] REMOTE_AUDIO_FILE_CONTENT = new byte[] { 0x49, 0x44, 0x33, 0x04 };
+        public static readonly byte[] REMOTE_AUDIO_FILE_CONTENT = [0x49, 0x44, 0x33, 0x04];
 
-        public static readonly byte[] REMOTE_VIDEO_FILE_CONTENT = new byte[] { 0x00, 0x00, 0x00, 0x21 };
+        public static readonly byte[] REMOTE_VIDEO_FILE_CONTENT = [0x00, 0x00, 0x00, 0x21];
 
         public static TestZipFile CreateMinimalTestEpubFile()
         {
@@ -198,6 +198,13 @@ namespace VersOne.Epub.Test.Unit.TestData
             result.AddEntry(NAV_FILE_PATH, FULL_NAV_FILE_CONTENT);
             result.AddEntry(COVER_FILE_PATH, COVER_FILE_CONTENT);
             result.AddEntry(NCX_FILE_PATH, NCX_FILE_CONTENT);
+            return result;
+        }
+
+        public static TestZipFile CreateTestEpubFileWithoutPackage()
+        {
+            TestZipFile result = new();
+            result.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE_CONTENT);
             return result;
         }
     }

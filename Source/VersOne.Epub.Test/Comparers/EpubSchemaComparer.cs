@@ -2,8 +2,13 @@
 {
     internal static class EpubSchemaComparer
     {
-        public static void CompareEpubSchemas(EpubSchema expected, EpubSchema actual)
+        public static void CompareEpubSchemas(EpubSchema? expected, EpubSchema? actual)
         {
+            if (expected == null)
+            {
+                Assert.Null(actual);
+                return;
+            }
             Assert.NotNull(actual);
             Assert.Equal(expected.ContentDirectoryPath, actual.ContentDirectoryPath);
             EpubPackageComparer.CompareEpubPackages(expected.Package, actual.Package);

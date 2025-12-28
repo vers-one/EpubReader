@@ -16,6 +16,15 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies = new TestEnvironmentDependencies();
         }
 
+        private static EpubReaderOptions EpubReaderOptionsWithIgnoreMissingRootFile =>
+            new()
+            {
+                PackageReaderOptions = new PackageReaderOptions()
+                {
+                    IgnoreMissingRootFile = true
+                }
+            };
+
         [Fact(DisplayName = "Constructing a BookReader instance with non-null constructor parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
         {
@@ -41,7 +50,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
             EpubBook expectedEpubBook = TestEpubBooks.CreateMinimalTestEpubBook(EPUB_FILE_PATH);
             BookReader bookReader = new(environmentDependencies, null);
-            EpubBook actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -59,7 +68,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 }
             };
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
-            EpubBook actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -70,7 +79,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(EPUB_FILE_PATH, populateRemoteFilesContents: false);
             BookReader bookReader = new(environmentDependencies, null);
-            EpubBook actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -81,7 +90,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(EPUB_FILE_PATH, populateRemoteFilesContents: false);
             BookReader bookReader = new(environmentDependencies, null);
-            EpubBook actualEpubBook = await bookReader.ReadBookAsync(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = await bookReader.ReadBookAsync(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -93,7 +102,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies.FileSystem = new TestFileSystem(epubFileStream, testEpubFile);
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(null, populateRemoteFilesContents: false);
             BookReader bookReader = new(environmentDependencies, null);
-            EpubBook actualEpubBook = bookReader.ReadBook(epubFileStream);
+            EpubBook? actualEpubBook = bookReader.ReadBook(epubFileStream);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -105,8 +114,50 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies.FileSystem = new TestFileSystem(epubFileStream, testEpubFile);
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(null, populateRemoteFilesContents: false);
             BookReader bookReader = new(environmentDependencies, null);
-            EpubBook actualEpubBook = await bookReader.ReadBookAsync(epubFileStream);
+            EpubBook? actualEpubBook = await bookReader.ReadBookAsync(epubFileStream);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
+        }
+
+        [Fact(DisplayName = "ReadBook(string) should return null if BookRefReader returned a null EpubBookRef")]
+        public void ReadBookFromFileWithNullEpubBookRefTest()
+        {
+            TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
+            environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
+            BookReader bookReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            EpubBook? actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
+            Assert.Null(actualEpubBook);
+        }
+
+        [Fact(DisplayName = "ReadBookAsync(string) should return null if BookRefReader returned a null EpubBookRef")]
+        public async Task ReadBookFromFileAsyncWithNullEpubBookRefTest()
+        {
+            TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
+            environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
+            BookReader bookReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            EpubBook? actualEpubBook = await bookReader.ReadBookAsync(EPUB_FILE_PATH);
+            Assert.Null(actualEpubBook);
+        }
+
+        [Fact(DisplayName = "ReadBook(Stream) should return null if BookRefReader returned a null EpubBookRef")]
+        public void ReadBookFromStreamWithNullEpubBookRefTest()
+        {
+            TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
+            MemoryStream epubFileStream = new();
+            environmentDependencies.FileSystem = new TestFileSystem(epubFileStream, testEpubFile);
+            BookReader bookReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            EpubBook? actualEpubBook = bookReader.ReadBook(epubFileStream);
+            Assert.Null(actualEpubBook);
+        }
+
+        [Fact(DisplayName = "ReadBookAsync(Stream) should return null if BookRefReader returned a null EpubBookRef")]
+        public async Task ReadBookFromStreamAsyncWithNullEpubBookRefTest()
+        {
+            TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
+            MemoryStream epubFileStream = new();
+            environmentDependencies.FileSystem = new TestFileSystem(epubFileStream, testEpubFile);
+            BookReader bookReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            EpubBook? actualEpubBook = await bookReader.ReadBookAsync(epubFileStream);
+            Assert.Null(actualEpubBook);
         }
 
         [Fact(DisplayName = "Reading a full EPUB book from a file synchronously with downloading remote files should succeed")]
@@ -117,7 +168,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(EPUB_FILE_PATH, populateRemoteFilesContents: true);
             EpubReaderOptions epubReaderOptions = CreateEpubReaderOptionsToDownloadRemoteFiles();
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
-            EpubBook actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -129,7 +180,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(EPUB_FILE_PATH, populateRemoteFilesContents: true);
             EpubReaderOptions epubReaderOptions = CreateEpubReaderOptionsToDownloadRemoteFiles();
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
-            EpubBook actualEpubBook = await bookReader.ReadBookAsync(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = await bookReader.ReadBookAsync(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -142,7 +193,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(null, populateRemoteFilesContents: true);
             EpubReaderOptions epubReaderOptions = CreateEpubReaderOptionsToDownloadRemoteFiles();
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
-            EpubBook actualEpubBook = bookReader.ReadBook(epubFileStream);
+            EpubBook? actualEpubBook = bookReader.ReadBook(epubFileStream);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -155,7 +206,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubBook expectedEpubBook = TestEpubBooks.CreateFullTestEpubBook(null, populateRemoteFilesContents: true);
             EpubReaderOptions epubReaderOptions = CreateEpubReaderOptionsToDownloadRemoteFiles();
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
-            EpubBook actualEpubBook = await bookReader.ReadBookAsync(epubFileStream);
+            EpubBook? actualEpubBook = await bookReader.ReadBookAsync(epubFileStream);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 
@@ -170,7 +221,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 ContentDownloaderOptions = null!
             };
             BookReader bookReader = new(environmentDependencies, epubReaderOptions);
-            EpubBook actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
+            EpubBook? actualEpubBook = bookReader.ReadBook(EPUB_FILE_PATH);
             EpubBookComparer.CompareEpubBooks(expectedEpubBook, actualEpubBook);
         }
 

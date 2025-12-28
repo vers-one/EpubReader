@@ -3,6 +3,7 @@ using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
+using VersOne.Epub.Test.Unit.TestData;
 
 namespace VersOne.Epub.Test.Unit.Readers
 {
@@ -98,16 +99,16 @@ namespace VersOne.Epub.Test.Unit.Readers
             <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0">
                 <body>
                     <par id="sentence1">
-                        <text src="chapter1.html#sentence1"/>
-                        <audio src="chapter1_audio.mp3" clipBegin="0s" clipEnd="10s"/>
+                        <text src="chapter1.html#sentence1" />
+                        <audio src="chapter1_audio.mp3" clipBegin="0s" clipEnd="10s" />
                     </par>
                     <par id="sentence2">
-                        <text src="chapter1.html#sentence2"/>
-                        <audio src="chapter1_audio.mp3" clipBegin="10s" clipEnd="20s"/>
+                        <text src="chapter1.html#sentence2" />
+                        <audio src="chapter1_audio.mp3" clipBegin="10s" clipEnd="20s" />
                     </par>
                     <par id="sentence3">
-                        <text src="chapter1.html#sentence3"/>
-                        <audio src="chapter1_audio.mp3" clipBegin="20s" clipEnd="30s"/>
+                        <text src="chapter1.html#sentence3" />
+                        <audio src="chapter1_audio.mp3" clipBegin="20s" clipEnd="30s" />
                     </par>
                 </body>
             </smil>
@@ -142,33 +143,33 @@ namespace VersOne.Epub.Test.Unit.Readers
                     epubVersion: EpubVersion.EPUB_3,
                     metadata: new EpubMetadata
                     (
-                        titles: new List<EpubMetadataTitle>()
-                        {
+                        titles:
+                        [
                             new
                             (
                                 title: "Test title"
                             )
-                        },
-                        creators: new List<EpubMetadataCreator>()
-                        {
+                        ],
+                        creators:
+                        [
                             new
                             (
                                 creator: "John Doe"
                             )
-                        },
-                        identifiers: new List<EpubMetadataIdentifier>()
-                        {
+                        ],
+                        identifiers:
+                        [
                             new
                             (
                                 identifier: "9781234567890",
                                 id: "book-uid"
                             )
-                        }
+                        ]
                     ),
                     manifest: new EpubManifest
                     (
-                        items: new List<EpubManifestItem>()
-                        {
+                        items:
+                        [
                             new
                             (
                                 id: "item-1",
@@ -186,10 +187,10 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 id: "item-toc",
                                 href: NAV_FILE_NAME,
                                 mediaType: "application/xhtml+xml",
-                                properties: new List<EpubManifestProperty>()
-                                {
+                                properties:
+                                [
                                     EpubManifestProperty.NAV
-                                }
+                                ]
                             ),
                             new
                             (
@@ -197,13 +198,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 href: NCX_FILE_NAME,
                                 mediaType: "application/x-dtbncx+xml"
                             )
-                        }
+                        ]
                     ),
                     spine: new EpubSpine
                     (
                         toc: "ncx",
-                        items: new List<EpubSpineItemRef>()
-                        {
+                        items:
+                        [
                             new
                             (
                                 id: "itemref-1",
@@ -216,7 +217,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 idRef: "item-2",
                                 isLinear: true
                             )
-                        }
+                        ]
                     ),
                     guide: null
                 ),
@@ -235,24 +236,24 @@ namespace VersOne.Epub.Test.Unit.Readers
                         }
                     ),
                     docTitle: "Test title",
-                    docAuthors: new List<string>()
-                    {
+                    docAuthors:
+                    [
                         "John Doe"
-                    },
+                    ],
                     navMap: new Epub2NcxNavigationMap
                     (
-                        items: new List<Epub2NcxNavigationPoint>()
-                        {
+                        items:
+                        [
                             new
                             (
                                 id: "navpoint-1",
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
+                                navigationLabels:
+                                [
                                     new
                                     (
                                         text: "Chapter 1"
                                     )
-                                },
+                                ],
                                 content: new Epub2NcxContent
                                 (
                                     source: "chapter1.html"
@@ -261,33 +262,33 @@ namespace VersOne.Epub.Test.Unit.Readers
                             new
                             (
                                 id: "navpoint-2",
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
+                                navigationLabels:
+                                [
                                     new
                                     (
                                         text: "Chapter 2"
                                     )
-                                },
+                                ],
                                 content: new Epub2NcxContent
                                 (
                                     source: "chapter2.html"
                                 )
                             )
-                        }
+                        ]
                     )
                 ),
                 epub3NavDocument: new Epub3NavDocument
                 (
                     filePath: NAV_FILE_PATH,
-                    navs: new List<Epub3Nav>()
-                    {
+                    navs:
+                    [
                         new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
+                                lis:
+                                [
                                     new
                                     (
                                         anchor: new Epub3NavAnchor
@@ -304,13 +305,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                                             text: "Chapter 2"
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
-                mediaOverlays: new List<Smil>()
-                {
+                mediaOverlays:
+                [
                     new
                     (
                         id: null,
@@ -322,9 +323,9 @@ namespace VersOne.Epub.Test.Unit.Readers
                             id: null,
                             epubTypes: null,
                             epubTextRef: null,
-                            seqs: new List<SmilSeq>(),
-                            pars: new List<SmilPar>()
-                            {
+                            seqs: [],
+                            pars:
+                            [
                                 new
                                 (
                                     id: "sentence1",
@@ -376,15 +377,31 @@ namespace VersOne.Epub.Test.Unit.Readers
                                         clipEnd: "30s"
                                     )
                                 )
-                            }
+                            ]
                         )
                     )
-                },
+                ],
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             SchemaReader schemaReader = new();
-            EpubSchema actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);
+            EpubSchema? actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);
             EpubSchemaComparer.CompareEpubSchemas(expectedEpubSchema, actualEpubSchema);
+        }
+
+        [Fact(DisplayName = "ReadSchemaAsync should return null if the PackageReader returned a null package")]
+        public async Task ReadSchemaAsyncWithNullPackageTest()
+        {
+            TestZipFile testZipFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = new PackageReaderOptions()
+                {
+                    IgnoreMissingRootFile = true
+                }
+            };
+            SchemaReader schemaReader = new(epubReaderOptions);
+            EpubSchema? actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);
+            Assert.Null(actualEpubSchema);
         }
     }
 }

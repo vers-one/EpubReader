@@ -2,8 +2,13 @@
 {
     internal static class EpubBookComparer
     {
-        public static void CompareEpubBooks(EpubBook expected, EpubBook actual)
+        public static void CompareEpubBooks(EpubBook? expected, EpubBook? actual)
         {
+            if (expected == null)
+            {
+                Assert.Null(actual);
+                return;
+            }
             Assert.NotNull(actual);
             Assert.Equal(expected.FilePath, actual.FilePath);
             Assert.Equal(expected.Title, actual.Title);

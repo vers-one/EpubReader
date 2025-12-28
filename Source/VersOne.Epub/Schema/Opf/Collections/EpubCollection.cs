@@ -15,7 +15,7 @@ namespace VersOne.Epub.Schema
     public class EpubCollection
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EpubCollection"/> class.
+        /// Initializes a new instance of the <see cref="EpubCollection" /> class.
         /// </summary>
         /// <param name="role">The role of this collection.</param>
         /// <param name="metadata">The EPUB meta information included into this collection or <c>null</c> if the collection doesn't have any meta information.</param>

@@ -20,17 +20,17 @@ namespace VersOne.Epub.Internal
             this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
         }
 
-        public EpubBookRef OpenBook(string filePath)
+        public EpubBookRef? OpenBook(string filePath)
         {
             return OpenBookAsync(filePath).ExecuteAndUnwrapAggregateException();
         }
 
-        public EpubBookRef OpenBook(Stream stream)
+        public EpubBookRef? OpenBook(Stream stream)
         {
             return OpenBookAsync(stream).ExecuteAndUnwrapAggregateException();
         }
 
-        public Task<EpubBookRef> OpenBookAsync(string filePath)
+        public Task<EpubBookRef?> OpenBookAsync(string filePath)
         {
             if (!environmentDependencies.FileSystem.FileExists(filePath))
             {
@@ -39,15 +39,19 @@ namespace VersOne.Epub.Internal
             return OpenBookAsync(GetZipFile(filePath), filePath);
         }
 
-        public Task<EpubBookRef> OpenBookAsync(Stream stream)
+        public Task<EpubBookRef?> OpenBookAsync(Stream stream)
         {
             return OpenBookAsync(GetZipFile(stream), null);
         }
 
-        private async Task<EpubBookRef> OpenBookAsync(IZipFile epubFile, string? filePath)
+        private async Task<EpubBookRef?> OpenBookAsync(IZipFile epubFile, string? filePath)
         {
             SchemaReader schemaReader = new(epubReaderOptions);
-            EpubSchema schema = await schemaReader.ReadSchemaAsync(epubFile).ConfigureAwait(false);
+            EpubSchema? schema = await schemaReader.ReadSchemaAsync(epubFile).ConfigureAwait(false);
+            if (schema == null)
+            {
+                return null;
+            }
             string title = schema.Package.Metadata.Titles.FirstOrDefault()?.Title ?? String.Empty;
             List<string> authorList = schema.Package.Metadata.Creators.Select(creator => creator.Creator).ToList();
             string author = String.Join(", ", authorList);

@@ -20,28 +20,28 @@ namespace VersOne.Epub.Internal
             this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
         }
 
-        public EpubBook ReadBook(string filePath)
+        public EpubBook? ReadBook(string filePath)
         {
             return ReadBookAsync(filePath).ExecuteAndUnwrapAggregateException();
         }
 
-        public EpubBook ReadBook(Stream stream)
+        public EpubBook? ReadBook(Stream stream)
         {
             return ReadBookAsync(stream).ExecuteAndUnwrapAggregateException();
         }
 
-        public async Task<EpubBook> ReadBookAsync(string filePath)
+        public async Task<EpubBook?> ReadBookAsync(string filePath)
         {
             BookRefReader bookRefReader = new(environmentDependencies, epubReaderOptions);
-            EpubBookRef epubBookRef = await bookRefReader.OpenBookAsync(filePath).ConfigureAwait(false);
-            return await ReadBookAsync(epubBookRef).ConfigureAwait(false);
+            EpubBookRef? epubBookRef = await bookRefReader.OpenBookAsync(filePath).ConfigureAwait(false);
+            return epubBookRef != null ? await ReadBookAsync(epubBookRef).ConfigureAwait(false) : null;
         }
 
-        public async Task<EpubBook> ReadBookAsync(Stream stream)
+        public async Task<EpubBook?> ReadBookAsync(Stream stream)
         {
             BookRefReader bookRefReader = new(environmentDependencies, epubReaderOptions);
-            EpubBookRef epubBookRef = await bookRefReader.OpenBookAsync(stream).ConfigureAwait(false);
-            return await ReadBookAsync(epubBookRef).ConfigureAwait(false);
+            EpubBookRef? epubBookRef = await bookRefReader.OpenBookAsync(stream).ConfigureAwait(false);
+            return epubBookRef != null ? await ReadBookAsync(epubBookRef).ConfigureAwait(false) : null;
         }
 
         private static List<EpubLocalTextContentFile> ReadReadingOrder(EpubContent epubContent, List<EpubLocalTextContentFileRef> htmlContentFileRefs)

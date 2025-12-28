@@ -7,7 +7,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class MetadataReader
     {
-        public static EpubMetadata ReadMetadata(XElement metadataNode)
+        public static EpubMetadata ReadMetadata(XElement? metadataNode)
         {
             List<EpubMetadataTitle> titles = new();
             List<EpubMetadataCreator> creators = new();
@@ -26,78 +26,81 @@ namespace VersOne.Epub.Internal
             List<EpubMetadataRights> rights = new();
             List<EpubMetadataLink> links = new();
             List<EpubMetadataMeta> metaItems = new();
-            foreach (XElement metadataItemNode in metadataNode.Elements())
+            if (metadataNode != null)
             {
-                switch (metadataItemNode.GetLowerCaseLocalName())
+                foreach (XElement metadataItemNode in metadataNode.Elements())
                 {
-                    case "title":
-                        EpubMetadataTitle title = ReadTitle(metadataItemNode);
-                        titles.Add(title);
-                        break;
-                    case "creator":
-                        EpubMetadataCreator creator = ReadCreator(metadataItemNode);
-                        creators.Add(creator);
-                        break;
-                    case "subject":
-                        EpubMetadataSubject subject = ReadSubject(metadataItemNode);
-                        subjects.Add(subject);
-                        break;
-                    case "description":
-                        EpubMetadataDescription description = ReadDescription(metadataItemNode);
-                        descriptions.Add(description);
-                        break;
-                    case "publisher":
-                        EpubMetadataPublisher publisher = ReadPublisher(metadataItemNode);
-                        publishers.Add(publisher);
-                        break;
-                    case "contributor":
-                        EpubMetadataContributor contributor = ReadContributor(metadataItemNode);
-                        contributors.Add(contributor);
-                        break;
-                    case "date":
-                        EpubMetadataDate date = ReadDate(metadataItemNode);
-                        dates.Add(date);
-                        break;
-                    case "type":
-                        EpubMetadataType type = ReadType(metadataItemNode);
-                        types.Add(type);
-                        break;
-                    case "format":
-                        EpubMetadataFormat format = ReadFormat(metadataItemNode);
-                        formats.Add(format);
-                        break;
-                    case "identifier":
-                        EpubMetadataIdentifier identifier = ReadIdentifier(metadataItemNode);
-                        identifiers.Add(identifier);
-                        break;
-                    case "source":
-                        EpubMetadataSource source = ReadSource(metadataItemNode);
-                        sources.Add(source);
-                        break;
-                    case "language":
-                        EpubMetadataLanguage language = ReadLanguage(metadataItemNode);
-                        languages.Add(language);
-                        break;
-                    case "relation":
-                        EpubMetadataRelation relation = ReadRelation(metadataItemNode);
-                        relations.Add(relation);
-                        break;
-                    case "coverage":
-                        EpubMetadataCoverage coverage = ReadCoverage(metadataItemNode);
-                        coverages.Add(coverage);
-                        break;
-                    case "rights":
-                        EpubMetadataRights rightsItem = ReadRightsItem(metadataItemNode);
-                        rights.Add(rightsItem);
-                        break;
-                    case "link":
-                        EpubMetadataLink link = ReadLink(metadataItemNode);
-                        links.Add(link);
-                        break;
-                    case "meta":
-                        EpubMetadataMeta meta = ReadMeta(metadataItemNode);
-                        metaItems.Add(meta);
-                        break;
+                    switch (metadataItemNode.GetLowerCaseLocalName())
+                    {
+                        case "title":
+                            EpubMetadataTitle title = ReadTitle(metadataItemNode);
+                            titles.Add(title);
+                            break;
+                        case "creator":
+                            EpubMetadataCreator creator = ReadCreator(metadataItemNode);
+                            creators.Add(creator);
+                            break;
+                        case "subject":
+                            EpubMetadataSubject subject = ReadSubject(metadataItemNode);
+                            subjects.Add(subject);
+                            break;
+                        case "description":
+                            EpubMetadataDescription description = ReadDescription(metadataItemNode);
+                            descriptions.Add(description);
+                            break;
+                        case "publisher":
+                            EpubMetadataPublisher publisher = ReadPublisher(metadataItemNode);
+                            publishers.Add(publisher);
+                            break;
+                        case "contributor":
+                            EpubMetadataContributor contributor = ReadContributor(metadataItemNode);
+                            contributors.Add(contributor);
+                            break;
+                        case "date":
+                            EpubMetadataDate date = ReadDate(metadataItemNode);
+                            dates.Add(date);
+                            break;
+                        case "type":
+                            EpubMetadataType type = ReadType(metadataItemNode);
+                            types.Add(type);
+                            break;
+                        case "format":
+                            EpubMetadataFormat format = ReadFormat(metadataItemNode);
+                            formats.Add(format);
+                            break;
+                        case "identifier":
+                            EpubMetadataIdentifier identifier = ReadIdentifier(metadataItemNode);
+                            identifiers.Add(identifier);
+                            break;
+                        case "source":
+                            EpubMetadataSource source = ReadSource(metadataItemNode);
+                            sources.Add(source);
+                            break;
+                        case "language":
+                            EpubMetadataLanguage language = ReadLanguage(metadataItemNode);
+                            languages.Add(language);
+                            break;
+                        case "relation":
+                            EpubMetadataRelation relation = ReadRelation(metadataItemNode);
+                            relations.Add(relation);
+                            break;
+                        case "coverage":
+                            EpubMetadataCoverage coverage = ReadCoverage(metadataItemNode);
+                            coverages.Add(coverage);
+                            break;
+                        case "rights":
+                            EpubMetadataRights rightsItem = ReadRightsItem(metadataItemNode);
+                            rights.Add(rightsItem);
+                            break;
+                        case "link":
+                            EpubMetadataLink link = ReadLink(metadataItemNode);
+                            links.Add(link);
+                            break;
+                        case "meta":
+                            EpubMetadataMeta meta = ReadMeta(metadataItemNode);
+                            metaItems.Add(meta);
+                            break;
+                    }
                 }
             }
             return new(titles, creators, subjects, descriptions, publishers, contributors, dates, types, formats, identifiers, sources,

@@ -33,7 +33,7 @@ namespace VersOne.Epub.Test.Integration.Runner
             {
                 if (testCase.ExpectedResult != null)
                 {
-                    EpubBook epubBook = EpubReader.ReadBook(testEpubPath, testCase.Options);
+                    EpubBook? epubBook = EpubReader.ReadBook(testEpubPath, testCase.Options);
                     EpubBookComparer.CompareEpubBooks(testCase.ExpectedResult, epubBook);
                 }
                 else if (testCase.ExpectedException != null)

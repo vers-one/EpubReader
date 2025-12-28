@@ -6,7 +6,7 @@
     public class BookCoverReaderOptions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BookCoverReaderOptions"/> class.
+        /// Initializes a new instance of the <see cref="BookCoverReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="BookCoverReaderOptions" /> class with a predefined set of options.</param>
         public BookCoverReaderOptions(EpubReaderOptionsPreset? preset = null)
