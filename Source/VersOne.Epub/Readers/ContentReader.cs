@@ -80,7 +80,8 @@ namespace VersOne.Epub.Internal
                             switch (contentType)
                             {
                                 case EpubContentType.XHTML_1_1:
-                                    if (manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.NAV))
+                                    if (manifestItem.Properties != null && manifestItem.Properties.Contains(EpubManifestProperty.NAV) &&
+                                        !epubReaderOptions.ContentReaderOptions.IgnoreRemoteEpub3NavigationFileError)
                                     {
                                         throw new EpubPackageException($"Incorrect EPUB manifest: EPUB 3 navigation document \"{href}\" cannot be a remote resource.");
                                     }

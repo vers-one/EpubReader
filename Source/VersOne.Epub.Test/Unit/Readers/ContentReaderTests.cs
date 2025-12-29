@@ -50,8 +50,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "item-html",
@@ -255,20 +255,20 @@ namespace VersOne.Epub.Test.Unit.Readers
                             id: "item-cover",
                             href: "cover.jpg",
                             mediaType: "image/jpeg",
-                            properties: new List<EpubManifestProperty>
-                            {
+                            properties:
+                            [
                                 EpubManifestProperty.COVER_IMAGE
-                            }
+                            ]
                         ),
                         new
                         (
                             id: "item-toc",
                             href: "toc.html",
                             mediaType: "application/xhtml+xml",
-                            properties: new List<EpubManifestProperty>
-                            {
+                            properties:
+                            [
                                 EpubManifestProperty.NAV
-                            }
+                            ]
                         ),
                         new
                         (
@@ -300,7 +300,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                             href: "https://example.com/books/123/audio.mp3",
                             mediaType: "audio/mpeg"
                         )
-                    }
+                    ]
                 )
             );
             EpubLocalTextContentFileRef expectedHtmlFileRef = CreateLocalTextFileRef("text.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
@@ -343,25 +343,25 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubRemoteByteContentFileRef expectedRemoteJpgFileRef = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
             EpubRemoteByteContentFileRef expectedRemoteTtfFileRef = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
             EpubRemoteByteContentFileRef expectedRemoteMp3FileRef = CreateRemoteByteFileRef("https://example.com/books/123/audio.mp3", EpubContentType.AUDIO_MP3, "audio/mpeg");
-            List<EpubLocalTextContentFileRef> expectedHtmlLocal = new()
-            {
+            List<EpubLocalTextContentFileRef> expectedHtmlLocal =
+            [
                 expectedHtmlFileRef,
                 expectedTocFileRef
-            };
-            List<EpubRemoteTextContentFileRef> expectedHtmlRemote = new()
-            {
+            ];
+            List<EpubRemoteTextContentFileRef> expectedHtmlRemote =
+            [
                 expectedRemoteHtmlFileRef
-            };
-            List<EpubLocalTextContentFileRef> expectedCssLocal = new()
-            {
+            ];
+            List<EpubLocalTextContentFileRef> expectedCssLocal =
+            [
                 expectedCssFileRef
-            };
-            List<EpubRemoteTextContentFileRef> expectedCssRemote = new()
-            {
+            ];
+            List<EpubRemoteTextContentFileRef> expectedCssRemote =
+            [
                 expectedRemoteCssFileRef
-            };
-            List<EpubLocalByteContentFileRef> expectedImagesLocal = new()
-            {
+            ];
+            List<EpubLocalByteContentFileRef> expectedImagesLocal =
+            [
                 expectedGifFileRef,
                 expectedJpgFileRef,
                 expectedPngFileRef,
@@ -369,13 +369,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedWebpFileRef,
                 expectedBmpFileRef,
                 expectedCoverFileRef
-            };
-            List<EpubRemoteByteContentFileRef> expectedImagesRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFileRef> expectedImagesRemote =
+            [
                 expectedRemoteJpgFileRef
-            };
-            List<EpubLocalByteContentFileRef> expectedFontsLocal = new()
-            {
+            ];
+            List<EpubLocalByteContentFileRef> expectedFontsLocal =
+            [
                 expectedTtf1FileRef,
                 expectedTtf2FileRef,
                 expectedTtf3FileRef,
@@ -387,24 +387,24 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedWoff11FileRef,
                 expectedWoff12FileRef,
                 expectedWoff2FileRef
-            };
-            List<EpubRemoteByteContentFileRef> expectedFontsRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFileRef> expectedFontsRemote =
+            [
                 expectedRemoteTtfFileRef
-            };
-            List<EpubLocalByteContentFileRef> expectedAudioLocal = new()
-            {
+            ];
+            List<EpubLocalByteContentFileRef> expectedAudioLocal =
+            [
                 expectedMp3FileRef,
                 expectedMp4FileRef,
                 expectedOgg1FileRef,
                 expectedOgg2FileRef
-            };
-            List<EpubRemoteByteContentFileRef> expectedAudioRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFileRef> expectedAudioRemote =
+            [
                 expectedRemoteMp3FileRef
-            };
-            List<EpubLocalContentFileRef> expectedAllFilesLocal = new()
-            {
+            ];
+            List<EpubLocalContentFileRef> expectedAllFilesLocal =
+            [
                 expectedHtmlFileRef,
                 expectedDtbFileRef,
                 expectedNcxFileRef,
@@ -440,15 +440,15 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedVideoFileRef,
                 expectedCoverFileRef,
                 expectedTocFileRef
-            };
-            List<EpubRemoteContentFileRef> expectedAllFilesRemote = new()
-            {
+            ];
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote =
+            [
                 expectedRemoteHtmlFileRef,
                 expectedRemoteCssFileRef,
                 expectedRemoteJpgFileRef,
                 expectedRemoteTtfFileRef,
                 expectedRemoteMp3FileRef
-            };
+            ];
             EpubContentRef expectedContentMap = new
             (
                 cover: expectedCoverFileRef,
@@ -491,19 +491,19 @@ namespace VersOne.Epub.Test.Unit.Readers
             );
             EpubRemoteTextContentFileRef expectedFileRef1 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
             EpubRemoteTextContentFileRef expectedFileRef2 = CreateRemoteTextFileRef("https://example.com/books/123/test.css", EpubContentType.CSS, "text/css");
-            List<EpubRemoteTextContentFileRef> expectedHtmlRemote = new()
-            {
+            List<EpubRemoteTextContentFileRef> expectedHtmlRemote =
+            [
                 expectedFileRef1
-            };
-            List<EpubRemoteTextContentFileRef> expectedCssRemote = new()
-            {
+            ];
+            List<EpubRemoteTextContentFileRef> expectedCssRemote =
+            [
                 expectedFileRef2
-            };
-            List<EpubRemoteContentFileRef> expectedAllFilesRemote = new()
-            {
+            ];
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote =
+            [
                 expectedFileRef1,
                 expectedFileRef2
-            };
+            ];
             EpubContentRef expectedContentMap = new
             (
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(null, expectedHtmlRemote.AsReadOnly()),
@@ -522,8 +522,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "item-1",
@@ -536,24 +536,24 @@ namespace VersOne.Epub.Test.Unit.Readers
                             href: "https://example.com/books/123/font.ttf",
                             mediaType: "font/truetype"
                         )
-                    }
+                    ]
                 )
             );
             EpubRemoteByteContentFileRef expectedFileRef1 = CreateRemoteByteFileRef("https://example.com/books/123/image.jpg", EpubContentType.IMAGE_JPEG, "image/jpeg");
             EpubRemoteByteContentFileRef expectedFileRef2 = CreateRemoteByteFileRef("https://example.com/books/123/font.ttf", EpubContentType.FONT_TRUETYPE, "font/truetype");
-            List<EpubRemoteByteContentFileRef> expectedImagesRemote = new()
-            {
+            List<EpubRemoteByteContentFileRef> expectedImagesRemote =
+            [
                 expectedFileRef1
-            };
-            List<EpubRemoteByteContentFileRef> expectedFontsRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFileRef> expectedFontsRemote =
+            [
                 expectedFileRef2
-            };
-            List<EpubRemoteContentFileRef> expectedAllFilesRemote = new()
-            {
+            ];
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote =
+            [
                 expectedFileRef1,
                 expectedFileRef2
-            };
+            ];
             EpubContentRef expectedContentMap = new
             (
                 images: new EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef>(null, expectedImagesRemote.AsReadOnly()),
@@ -565,30 +565,78 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
         }
 
-        [Fact(DisplayName = "ParseContentMap should throw EpubPackageException if EPUB 3 navigation document is a remote resource")]
-        public void ParseContentMapWithRemoteNavigationDocumentTest()
+        [Fact(DisplayName = "ParseContentMap should throw EpubPackageException if EPUB 3 navigation document is a remote resource and EpubReaderOptions is null")]
+        public void ParseContentMapWithRemoteNavigationDocumentAndDefaultOptionsTest()
         {
             EpubSchema epubSchema = CreateEpubSchema
             (
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "item-toc",
                             href: "http://example.com/toc.html",
                             mediaType: "application/xhtml+xml",
-                            properties: new List<EpubManifestProperty>
-                            {
+                            properties:
+                            [
                                 EpubManifestProperty.NAV
-                            }
+                            ]
                         )
-                    }
+                    ]
                 )
             );
             ContentReader contentReader = new(environmentDependencies);
             Assert.Throws<EpubPackageException>(() => contentReader.ParseContentMap(epubSchema, new TestZipFile()));
+        }
+
+        [Fact(DisplayName = "ParseContentMap should succeed if EPUB 3 navigation document is a remote resource and IgnoreRemoteEpub3NavigationFileError = true")]
+        public void ParseContentMapWithRemoteNavigationDocumentAndIgnoreRemoteEpub3NavigationFileErrorTest()
+        {
+            EpubSchema epubSchema = CreateEpubSchema
+            (
+                manifest: new EpubManifest
+                (
+                    items:
+                    [
+                        new
+                        (
+                            id: "item-toc",
+                            href: "http://example.com/toc.html",
+                            mediaType: "application/xhtml+xml",
+                            properties:
+                            [
+                                EpubManifestProperty.NAV
+                            ]
+                        )
+                    ]
+                )
+            );
+            EpubRemoteTextContentFileRef expectedNavigationFileRef = CreateRemoteTextFileRef("http://example.com/toc.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");
+            List<EpubRemoteTextContentFileRef> expectedHtmlRemote =
+            [
+                expectedNavigationFileRef
+            ];
+            List<EpubRemoteContentFileRef> expectedAllFilesRemote =
+            [
+                expectedNavigationFileRef
+            ];
+            EpubContentRef expectedContentMap = new
+            (
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(null, expectedHtmlRemote.AsReadOnly()),
+                allFiles: new EpubContentCollectionRef<EpubLocalContentFileRef, EpubRemoteContentFileRef>(null, expectedAllFilesRemote.AsReadOnly())
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                ContentReaderOptions = new()
+                {
+                    IgnoreRemoteEpub3NavigationFileError = true
+                }
+            };
+            ContentReader contentReader = new(environmentDependencies, epubReaderOptions);
+            EpubContentRef actualContentMap = contentReader.ParseContentMap(epubSchema, new TestZipFile());
+            EpubContentRefComparer.CompareEpubContentRefs(expectedContentMap, actualContentMap);
         }
 
         private static EpubSchema CreateEpubSchema(EpubManifest? manifest = null)

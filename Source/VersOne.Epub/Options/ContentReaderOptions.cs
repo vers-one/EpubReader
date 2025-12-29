@@ -23,6 +23,24 @@ namespace VersOne.Epub.Options
         /// </summary>
         public event EventHandler<ContentFileMissingEventArgs>? ContentFileMissing;
 
+        /// <summary>
+        /// <para>
+        /// Gets or sets a value indicating whether content reader should ignore the error when the EPUB 3 navigation manifest item
+        /// is referencing a remote resource.
+        /// </para>
+        /// <para>
+        /// If it's set to <c>false</c> and the content file referenced by the navigation manifest item is a remote resource
+        /// (i.e. the 'href' attribute of the manifest item is a remote URL),
+        /// then the "Incorrect EPUB manifest: EPUB 3 navigation document ... cannot be a remote resource." exception will be thrown.
+        /// This exception can be suppressed by setting this property to <c>true</c>, in which case the content reader will ignore the error.
+        /// The navigation content file will still be added to the collection of remote HTML/XHTML content files, even if the error was ignored.
+        /// </para>
+        /// <para>
+        /// Default value is <c>false</c>.
+        /// </para>
+        /// </summary>
+        public bool IgnoreRemoteEpub3NavigationFileError { get; set; }
+
         internal void RaiseContentFileMissingEvent(ContentFileMissingEventArgs contentFileMissingEventArgs)
         {
             ContentFileMissing?.Invoke(this, contentFileMissingEventArgs);

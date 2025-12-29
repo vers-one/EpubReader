@@ -365,7 +365,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "ReadBookCover should throw EpubPackageException if the image referenced by the cover manifest item in the EPUB 2 file is a remote resource and BookCoverReaderOptions is null")]
-        public void ReadBookCoverForEpub2WithRemoteManifestItemImageAndDefaultOptionsTestTest()
+        public void ReadBookCoverForEpub2WithRemoteManifestItemImageAndDefaultOptionsTest()
         {
             EpubSchema epubSchema = CreateEmptyEpubSchema(EpubVersion.EPUB_2);
             epubSchema.Package.Metadata.MetaItems.Add(
@@ -417,7 +417,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "ReadBookCover should throw EpubPackageException if the image referenced by the cover guide item in the EPUB 2 file is a remote resource and BookCoverReaderOptions is null")]
-        public void ReadBookCoverForEpub2WithRemoteGuideItemImageAndDefaultOptionsTestTest()
+        public void ReadBookCoverForEpub2WithRemoteGuideItemImageAndDefaultOptionsTest()
         {
             EpubSchema epubSchema = CreateEmptyEpubSchema
             (
@@ -469,7 +469,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         }
 
         [Fact(DisplayName = "ReadBookCover should throw EpubPackageException if the image referenced by the cover manifest item in the EPUB 3 file is a remote resource and BookCoverReaderOptions is null")]
-        public void ReadBookCoverForEpub3WithRemoteManifestItemImageAndDefaultOptionsTestTest()
+        public void ReadBookCoverForEpub3WithRemoteManifestItemImageAndDefaultOptionsTest()
         {
             EpubSchema epubSchema = CreateEmptyEpubSchema(EpubVersion.EPUB_3);
             epubSchema.Package.Manifest.Items.Add(new EpubManifestItem
