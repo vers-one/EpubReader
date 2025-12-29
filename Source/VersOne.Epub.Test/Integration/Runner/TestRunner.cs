@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Integration.CustomSerialization;
 using VersOne.Epub.Test.Integration.Types;
@@ -31,9 +32,10 @@ namespace VersOne.Epub.Test.Integration.Runner
             Assert.NotNull(testCases);
             foreach (TestCase testCase in testCases)
             {
+                EpubReaderOptions epubReaderOptions = testCase.Options ?? new EpubReaderOptions();
                 if (testCase.ExpectedResult != null)
                 {
-                    EpubBook? epubBook = EpubReader.ReadBook(testEpubPath, testCase.Options);
+                    EpubBook? epubBook = EpubReader.ReadBook(testEpubPath, epubReaderOptions);
                     EpubBookComparer.CompareEpubBooks(testCase.ExpectedResult, epubBook);
                 }
                 else if (testCase.ExpectedException != null)
@@ -41,7 +43,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     bool exceptionThrown = false;
                     try
                     {
-                        EpubReader.ReadBook(testEpubPath, testCase.Options);
+                        EpubReader.ReadBook(testEpubPath, epubReaderOptions);
                     }
                     catch (Exception actualException)
                     {

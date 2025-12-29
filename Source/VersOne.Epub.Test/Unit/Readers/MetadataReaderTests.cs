@@ -69,26 +69,26 @@ namespace VersOne.Epub.Test.Unit.Readers
         private static EpubMetadata FullMetadata =>
             new
             (
-                titles: new List<EpubMetadataTitle>()
-                {
-                    new EpubMetadataTitle
+                titles:
+                [
+                    new
                     (
                         title: "Test title 1",
                         id: "title-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataTitle
+                    new
                     (
                         title: "Test title 2",
                         id: "title-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                creators: new List<EpubMetadataCreator>()
-                {
-                    new EpubMetadataCreator
+                ],
+                creators:
+                [
+                    new
                     (
                         role: "author",
                         id: "creator-1",
@@ -97,7 +97,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataCreator
+                    new
                     (
                         role: "author",
                         id: "creator-2",
@@ -106,61 +106,61 @@ namespace VersOne.Epub.Test.Unit.Readers
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                subjects: new List<EpubMetadataSubject>()
-                {
-                    new EpubMetadataSubject
+                ],
+                subjects:
+                [
+                    new
                     (
                         subject: "Test subject 1",
                         id: "subject-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataSubject
+                    new
                     (
                         subject: "Test subject 2",
                         id: "subject-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                descriptions: new List<EpubMetadataDescription>()
-                {
-                    new EpubMetadataDescription
+                ],
+                descriptions:
+                [
+                    new
                     (
                         description: "Test description 1",
                         id: "description-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataDescription
+                    new
                     (
                         description: "Test description 2",
                         id: "description-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                publishers: new List<EpubMetadataPublisher>()
-                {
-                    new EpubMetadataPublisher
+                ],
+                publishers:
+                [
+                    new
                     (
                         publisher: "Test publisher 1",
                         id: "publisher-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataPublisher
+                    new
                     (
                         publisher: "Test publisher 2",
                         id: "publisher-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                contributors: new List<EpubMetadataContributor>()
-                {
-                    new EpubMetadataContributor
+                ],
+                contributors:
+                [
+                    new
                     (
                         role: "editor",
                         id: "contributor-1",
@@ -169,7 +169,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataContributor
+                    new
                     (
                         role: "editor",
                         id: "contributor-2",
@@ -178,207 +178,207 @@ namespace VersOne.Epub.Test.Unit.Readers
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                dates: new List<EpubMetadataDate>()
-                {
-                    new EpubMetadataDate
+                ],
+                dates:
+                [
+                    new
                     (
                         @event: "creation",
                         id: "date-1",
                         date: "2021-12-31T23:59:59.123456Z"
                     ),
-                    new EpubMetadataDate
+                    new
                     (
                         @event: "publication",
                         id: "date-2",
                         date: "2022-01-23"
                     )
-                },
-                types: new List<EpubMetadataType>()
-                {
-                    new EpubMetadataType
+                ],
+                types:
+                [
+                    new
                     (
                         type: "dictionary",
                         id: "type-1"
                     ),
-                    new EpubMetadataType
+                    new
                     (
                         type: "preview",
                         id: "type-2"
                     )
-                },
-                formats: new List<EpubMetadataFormat>()
-                {
-                    new EpubMetadataFormat
+                ],
+                formats:
+                [
+                    new
                     (
                         format: "format-1",
                         id: "format-1"
                     ),
-                    new EpubMetadataFormat
+                    new
                     (
                         format: "format-2",
                         id: "format-2"
                     )
-                },
-                identifiers: new List<EpubMetadataIdentifier>()
-                {
-                    new EpubMetadataIdentifier
+                ],
+                identifiers:
+                [
+                    new
                     (
                         identifier: "https://example.com/books/123",
                         id: "identifier-1",
                         scheme: "URI"
                     ),
-                    new EpubMetadataIdentifier
+                    new
                     (
                         identifier: "9781234567890",
                         id: "identifier-2",
                         scheme: "ISBN"
                     )
-                },
-                sources: new List<EpubMetadataSource>()
-                {
-                    new EpubMetadataSource
+                ],
+                sources:
+                [
+                    new
                     (
                         source: "https://example.com/books/123/content-1.html",
                         id: "source-1"
                     ),
-                    new EpubMetadataSource
+                    new
                     (
                         source: "https://example.com/books/123/content-2.html",
                         id: "source-2"
                     )
-                },
-                languages: new List<EpubMetadataLanguage>()
-                {
-                    new EpubMetadataLanguage
+                ],
+                languages:
+                [
+                    new
                     (
                         language: "en",
                         id: "language-1"
                     ),
-                    new EpubMetadataLanguage
+                    new
                     (
                         language: "is",
                         id: "language-2"
                     )
-                },
-                relations: new List<EpubMetadataRelation>()
-                {
-                    new EpubMetadataRelation
+                ],
+                relations:
+                [
+                    new
                     (
                         relation: "https://example.com/books/123/related-1.html",
                         id: "relation-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataRelation
+                    new
                     (
                         relation: "https://example.com/books/123/related-2.html",
                         id: "relation-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                coverages: new List<EpubMetadataCoverage>()
-                {
-                    new EpubMetadataCoverage
+                ],
+                coverages:
+                [
+                    new
                     (
                         coverage: "New York",
                         id: "coverage-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataCoverage
+                    new
                     (
                         coverage: "1700-1850",
                         id: "coverage-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                rights: new List<EpubMetadataRights>()
-                {
-                    new EpubMetadataRights
+                ],
+                rights:
+                [
+                    new
                     (
                         rights: "Public domain in the USA",
                         id: "rights-1",
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataRights
+                    new
                     (
                         rights: "All rights reserved",
                         id: "rights-2",
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                },
-                links: new List<EpubMetadataLink>()
-                {
-                    new EpubMetadataLink
+                ],
+                links:
+                [
+                    new
                     (
                         id: "link-1",
                         href: "front.html#meta-json",
                         mediaType: "application/xhtml+xml",
                         properties: null,
                         refines: null,
-                        relationships: new List<EpubMetadataLinkRelationship>()
-                        {
+                        relationships:
+                        [
                             EpubMetadataLinkRelationship.RECORD
-                        },
+                        ],
                         hrefLanguage: "en"
                     ),
-                    new EpubMetadataLink
+                    new
                     (
                         id: "link-2",
                         href: "https://example.com/onix/123",
                         mediaType: "application/xml",
-                        properties: new List<EpubMetadataLinkProperty>()
-                        {
+                        properties:
+                        [
                             EpubMetadataLinkProperty.ONIX
-                        },
+                        ],
                         refines: null,
-                        relationships: new List<EpubMetadataLinkRelationship>()
-                        {
+                        relationships:
+                        [
                             EpubMetadataLinkRelationship.RECORD,
                             EpubMetadataLinkRelationship.ONIX_RECORD
-                        },
+                        ],
                         hrefLanguage: null
                     ),
-                    new EpubMetadataLink
+                    new
                     (
                         id: "link-3",
                         href: "book.atom",
                         mediaType: "application/atom+xml;type=entry;profile=opds-catalog",
                         properties: null,
                         refines: null,
-                        relationships: new List<EpubMetadataLinkRelationship>()
-                        {
+                        relationships:
+                        [
                             EpubMetadataLinkRelationship.RECORD
-                        },
+                        ],
                         hrefLanguage: null
                     ),
-                    new EpubMetadataLink
+                    new
                     (
                         id: "link-4",
                         href: "title.mp3",
                         mediaType: "audio/mpeg",
                         properties: null,
                         refines: "#title-1",
-                        relationships: new List<EpubMetadataLinkRelationship>()
-                        {
+                        relationships:
+                        [
                             EpubMetadataLinkRelationship.VOICING
-                        },
+                        ],
                         hrefLanguage: null
                     )
-                },
-                metaItems: new List<EpubMetadataMeta>()
-                {
-                    new EpubMetadataMeta
+                ],
+                metaItems:
+                [
+                    new
                     (
                         name: "cover",
                         content: "cover-image"
                     ),
-                    new EpubMetadataMeta
+                    new
                     (
                         name: null,
                         content: "landscape",
@@ -387,7 +387,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         property: "rendition:orientation",
                         scheme: null
                     ),
-                    new EpubMetadataMeta
+                    new
                     (
                         name: null,
                         content: "123",
@@ -398,7 +398,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     ),
-                    new EpubMetadataMeta
+                    new
                     (
                         name: null,
                         content: "Brynjólfur Sveinsson",
@@ -409,7 +409,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                         textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                         language: "is"
                     )
-                }
+                ]
             );
 
         [Fact(DisplayName = "Reading a minimal metadata XML should succeed")]
@@ -435,7 +435,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestFailingReadOperation(METADATA_XML_WITHOUT_REL_IN_METADATA_LINK);
         }
-
 
         private static void TestSuccessfulReadOperation(string metadataXml, EpubMetadata expectedEpubMetadata)
         {
