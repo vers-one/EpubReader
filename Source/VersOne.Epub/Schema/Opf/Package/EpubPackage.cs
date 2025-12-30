@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using VersOne.Epub.Internal;
 
 namespace VersOne.Epub.Schema
 {
@@ -141,7 +140,7 @@ namespace VersOne.Epub.Schema
         /// <returns>String representation of the <see cref="EpubVersion" /> property.</returns>
         public string GetVersionString()
         {
-            return VersionUtils.GetVersionString(EpubVersion);
+            return EpubVersion.GetVersionString();
         }
     }
 }

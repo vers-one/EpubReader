@@ -26,7 +26,7 @@ namespace VersOne.Epub.Environment.Implementation
             {
                 throw new ObjectDisposedException(nameof(ZipFile));
             }
-            ZipArchiveEntry zipArchiveEntry = zipArchive.GetEntry(entryName);
+            ZipArchiveEntry? zipArchiveEntry = zipArchive.GetEntry(entryName);
             return zipArchiveEntry != null ? new ZipFileEntry(zipArchiveEntry) : null;
         }
 

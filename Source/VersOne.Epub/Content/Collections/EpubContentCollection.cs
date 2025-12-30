@@ -115,7 +115,7 @@ namespace VersOne.Epub
         /// <c>true</c> if the local content file with the specified <see cref="EpubContentFile.Key" /> value exists in this container; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key" /> is <c>null</c>.</exception>
-        public bool TryGetLocalFileByKey(string key, out TLocalContentFile localContentFile)
+        public bool TryGetLocalFileByKey(string key, out TLocalContentFile? localContentFile)
         {
             if (key == null)
             {
@@ -177,7 +177,7 @@ namespace VersOne.Epub
         /// <c>true</c> if the local content file with the specified <see cref="EpubLocalContentFile.FilePath" /> value exists in this container; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="filePath" /> is <c>null</c>.</exception>
-        public bool TryGetLocalFileByFilePath(string filePath, out TLocalContentFile localContentFile)
+        public bool TryGetLocalFileByFilePath(string filePath, out TLocalContentFile? localContentFile)
         {
             if (filePath == null)
             {
@@ -239,7 +239,7 @@ namespace VersOne.Epub
         /// <c>true</c> if the remote content file with the specified <see cref="EpubRemoteContentFile.Url" /> value exists in this container; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="url" /> is <c>null</c>.</exception>
-        public bool TryGetRemoteFileByUrl(string url, out TRemoteContentFile remoteContentFile)
+        public bool TryGetRemoteFileByUrl(string url, out TRemoteContentFile? remoteContentFile)
         {
             if (url == null)
             {

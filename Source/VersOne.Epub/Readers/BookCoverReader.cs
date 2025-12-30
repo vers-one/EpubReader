@@ -44,7 +44,7 @@ namespace VersOne.Epub.Internal
             {
                 return null;
             }
-            EpubMetadataMeta coverMetaItem = metaItems.Find(metaItem => metaItem.Name.CompareOrdinalIgnoreCase("cover"));
+            EpubMetadataMeta? coverMetaItem = metaItems.Find(metaItem => metaItem.Name.CompareOrdinalIgnoreCase("cover"));
             if (coverMetaItem == null)
             {
                 return null;
@@ -107,7 +107,7 @@ namespace VersOne.Epub.Internal
             EpubSchema epubSchema, EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> imageContentRefs,
             BookCoverReaderOptions bookCoverReaderOptions)
         {
-            EpubManifestItem coverManifestItem = epubSchema.Package.Manifest.Items.Find(manifestItem => manifestItem.Properties != null &&
+            EpubManifestItem? coverManifestItem = epubSchema.Package.Manifest.Items.Find(manifestItem => manifestItem.Properties != null &&
                 manifestItem.Properties.Contains(EpubManifestProperty.COVER_IMAGE));
             if (coverManifestItem == null || coverManifestItem.Href == null)
             {

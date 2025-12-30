@@ -13,7 +13,7 @@ namespace VersOne.Epub.Utils
             }
             catch (AggregateException aggregateException)
             {
-                throw aggregateException.InnerException;
+                throw aggregateException.GetBaseException();
             }
         }
     }

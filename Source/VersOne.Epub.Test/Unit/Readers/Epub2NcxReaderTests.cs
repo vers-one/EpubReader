@@ -1,4 +1,5 @@
-﻿using VersOne.Epub.Internal;
+﻿using System.Xml;
+using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
@@ -132,6 +133,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         private const string NCX_FILE_WITHOUT_HEAD_ELEMENT = """
             <?xml version='1.0' encoding='utf-8'?>
             <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/">
+              <docTitle />
+              <navMap />
               <test />
             </ncx>
             """;
@@ -140,6 +143,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             <?xml version='1.0' encoding='utf-8'?>
             <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/">
               <head />
+              <navMap />
               <test />
             </ncx>
             """;
@@ -249,6 +253,9 @@ namespace VersOne.Epub.Test.Unit.Readers
               <docTitle />
               <navMap>
                 <navPoint id="navpoint-1">
+                  <navLabel>
+                    <text>Chapter 1</text>
+                  </navLabel>
                   <navLabel />
                   <content src="chapter1.html" />
                 </navPoint>
@@ -394,15 +401,15 @@ namespace VersOne.Epub.Test.Unit.Readers
                 metadata: new EpubMetadata(),
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: TOC_ID,
                             href: NCX_FILE_NAME,
                             mediaType: "application/x-dtbncx+xml"
                         )
-                    }
+                    ]
                 ),
                 spine: new EpubSpine
                 (
@@ -429,8 +436,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                 filePath: NCX_FILE_PATH,
                 head: new Epub2NcxHead
                 (
-                    items: new List<Epub2NcxHeadMeta>
-                    {
+                    items:
+                    [
                         new
                         (
                             name: "dtb:uid",
@@ -462,25 +469,25 @@ namespace VersOne.Epub.Test.Unit.Readers
                             content: "https://example.com/books/123/ncx",
                             scheme: "URI"
                         )
-                    }
+                    ]
                 ),
                 docTitle: "Test title",
-                docAuthors: new List<string>()
-                {
+                docAuthors:
+                [
                     "John Doe",
                     "Jane Doe"
-                },
+                ],
                 navMap: new Epub2NcxNavigationMap
                 (
-                    items: new List<Epub2NcxNavigationPoint>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "navpoint-1",
                             @class: "chapter",
                             playOrder: "1",
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            navigationLabels:
+                            [
                                 new
                                 (
                                     text: "Chapter 1"
@@ -489,26 +496,26 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 (
                                     text: "Capitolo 1"
                                 )
-                            },
+                            ],
                             content: new Epub2NcxContent
                             (
                                 id: "content-1",
                                 source: "chapter1.html"
                             ),
-                            childNavigationPoints: new List<Epub2NcxNavigationPoint>()
-                            {
+                            childNavigationPoints:
+                            [
                                 new
                                 (
                                     id: "navpoint-1-1",
                                     @class: "section",
                                     playOrder: null,
-                                    navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                    {
+                                    navigationLabels:
+                                    [
                                         new
                                         (
                                             text: "Chapter 1.1"
                                         )
-                                    },
+                                    ],
                                     content: new Epub2NcxContent
                                     (
                                         id: "content-1-1",
@@ -521,13 +528,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                                     id: "navpoint-1-2",
                                     @class: "section",
                                     playOrder: null,
-                                    navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                    {
+                                    navigationLabels:
+                                    [
                                         new
                                         (
                                             text: "Chapter 1.2"
                                         )
-                                    },
+                                    ],
                                     content: new Epub2NcxContent
                                     (
                                         id: "content-1-2",
@@ -535,29 +542,29 @@ namespace VersOne.Epub.Test.Unit.Readers
                                     ),
                                     childNavigationPoints: null
                                 )
-                            }
+                            ]
                         ),
                         new
                         (
                             id: "navpoint-2",
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            navigationLabels:
+                            [
                                 new
                                 (
                                     text: "Chapter 2"
                                 )
-                            },
+                            ],
                             content: new Epub2NcxContent
                             (
                                 source: "chapter2.html"
                             )
                         )
-                    }
+                    ]
                 ),
                 pageList: new Epub2NcxPageList
                 (
-                    items: new List<Epub2NcxPageTarget>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "page-target-1",
@@ -565,8 +572,8 @@ namespace VersOne.Epub.Test.Unit.Readers
                             type: Epub2NcxPageTargetType.FRONT,
                             @class: "front-matter",
                             playOrder: "1",
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            navigationLabels:
+                            [
                                 new
                                 (
                                     text: "1"
@@ -575,7 +582,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                 (
                                     text: "I"
                                 )
-                            },
+                            ],
                             content: new Epub2NcxContent
                             (
                                 source: "front.html"
@@ -584,29 +591,29 @@ namespace VersOne.Epub.Test.Unit.Readers
                         new
                         (
                             type: Epub2NcxPageTargetType.NORMAL,
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            navigationLabels:
+                            [
                                 new
                                 (
                                     text: "2"
                                 )
-                            },
+                            ],
                             content: new Epub2NcxContent
                             (
                                 id: "content-2",
                                 source: "chapter1.html#page-2"
                             )
                         )
-                    }
+                    ]
                 ),
-                navLists: new List<Epub2NcxNavigationList>()
-                {
+                navLists:
+                [
                     new
                     (
                         id: "navlist-1",
                         @class: "navlist-illustrations",
-                        navigationLabels: new List<Epub2NcxNavigationLabel>()
-                        {
+                        navigationLabels:
+                        [
                             new
                             (
                                 text: "List of Illustrations"
@@ -615,17 +622,17 @@ namespace VersOne.Epub.Test.Unit.Readers
                             (
                                 text: "Illustrazioni"
                             )
-                        },
-                        navigationTargets: new List<Epub2NcxNavigationTarget>()
-                        {
+                        ],
+                        navigationTargets:
+                        [
                             new
                             (
                                 id: "navtarget-1",
                                 value: "Illustration 1",
                                 @class: "illustration",
                                 playOrder: "1",
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
+                                navigationLabels:
+                                [
                                     new
                                     (
                                         text: "Illustration 1"
@@ -634,57 +641,57 @@ namespace VersOne.Epub.Test.Unit.Readers
                                     (
                                         text: "Illustrazione 1"
                                     )
-                                },
+                                ],
                                 content: new Epub2NcxContent
                                 (
                                     source: "chapter1.html#illustration-1"
                                 )
                             )
-                        }
+                        ]
                     ),
                     new
                     (
                         id: "navlist-2",
                         @class: "navlist-tables",
-                        navigationLabels: new List<Epub2NcxNavigationLabel>()
-                        {
+                        navigationLabels:
+                        [
                             new
                             (
                                 text: "List of Tables"
                             )
-                        },
-                        navigationTargets: new List<Epub2NcxNavigationTarget>()
-                        {
+                        ],
+                        navigationTargets:
+                        [
                             new
                             (
                                 id: "navtarget-2",
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
+                                navigationLabels:
+                                [
                                     new
                                     (
                                         text: "Tables"
                                     )
-                                },
+                                ],
                                 content: null
                             ),
                             new
                             (
                                 id: "navtarget-3",
-                                navigationLabels: new List<Epub2NcxNavigationLabel>()
-                                {
+                                navigationLabels:
+                                [
                                     new
                                     (
                                         text: "Table 1"
                                     )
-                                },
+                                ],
                                 content: new Epub2NcxContent
                                 (
                                     source: "chapter1.html#table-1"
                                 )
                             )
-                        }
+                        ]
                     )
-                }
+                ]
             );
 
         private static Epub2Ncx MinimalEpub2NcxWithUnknownPageTargetType =>
@@ -697,24 +704,24 @@ namespace VersOne.Epub.Test.Unit.Readers
                 navMap: new Epub2NcxNavigationMap(),
                 pageList: new Epub2NcxPageList
                 (
-                    items: new List<Epub2NcxPageTarget>()
-                    {
+                    items:
+                    [
                         new
                         (
                             type: Epub2NcxPageTargetType.UNKNOWN,
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            navigationLabels:
+                            [
                                 new
                                 (
                                     text: "1"
                                 )
-                            },
+                            ],
                             content: new Epub2NcxContent
                             (
                                 source: "chapter1.html#page-1"
                             )
                         )
-                    }
+                    ]
                 ),
                 navLists: null
             );
@@ -729,6 +736,15 @@ namespace VersOne.Epub.Test.Unit.Readers
         public void ConstructorWithNullEpubReaderOptionsTest()
         {
             _ = new Epub2NcxReader(null);
+        }
+
+        [Fact(DisplayName = "Constructing a Epub2NcxReader instance with a null Epub2NcxReaderOptions property inside the epubReaderOptions parameter should succeed")]
+        public void ConstructorWithNullEpub2NcxReaderOptionsTest()
+        {
+            _ = new Epub2NcxReader(new EpubReaderOptions
+            {
+                Epub2NcxReaderOptions = null!
+            });
         }
 
         [Fact(DisplayName = "Reading a minimal NCX file should succeed")]
@@ -761,8 +777,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             Assert.Null(epub2Ncx);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if EpubPackage is missing the manifest item referenced by the spine TOC")]
-        public async Task ReadEpub2NcxAsyncWithoutTocManifestItemTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if EpubPackage is missing the manifest item referenced by the spine TOC and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutTocManifestItemAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubPackage epubPackage = new
@@ -781,16 +797,60 @@ namespace VersOne.Epub.Test.Unit.Readers
             await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage));
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if EPUB file is missing the NCX file specified in the EpubPackage")]
-        public async Task ReadEpub2NcxAsyncWithoutNcxFileTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should return null if EpubPackage is missing the manifest item referenced by the spine TOC and IgnoreMissingTocManifestItemError = true")]
+        public async Task ReadEpub2NcxAsyncWithoutTocManifestItemAndIgnoreMissingTocManifestItemErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubPackage epubPackage = new
+            (
+                uniqueIdentifier: null,
+                epubVersion: EpubVersion.EPUB_2,
+                metadata: new EpubMetadata(),
+                manifest: new EpubManifest(),
+                spine: new EpubSpine
+                (
+                    toc: TOC_ID
+                ),
+                guide: null
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreMissingTocManifestItemError = true
+                }
+            };
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            Epub2Ncx? actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, epubPackage);
+            Assert.Null(actualEpub2Ncx);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if EPUB file is missing the NCX file specified in the EpubPackage and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNcxFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             Epub2NcxReader epub2NcxReader = new();
             await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file is larger than 2 GB")]
-        public async Task ReadEpub2NcxAsyncWithLargeNcxFileTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should return null if EPUB file is missing the NCX file specified in the EpubPackage and IgnoreMissingTocFileError = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNcxFileAndIgnoreMissingTocFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreMissingTocFileError = true
+                }
+            };
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            Epub2Ncx? actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx);
+            Assert.Null(actualEpub2Ncx);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file is larger than 2 GB and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithLargeNcxFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(NCX_FILE_PATH, new Test4GbZipFileEntry());
@@ -798,40 +858,163 @@ namespace VersOne.Epub.Test.Unit.Readers
             await Assert.ThrowsAsync<Epub2NcxException>(() => epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'ncx' XML element")]
-        public async Task ReadEpub2NcxAsyncWithoutNcxElementTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should return null if the NCX file is larger than 2 GB and IgnoreTocFileIsTooLargeError = true")]
+        public async Task ReadEpub2NcxAsyncWithLargeNcxFileAndIgnoreTocFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(NCX_FILE_PATH, new Test4GbZipFileEntry());
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreTocFileIsTooLargeError = true
+                }
+            };
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            Epub2Ncx? actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx);
+            Assert.Null(actualEpub2Ncx);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException with an inner XmlException if the NCX file is not a valid XML file and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithInvalidXhtmlFileAndDefaultOptionsTest()
+        {
+            TestZipFile testZipFile = CreateTestZipFileWithNcxFile("not a valid XML file");
+            Epub2NcxReader epub2NcxReader = new(new EpubReaderOptions());
+            Epub2NcxException outerException =
+                await Assert.ThrowsAsync<Epub2NcxException>(() =>
+                    epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx));
+            Assert.NotNull(outerException.InnerException);
+            Assert.Equal(typeof(XmlException), outerException.InnerException.GetType());
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should return null if the NCX file is not a valid XML file and IgnoreTocFileIsNotValidXmlError = true")]
+        public async Task ReadEpub2NcxAsyncWithInvalidXhtmlFileAndIgnoreTocFileIsNotValidXmlErrorTest()
+        {
+            TestZipFile testZipFile = CreateTestZipFileWithNcxFile("not a valid XML file");
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreTocFileIsNotValidXmlError = true
+                }
+            };
+            Epub2NcxReader epub2NcxReader = new(epubReaderOptions);
+            Epub2Ncx? actualEpub2Ncx = await epub2NcxReader.ReadEpub2NcxAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNcx);
+            Assert.Null(actualEpub2Ncx);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'ncx' XML element and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNcxElementAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NCX_ELEMENT);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'head' XML element")]
-        public async Task ReadEpub2NcxAsyncWithoutHeadElementTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should return null if the NCX file has no 'ncx' XML element and IgnoreMissingNcxElementError = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNcxElementAndIgnoreMissingNcxElementErrorTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreMissingNcxElementError = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NCX_ELEMENT, null, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'head' XML element and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutHeadElementAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_HEAD_ELEMENT);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'docTitle' XML element")]
-        public async Task ReadEpub2NcxAsyncWithoutDocTitleElementTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if the NCX file has no 'head' XML element and IgnoreMissingHeadElementError = true")]
+        public async Task ReadEpub2NcxAsyncWithoutHeadElementAndIgnoreMissingHeadElementErrorTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreMissingHeadElementError = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_HEAD_ELEMENT, MinimalEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'docTitle' XML element and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutDocTitleElementAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_DOCTITLE_ELEMENT);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'navMap' XML element")]
-        public async Task ReadEpub2NcxAsyncWithoutNavMapElementTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if the NCX file has no 'docTitle' XML element and IgnoreMissingDocTitleElementError = true")]
+        public async Task ReadEpub2NcxAsyncWithoutDocTitleElementAndIgnoreMissingDocTitleElementErrorTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreMissingDocTitleElementError = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_DOCTITLE_ELEMENT, MinimalEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if the NCX file has no 'navMap' XML element and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavMapElementAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVMAP_ELEMENT);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'meta' XML element has no 'name' attribute")]
-        public async Task ReadEpub2NcxAsyncWithoutMetaNameTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if the NCX file has no 'navMap' XML element and IgnoreMissingNavMapElementError = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavMapElementAndIgnoreMissingNavMapElementErrorTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    IgnoreMissingNavMapElementError = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVMAP_ELEMENT, MinimalEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'meta' XML element has no 'name' attribute and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutMetaNameAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_META_NAME_ATTRIBUTE);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'meta' XML element has no 'content' attribute")]
-        public async Task ReadEpub2NcxAsyncWithoutMetaContentTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'meta' XML element has no 'name' attribute and SkipInvalidMetaElements = true")]
+        public async Task ReadEpub2NcxAsyncWithoutMetaNameAndSkipInvalidMetaElementsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    SkipInvalidMetaElements = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_META_NAME_ATTRIBUTE, MinimalEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'meta' XML element has no 'content' attribute and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutMetaContentAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_META_CONTENT_ATTRIBUTE);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'meta' XML element has no 'content' attribute and SkipInvalidMetaElements = true")]
+        public async Task ReadEpub2NcxAsyncWithoutMetaContentAndSkipInvalidMetaElementsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new()
+                {
+                    SkipInvalidMetaElements = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_META_CONTENT_ATTRIBUTE, MinimalEpub2Ncx, epubReaderOptions);
         }
 
         [Fact(DisplayName = "Reading an NCX file with unknown XML element in the 'docTitle' element should succeed")]
@@ -846,36 +1029,65 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestSuccessfulReadOperation(MINIMAL_NCX_FILE_WITH_UNKNOWN_ELEMENT_IN_DOCAUTHOR, MinimalEpub2Ncx);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'id' attribute")]
-        public async Task ReadEpub2NcxAsyncWithoutNavPointIdTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'id' attribute and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavPointIdAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_ID_ATTRIBUTE);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'navlabel' elements")]
-        public async Task ReadEpub2NcxAsyncWithoutNavPointNavLabelsTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed Epub2NcxException if a 'navpoint' XML element has no 'id' attribute and SkipNavigationPointsWithMissingIds = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavPointIdAndSkipNavigationPointsWithMissingIdsTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    SkipNavigationPointsWithMissingIds = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVPOINT_ID_ATTRIBUTE, MinimalEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'navlabel' elements and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavPointNavLabelsAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_NAVLABEL_ELEMENTS);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'content' element")]
-        public async Task ReadEpub2NcxAsyncWithoutNavPointContentTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed Epub2NcxException if a 'navpoint' XML element has no 'navlabel' elements and AllowNavigationPointsWithoutLabels = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavPointNavLabelsAndAllowNavigationPointsWithoutLabelsTest()
+        {
+            Epub2Ncx expectedEpub2Ncx = MinimalEpub2Ncx;
+            expectedEpub2Ncx.NavMap.Items.Add(
+                new
+                (
+                    id: "navpoint-1",
+                    navigationLabels: null,
+                    content:
+                    new
+                    (
+                        source: "chapter1.html"
+                    )
+                )
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    AllowNavigationPointsWithoutLabels = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVPOINT_NAVLABEL_ELEMENTS, expectedEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'content' element and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavPointContentAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_CONTENT_ELEMENT);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navpoint' XML element has no 'content' element and Epub2NcxReaderOptions is null")]
-        public async Task ReadEpub2NcxAsyncWithoutNavPointContentAndWithNullEpub2NcxReaderOptionsTest()
-        {
-            EpubReaderOptions epubReaderOptions = new()
-            {
-                Epub2NcxReaderOptions = null!
-            };
-            await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVPOINT_CONTENT_ELEMENT, epubReaderOptions);
-        }
-
-        [Fact(DisplayName = "Reading an NCX file without 'content' element in a 'navpoint' XML element with IgnoreMissingContentForNavigationPoints = true should succeed")]
-        public async Task ReadEpub2NcxAsyncWithoutNavPointContentWithIgnoreMissingContentForNavigationPointsTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed Epub2NcxException if a 'navpoint' XML element has no 'content' element and IgnoreMissingContentForNavigationPoints = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavPointContentAndIgnoreMissingContentForNavigationPointsTest()
         {
             EpubReaderOptions epubReaderOptions = new()
             {
@@ -887,58 +1099,138 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVPOINT_CONTENT_ELEMENT, MinimalEpub2Ncx, epubReaderOptions);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navlabel' XML element has no 'text' element")]
-        public async Task ReadEpub2NcxAsyncWithoutNavLabelTextTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navlabel' XML element has no 'text' element and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavLabelTextAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVLABEL_TEXT_ELEMENT);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'navlabel' XML element has no 'text' element and SkipInvalidNavigationLabels = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavLabelTextAndSkipInvalidNavigationLabelsTest()
+        {
+            Epub2Ncx expectedEpub2Ncx = MinimalEpub2Ncx;
+            expectedEpub2Ncx.NavMap.Items.Add(
+                new
+                (
+                    id: "navpoint-1",
+                    navigationLabels:
+                    [
+                          new
+                          (
+                              text: "Chapter 1"
+                          )
+                    ],
+                    content:
+                    new
+                    (
+                        source: "chapter1.html"
+                    )
+                )
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    SkipInvalidNavigationLabels = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVLABEL_TEXT_ELEMENT, expectedEpub2Ncx, epubReaderOptions);
         }
 
         [Fact(DisplayName = "Reading an NCX file with a URI-escaped 'src' attribute in a 'content' XML element should succeed")]
         public async Task ReadEpub2NcxAsyncWithEscapedContentSrcTest()
         {
-            Epub2Ncx expectedEpub2Ncx = new
+            Epub2Ncx expectedEpub2Ncx = MinimalEpub2Ncx;
+            expectedEpub2Ncx.NavMap.Items.Add(
+                new
+                (
+                    id: "navpoint-1",
+                    navigationLabels:
+                    [
+                          new
+                          (
+                              text: "Chapter 1"
+                          )
+                    ],
+                    content:
+                    new
+                    (
+                        source: "chapter1.html"
+                    )
+                )
+            );
+            await TestSuccessfulReadOperation(NCX_FILE_WITH_ESCAPED_CONTENT_SRC_ATTRIBUTE, expectedEpub2Ncx);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'content' XML element has no 'src' attribute and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutContentSrcAndDefaultOptionsTest()
+        {
+            await TestFailingReadOperation(NCX_FILE_WITHOUT_CONTENT_SRC_ATTRIBUTE);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'content' XML element has no 'src' attribute and SkipInvalidNavigationContent = true")]
+        public async Task ReadEpub2NcxAsyncWithoutContentSrcAndSkipInvalidNavigationContentTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    SkipInvalidNavigationContent = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_CONTENT_SRC_ATTRIBUTE, MinimalEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'pageTarget' XML element has no 'type' attribute and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutPageTargetTypeAndDefaultOptionsTest()
+        {
+            await TestFailingReadOperation(NCX_FILE_WITHOUT_PAGETARGET_TYPE_ATTRIBUTE);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'pageTarget' XML element has no 'type' attribute and ReplaceMissingPageTargetTypesWithUnknown = true")]
+        public async Task ReadEpub2NcxAsyncWithoutPageTargetTypeAndReplaceMissingPageTargetTypesWithUnknownTest()
+        {
+            Epub2Ncx expectedEpub2Ncx =
+            new
             (
                 filePath: NCX_FILE_PATH,
                 head: new Epub2NcxHead(),
                 docTitle: null,
                 docAuthors: null,
-                navMap: new Epub2NcxNavigationMap
+                navMap: new Epub2NcxNavigationMap(),
+                pageList:
+                new
                 (
-                    items: new List<Epub2NcxNavigationPoint>()
-                    {
+                    items:
+                    [
                         new
                         (
-                            id: "navpoint-1",
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            type: Epub2NcxPageTargetType.UNKNOWN,
+                            navigationLabels:
+                            [
                                 new
                                 (
-                                    text: "Chapter 1"
+                                    text: "1"
                                 )
-                            },
-                            content: new Epub2NcxContent
+                            ],
+                            content:
+                            new
                             (
-                                source: "chapter1.html"
+                                source: "chapter1.html#page-1"
                             )
                         )
-                    }
+                    ]
                 ),
-                pageList: null,
                 navLists: null
             );
-            await TestSuccessfulReadOperation(NCX_FILE_WITH_ESCAPED_CONTENT_SRC_ATTRIBUTE, expectedEpub2Ncx);
-        }
-
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'content' XML element has no 'src' attribute")]
-        public async Task ReadEpub2NcxAsyncWithoutContentSrcTest()
-        {
-            await TestFailingReadOperation(NCX_FILE_WITHOUT_CONTENT_SRC_ATTRIBUTE);
-        }
-
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'pageTarget' XML element has no 'type' attribute")]
-        public async Task ReadEpub2NcxAsyncWithoutPageTargetTypeTest()
-        {
-            await TestFailingReadOperation(NCX_FILE_WITHOUT_PAGETARGET_TYPE_ATTRIBUTE);
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    ReplaceMissingPageTargetTypesWithUnknown = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_PAGETARGET_TYPE_ATTRIBUTE, expectedEpub2Ncx, epubReaderOptions);
         }
 
         [Fact(DisplayName = "Reading an NCX file with unknown value of the 'type' attribute of a 'pageTarget' XML element should succeed")]
@@ -947,31 +1239,174 @@ namespace VersOne.Epub.Test.Unit.Readers
             await TestSuccessfulReadOperation(MINIMAL_NCX_FILE_WITH_UNKNOWN_PAGETARGET_TYPE, MinimalEpub2NcxWithUnknownPageTargetType);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'pageTarget' XML element has no 'navlabel' elements")]
-        public async Task ReadEpub2NcxAsyncWithoutPageTargetNavLabelsTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'pageTarget' XML element has no 'navlabel' elements and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutPageTargetNavLabelsAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_PAGETARGET_NAVLABEL_ELEMENTS);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navList' XML element has no 'navlabel' elements")]
-        public async Task ReadEpub2NcxAsyncWithoutNavListNavLabelsTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'pageTarget' XML element has no 'navlabel' elements and AllowNavigationPageTargetsWithoutLabels = true")]
+        public async Task ReadEpub2NcxAsyncWithoutPageTargetNavLabelsAndAllowNavigationPageTargetsWithoutLabelsTest()
+        {
+            Epub2Ncx expectedEpub2Ncx =
+            new
+            (
+                filePath: NCX_FILE_PATH,
+                head: new Epub2NcxHead(),
+                docTitle: null,
+                docAuthors: null,
+                navMap: new Epub2NcxNavigationMap(),
+                pageList:
+                new
+                (
+                    items:
+                    [
+                        new
+                        (
+                            type: Epub2NcxPageTargetType.NORMAL,
+                            navigationLabels: null,
+                            content:
+                            new
+                            (
+                                source: "chapter1.html#page-1"
+                            )
+                        )
+                    ]
+                ),
+                navLists: null
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    AllowNavigationPageTargetsWithoutLabels = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_PAGETARGET_NAVLABEL_ELEMENTS, expectedEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navList' XML element has no 'navlabel' elements and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavListNavLabelsAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVLIST_NAVLABEL_ELEMENTS);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navTarget' XML element has no 'id' attribute")]
-        public async Task ReadEpub2NcxAsyncWithoutNavTargetIdTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'navList' XML element has no 'navlabel' elements and AllowNavigationListsWithoutLabels = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavListNavLabelsAndAllowNavigationListsWithoutLabelsTest()
+        {
+            Epub2Ncx expectedEpub2Ncx = MinimalEpub2Ncx;
+            expectedEpub2Ncx.NavLists.Add(
+                new
+                (
+                    id: "navlist-1",
+                    @class: null,
+                    navigationLabels: null,
+                    navigationTargets:
+                    [
+                          new
+                          (
+                              id: "navtarget-1",
+                              navigationLabels:
+                              [
+                                  new
+                                  (
+                                      text: "Tables"
+                                  )
+                              ],
+                              content: null
+                          )
+                    ]
+                )
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    AllowNavigationListsWithoutLabels = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVLIST_NAVLABEL_ELEMENTS, expectedEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navTarget' XML element has no 'id' attribute and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavTargetIdAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVTARGET_ID_ATTRIBUTE);
         }
 
-        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navTarget' XML element has no 'navlabel' elements")]
-        public async Task ReadEpub2NcxAsyncWithoutNavTargetNavLabelsTest()
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'navTarget' XML element has no 'id' attribute and SkipInvalidNavigationTargets = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavTargetIdAndSkipInvalidNavigationTargetsTest()
+        {
+            Epub2Ncx expectedEpub2Ncx = MinimalEpub2Ncx;
+            expectedEpub2Ncx.NavLists.Add(
+                new
+                (
+                    id: "navlist-1",
+                    @class: null,
+                    navigationLabels:
+                    [
+                        new
+                        (
+                            text: "List of Tables"
+                        )
+                    ],
+                    navigationTargets: null
+                )
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    SkipInvalidNavigationTargets = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVTARGET_ID_ATTRIBUTE, expectedEpub2Ncx, epubReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadEpub2NcxAsync should throw Epub2NcxException if a 'navTarget' XML element has no 'navlabel' elements and no Epub2NcxReaderOptions are provided")]
+        public async Task ReadEpub2NcxAsyncWithoutNavTargetNavLabelsAndDefaultOptionsTest()
         {
             await TestFailingReadOperation(NCX_FILE_WITHOUT_NAVTARGET_NAVLABEL_ELEMENTS);
         }
 
-        private static async Task TestSuccessfulReadOperation(string ncxFileContent, Epub2Ncx expectedEpub2Ncx, EpubReaderOptions? epubReaderOptions = null)
+        [Fact(DisplayName = "ReadEpub2NcxAsync should succeed if a 'navTarget' XML element has no 'navlabel' elements and AllowNavigationTargetsWithoutLabels = true")]
+        public async Task ReadEpub2NcxAsyncWithoutNavTargetNavLabelsAndAllowNavigationTargetsWithoutLabelsTest()
+        {
+            Epub2Ncx expectedEpub2Ncx = MinimalEpub2Ncx;
+            expectedEpub2Ncx.NavLists.Add(
+                new
+                (
+                    id: "navlist-1",
+                    @class: null,
+                    navigationLabels:
+                    [
+                        new
+                        (
+                            text: "List of Tables"
+                        )
+                    ],
+                    navigationTargets:
+                    [
+                        new
+                        (
+                            id: "navtarget-1",
+                            navigationLabels: null,
+                            content: null
+                        )
+                    ]
+                )
+            );
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                Epub2NcxReaderOptions = new Epub2NcxReaderOptions()
+                {
+                    AllowNavigationTargetsWithoutLabels = true
+                }
+            };
+            await TestSuccessfulReadOperation(NCX_FILE_WITHOUT_NAVTARGET_NAVLABEL_ELEMENTS, expectedEpub2Ncx, epubReaderOptions);
+        }
+
+        private static async Task TestSuccessfulReadOperation(string ncxFileContent, Epub2Ncx? expectedEpub2Ncx, EpubReaderOptions? epubReaderOptions = null)
         {
             TestZipFile testZipFile = CreateTestZipFileWithNcxFile(ncxFileContent);
             Epub2NcxReader epub2NcxReader = new(epubReaderOptions ?? new EpubReaderOptions());

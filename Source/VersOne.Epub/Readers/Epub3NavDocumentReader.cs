@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
@@ -21,7 +22,7 @@ namespace VersOne.Epub.Internal
 
         public async Task<Epub3NavDocument?> ReadEpub3NavDocumentAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
-            EpubManifestItem navManifestItem = package.Manifest.Items.Find(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
+            EpubManifestItem? navManifestItem = package.Manifest.Items.Find(item => item.Properties != null && item.Properties.Contains(EpubManifestProperty.NAV));
             if (navManifestItem == null)
             {
                 if (package.EpubVersion == EpubVersion.EPUB_2)
@@ -41,11 +42,16 @@ namespace VersOne.Epub.Internal
                 throw new Epub3NavException($"EPUB parsing error: navigation file {navFileEntryPath} is larger than 2 GB.");
             }
             XDocument navDocument;
-            using (Stream containerStream = navFileEntry.Open())
+            try
             {
+                using Stream containerStream = navFileEntry.Open();
                 navDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
-            XNamespace xhtmlNamespace = navDocument.Root.Name.Namespace;
+            catch (XmlException xmlException)
+            {
+                throw new Epub3NavException("EPUB parsing error: navigation file is not a valid XHTML file.", xmlException);
+            }
+            XNamespace xhtmlNamespace = navDocument.Root!.Name.Namespace;
             XElement htmlNode = navDocument.Element(xhtmlNamespace + "html") ?? throw new Epub3NavException("EPUB parsing error: navigation file does not contain html element.");
             XElement bodyNode = htmlNode.Element(xhtmlNamespace + "body") ?? throw new Epub3NavException("EPUB parsing error: navigation file does not contain body element.");
             List<Epub3Nav> navs = new();

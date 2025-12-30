@@ -147,8 +147,7 @@ namespace VersOne.Epub.Options
         /// <para>
         /// If it's set to <c>false</c> and one of the required attributes is not present,
         /// then one of the "Incorrect EPUB manifest: item ... is missing." exceptions will be thrown.
-        /// This exception can be suppressed by setting this property to <c>true</c>,
-        /// in which case the items with the missing attributes will be skipped.
+        /// This exception can be suppressed by setting this property to <c>true</c>, in which case the items with the missing attributes will be skipped.
         /// </para>
         /// <para>
         /// Default value is <c>false</c>.

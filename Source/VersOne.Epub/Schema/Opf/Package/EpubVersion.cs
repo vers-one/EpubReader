@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace VersOne.Epub.Schema
 {
@@ -15,31 +14,29 @@ namespace VersOne.Epub.Schema
         /// <summary>
         /// Version 2. Can be either EPUB 2.0 or EPUB 2.0.1.
         /// </summary>
-        [VersionString("2")]
         EPUB_2 = 2,
 
         /// <summary>
-        /// Version 3. Can be either EPUB 3.0, EPUB 3.0.1, or EPUB 3.2.
+        /// Version 3. Can be either EPUB 3.0, EPUB 3.0.1, EPUB 3.2, or EPUB 3.3.
         /// </summary>
-        [VersionString("3")]
         EPUB_3,
 
         /// <summary>
         /// Version 3.1. Represents the deprecated EPUB 3.1 standard.
         /// </summary>
-        [VersionString("3.1")]
         EPUB_3_1
     }
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name",
-        Justification = "Enum and attribute need to be close to each other to indicate that attribute applies only to this enum. The file needs to be named after enum.")]
-    internal class VersionStringAttribute : Attribute
+        Justification = "Enum and extension method need to be close to each other to avoid issues when the enum was changed without changing the extension method. The file needs to be named after enum.")]
+    internal static class VersionUtils
     {
-        public VersionStringAttribute(string version)
+        public static string GetVersionString(this EpubVersion epubVersion) => epubVersion switch
         {
-            Version = version;
-        }
-
-        public string Version { get; }
+            EpubVersion.EPUB_2 => "2",
+            EpubVersion.EPUB_3 => "3",
+            EpubVersion.EPUB_3_1 => "3.1",
+            _ => epubVersion.ToString(),
+        };
     }
 }

@@ -25,7 +25,8 @@ namespace VersOne.Epub.Internal
                 {
                     throw new EpubPackageException($"Incorrect EPUB manifest: EPUB spine item \"{manifestItem.Href}\" cannot be a remote resource.");
                 }
-                if (!epubContentRef.Html.TryGetLocalFileRefByKey(manifestItem.Href, out EpubLocalTextContentFileRef htmlContentFileRef))
+                if (!epubContentRef.Html.TryGetLocalFileRefByKey(manifestItem.Href, out EpubLocalTextContentFileRef? htmlContentFileRef)
+                    || htmlContentFileRef == null)
                 {
                     throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{spineItemRef.IdRef}\" is missing in the book.");
                 }

@@ -67,9 +67,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string duplicateKey = CHAPTER1_FILE_NAME;
             ReadOnlyCollection<EpubLocalTextContentFile> localWithDuplicateKeys = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
-                    new EpubLocalTextContentFile
+                [
+                    new
                     (
                         key: duplicateKey,
                         contentType: HTML_CONTENT_TYPE,
@@ -77,7 +76,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: CHAPTER1_FILE_PATH,
                         content: TestEpubFiles.CHAPTER1_FILE_CONTENT
                     ),
-                    new EpubLocalTextContentFile
+                    new
                     (
                         key: duplicateKey,
                         contentType: HTML_CONTENT_TYPE,
@@ -85,7 +84,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: CHAPTER2_FILE_PATH,
                         content: TestEpubFiles.CHAPTER2_FILE_CONTENT
                     )
-                }
+                ]
             );
             Assert.Throws<EpubPackageException>(() => new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(localWithDuplicateKeys, Remote));
         }
@@ -96,9 +95,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string duplicateFilePath = CHAPTER1_FILE_PATH;
             ReadOnlyCollection<EpubLocalTextContentFile> localWithDuplicateFilePaths = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
-                    new EpubLocalTextContentFile
+                [
+                    new
                     (
                         key: CHAPTER1_FILE_NAME,
                         contentType: HTML_CONTENT_TYPE,
@@ -106,7 +104,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: duplicateFilePath,
                         content: TestEpubFiles.CHAPTER1_FILE_CONTENT
                     ),
-                    new EpubLocalTextContentFile
+                    new
                     (
                         key: CHAPTER2_FILE_NAME,
                         contentType: HTML_CONTENT_TYPE,
@@ -114,7 +112,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: duplicateFilePath,
                         content: TestEpubFiles.CHAPTER2_FILE_CONTENT
                     )
-                }
+                ]
             );
             Assert.Throws<EpubPackageException>(() => new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(localWithDuplicateFilePaths, Remote));
         }
@@ -125,23 +123,22 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string duplicateKey = REMOTE_HTML_CONTENT_FILE_HREF;
             ReadOnlyCollection<EpubRemoteTextContentFile> remoteWithDuplicateKeys = new
             (
-                new List<EpubRemoteTextContentFile>()
-                {
-                    new EpubRemoteTextContentFile
+                [
+                    new
                     (
                         key: duplicateKey,
                         contentType: HTML_CONTENT_TYPE,
                         contentMimeType: HTML_CONTENT_MIME_TYPE,
                         content: TestEpubFiles.REMOTE_HTML_FILE_CONTENT
                     ),
-                    new EpubRemoteTextContentFile
+                    new
                     (
                         key: duplicateKey,
                         contentType: CSS_CONTENT_TYPE,
                         contentMimeType: CSS_CONTENT_MIME_TYPE,
                         content: TestEpubFiles.REMOTE_CSS_FILE_CONTENT
                     )
-                }
+                ]
             );
             Assert.Throws<EpubPackageException>(() => new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(Local, remoteWithDuplicateKeys));
         }
@@ -153,9 +150,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string nonExistingKey = CHAPTER2_FILE_NAME;
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
-                    new EpubLocalTextContentFile
+                [
+                    new
                     (
                         key: existingKey,
                         contentType: HTML_CONTENT_TYPE,
@@ -163,7 +159,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: CHAPTER1_FILE_PATH,
                         content: TestEpubFiles.CHAPTER1_FILE_CONTENT
                     )
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
             Assert.True(epubContentCollection.ContainsLocalFileWithKey(existingKey));
@@ -191,10 +187,9 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             );
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
+                [
                     expectedFile
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
             EpubLocalTextContentFile actualFile = epubContentCollection.GetLocalFileByKey(existingKey);
@@ -207,9 +202,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string nonExistingKey = CHAPTER2_FILE_NAME;
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
-                    new EpubLocalTextContentFile
+                [
+                    new
                     (
                         key: CHAPTER1_FILE_NAME,
                         contentType: HTML_CONTENT_TYPE,
@@ -217,7 +211,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: CHAPTER1_FILE_PATH,
                         content: TestEpubFiles.CHAPTER1_FILE_CONTENT
                     )
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
             Assert.Throws<EpubContentCollectionException>(() => epubContentCollection.GetLocalFileByKey(nonExistingKey));
@@ -245,15 +239,14 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             );
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
+                [
                     expectedFile
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
-            Assert.True(epubContentCollection.TryGetLocalFileByKey(existingKey, out EpubLocalTextContentFile actualFileForExistingKey));
+            Assert.True(epubContentCollection.TryGetLocalFileByKey(existingKey, out EpubLocalTextContentFile? actualFileForExistingKey));
             EpubContentComparer.CompareEpubLocalTextContentFiles(expectedFile, actualFileForExistingKey);
-            Assert.False(epubContentCollection.TryGetLocalFileByKey(nonExistingKey, out EpubLocalTextContentFile actualFileForNonExistingKey));
+            Assert.False(epubContentCollection.TryGetLocalFileByKey(nonExistingKey, out EpubLocalTextContentFile? actualFileForNonExistingKey));
             Assert.Null(actualFileForNonExistingKey);
         }
 
@@ -271,9 +264,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string nonExistingFilePath = CHAPTER2_FILE_PATH;
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
-                    new EpubLocalTextContentFile
+                [
+                    new
                     (
                         key: CHAPTER1_FILE_NAME,
                         contentType: HTML_CONTENT_TYPE,
@@ -281,7 +273,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: existingFilePath,
                         content: TestEpubFiles.CHAPTER1_FILE_CONTENT
                     )
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
             Assert.True(epubContentCollection.ContainsLocalFileWithFilePath(existingFilePath));
@@ -309,10 +301,9 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             );
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
+                [
                     expectedFile
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
             EpubLocalTextContentFile actualFile = epubContentCollection.GetLocalFileByFilePath(existingFilePath);
@@ -325,9 +316,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string nonExistingFilePath = CHAPTER2_FILE_PATH;
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
-                    new EpubLocalTextContentFile
+                [
+                    new
                     (
                         key: CHAPTER1_FILE_NAME,
                         contentType: HTML_CONTENT_TYPE,
@@ -335,7 +325,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                         filePath: CHAPTER1_FILE_PATH,
                         content: TestEpubFiles.CHAPTER1_FILE_CONTENT
                     )
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
             Assert.Throws<EpubContentCollectionException>(() => epubContentCollection.GetLocalFileByFilePath(nonExistingFilePath));
@@ -363,15 +353,14 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             );
             ReadOnlyCollection<EpubLocalTextContentFile> local = new
             (
-                new List<EpubLocalTextContentFile>()
-                {
+                [
                     expectedFile
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(local, Remote);
-            Assert.True(epubContentCollection.TryGetLocalFileByFilePath(existingFilePath, out EpubLocalTextContentFile actualFileForExistingFilePath));
+            Assert.True(epubContentCollection.TryGetLocalFileByFilePath(existingFilePath, out EpubLocalTextContentFile? actualFileForExistingFilePath));
             EpubContentComparer.CompareEpubLocalTextContentFiles(expectedFile, actualFileForExistingFilePath);
-            Assert.False(epubContentCollection.TryGetLocalFileByFilePath(nonExistingFilePath, out EpubLocalTextContentFile actualFileForNonExistingFilePath));
+            Assert.False(epubContentCollection.TryGetLocalFileByFilePath(nonExistingFilePath, out EpubLocalTextContentFile? actualFileForNonExistingFilePath));
             Assert.Null(actualFileForNonExistingFilePath);
         }
 
@@ -389,16 +378,15 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string nonExistingUrl = REMOTE_CSS_CONTENT_FILE_HREF;
             ReadOnlyCollection<EpubRemoteTextContentFile> remote = new
             (
-                new List<EpubRemoteTextContentFile>()
-                {
-                    new EpubRemoteTextContentFile
+                [
+                    new
                     (
                         key: existingUrl,
                         contentType: HTML_CONTENT_TYPE,
                         contentMimeType: HTML_CONTENT_MIME_TYPE,
                         content: TestEpubFiles.REMOTE_HTML_FILE_CONTENT
                     )
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, remote);
             Assert.True(epubContentCollection.ContainsRemoteFileWithUrl(existingUrl));
@@ -425,10 +413,9 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             );
             ReadOnlyCollection<EpubRemoteTextContentFile> remote = new
             (
-                new List<EpubRemoteTextContentFile>()
-                {
+                [
                     expectedFile
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, remote);
             EpubRemoteTextContentFile actualFile = epubContentCollection.GetRemoteFileByUrl(existingUrl);
@@ -441,16 +428,15 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             string nonExistingUrl = REMOTE_CSS_CONTENT_FILE_HREF;
             ReadOnlyCollection<EpubRemoteTextContentFile> remote = new
             (
-                new List<EpubRemoteTextContentFile>()
-                {
-                    new EpubRemoteTextContentFile
+                [
+                    new
                     (
                         key: REMOTE_HTML_CONTENT_FILE_HREF,
                         contentType: HTML_CONTENT_TYPE,
                         contentMimeType: HTML_CONTENT_MIME_TYPE,
                         content: TestEpubFiles.REMOTE_HTML_FILE_CONTENT
                     )
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, remote);
             Assert.Throws<EpubContentCollectionException>(() => epubContentCollection.GetRemoteFileByUrl(nonExistingUrl));
@@ -477,15 +463,14 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             );
             ReadOnlyCollection<EpubRemoteTextContentFile> remote = new
             (
-                new List<EpubRemoteTextContentFile>()
-                {
+                [
                     expectedFile
-                }
+                ]
             );
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, remote);
-            Assert.True(epubContentCollection.TryGetRemoteFileByUrl(existingUrl, out EpubRemoteTextContentFile actualFileForExistingUrl));
+            Assert.True(epubContentCollection.TryGetRemoteFileByUrl(existingUrl, out EpubRemoteTextContentFile? actualFileForExistingUrl));
             EpubContentComparer.CompareEpubRemoteTextContentFiles(expectedFile, actualFileForExistingUrl);
-            Assert.False(epubContentCollection.TryGetRemoteFileByUrl(nonExistingUrl, out EpubRemoteTextContentFile actualFileForNonExistingUrl));
+            Assert.False(epubContentCollection.TryGetRemoteFileByUrl(nonExistingUrl, out EpubRemoteTextContentFile? actualFileForNonExistingUrl));
             Assert.Null(actualFileForNonExistingUrl);
         }
 

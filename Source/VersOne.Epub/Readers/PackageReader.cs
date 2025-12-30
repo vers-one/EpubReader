@@ -113,7 +113,7 @@ namespace VersOne.Epub.Internal
             }
             EpubSpine spine = ReadSpine(spineNode, epubVersion);
             EpubGuide? guide = null;
-            XElement guideNode = packageNode.Element(opfNamespace + "guide");
+            XElement? guideNode = packageNode.Element(opfNamespace + "guide");
             if (guideNode != null)
             {
                 guide = ReadGuide(guideNode);
@@ -291,7 +291,7 @@ namespace VersOne.Epub.Internal
                             }
                             throw new EpubPackageException("Incorrect EPUB spine: item ID ref is missing.");
                         }
-                        XAttribute linearAttribute = spineItemNode.Attribute("linear");
+                        XAttribute? linearAttribute = spineItemNode.Attribute("linear");
                         isLinear = linearAttribute == null || !linearAttribute.CompareValueTo("no");
                         items.Add(new EpubSpineItemRef(spineItemRefId, idRef, isLinear, properties));
                     }

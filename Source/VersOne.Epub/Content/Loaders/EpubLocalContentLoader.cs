@@ -49,7 +49,7 @@ namespace VersOne.Epub.Internal
 
         private IZipFileEntry GetContentFileEntry(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            if (replacementContentFileEntries.TryGetValue(contentFileRefMetadata.Key, out ReplacementContentFileEntry existingReplacementContentFileEntry))
+            if (replacementContentFileEntries.TryGetValue(contentFileRefMetadata.Key, out ReplacementContentFileEntry? existingReplacementContentFileEntry))
             {
                 return existingReplacementContentFileEntry;
             }

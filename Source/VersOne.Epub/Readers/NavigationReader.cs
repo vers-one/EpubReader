@@ -58,7 +58,7 @@ namespace VersOne.Epub.Internal
             return result;
         }
 
-        private static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub3Nav epub3Nav,
+        private static List<EpubNavigationItemRef> GetNavigationItems(EpubSchema epubSchema, EpubContentRef epubContentRef, Epub3Nav? epub3Nav,
             string epub3NavigationBaseDirectoryPath)
         {
             List<EpubNavigationItemRef> result;
@@ -136,7 +136,8 @@ namespace VersOne.Epub.Internal
 
         private static EpubLocalTextContentFileRef? GetLocalHtmlContentFileRef(EpubContentRef epubContentRef, string localContentFilePath)
         {
-            if (!epubContentRef.Html.TryGetLocalFileRefByFilePath(localContentFilePath, out EpubLocalTextContentFileRef htmlContentFileRef))
+            if (!epubContentRef.Html.TryGetLocalFileRefByFilePath(localContentFilePath, out EpubLocalTextContentFileRef? htmlContentFileRef) ||
+                htmlContentFileRef == null)
             {
                 return null;
             }

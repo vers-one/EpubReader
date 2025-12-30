@@ -377,7 +377,7 @@ namespace VersOne.Epub.Internal
 
         private static void ReadMetadataItemWithIdAndContent(XElement metadataItemNode, out string? id, out string content)
         {
-            XAttribute idAttribute = metadataItemNode.Attribute("id");
+            XAttribute? idAttribute = metadataItemNode.Attribute("id");
             id = idAttribute?.Value;
             content = metadataItemNode.Value;
         }
