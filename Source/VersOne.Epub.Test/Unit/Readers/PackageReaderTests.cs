@@ -1,4 +1,5 @@
-﻿using VersOne.Epub.Internal;
+﻿using System.Xml;
+using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
@@ -739,6 +740,30 @@ namespace VersOne.Epub.Test.Unit.Readers
             PackageReader packageReader = new(epubReaderOptions);
             EpubPackage? epubPackage = await packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH);
             Assert.Null(epubPackage);
+        }
+
+        [Fact(DisplayName = "ReadPackageAsync should throw EpubContainerException with an inner XmlException if the OPF package is not a valid XML file and no PackageReaderOptions are provided")]
+        public async Task ReadPackageWithInvalidXmlFileAndDefaultOptionsTest()
+        {
+            TestZipFile testZipFile = CreateTestZipFileWithOpfFile("not a valid XHTML file");
+            PackageReader packageReader = new();
+            EpubContainerException outerException =
+                await Assert.ThrowsAsync<EpubContainerException>(() => packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH));
+            Assert.NotNull(outerException.InnerException);
+            Assert.Equal(typeof(XmlException), outerException.InnerException.GetType());
+        }
+
+        [Fact(DisplayName = "ReadPackageAsync should return null if the OPF package is not a valid XML file and IgnorePackageFileIsNotValidXmlError = true")]
+        public async Task ReadPackageWithInvalidXmlFileAndIgnorePackageFileIsNotValidXmlErrorTest()
+        {
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                PackageReaderOptions = new PackageReaderOptions()
+                {
+                    IgnorePackageFileIsNotValidXmlError = true
+                }
+            };
+            await TestSuccessfulReadOperation("not a valid XHTML file", null, epubReaderOptions);
         }
 
         [Fact(DisplayName = "Trying to read OPF package without 'package' XML node with default EpubReaderOptions should fail with EpubPackageException")]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
@@ -33,9 +34,18 @@ namespace VersOne.Epub.Internal
                 throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
             }
             XDocument containerDocument;
-            using (Stream containerStream = rootFileEntry.Open())
+            try
             {
+                using Stream containerStream = rootFileEntry.Open();
                 containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
+            }
+            catch (XmlException xmlException)
+            {
+                if (packageReaderOptions.IgnorePackageFileIsNotValidXmlError)
+                {
+                    return null;
+                }
+                throw new EpubContainerException("EPUB parsing error: package file is not a valid XML file.", xmlException);
             }
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
             XElement? packageNode = containerDocument.Element(opfNamespace + "package");

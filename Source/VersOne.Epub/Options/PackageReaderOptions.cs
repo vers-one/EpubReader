@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Xml;
 using VersOne.Epub.Schema;
 
 namespace VersOne.Epub.Options
@@ -35,6 +37,23 @@ namespace VersOne.Epub.Options
         /// </para>
         /// </summary>
         public bool IgnoreMissingRootFile { get; set; }
+
+        /// <summary>
+        /// <para>
+        /// Gets or sets a value indicating whether the package reader should ignore the error when the package file is not a valid XML file.
+        /// </para>
+        /// <para>
+        /// If it's set to <c>false</c> and an XML parsing error has occurred while trying to open the OPF package file,
+        /// then the "EPUB parsing error: package file is not a valid XML file." exception will be thrown
+        /// with the original <see cref="XmlException" /> available through the <see cref="Exception.InnerException" /> property.
+        /// This exception can be suppressed by setting this property to <c>true</c>. However, since the OPF package is the main file
+        /// describing the EPUB book, the <see cref="EpubReader" /> class methods will return <c>null</c> in this case.
+        /// </para>
+        /// <para>
+        /// Default value is <c>false</c>.
+        /// </para>
+        /// </summary>
+        public bool IgnorePackageFileIsNotValidXmlError { get; set; }
 
         /// <summary>
         /// <para>

@@ -11,13 +11,14 @@
         /// <param name="preset">An optional preset to initialize the <see cref="EpubReaderOptions" /> class with a predefined set of options.</param>
         public EpubReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
-            PackageReaderOptions = new PackageReaderOptions(preset);
-            ContentReaderOptions = new ContentReaderOptions(preset);
-            ContentDownloaderOptions = new ContentDownloaderOptions(preset);
-            BookCoverReaderOptions = new BookCoverReaderOptions(preset);
-            SpineReaderOptions = new SpineReaderOptions(preset);
-            Epub2NcxReaderOptions = new Epub2NcxReaderOptions(preset);
-            XmlReaderOptions = new XmlReaderOptions(preset);
+            PackageReaderOptions = new(preset);
+            ContentReaderOptions = new(preset);
+            ContentDownloaderOptions = new(preset);
+            BookCoverReaderOptions = new(preset);
+            SpineReaderOptions = new(preset);
+            Epub2NcxReaderOptions = new(preset);
+            Epub3NavDocumentReaderOptions = new(preset);
+            XmlReaderOptions = new(preset);
         }
 
         /// <summary>
@@ -49,6 +50,11 @@
         /// Gets or sets EPUB 2 NCX navigation document reader options.
         /// </summary>
         public Epub2NcxReaderOptions Epub2NcxReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB 3 navigation document reader options.
+        /// </summary>
+        public Epub3NavDocumentReaderOptions Epub3NavDocumentReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets XML reader options.
