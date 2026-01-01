@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
@@ -14,45 +15,98 @@ namespace VersOne.Epub.Internal
     internal class SmilReader
     {
         private readonly EpubReaderOptions epubReaderOptions;
+        private readonly SmilReaderOptions smilReaderOptions;
 
         public SmilReader(EpubReaderOptions? epubReaderOptions = null)
         {
             this.epubReaderOptions = epubReaderOptions ?? new EpubReaderOptions();
+            smilReaderOptions = this.epubReaderOptions.SmilReaderOptions ?? new SmilReaderOptions();
         }
 
         public async Task<List<Smil>> ReadAllSmilDocumentsAsync(IZipFile epubFile, string contentDirectoryPath, EpubPackage package)
         {
             List<Smil> result = new();
-            foreach (EpubManifestItem smilManifestItem in package.Manifest.Items.Where(manifestItem => manifestItem.MediaType.CompareOrdinalIgnoreCase("application/smil+xml")))
+            foreach (EpubManifestItem smilManifestItem in
+                package.Manifest.Items.Where(manifestItem => manifestItem.MediaType.CompareOrdinalIgnoreCase("application/smil+xml")))
             {
                 string smilFilePath = ContentPathUtils.Combine(contentDirectoryPath, smilManifestItem.Href);
-                Smil smil = await ReadSmilAsync(epubFile, smilFilePath);
-                result.Add(smil);
+                Smil? smil = await ReadSmilAsync(epubFile, smilFilePath);
+                if (smil != null)
+                {
+                    result.Add(smil);
+                }
             }
             return result;
         }
 
-        public async Task<Smil> ReadSmilAsync(IZipFile epubFile, string smilFilePath)
+        public async Task<Smil?> ReadSmilAsync(IZipFile epubFile, string smilFilePath)
         {
-            IZipFileEntry smilFile = epubFile.GetEntry(smilFilePath)
-                ?? throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} not found in the EPUB file.", smilFilePath);
+            IZipFileEntry? smilFile = epubFile.GetEntry(smilFilePath);
+            if (smilFile == null)
+            {
+                if (smilReaderOptions.IgnoreMissingSmilFileError)
+                {
+                    return null;
+                }
+                throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} not found in the EPUB file.", smilFilePath);
+            }
             if (smilFile.Length > Int32.MaxValue)
             {
+                if (smilReaderOptions.IgnoreSmilFileIsTooLargeError)
+                {
+                    return null;
+                }
                 throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} is larger than 2 GB.", smilFilePath);
             }
             XDocument smilDocument;
-            using (Stream containerStream = smilFile.Open())
+            try
             {
+                using Stream containerStream = smilFile.Open();
                 smilDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
+            catch (XmlException xmlException)
+            {
+                if (smilReaderOptions.IgnoreSmilFileIsNotValidXmlError)
+                {
+                    return null;
+                }
+                throw new EpubSmilException($"EPUB parsing error: SMIL file {smilFilePath} is not a valid XML file.", xmlException, smilFilePath);
+            }
             XNamespace smilNamespace = "http://www.w3.org/ns/SMIL";
-            XElement smilNode = smilDocument.Element(smilNamespace + "smil")
-                ?? throw new EpubSmilException("SMIL parsing error: smil XML element is missing in the file.", smilFilePath);
-            Smil smil = ReadSmil(smilNode, smilFilePath);
+            XElement? smilNode = smilDocument.Element(smilNamespace + "smil");
+            if (smilNode == null)
+            {
+                if (smilReaderOptions.IgnoreMissingSmilElementError)
+                {
+                    return null;
+                }
+                throw new EpubSmilException("SMIL parsing error: smil XML element is missing in the file.", smilFilePath);
+            }
+            Smil? smil = ReadSmil(smilNode, smilFilePath);
             return smil;
         }
 
-        private static Smil ReadSmil(XElement smilNode, string smilFilePath)
+        private static SmilHead ReadHead(XElement headNode)
+        {
+            SmilMetadata? metadata = null;
+            foreach (XElement headChildNode in headNode.Elements())
+            {
+                if (headChildNode.GetLowerCaseLocalName() == "metadata")
+                {
+                    metadata = ReadMetadata(headChildNode);
+                    break;
+                }
+            }
+            return new(metadata);
+        }
+
+        private static SmilMetadata ReadMetadata(XElement metadataNode)
+        {
+            List<XElement> items = metadataNode.Elements().ToList();
+            return new(items);
+        }
+
+        private Smil? ReadSmil(XElement smilNode, string smilFilePath)
         {
             string? id = null;
             string? smilVersionString = null;
@@ -87,39 +141,45 @@ namespace VersOne.Epub.Internal
                         break;
                 }
             }
-            SmilVersion version = smilVersionString switch
+            SmilVersion version;
+            switch (smilVersionString)
             {
-                "3.0" => SmilVersion.SMIL_3,
-                _ => throw new EpubSmilException($"SMIL parsing error: unsupported SMIL version: \"{smilVersionString}\".", smilFilePath)
-            };
+                case "3.0":
+                    version = SmilVersion.SMIL_3;
+                    break;
+                case null:
+                    if (smilReaderOptions.IgnoreMissingSmilVersionError)
+                    {
+                        version = SmilVersion.SMIL_3;
+                    }
+                    else
+                    {
+                        throw new EpubSmilException($"SMIL parsing error: SMIL version is missing.", smilFilePath);
+                    }
+                    break;
+                default:
+                    if (smilReaderOptions.IgnoreUnsupportedSmilVersionError)
+                    {
+                        version = SmilVersion.SMIL_3;
+                    }
+                    else
+                    {
+                        throw new EpubSmilException($"SMIL parsing error: unsupported SMIL version: \"{smilVersionString}\".", smilFilePath);
+                    }
+                    break;
+            }
             if (body == null)
             {
+                if (smilReaderOptions.IgnoreMissingBodyElementError)
+                {
+                    return null;
+                }
                 throw new EpubSmilException("SMIL parsing error: body XML element is missing in the file.", smilFilePath);
             }
             return new(id, version, epubPrefix, head, body);
         }
 
-        private static SmilHead ReadHead(XElement headNode)
-        {
-            SmilMetadata? metadata = null;
-            foreach (XElement headChildNode in headNode.Elements())
-            {
-                if (headChildNode.GetLowerCaseLocalName() == "metadata")
-                {
-                    metadata = ReadMetadata(headChildNode);
-                    break;
-                }
-            }
-            return new(metadata);
-        }
-
-        private static SmilMetadata ReadMetadata(XElement metadataNode)
-        {
-            List<XElement> items = metadataNode.Elements().ToList();
-            return new(items);
-        }
-
-        private static SmilBody ReadBody(XElement bodyNode, string smilFilePath)
+        private SmilBody ReadBody(XElement bodyNode, string smilFilePath)
         {
             string? id = null;
             List<Epub3StructuralSemanticsProperty>? epubTypes = null;
@@ -151,19 +211,22 @@ namespace VersOne.Epub.Internal
                         seqs.Add(seq);
                         break;
                     case "par":
-                        SmilPar par = ReadPar(bodyChildNode, smilFilePath);
-                        pars.Add(par);
+                        SmilPar? par = ReadPar(bodyChildNode, smilFilePath);
+                        if (par != null)
+                        {
+                            pars.Add(par);
+                        }
                         break;
                 }
             }
-            if (!seqs.Any() && !pars.Any())
+            if (!seqs.Any() && !pars.Any() && !smilReaderOptions.IgnoreBodyMissingSeqOrParElementsError)
             {
                 throw new EpubSmilException("SMIL parsing error: body XML element must contain at least one seq or par XML element.", smilFilePath);
             }
             return new(id, epubTypes, epubTextRef, seqs, pars);
         }
 
-        private static SmilSeq ReadSeq(XElement seqNode, string smilFilePath)
+        private SmilSeq ReadSeq(XElement seqNode, string smilFilePath)
         {
             string? id = null;
             List<Epub3StructuralSemanticsProperty>? epubTypes = null;
@@ -195,19 +258,22 @@ namespace VersOne.Epub.Internal
                         seqs.Add(seq);
                         break;
                     case "par":
-                        SmilPar par = ReadPar(bodyChildNode, smilFilePath);
-                        pars.Add(par);
+                        SmilPar? par = ReadPar(bodyChildNode, smilFilePath);
+                        if (par != null)
+                        {
+                            pars.Add(par);
+                        }
                         break;
                 }
             }
-            if (!seqs.Any() && !pars.Any())
+            if (!seqs.Any() && !pars.Any() && !smilReaderOptions.IgnoreSeqMissingSeqOrParElementsError)
             {
                 throw new EpubSmilException("SMIL parsing error: seq XML element must contain at least one nested seq or par XML element.", smilFilePath);
             }
             return new(id, epubTypes, epubTextRef, seqs, pars);
         }
 
-        private static SmilPar ReadPar(XElement parNode, string smilFilePath)
+        private SmilPar? ReadPar(XElement parNode, string smilFilePath)
         {
             string? id = null;
             List<Epub3StructuralSemanticsProperty>? epubTypes = null;
@@ -240,12 +306,16 @@ namespace VersOne.Epub.Internal
             }
             if (text == null)
             {
+                if (smilReaderOptions.SkipParsWithoutTextElements)
+                {
+                    return null;
+                }
                 throw new EpubSmilException("SMIL parsing error: par XML element must contain one text XML element.", smilFilePath);
             }
             return new(id, epubTypes, text, audio);
         }
 
-        private static SmilText ReadText(XElement textNode, string smilFilePath)
+        private SmilText? ReadText(XElement textNode, string smilFilePath)
         {
             string? id = null;
             string? src = null;
@@ -264,12 +334,16 @@ namespace VersOne.Epub.Internal
             }
             if (src == null)
             {
+                if (smilReaderOptions.SkipTextsWithoutSrcAttributes)
+                {
+                    return null;
+                }
                 throw new EpubSmilException("SMIL parsing error: text XML element must have an src attribute.", smilFilePath);
             }
             return new(id, src);
         }
 
-        private static SmilAudio ReadAudio(XElement audioNode, string smilFilePath)
+        private SmilAudio? ReadAudio(XElement audioNode, string smilFilePath)
         {
             string? id = null;
             string? src = null;
@@ -296,6 +370,10 @@ namespace VersOne.Epub.Internal
             }
             if (src == null)
             {
+                if (smilReaderOptions.SkipAudiosWithoutSrcAttributes)
+                {
+                    return null;
+                }
                 throw new EpubSmilException("SMIL parsing error: audio XML element must have an src attribute.", smilFilePath);
             }
             return new(id, src, clipBegin, clipEnd);

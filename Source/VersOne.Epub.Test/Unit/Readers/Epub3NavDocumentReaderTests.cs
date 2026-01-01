@@ -527,7 +527,6 @@ namespace VersOne.Epub.Test.Unit.Readers
         [Fact(DisplayName = "ReadEpub3NavDocumentAsync should return null if the NAV file is not a valid XHTML file and IgnoreNavFileIsNotValidXmlError = true")]
         public async Task ReadEpub3NavDocumentAsyncWithInvalidXhtmlFileAndIgnoreNavFileIsNotValidXmlErrorTest()
         {
-            TestZipFile testZipFile = CreateTestZipFileWithNavFile("not a valid XHTML file");
             EpubReaderOptions epubReaderOptions = new()
             {
                 Epub3NavDocumentReaderOptions = new()
@@ -535,10 +534,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                     IgnoreNavFileIsNotValidXmlError = true
                 }
             };
-            Epub3NavDocumentReader epub3NavDocumentReader = new(epubReaderOptions);
-            Epub3NavDocument? actualEpub3NavDocument =
-                await epub3NavDocumentReader.ReadEpub3NavDocumentAsync(testZipFile, CONTENT_DIRECTORY_PATH, MinimalEpubPackageWithNav);
-            Assert.Null(actualEpub3NavDocument);
+            await TestSuccessfulReadOperation("not a valid XHTML file", null, epubReaderOptions);
         }
 
         [Fact(DisplayName = "ReadEpub3NavDocumentAsync should throw Epub3NavException if the NAV file is missing the 'html' XML element and no Epub3NavDocumentReaderOptions are provided")]

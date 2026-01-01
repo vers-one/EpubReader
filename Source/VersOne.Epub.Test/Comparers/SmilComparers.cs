@@ -11,8 +11,13 @@ namespace VersOne.Epub.Test.Comparers
             CollectionComparer.CompareCollections(expected, actual, CompareSmils);
         }
 
-        public static void CompareSmils(Smil expected, Smil actual)
+        public static void CompareSmils(Smil? expected, Smil? actual)
         {
+            if (expected == null)
+            {
+                Assert.Null(actual);
+                return;
+            }
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Version, actual.Version);

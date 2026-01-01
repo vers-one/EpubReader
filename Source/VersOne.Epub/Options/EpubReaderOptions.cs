@@ -18,6 +18,7 @@
             SpineReaderOptions = new(preset);
             Epub2NcxReaderOptions = new(preset);
             Epub3NavDocumentReaderOptions = new(preset);
+            SmilReaderOptions = new(preset);
             XmlReaderOptions = new(preset);
         }
 
@@ -55,6 +56,11 @@
         /// Gets or sets EPUB 3 navigation document reader options.
         /// </summary>
         public Epub3NavDocumentReaderOptions Epub3NavDocumentReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets SMIL (EPUB media overlay) document reader options.
+        /// </summary>
+        public SmilReaderOptions SmilReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets XML reader options.
