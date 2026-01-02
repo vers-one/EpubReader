@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 
@@ -424,29 +425,61 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestSuccessfulReadOperation(FULL_METADATA_XML, FullMetadata);
         }
 
-        [Fact(DisplayName = "Trying to read metadata XML without 'href' attribute in a metadata link XML node should fail with EpubPackageException")]
-        public void ReadPackageWithoutMetadataLinkHrefTest()
+        [Fact(DisplayName = "ReadMetadata should throw EpubPackageException when a 'link' XML node doesn't have the 'href' attribute and no MetadataReaderOptions are provided")]
+        public void ReadPackageWithoutMetadataLinkHrefAndDefaultOptionsTest()
         {
             TestFailingReadOperation(METADATA_XML_WITHOUT_HREF_IN_METADATA_LINK);
         }
 
-        [Fact(DisplayName = "Trying to read metadata XML without 'rel' attribute in a metadata link XML node should fail with EpubPackageException")]
-        public void ReadPackageWithoutMetadataLinkRelTest()
+        [Fact(DisplayName = "ReadMetadata should skip 'link' XML nodes without the 'href' attribute when SkipLinksWithoutHrefs = true")]
+        public void ReadPackageWithoutMetadataLinkHrefAndSkipLinksWithoutHrefsTest()
+        {
+            MetadataReaderOptions metadataReaderOptions = new()
+            {
+                SkipLinksWithoutHrefs = true
+            };
+            TestSuccessfulReadOperation(METADATA_XML_WITHOUT_HREF_IN_METADATA_LINK, MinimalMetadata, metadataReaderOptions);
+        }
+
+        [Fact(DisplayName = "ReadMetadata should throw EpubPackageException when a 'link' XML node doesn't have the 'rel' attribute and no MetadataReaderOptions are provided")]
+        public void ReadPackageWithoutMetadataLinkRelAndDefaultOptionsTest()
         {
             TestFailingReadOperation(METADATA_XML_WITHOUT_REL_IN_METADATA_LINK);
         }
 
-        private static void TestSuccessfulReadOperation(string metadataXml, EpubMetadata expectedEpubMetadata)
+        [Fact(DisplayName = "ReadMetadata should succeed when a 'link' XML node doesn't have the 'rel' attribute and IgnoreLinkWithoutRelError = true")]
+        public void ReadPackageWithoutMetadataLinkRelAndIgnoreLinkWithoutRelErrorTest()
+        {
+            EpubMetadata expectedEpubMetadata =
+                new
+                (
+                    links:
+                    [
+                        new
+                        (
+                            href: "chapter.html" 
+                        )
+                    ]
+                );
+            MetadataReaderOptions metadataReaderOptions = new()
+            {
+                IgnoreLinkWithoutRelError = true
+            };
+            TestSuccessfulReadOperation(METADATA_XML_WITHOUT_REL_IN_METADATA_LINK, expectedEpubMetadata, metadataReaderOptions);
+        }
+
+        private static void TestSuccessfulReadOperation(string metadataXml, EpubMetadata expectedEpubMetadata,
+            MetadataReaderOptions? metadataReaderOptions = null)
         {
             XElement metadataNode = XElement.Parse(metadataXml);
-            EpubMetadata actualEpubMetadata = MetadataReader.ReadMetadata(metadataNode);
+            EpubMetadata actualEpubMetadata = MetadataReader.ReadMetadata(metadataNode, metadataReaderOptions ?? new MetadataReaderOptions());
             EpubMetadataComparer.CompareEpubMetadatas(expectedEpubMetadata, actualEpubMetadata);
         }
 
         private static void TestFailingReadOperation(string metadataXml)
         {
             XElement metadataNode = XElement.Parse(metadataXml);
-            Assert.Throws<EpubPackageException>(() => MetadataReader.ReadMetadata(metadataNode));
+            Assert.Throws<EpubPackageException>(() => MetadataReader.ReadMetadata(metadataNode, new MetadataReaderOptions()));
         }
     }
 }

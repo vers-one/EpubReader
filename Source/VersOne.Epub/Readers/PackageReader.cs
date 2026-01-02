@@ -109,7 +109,7 @@ namespace VersOne.Epub.Internal
             {
                 throw new EpubPackageException("EPUB parsing error: metadata not found in the package.");
             }
-            EpubMetadata metadata = MetadataReader.ReadMetadata(metadataNode);
+            EpubMetadata metadata = MetadataReader.ReadMetadata(metadataNode, epubReaderOptions.MetadataReaderOptions);
             XElement? manifestNode = packageNode.Element(opfNamespace + "manifest");
             if (manifestNode == null && !packageReaderOptions.IgnoreMissingManifestNode)
             {
@@ -413,7 +413,7 @@ namespace VersOne.Epub.Internal
                 switch (collectionChildNode.GetLowerCaseLocalName())
                 {
                     case "metadata":
-                        metadata = MetadataReader.ReadMetadata(collectionChildNode);
+                        metadata = MetadataReader.ReadMetadata(collectionChildNode, epubReaderOptions.MetadataReaderOptions);
                         break;
                     case "collection":
                         EpubCollection? nestedCollection = ReadCollection(collectionChildNode);
@@ -423,8 +423,11 @@ namespace VersOne.Epub.Internal
                         }
                         break;
                     case "link":
-                        EpubMetadataLink link = MetadataReader.ReadLink(collectionChildNode);
-                        links.Add(link);
+                        EpubMetadataLink? link = MetadataReader.ReadLink(collectionChildNode, epubReaderOptions.MetadataReaderOptions);
+                        if (link != null)
+                        {
+                            links.Add(link);
+                        }
                         break;
                 }
             }

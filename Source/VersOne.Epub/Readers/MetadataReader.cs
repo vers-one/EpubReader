@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Utils;
 
@@ -7,7 +8,7 @@ namespace VersOne.Epub.Internal
 {
     internal static class MetadataReader
     {
-        public static EpubMetadata ReadMetadata(XElement? metadataNode)
+        public static EpubMetadata ReadMetadata(XElement? metadataNode, MetadataReaderOptions metadataReaderOptions)
         {
             List<EpubMetadataTitle> titles = new();
             List<EpubMetadataCreator> creators = new();
@@ -93,8 +94,11 @@ namespace VersOne.Epub.Internal
                             rights.Add(rightsItem);
                             break;
                         case "link":
-                            EpubMetadataLink link = ReadLink(metadataItemNode);
-                            links.Add(link);
+                            EpubMetadataLink? link = ReadLink(metadataItemNode, metadataReaderOptions);
+                            if (link != null)
+                            {
+                                links.Add(link);
+                            }
                             break;
                         case "meta":
                             EpubMetadataMeta meta = ReadMeta(metadataItemNode);
@@ -107,7 +111,7 @@ namespace VersOne.Epub.Internal
                 languages, relations, coverages, rights, links, metaItems);
         }
 
-        public static EpubMetadataLink ReadLink(XElement linkNode)
+        public static EpubMetadataLink? ReadLink(XElement linkNode, MetadataReaderOptions metadataReaderOptions)
         {
             string? href = null;
             string? id = null;
@@ -146,9 +150,13 @@ namespace VersOne.Epub.Internal
             }
             if (href == null)
             {
+                if (metadataReaderOptions.SkipLinksWithoutHrefs)
+                {
+                    return null;
+                }
                 throw new EpubPackageException("Incorrect EPUB metadata link: href is missing.");
             }
-            if (relationships == null)
+            if (relationships == null && !metadataReaderOptions.IgnoreLinkWithoutRelError)
             {
                 throw new EpubPackageException("Incorrect EPUB metadata link: rel is missing.");
             }
