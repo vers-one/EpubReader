@@ -19,6 +19,7 @@
             Epub2NcxReaderOptions = new(preset);
             Epub3NavDocumentReaderOptions = new(preset);
             MetadataReaderOptions = new(preset);
+            NavigationReaderOptions = new(preset);
             SmilReaderOptions = new(preset);
             XmlReaderOptions = new(preset);
         }
@@ -62,6 +63,11 @@
         /// Gets or sets EPUB book meta information reader options.
         /// </summary>
         public MetadataReaderOptions MetadataReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB navigation reader options.
+        /// </summary>
+        public NavigationReaderOptions NavigationReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets SMIL (EPUB media overlay) document reader options.

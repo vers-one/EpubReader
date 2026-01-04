@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Internal;
+using VersOne.Epub.Options;
 using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -13,6 +14,196 @@ namespace VersOne.Epub.Test.Unit.Readers
         private const string NAV_FILE_NAME = "toc.html";
         private const string NAV_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{NAV_FILE_NAME}";
 
+        private static EpubSchema Epub2SchemaWithoutNavigationLabels =>
+            new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new
+                    (
+                        items:
+                        [
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels: [],
+                                content: new
+                                (
+                                    source: "chapter1.html"
+                                ),
+                                childNavigationPoints: null
+                            )
+                        ]
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+
+        private static EpubSchema Epub2SchemaWithRemoteNavigationPoint =>
+            new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new
+                    (
+                        items:
+                        [
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Test label"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "https://example.com/books/123/chapter1.html"
+                                ),
+                                childNavigationPoints: null
+                            )
+                        ]
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+
+        private static EpubSchema Epub2SchemaWithMissingContentFile =>
+            new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_2),
+                epub2Ncx: new
+                (
+                    filePath: NCX_FILE_PATH,
+                    head: new(),
+                    docTitle: null,
+                    docAuthors: null,
+                    navMap: new
+                    (
+                        items:
+                        [
+                            new
+                            (
+                                id: String.Empty,
+                                @class: null,
+                                playOrder: null,
+                                navigationLabels:
+                                [
+                                    new
+                                    (
+                                        text: "Test label"
+                                    )
+                                ],
+                                content: new
+                                (
+                                    source: "chapter1.html"
+                                ),
+                                childNavigationPoints: null
+                            )
+                        ]
+                    ),
+                    pageList: null,
+                    navLists: null
+                ),
+                epub3NavDocument: null,
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+
+        private static EpubSchema Epub3SchemaWithRemoteNavigationPoint =>
+            new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs:
+                    [
+                        new
+                        (
+                            type: Epub3StructuralSemanticsProperty.TOC,
+                            ol: new
+                            (
+                                lis:
+                                [
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Test text",
+                                            href: "https://example.com/books/123/chapter1.html"
+                                        )
+                                    )
+                                ]
+                            )
+                        )
+                    ]
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+
+        private static EpubSchema Epub3SchemaWithMissingContentFile =>
+            new
+            (
+                package: CreateEmptyPackage(EpubVersion.EPUB_3),
+                epub2Ncx: null,
+                epub3NavDocument: new
+                (
+                    filePath: NAV_FILE_PATH,
+                    navs:
+                    [
+                        new
+                        (
+                            type: Epub3StructuralSemanticsProperty.TOC,
+                            isHidden: false,
+                            head: null,
+                            ol: new
+                            (
+                                lis:
+                                [
+                                    new
+                                    (
+                                        anchor: new
+                                        (
+                                            text: "Test text",
+                                            href: "chapter1.html"
+                                        )
+                                    )
+                                ]
+                            )
+                        )
+                    ]
+                ),
+                mediaOverlays: null,
+                contentDirectoryPath: CONTENT_DIRECTORY_PATH
+            );
+
         [Fact(DisplayName = "GetNavigationItems should return null for EPUB 2 schemas without NCX file")]
         public void GetNavigationItemsForEpub2WithoutNcxTest()
         {
@@ -25,8 +216,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
             EpubContentRef epubContentRef = new();
-            List<EpubNavigationItemRef>? navigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            Assert.Null(navigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, null);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 2 schemas with minimal NCX file should succeed")]
@@ -51,8 +241,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             );
             EpubContentRef epubContentRef = new();
             List<EpubNavigationItemRef> expectedNavigationItems = [];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 2 schemas with full NCX file should succeed")]
@@ -128,8 +317,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             [
                 expectedNavigationItem1
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 2 schemas with relative file paths within the NCX file should succeed")]
@@ -268,144 +456,74 @@ namespace VersOne.Epub.Test.Unit.Readers
                 expectedNavigationItem4,
                 expectedNavigationItem5
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
-        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point has no navigation labels")]
-        public void GetNavigationItemsForEpub2WithoutNavigationLabelsTest()
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point has no navigation labels and no NavigationReaderOptions are provided")]
+        public void GetNavigationItemsForEpub2WithoutNavigationLabelsAndDefaultOptionsTest()
         {
-            EpubSchema epubSchema = new
-            (
-                package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new
-                (
-                    filePath: NCX_FILE_PATH,
-                    head: new(),
-                    docTitle: null,
-                    docAuthors: null,
-                    navMap: new
-                    (
-                        items:
-                        [
-                            new
-                            (
-                                id: String.Empty,
-                                @class: null,
-                                playOrder: null,
-                                navigationLabels: [],
-                                content: new
-                                (
-                                    source: "chapter1.html"
-                                ),
-                                childNavigationPoints: null
-                            )
-                        ]
-                    ),
-                    pageList: null,
-                    navLists: null
-                ),
-                epub3NavDocument: null,
-                mediaOverlays: null,
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH
-            );
+            EpubSchema epubSchema = Epub2SchemaWithoutNavigationLabels;
             EpubContentRef epubContentRef = new();
-            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+            TestEpub2FailingReadOperation(epubSchema, epubContentRef);
         }
 
-        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point points to a remote resource")]
-        public void GetNavigationItemsForEpub2WithRemoteNavigationPointSourceTest()
+        [Fact(DisplayName = "GetNavigationItems should succeed if an NCX navigation point has no navigation labels and AllowEpub2NavigationItemsWithEmptyTitles = true")]
+        public void GetNavigationItemsForEpub2WithoutNavigationLabelsAndAllowEpub2NavigationItemsWithEmptyTitlesTest()
         {
-            string remoteFileHref = "https://example.com/books/123/chapter1.html";
-            EpubSchema epubSchema = new
-            (
-                package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new
-                (
-                    filePath: NCX_FILE_PATH,
-                    head: new(),
-                    docTitle: null,
-                    docAuthors: null,
-                    navMap: new
-                    (
-                        items:
-                        [
-                            new
-                            (
-                                id: String.Empty,
-                                @class: null,
-                                playOrder: null,
-                                navigationLabels:
-                                [
-                                    new
-                                    (
-                                        text: "Test label"
-                                    )
-                                ],
-                                content: new
-                                (
-                                    source: remoteFileHref
-                                ),
-                                childNavigationPoints: null
-                            )
-                        ]
-                    ),
-                    pageList: null,
-                    navLists: null
-                ),
-                epub3NavDocument: null,
-                mediaOverlays: null,
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH
-            );
-            EpubContentRef epubContentRef = new();
-            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+            EpubSchema epubSchema = Epub2SchemaWithoutNavigationLabels;
+            EpubLocalTextContentFileRef testTextContentFileRef = CreateTestHtmlFile(CONTENT_DIRECTORY_PATH, "chapter1.html");
+            EpubContentRef epubContentRef = CreateContentRef(null, testTextContentFileRef);
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
+                CreateNavigationLink(String.Empty, CONTENT_DIRECTORY_PATH, "chapter1.html", testTextContentFileRef)
+            ];
+            NavigationReaderOptions navigationReaderOptions = new()
+            {
+                AllowEpub2NavigationItemsWithEmptyTitles = true
+            };
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems, navigationReaderOptions);
         }
 
-        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if the file referenced by an NCX navigation point is missing in the EpubContentRef")]
-        public void GetNavigationItemsForEpub2WithMissingContentFileTest()
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if an NCX navigation point points to a remote resource and no NavigationReaderOptions are provided")]
+        public void GetNavigationItemsForEpub2WithRemoteNavigationPointSourceAndDefaultOptionsTest()
         {
-            EpubSchema epubSchema = new
-            (
-                package: CreateEmptyPackage(EpubVersion.EPUB_2),
-                epub2Ncx: new
-                (
-                    filePath: NCX_FILE_PATH,
-                    head: new(),
-                    docTitle: null,
-                    docAuthors: null,
-                    navMap: new
-                    (
-                        items:
-                        [
-                            new
-                            (
-                                id: String.Empty,
-                                @class: null,
-                                playOrder: null,
-                                navigationLabels:
-                                [
-                                    new
-                                    (
-                                        text: "Test label"
-                                    )
-                                ],
-                                content: new
-                                (
-                                    source: "chapter1.html"
-                                ),
-                                childNavigationPoints: null
-                            )
-                        ]
-                    ),
-                    pageList: null,
-                    navLists: null
-                ),
-                epub3NavDocument: null,
-                mediaOverlays: null,
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH
-            );
+            EpubSchema epubSchema = Epub2SchemaWithRemoteNavigationPoint;
             EpubContentRef epubContentRef = new();
-            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+            TestEpub2FailingReadOperation(epubSchema, epubContentRef);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should skip NCX navigation points pointing to remote resources when SkipRemoteNavigationItems = true")]
+        public void GetNavigationItemsForEpub2WithRemoteNavigationPointSourceAndSkipRemoteNavigationItemsTest()
+        {
+            EpubSchema epubSchema = Epub2SchemaWithRemoteNavigationPoint;
+            EpubContentRef epubContentRef = new();
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
+            NavigationReaderOptions navigationReaderOptions = new()
+            {
+                SkipRemoteNavigationItems = true
+            };
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems, navigationReaderOptions);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub2NcxException if the file referenced by an NCX navigation point is missing in the EpubContentRef and no NavigationReaderOptions are provided")]
+        public void GetNavigationItemsForEpub2WithMissingContentFileAndDefaultOptionsTest()
+        {
+            EpubSchema epubSchema = Epub2SchemaWithMissingContentFile;
+            EpubContentRef epubContentRef = new();
+            TestEpub2FailingReadOperation(epubSchema, epubContentRef);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should skip NCX navigation points referencing files that are missing in the EpubContentRef when SkipNavigationItemsReferencingMissingContent = true")]
+        public void GetNavigationItemsForEpub2WithMissingContentFileAndSkipNavigationItemsReferencingMissingContentTest()
+        {
+            EpubSchema epubSchema = Epub2SchemaWithMissingContentFile;
+            EpubContentRef epubContentRef = new();
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
+            NavigationReaderOptions navigationReaderOptions = new()
+            {
+                SkipNavigationItemsReferencingMissingContent = true
+            };
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems, navigationReaderOptions);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 schemas with minimal NAV file should succeed")]
@@ -424,8 +542,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             );
             EpubContentRef epubContentRef = new();
             List<EpubNavigationItemRef> expectedNavigationItems = [];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 schemas with full NAV file should succeed")]
@@ -524,8 +641,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             [
                 expectedNavigationItem1
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 schemas with relative file paths within the NAV file should succeed")]
@@ -618,8 +734,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             [
                 expectedNavigationItem1
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file without a header should succeed")]
@@ -666,8 +781,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             [
                 CreateNavigationLink("Test text", "chapter1.html", testTextContentFileRef)
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with empty Lis should succeed")]
@@ -701,8 +815,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             EpubContentRef epubContentRef = CreateContentRef(testNavigationHtmlFileRef);
             List<EpubNavigationItemRef> expectedNavigationItems = [];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null anchor href should succeed")]
@@ -746,8 +859,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             [
                 CreateNavigationHeader("Null href test")
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
         [Fact(DisplayName = "Getting navigation items for EPUB 3 NAV file with null or empty titles should succeed")]
@@ -886,87 +998,13 @@ namespace VersOne.Epub.Test.Unit.Readers
                 CreateNavigationHeader(String.Empty),
                 CreateNavigationHeader(String.Empty),
             ];
-            List<EpubNavigationItemRef>? actualNavigationItems = NavigationReader.GetNavigationItems(epubSchema, epubContentRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems);
         }
 
-        [Fact(DisplayName = "GetNavigationItems should throw a Epub3NavException if the file referenced by a EPUB 3 navigation Li item is missing in the EpubContentRef")]
-        public void GetNavigationItemsForEpub3WithMissingContentFile()
+        [Fact(DisplayName = "GetNavigationItems should throw Epub3NavException if a EPUB 3 navigation anchor points to a remote resource and no NavigationReaderOptions are provided")]
+        public void GetNavigationItemsWithRemoteContentFileAndDefaultOptionsTest()
         {
-            EpubSchema epubSchema = new
-            (
-                package: CreateEmptyPackage(EpubVersion.EPUB_3),
-                epub2Ncx: null,
-                epub3NavDocument: new
-                (
-                    filePath: NAV_FILE_PATH,
-                    navs:
-                    [
-                        new
-                        (
-                            type: Epub3StructuralSemanticsProperty.TOC,
-                            isHidden: false,
-                            head: null,
-                            ol: new
-                            (
-                                lis:
-                                [
-                                    new
-                                    (
-                                        anchor: new
-                                        (
-                                            text: "Test text",
-                                            href: "chapter1.html"
-                                        )
-                                    )
-                                ]
-                            )
-                        )
-                    ]
-                ),
-                mediaOverlays: null,
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH
-            );
-            EpubContentRef epubContentRef = new();
-            Assert.Throws<Epub3NavException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
-        }
-
-        [Fact(DisplayName = "GetNavigationItems should throw Epub3NavException if a EPUB 3 navigation anchor points to a remote resource")]
-        public void GetNavigationItemsWithRemoteContentFileTest()
-        {
-            string remoteFileHref = "https://example.com/books/123/chapter1.html";
-            EpubSchema epubSchema = new
-            (
-                package: CreateEmptyPackage(EpubVersion.EPUB_3),
-                epub2Ncx: null,
-                epub3NavDocument: new
-                (
-                    filePath: NAV_FILE_PATH,
-                    navs:
-                    [
-                        new
-                        (
-                            type: Epub3StructuralSemanticsProperty.TOC,
-                            ol: new
-                            (
-                                lis:
-                                [
-                                    new
-                                    (
-                                        anchor: new
-                                        (
-                                            text: "Test text",
-                                            href: remoteFileHref
-                                        )
-                                    )
-                                ]
-                            )
-                        )
-                    ]
-                ),
-                mediaOverlays: null,
-                contentDirectoryPath: CONTENT_DIRECTORY_PATH
-            );
+            EpubSchema epubSchema = Epub3SchemaWithRemoteNavigationPoint;
             EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
             List<EpubLocalTextContentFileRef> htmlLocal =
             [
@@ -977,7 +1015,50 @@ namespace VersOne.Epub.Test.Unit.Readers
                 navigationHtmlFile: testNavigationHtmlFileRef,
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly())
             );
-            Assert.Throws<Epub3NavException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef));
+            TestEpub3FailingReadOperation(epubSchema, epubContentRef);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should skip EPUB 3 navigation anchor points pointing to remote resources when SkipRemoteNavigationItems = true")]
+        public void GetNavigationItemsWithRemoteContentFileAndSkipRemoteNavigationItemsTest()
+        {
+            EpubSchema epubSchema = Epub3SchemaWithRemoteNavigationPoint;
+            EpubLocalTextContentFileRef testNavigationHtmlFileRef = CreateTestNavigationFile();
+            List<EpubLocalTextContentFileRef> htmlLocal =
+            [
+                testNavigationHtmlFileRef
+            ];
+            EpubContentRef epubContentRef = new
+            (
+                navigationHtmlFile: testNavigationHtmlFileRef,
+                html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(htmlLocal.AsReadOnly())
+            );
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
+            NavigationReaderOptions navigationReaderOptions = new()
+            {
+                SkipRemoteNavigationItems = true
+            };
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems, navigationReaderOptions);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should throw a Epub3NavException if the file referenced by a EPUB 3 navigation Li item is missing in the EpubContentRef and no NavigationReaderOptions are provided")]
+        public void GetNavigationItemsForEpub3WithMissingContentAndDefaultOptionsFile()
+        {
+            EpubSchema epubSchema = Epub3SchemaWithMissingContentFile;
+            EpubContentRef epubContentRef = new();
+            TestEpub3FailingReadOperation(epubSchema, epubContentRef);
+        }
+
+        [Fact(DisplayName = "GetNavigationItems should skip EPUB 3 navigation Li items referencing files that are missing in the EpubContentRef when SkipNavigationItemsReferencingMissingContent = true")]
+        public void GetNavigationItemsForEpub3WithMissingContentAndSkipNavigationItemsReferencingMissingContentFile()
+        {
+            EpubSchema epubSchema = Epub3SchemaWithMissingContentFile;
+            EpubContentRef epubContentRef = new();
+            List<EpubNavigationItemRef> expectedNavigationItems = [];
+            NavigationReaderOptions navigationReaderOptions = new()
+            {
+                SkipNavigationItemsReferencingMissingContent = true
+            };
+            TestSuccessfulOperation(epubSchema, epubContentRef, expectedNavigationItems, navigationReaderOptions);
         }
 
         private static EpubLocalTextContentFileRef CreateTestNavigationFile()
@@ -1055,6 +1136,24 @@ namespace VersOne.Epub.Test.Unit.Readers
                 html: new EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef>(local.AsReadOnly())
             );
             return result;
+        }
+
+        private static void TestSuccessfulOperation(EpubSchema epubSchema, EpubContentRef epubContentRef,
+            List<EpubNavigationItemRef>? expectedNavigationItems, NavigationReaderOptions? navigationReaderOptions = null)
+        {
+            List<EpubNavigationItemRef>? actualNavigationItems =
+                NavigationReader.GetNavigationItems(epubSchema, epubContentRef, navigationReaderOptions ?? new NavigationReaderOptions());
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
+        }
+
+        private static void TestEpub2FailingReadOperation(EpubSchema epubSchema, EpubContentRef epubContentRef)
+        {
+            Assert.Throws<Epub2NcxException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef, new NavigationReaderOptions()));
+        }
+
+        private static void TestEpub3FailingReadOperation(EpubSchema epubSchema, EpubContentRef epubContentRef)
+        {
+            Assert.Throws<Epub3NavException>(() => NavigationReader.GetNavigationItems(epubSchema, epubContentRef, new NavigationReaderOptions()));
         }
     }
 }

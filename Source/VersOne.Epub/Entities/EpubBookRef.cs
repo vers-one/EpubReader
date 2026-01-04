@@ -163,7 +163,7 @@ namespace VersOne.Epub
         /// </returns>
         public async Task<List<EpubNavigationItemRef>?> GetNavigationAsync()
         {
-            return await Task.Run(() => NavigationReader.GetNavigationItems(Schema, Content)).ConfigureAwait(false);
+            return await Task.Run(() => NavigationReader.GetNavigationItems(Schema, Content, EpubReaderOptions.NavigationReaderOptions)).ConfigureAwait(false);
         }
 
         /// <summary>
