@@ -725,8 +725,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             await Assert.ThrowsAsync<EpubContainerException>(() => packageReader.ReadPackageAsync(testZipFile, OPF_FILE_PATH));
         }
 
-        [Fact(DisplayName = "Trying to read OPF package from the EPUB file with no OPF package with IgnoreMissingRootFile = true should succeed")]
-        public async Task ReadPackageWithNoOpfFileAndIgnoreMissingRootFileTest()
+        [Fact(DisplayName = "Trying to read OPF package from the EPUB file with no OPF package with IgnoreMissingPackageFile = true should succeed")]
+        public async Task ReadPackageWithNoOpfFileAndIgnoreMissingPackageFileTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(CONTAINER_FILE_PATH, CONTAINER_FILE);
@@ -734,7 +734,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             {
                 PackageReaderOptions = new PackageReaderOptions()
                 {
-                    IgnoreMissingRootFile = true
+                    IgnoreMissingPackageFile = true
                 }
             };
             PackageReader packageReader = new(epubReaderOptions);

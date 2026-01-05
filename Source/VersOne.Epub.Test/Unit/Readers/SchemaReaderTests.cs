@@ -388,15 +388,31 @@ namespace VersOne.Epub.Test.Unit.Readers
             EpubSchemaComparer.CompareEpubSchemas(expectedEpubSchema, actualEpubSchema);
         }
 
+        [Fact(DisplayName = "ReadSchemaAsync should return null if the ContainerFileReader returned a null package file path")]
+        public async Task ReadSchemaAsyncWithNullPackageFilePathTest()
+        {
+            TestZipFile testZipFile = new();
+            EpubReaderOptions epubReaderOptions = new()
+            {
+                ContainerFileReaderOptions = new()
+                {
+                    IgnoreMissingContainerFile = true
+                }
+            };
+            SchemaReader schemaReader = new(epubReaderOptions);
+            EpubSchema? actualEpubSchema = await schemaReader.ReadSchemaAsync(testZipFile);
+            Assert.Null(actualEpubSchema);
+        }
+
         [Fact(DisplayName = "ReadSchemaAsync should return null if the PackageReader returned a null package")]
         public async Task ReadSchemaAsyncWithNullPackageTest()
         {
             TestZipFile testZipFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
             EpubReaderOptions epubReaderOptions = new()
             {
-                PackageReaderOptions = new PackageReaderOptions()
+                PackageReaderOptions = new()
                 {
-                    IgnoreMissingRootFile = true
+                    IgnoreMissingPackageFile = true
                 }
             };
             SchemaReader schemaReader = new(epubReaderOptions);

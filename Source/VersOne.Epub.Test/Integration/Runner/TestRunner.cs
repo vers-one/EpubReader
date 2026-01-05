@@ -48,7 +48,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     catch (Exception actualException)
                     {
                         exceptionThrown = true;
-                        Assert.Equal(actualException.GetType().Name, testCase.ExpectedException.Type);
+                        Assert.Equal(testCase.ExpectedException.Type, actualException.GetType().Name);
                         if (testCase.ExpectedException.Message != null)
                         {
                             Assert.Equal(actualException.Message, testCase.ExpectedException.Message);

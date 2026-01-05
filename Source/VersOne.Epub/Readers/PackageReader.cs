@@ -22,22 +22,22 @@ namespace VersOne.Epub.Internal
             packageReaderOptions = this.epubReaderOptions.PackageReaderOptions ?? new PackageReaderOptions();
         }
 
-        public async Task<EpubPackage?> ReadPackageAsync(IZipFile epubFile, string rootFilePath)
+        public async Task<EpubPackage?> ReadPackageAsync(IZipFile epubFile, string packageFilePath)
         {
-            IZipFileEntry? rootFileEntry = epubFile.GetEntry(rootFilePath);
-            if (rootFileEntry == null)
+            IZipFileEntry? packageFileEntry = epubFile.GetEntry(packageFilePath);
+            if (packageFileEntry == null)
             {
-                if (packageReaderOptions.IgnoreMissingRootFile)
+                if (packageReaderOptions.IgnoreMissingPackageFile)
                 {
                     return null;
                 }
-                throw new EpubContainerException("EPUB parsing error: root file not found in the EPUB file.");
+                throw new EpubContainerException("EPUB parsing error: OPF package file not found in the EPUB file.");
             }
-            XDocument containerDocument;
+            XDocument packageDocument;
             try
             {
-                using Stream containerStream = rootFileEntry.Open();
-                containerDocument = await XmlUtils.LoadDocumentAsync(containerStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
+                using Stream packageFileStream = packageFileEntry.Open();
+                packageDocument = await XmlUtils.LoadDocumentAsync(packageFileStream, epubReaderOptions.XmlReaderOptions).ConfigureAwait(false);
             }
             catch (XmlException xmlException)
             {
@@ -48,7 +48,7 @@ namespace VersOne.Epub.Internal
                 throw new EpubContainerException("EPUB parsing error: package file is not a valid XML file.", xmlException);
             }
             XNamespace opfNamespace = "http://www.idpf.org/2007/opf";
-            XElement? packageNode = containerDocument.Element(opfNamespace + "package");
+            XElement? packageNode = packageDocument.Element(opfNamespace + "package");
             if (packageNode == null)
             {
                 if (packageReaderOptions.IgnoreMissingPackageNode)

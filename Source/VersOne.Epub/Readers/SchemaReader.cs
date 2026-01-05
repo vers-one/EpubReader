@@ -17,11 +17,15 @@ namespace VersOne.Epub.Internal
 
         public async Task<EpubSchema?> ReadSchemaAsync(IZipFile epubFile)
         {
-            RootFilePathReader rootFilePathReader = new(epubReaderOptions);
-            string rootFilePath = await rootFilePathReader.GetRootFilePathAsync(epubFile).ConfigureAwait(false);
-            string contentDirectoryPath = ContentPathUtils.GetDirectoryPath(rootFilePath);
+            ContainerFileReader containerFileReader = new(epubReaderOptions);
+            string? packageFilePath = await containerFileReader.GetPackageFilePathAsync(epubFile).ConfigureAwait(false);
+            if (packageFilePath == null)
+            {
+                return null;
+            }
+            string contentDirectoryPath = ContentPathUtils.GetDirectoryPath(packageFilePath);
             PackageReader packageReader = new(epubReaderOptions);
-            EpubPackage? package = await packageReader.ReadPackageAsync(epubFile, rootFilePath).ConfigureAwait(false);
+            EpubPackage? package = await packageReader.ReadPackageAsync(epubFile, packageFilePath).ConfigureAwait(false);
             if (package == null)
             {
                 return null;

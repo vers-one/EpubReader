@@ -23,12 +23,12 @@ namespace VersOne.Epub.Options
 
         /// <summary>
         /// <para>
-        /// Gets or sets a value indicating whether the package reader should ignore the missing root file (i.e. the OPF package file).
+        /// Gets or sets a value indicating whether the package reader should ignore the missing OPF package file error.
         /// </para>
         /// <para>
-        /// The path to the root file is defined by the 'rootfile' element in the 'META-INF/container.xml' file.
-        /// If this property is set to <c>false</c> and the root file is not present,
-        /// then the "EPUB parsing error: root file not found in the EPUB file." exception will be thrown.
+        /// The path to the OPF package file is defined by the 'rootfile' element in the 'META-INF/container.xml' file.
+        /// If this property is set to <c>false</c> and the OPF package file is not present,
+        /// then the "EPUB parsing error: OPF package file not found in the EPUB file." exception will be thrown.
         /// This exception can be suppressed by setting this property to <c>true</c>. However, since the OPF package is the main file
         /// describing the EPUB book, the <see cref="EpubReader" /> class methods will return <c>null</c> in this case.
         /// </para>
@@ -36,7 +36,7 @@ namespace VersOne.Epub.Options
         /// Default value is <c>false</c>.
         /// </para>
         /// </summary>
-        public bool IgnoreMissingRootFile { get; set; }
+        public bool IgnoreMissingPackageFile { get; set; }
 
         /// <summary>
         /// <para>

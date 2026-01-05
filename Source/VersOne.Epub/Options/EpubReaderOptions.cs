@@ -12,6 +12,7 @@
         public EpubReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
             PackageReaderOptions = new(preset);
+            ContainerFileReaderOptions = new(preset);
             ContentReaderOptions = new(preset);
             ContentDownloaderOptions = new(preset);
             BookCoverReaderOptions = new(preset);
@@ -28,6 +29,11 @@
         /// Gets or sets EPUB OPF package reader options.
         /// </summary>
         public PackageReaderOptions PackageReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB OCF container file reader options.
+        /// </summary>
+        public ContainerFileReaderOptions ContainerFileReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB content reader options which is used for loading local content files.

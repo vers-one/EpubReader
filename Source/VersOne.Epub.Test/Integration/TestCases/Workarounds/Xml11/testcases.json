@@ -4,7 +4,8 @@
     "Options": null,
     "ExpectedResult": null,
     "ExpectedException": {
-      "Type": "XmlException"
+      "Type": "EpubContainerException",
+      "Message": "EPUB parsing error: EPUB OCF container file is not a valid XML file."
     }
   },
   {

@@ -16,12 +16,12 @@ namespace VersOne.Epub.Test.Unit.Readers
             environmentDependencies = new TestEnvironmentDependencies();
         }
 
-        private static EpubReaderOptions EpubReaderOptionsWithIgnoreMissingRootFile =>
+        private static EpubReaderOptions EpubReaderOptionsWithIgnoreMissingPackageFile =>
             new()
             {
                 PackageReaderOptions = new PackageReaderOptions()
                 {
-                    IgnoreMissingRootFile = true
+                    IgnoreMissingPackageFile = true
                 }
             };
 
@@ -105,7 +105,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
-            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingPackageFile);
             EpubBookRef? actualEpubBookRef = bookRefReader.OpenBook(EPUB_FILE_PATH);
             Assert.Null(actualEpubBookRef);
         }
@@ -115,7 +115,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         {
             TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
             environmentDependencies.FileSystem = new TestFileSystem(EPUB_FILE_PATH, testEpubFile);
-            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingPackageFile);
             EpubBookRef? actualEpubBookRef = await bookRefReader.OpenBookAsync(EPUB_FILE_PATH);
             Assert.Null(actualEpubBookRef);
         }
@@ -126,7 +126,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
             MemoryStream epubFileStream = new();
             environmentDependencies.FileSystem = new TestFileSystem(epubFileStream, testEpubFile);
-            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingPackageFile);
             EpubBookRef? actualEpubBookRef = bookRefReader.OpenBook(epubFileStream);
             Assert.Null(actualEpubBookRef);
         }
@@ -137,7 +137,7 @@ namespace VersOne.Epub.Test.Unit.Readers
             TestZipFile testEpubFile = TestEpubFiles.CreateTestEpubFileWithoutPackage();
             MemoryStream epubFileStream = new();
             environmentDependencies.FileSystem = new TestFileSystem(epubFileStream, testEpubFile);
-            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingRootFile);
+            BookRefReader bookRefReader = new(environmentDependencies, EpubReaderOptionsWithIgnoreMissingPackageFile);
             EpubBookRef? actualEpubBookRef = await bookRefReader.OpenBookAsync(epubFileStream);
             Assert.Null(actualEpubBookRef);
         }
