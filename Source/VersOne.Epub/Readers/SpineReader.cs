@@ -23,12 +23,20 @@ namespace VersOne.Epub.Internal
                 }
                 if (epubContentRef.Html.ContainsRemoteFileRefWithUrl(manifestItem.Href))
                 {
+                    if (spineReaderOptions.SkipSpineItemsReferencingRemoteContent)
+                    {
+                        continue;
+                    }
                     throw new EpubPackageException($"Incorrect EPUB manifest: EPUB spine item \"{manifestItem.Href}\" cannot be a remote resource.");
                 }
                 if (!epubContentRef.Html.TryGetLocalFileRefByKey(manifestItem.Href, out EpubLocalTextContentFileRef? htmlContentFileRef)
                     || htmlContentFileRef == null)
                 {
-                    throw new EpubPackageException($"Incorrect EPUB manifest: item with href = \"{spineItemRef.IdRef}\" is missing in the book.");
+                    if (spineReaderOptions.IgnoreMissingContentFiles)
+                    {
+                        continue;
+                    }
+                    throw new EpubPackageException($"Incorrect EPUB manifest: HTML content file with href = \"{manifestItem.Href}\" is missing in the book.");
                 }
                 result.Add(htmlContentFileRef);
             }
