@@ -172,7 +172,8 @@ namespace VersOne.Epub.Internal
                     allFilesRemoteKeys.Add(remoteContentFileRef.Key);
                 }
             }
-            EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile> allFiles = new(allFilesLocal.AsReadOnly(), allFilesRemote.AsReadOnly());
+            EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile> allFiles =
+                new(allFilesLocal.AsReadOnly(), allFilesRemote.AsReadOnly(), epubReaderOptions.ContentReaderOptions);
             if (contentRef.Cover != null)
             {
                 cover = images.GetLocalFileByKey(contentRef.Cover.Key);
@@ -197,7 +198,8 @@ namespace VersOne.Epub.Internal
             {
                 remote.Add(await DownloadRemoteTextContentFile(remoteTextContentFileRef).ConfigureAwait(false));
             }
-            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> result = new(local.AsReadOnly(), remote.AsReadOnly());
+            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> result =
+                new(local.AsReadOnly(), remote.AsReadOnly(), epubReaderOptions.ContentReaderOptions);
             return result;
         }
 
@@ -214,7 +216,8 @@ namespace VersOne.Epub.Internal
             {
                 remote.Add(await DownloadRemoteByteContentFile(remoteByteContentFileRef).ConfigureAwait(false));
             }
-            EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> result = new(local.AsReadOnly(), remote.AsReadOnly());
+            EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile> result =
+                new(local.AsReadOnly(), remote.AsReadOnly(), epubReaderOptions.ContentReaderOptions);
             return result;
         }
 

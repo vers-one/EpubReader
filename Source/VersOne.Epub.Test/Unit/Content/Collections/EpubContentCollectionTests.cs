@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.TestData;
 using static VersOne.Epub.Test.Unit.TestData.TestEpubData;
@@ -11,11 +12,11 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
         {
             get
             {
-                List<EpubLocalTextContentFile> list = new()
-                {
+                List<EpubLocalTextContentFile> list =
+                [
                     TestEpubContent.Chapter1File,
                     TestEpubContent.Chapter2File
-                };
+                ];
                 return list.AsReadOnly();
             }
         }
@@ -24,17 +25,102 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
         {
             get
             {
-                List<EpubRemoteTextContentFile> list = new()
-                {
+                List<EpubRemoteTextContentFile> list =
+                [
                     TestEpubContent.RemoteHtmlContentFile,
                     TestEpubContent.RemoteCssContentFile
-                };
+                ];
                 return list.AsReadOnly();
             }
         }
 
+        private static ReadOnlyCollection<EpubLocalTextContentFile> LocalWithDuplicateKeys
+        {
+            get
+            {
+                string duplicateKey = CHAPTER1_FILE_NAME;
+                return new
+                (
+                    [
+                        new
+                        (
+                            key: duplicateKey,
+                            contentType: HTML_CONTENT_TYPE,
+                            contentMimeType: HTML_CONTENT_MIME_TYPE,
+                            filePath: CHAPTER1_FILE_PATH,
+                            content: TestEpubFiles.CHAPTER1_FILE_CONTENT
+                        ),
+                        new
+                        (
+                            key: duplicateKey,
+                            contentType: HTML_CONTENT_TYPE,
+                            contentMimeType: HTML_CONTENT_MIME_TYPE,
+                            filePath: CHAPTER2_FILE_PATH,
+                            content: TestEpubFiles.CHAPTER2_FILE_CONTENT
+                        )
+                    ]
+                );
+            }
+        }
+
+        private static ReadOnlyCollection<EpubLocalTextContentFile> LocalWithDuplicateFilePaths
+        {
+            get
+            {
+                string duplicateFilePath = CHAPTER1_FILE_PATH;
+                return new
+                (
+                    [
+                        new
+                        (
+                            key: CHAPTER1_FILE_NAME,
+                            contentType: HTML_CONTENT_TYPE,
+                            contentMimeType: HTML_CONTENT_MIME_TYPE,
+                            filePath: duplicateFilePath,
+                            content: TestEpubFiles.CHAPTER1_FILE_CONTENT
+                        ),
+                        new
+                        (
+                            key: CHAPTER2_FILE_NAME,
+                            contentType: HTML_CONTENT_TYPE,
+                            contentMimeType: HTML_CONTENT_MIME_TYPE,
+                            filePath: duplicateFilePath,
+                            content: TestEpubFiles.CHAPTER2_FILE_CONTENT
+                        )
+                    ]
+                );
+            }
+        }
+
+        private static ReadOnlyCollection<EpubRemoteTextContentFile> RemoteWithDuplicateKeys
+        {
+            get
+            {
+                string duplicateKey = REMOTE_HTML_CONTENT_FILE_HREF;
+                return new
+                (
+                    [
+                        new
+                        (
+                            key: duplicateKey,
+                            contentType: HTML_CONTENT_TYPE,
+                            contentMimeType: HTML_CONTENT_MIME_TYPE,
+                            content: TestEpubFiles.REMOTE_HTML_FILE_CONTENT
+                        ),
+                        new
+                        (
+                            key: duplicateKey,
+                            contentType: CSS_CONTENT_TYPE,
+                            contentMimeType: CSS_CONTENT_MIME_TYPE,
+                            content: TestEpubFiles.REMOTE_CSS_FILE_CONTENT
+                        )
+                    ]
+                );
+            }
+        }
+
         [Fact(DisplayName = "Constructing a EpubContentCollection instance with default parameters should succeed")]
-        public void ConstructorWithNonNullParametersTest()
+        public void ConstructorWithNonDefaultParametersTest()
         {
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new();
             Assert.NotNull(epubContentCollection.Local);
@@ -49,98 +135,92 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(null, Remote);
             Assert.NotNull(epubContentCollection.Local);
             Assert.Empty(epubContentCollection.Local);
-            CompareRemoteTextReadOnlyCollections(Remote, epubContentCollection.Remote);
+            EpubContentComparer.CompareEpubRemoteTextContentFileLists(Remote, epubContentCollection.Remote);
         }
 
         [Fact(DisplayName = "Constructing a EpubContentCollection instance with null remote parameter should succeed")]
         public void ConstructorWithNullRemoteParameterTest()
         {
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, null);
-            CompareLocalTextReadOnlyCollections(Local, epubContentCollection.Local);
+            EpubContentComparer.CompareEpubLocalTextContentFileLists(Local, epubContentCollection.Local);
             Assert.NotNull(epubContentCollection.Remote);
             Assert.Empty(epubContentCollection.Remote);
         }
 
-        [Fact(DisplayName = "Constructor should throw EpubPackageException if local parameter contains content files with duplicate keys")]
-        public void ConstructorWithLocalDuplicateKeysTest()
+        [Fact(DisplayName = "Constructing a EpubContentCollection instance with null contentReaderOptions parameter should succeed")]
+        public void ConstructorWithNullContentReaderOptionsParameterTest()
         {
-            string duplicateKey = CHAPTER1_FILE_NAME;
-            ReadOnlyCollection<EpubLocalTextContentFile> localWithDuplicateKeys = new
-            (
-                [
-                    new
-                    (
-                        key: duplicateKey,
-                        contentType: HTML_CONTENT_TYPE,
-                        contentMimeType: HTML_CONTENT_MIME_TYPE,
-                        filePath: CHAPTER1_FILE_PATH,
-                        content: TestEpubFiles.CHAPTER1_FILE_CONTENT
-                    ),
-                    new
-                    (
-                        key: duplicateKey,
-                        contentType: HTML_CONTENT_TYPE,
-                        contentMimeType: HTML_CONTENT_MIME_TYPE,
-                        filePath: CHAPTER2_FILE_PATH,
-                        content: TestEpubFiles.CHAPTER2_FILE_CONTENT
-                    )
-                ]
-            );
-            Assert.Throws<EpubPackageException>(() => new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(localWithDuplicateKeys, Remote));
+            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, Remote, null);
+            EpubContentComparer.CompareEpubLocalTextContentFileLists(Local, epubContentCollection.Local);
+            EpubContentComparer.CompareEpubRemoteTextContentFileLists(Remote, epubContentCollection.Remote);
         }
 
-        [Fact(DisplayName = "Constructor should throw EpubPackageException if local parameter contains content files with duplicate file paths")]
-        public void ConstructorWithLocalDuplicateFilePathsTest()
+        [Fact(DisplayName = "Constructing a EpubContentCollection instance with all non-null parameters should succeed")]
+        public void ConstructorWithNonNullParametersTest()
         {
-            string duplicateFilePath = CHAPTER1_FILE_PATH;
-            ReadOnlyCollection<EpubLocalTextContentFile> localWithDuplicateFilePaths = new
-            (
-                [
-                    new
-                    (
-                        key: CHAPTER1_FILE_NAME,
-                        contentType: HTML_CONTENT_TYPE,
-                        contentMimeType: HTML_CONTENT_MIME_TYPE,
-                        filePath: duplicateFilePath,
-                        content: TestEpubFiles.CHAPTER1_FILE_CONTENT
-                    ),
-                    new
-                    (
-                        key: CHAPTER2_FILE_NAME,
-                        contentType: HTML_CONTENT_TYPE,
-                        contentMimeType: HTML_CONTENT_MIME_TYPE,
-                        filePath: duplicateFilePath,
-                        content: TestEpubFiles.CHAPTER2_FILE_CONTENT
-                    )
-                ]
-            );
-            Assert.Throws<EpubPackageException>(() => new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(localWithDuplicateFilePaths, Remote));
+            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, Remote, new ContentReaderOptions());
+            EpubContentComparer.CompareEpubLocalTextContentFileLists(Local, epubContentCollection.Local);
+            EpubContentComparer.CompareEpubRemoteTextContentFileLists(Remote, epubContentCollection.Remote);
         }
 
-        [Fact(DisplayName = "Constructor should throw EpubPackageException if remote parameter contains content files with duplicate URLs")]
-        public void ConstructorWithRemoteDuplicateUrlsTest()
+        [Fact(DisplayName = "Constructor should throw EpubPackageException if local parameter contains content files with duplicate keys and no ContentReaderOptions are provided")]
+        public void ConstructorWithLocalDuplicateKeysAndDefaultOptionsTest()
         {
-            string duplicateKey = REMOTE_HTML_CONTENT_FILE_HREF;
-            ReadOnlyCollection<EpubRemoteTextContentFile> remoteWithDuplicateKeys = new
-            (
-                [
-                    new
-                    (
-                        key: duplicateKey,
-                        contentType: HTML_CONTENT_TYPE,
-                        contentMimeType: HTML_CONTENT_MIME_TYPE,
-                        content: TestEpubFiles.REMOTE_HTML_FILE_CONTENT
-                    ),
-                    new
-                    (
-                        key: duplicateKey,
-                        contentType: CSS_CONTENT_TYPE,
-                        contentMimeType: CSS_CONTENT_MIME_TYPE,
-                        content: TestEpubFiles.REMOTE_CSS_FILE_CONTENT
-                    )
-                ]
-            );
-            Assert.Throws<EpubPackageException>(() => new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(Local, remoteWithDuplicateKeys));
+            Assert.Throws<EpubPackageException>(() =>
+                new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(LocalWithDuplicateKeys, Remote));
+        }
+
+        [Fact(DisplayName = "Constructor should succeed when local parameter contains content files with duplicate keys and SkipItemsWithDuplicateHrefs = true")]
+        public void ConstructorWithLocalDuplicateKeysAndSkipItemsWithDuplicateHrefsTest()
+        {
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                SkipItemsWithDuplicateHrefs = true
+            };
+            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection =
+                new(LocalWithDuplicateKeys, Remote, contentReaderOptions);
+            Assert.Single(epubContentCollection.Local);
+            EpubContentComparer.CompareEpubLocalTextContentFiles(LocalWithDuplicateKeys[0], epubContentCollection.Local[0]);
+        }
+
+        [Fact(DisplayName = "Constructor should throw EpubPackageException if local parameter contains content files with duplicate file paths and no ContentReaderOptions are provided")]
+        public void ConstructorWithLocalDuplicateFilePathsAndDefaultOptionsTest()
+        {
+            Assert.Throws<EpubPackageException>(() =>
+                new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(LocalWithDuplicateFilePaths, Remote));
+        }
+
+        [Fact(DisplayName = "Constructor should succeed when local parameter contains content files with duplicate file paths and SkipItemsWithDuplicateFilePaths = true")]
+        public void ConstructorWithLocalDuplicateFilePathsAndSkipItemsWithDuplicateFilePathsTest()
+        {
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                SkipItemsWithDuplicateFilePaths = true
+            };
+            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection =
+                new(LocalWithDuplicateFilePaths, Remote, contentReaderOptions);
+            Assert.Single(epubContentCollection.Local);
+            EpubContentComparer.CompareEpubLocalTextContentFiles(LocalWithDuplicateFilePaths[0], epubContentCollection.Local[0]);
+        }
+
+        [Fact(DisplayName = "Constructor should throw EpubPackageException if remote parameter contains content files with duplicate URLs and no ContentReaderOptions are provided")]
+        public void ConstructorWithRemoteDuplicateUrlsAndDefaultOptionsTest()
+        {
+            Assert.Throws<EpubPackageException>(() =>
+                new EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>(Local, RemoteWithDuplicateKeys));
+        }
+
+        [Fact(DisplayName = "Constructor should succeed when remote parameter contains content files with duplicate URLs and SkipItemsWithDuplicateUrls = true")]
+        public void ConstructorWithRemoteDuplicateUrlsAndSkipItemsWithDuplicateUrlsTest()
+        {
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                SkipItemsWithDuplicateUrls = true
+            };
+            EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection =
+                new(Local, RemoteWithDuplicateKeys, contentReaderOptions);
+            Assert.Single(epubContentCollection.Remote);
+            EpubContentComparer.CompareEpubRemoteTextContentFiles(RemoteWithDuplicateKeys[0], epubContentCollection.Remote[0]);
         }
 
         [Fact(DisplayName = "ContainsLocalFileWithKey should return true if the local file with the given key exists and false otherwise")]
@@ -479,16 +559,6 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
         {
             EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile> epubContentCollection = new(Local, Remote);
             Assert.Throws<ArgumentNullException>(() => epubContentCollection.TryGetRemoteFileByUrl(null!, out _));
-        }
-
-        private static void CompareLocalTextReadOnlyCollections(ReadOnlyCollection<EpubLocalTextContentFile> expected, ReadOnlyCollection<EpubLocalTextContentFile> actual)
-        {
-            CollectionComparer.CompareCollections(expected, actual, EpubContentComparer.CompareEpubLocalTextContentFiles);
-        }
-
-        private static void CompareRemoteTextReadOnlyCollections(ReadOnlyCollection<EpubRemoteTextContentFile> expected, ReadOnlyCollection<EpubRemoteTextContentFile> actual)
-        {
-            CollectionComparer.CompareCollections(expected, actual, EpubContentComparer.CompareEpubRemoteTextContentFiles);
         }
     }
 }

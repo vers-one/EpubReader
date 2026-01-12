@@ -14,6 +14,11 @@
             CompareContentCollectionRefs(expected.AllFiles, actual.AllFiles);
         }
 
+        public static void CompareEpubLocalTextContentFileRefLists(IList<EpubLocalTextContentFileRef> expected, IList<EpubLocalTextContentFileRef> actual)
+        {
+            CollectionComparer.CompareCollections(expected, actual, CompareEpubLocalContentFileRefs);
+        }
+
         public static void CompareEpubLocalContentFileRefs(EpubLocalContentFileRef? expected, EpubLocalContentFileRef? actual)
         {
             CompareEpubContentFileRefs(expected, actual);
@@ -22,6 +27,11 @@
                 Assert.NotNull(actual);
                 Assert.Equal(expected.FilePath, actual.FilePath);
             }
+        }
+
+        public static void CompareEpubRemoteTextContentFileRefLists(IList<EpubRemoteTextContentFileRef> expected, IList<EpubRemoteTextContentFileRef> actual)
+        {
+            CollectionComparer.CompareCollections(expected, actual, CompareEpubRemoteContentFileRefs);
         }
 
         public static void CompareEpubRemoteContentFileRefs(EpubRemoteContentFileRef? expected, EpubRemoteContentFileRef? actual)

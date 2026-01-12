@@ -14,7 +14,7 @@
             CompareContentCollections(expected.AllFiles, actual.AllFiles, CompareLocalEpubContentFilesWithContent, CompareRemoteEpubContentFilesWithContent);
         }
 
-        public static void CompareEpubLocalTextContentFileLists(List<EpubLocalTextContentFile> expected, List<EpubLocalTextContentFile> actual)
+        public static void CompareEpubLocalTextContentFileLists(IList<EpubLocalTextContentFile> expected, IList<EpubLocalTextContentFile> actual)
         {
             CollectionComparer.CompareCollections(expected, actual, CompareEpubLocalTextContentFiles);
         }
@@ -37,6 +37,11 @@
                 Assert.NotNull(actual);
                 Assert.Equal(expected.Content, actual.Content);
             }
+        }
+
+        public static void CompareEpubRemoteTextContentFileLists(IList<EpubRemoteTextContentFile> expected, IList<EpubRemoteTextContentFile> actual)
+        {
+            CollectionComparer.CompareCollections(expected, actual, CompareEpubRemoteTextContentFiles);
         }
 
         public static void CompareEpubRemoteTextContentFiles(EpubRemoteTextContentFile? expected, EpubRemoteTextContentFile? actual)
