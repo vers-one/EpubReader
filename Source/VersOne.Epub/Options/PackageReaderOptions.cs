@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using VersOne.Epub.Schema;
 
@@ -14,11 +13,31 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="PackageReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="PackageReaderOptions" /> class with a predefined set of options.</param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public PackageReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
-            IgnoreMissingToc = false;
-            SkipInvalidManifestItems = false;
+            switch (preset)
+            {
+                case EpubReaderOptionsPreset.RELAXED:
+                    FallbackEpubVersion = EpubVersion.EPUB_2;
+                    IgnoreMissingToc = true;
+                    break;
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    IgnoreMissingPackageFile = true;
+                    IgnorePackageFileIsNotValidXmlError = true;
+                    IgnoreMissingPackageNode = true;
+                    FallbackEpubVersion = EpubVersion.EPUB_2;
+                    IgnoreMissingMetadataNode = true;
+                    IgnoreMissingManifestNode = true;
+                    IgnoreMissingSpineNode = true;
+                    IgnoreMissingToc = true;
+                    SkipInvalidManifestItems = true;
+                    SkipDuplicateManifestItemIds = true;
+                    SkipDuplicateManifestHrefs = true;
+                    SkipInvalidSpineItems = true;
+                    SkipInvalidGuideReferences = true;
+                    SkipInvalidCollections = true;
+                    break;
+            }
         }
 
         /// <summary>

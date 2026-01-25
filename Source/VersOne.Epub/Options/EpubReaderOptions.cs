@@ -12,16 +12,16 @@
         public EpubReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
             PackageReaderOptions = new(preset);
-            ContainerFileReaderOptions = new(preset);
-            ContentReaderOptions = new(preset);
-            ContentDownloaderOptions = new(preset);
             BookCoverReaderOptions = new(preset);
-            SpineReaderOptions = new(preset);
+            ContainerFileReaderOptions = new(preset);
+            ContentDownloaderOptions = new();
+            ContentReaderOptions = new(preset);
             Epub2NcxReaderOptions = new(preset);
             Epub3NavDocumentReaderOptions = new(preset);
             MetadataReaderOptions = new(preset);
             NavigationReaderOptions = new(preset);
             SmilReaderOptions = new(preset);
+            SpineReaderOptions = new(preset);
             XmlReaderOptions = new(preset);
         }
 
@@ -31,14 +31,14 @@
         public PackageReaderOptions PackageReaderOptions { get; set; }
 
         /// <summary>
+        /// Gets or sets EPUB content reader options which is used for loading the EPUB book cover image.
+        /// </summary>
+        public BookCoverReaderOptions BookCoverReaderOptions { get; set; }
+
+        /// <summary>
         /// Gets or sets EPUB OCF container file reader options.
         /// </summary>
         public ContainerFileReaderOptions ContainerFileReaderOptions { get; set; }
-
-        /// <summary>
-        /// Gets or sets EPUB content reader options which is used for loading local content files.
-        /// </summary>
-        public ContentReaderOptions ContentReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB content downloader options which is used for downloading remote content files.
@@ -46,14 +46,9 @@
         public ContentDownloaderOptions ContentDownloaderOptions { get; set; }
 
         /// <summary>
-        /// Gets or sets EPUB content reader options which is used for loading the EPUB book cover image.
+        /// Gets or sets EPUB content reader options which is used for loading local content files.
         /// </summary>
-        public BookCoverReaderOptions BookCoverReaderOptions { get; set; }
-
-        /// <summary>
-        /// Gets or sets EPUB spine reader options which is used for parsing the default reading order of the EPUB book.
-        /// </summary>
-        public SpineReaderOptions SpineReaderOptions { get; set; }
+        public ContentReaderOptions ContentReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets EPUB 2 NCX navigation document reader options.
@@ -79,6 +74,11 @@
         /// Gets or sets SMIL (EPUB media overlay) document reader options.
         /// </summary>
         public SmilReaderOptions SmilReaderOptions { get; set; }
+
+        /// <summary>
+        /// Gets or sets EPUB spine reader options which is used for parsing the default reading order of the EPUB book.
+        /// </summary>
+        public SpineReaderOptions SpineReaderOptions { get; set; }
 
         /// <summary>
         /// Gets or sets XML reader options.

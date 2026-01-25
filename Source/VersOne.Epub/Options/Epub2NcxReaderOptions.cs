@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using VersOne.Epub.Schema;
 
@@ -14,10 +13,35 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="Epub2NcxReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="Epub2NcxReaderOptions" /> class with a predefined set of options.</param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public Epub2NcxReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
-            IgnoreMissingContentForNavigationPoints = false;
+            switch (preset)
+            {
+                case EpubReaderOptionsPreset.RELAXED:
+                    SkipNavigationPointsWithMissingIds = true;
+                    break;
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    IgnoreMissingTocManifestItemError = true;
+                    IgnoreMissingTocFileError = true;
+                    IgnoreTocFileIsTooLargeError = true;
+                    IgnoreTocFileIsNotValidXmlError = true;
+                    IgnoreMissingNcxElementError = true;
+                    IgnoreMissingHeadElementError = true;
+                    IgnoreMissingDocTitleElementError = true;
+                    IgnoreMissingNavMapElementError = true;
+                    SkipInvalidMetaElements = true;
+                    SkipNavigationPointsWithMissingIds = true;
+                    AllowNavigationPointsWithoutLabels = true;
+                    IgnoreMissingContentForNavigationPoints = true;
+                    SkipInvalidNavigationLabels = true;
+                    SkipInvalidNavigationContent = true;
+                    ReplaceMissingPageTargetTypesWithUnknown = true;
+                    AllowNavigationPageTargetsWithoutLabels = true;
+                    AllowNavigationListsWithoutLabels = true;
+                    SkipInvalidNavigationTargets = true;
+                    AllowNavigationTargetsWithoutLabels = true;
+                    break;
+            }
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace VersOne.Epub.Options
+﻿namespace VersOne.Epub.Options
 {
     /// <summary>
     /// Various options to configure how EPUB reader handles XML files.
@@ -11,10 +9,12 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="XmlReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="XmlReaderOptions" /> class with a predefined set of options.</param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public XmlReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
-            SkipXmlHeaders = false;
+            if (preset == EpubReaderOptionsPreset.IGNORE_ALL_ERRORS)
+            {
+                SkipXmlHeaders = true;
+            }
         }
 
         /// <summary>

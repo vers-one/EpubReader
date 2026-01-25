@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace VersOne.Epub.Options
@@ -13,9 +12,25 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="SmilReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="SmilReaderOptions" /> class with a predefined set of options.</param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public SmilReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
+            switch (preset)
+            {
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    IgnoreMissingSmilFileError = true;
+                    IgnoreSmilFileIsTooLargeError = true;
+                    IgnoreSmilFileIsNotValidXmlError = true;
+                    IgnoreMissingSmilElementError = true;
+                    IgnoreMissingSmilVersionError = true;
+                    IgnoreUnsupportedSmilVersionError = true;
+                    IgnoreMissingBodyElementError = true;
+                    IgnoreBodyMissingSeqOrParElementsError = true;
+                    IgnoreSeqMissingSeqOrParElementsError = true;
+                    SkipParsWithoutTextElements = true;
+                    SkipTextsWithoutSrcAttributes = true;
+                    SkipAudiosWithoutSrcAttributes = true;
+                    break;
+            }
         }
 
         /// <summary>

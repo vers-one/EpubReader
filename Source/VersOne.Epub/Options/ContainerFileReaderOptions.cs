@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 
 namespace VersOne.Epub.Options
@@ -15,9 +14,16 @@ namespace VersOne.Epub.Options
         /// <param name="preset">
         /// An optional preset to initialize the <see cref="ContainerFileReaderOptions" /> class with a predefined set of options.
         /// </param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public ContainerFileReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
+            switch (preset)
+            {
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    IgnoreMissingContainerFile = true;
+                    IgnoreContainerFileIsNotValidXmlError = true;
+                    IgnoreMissingPackageFilePathError = true;
+                    break;
+            }
         }
 
         /// <summary>

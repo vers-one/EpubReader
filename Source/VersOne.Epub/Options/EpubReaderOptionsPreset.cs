@@ -6,14 +6,15 @@
     public enum EpubReaderOptionsPreset
     {
         /// <summary>
-        /// Ignore EPUB validation errors that are most common in the real-world EPUB books. This is the default option.
+        /// All EPUB validation checks are enabled. If the file doesn't conform to the EPUB standard, an exception will be thrown.
+        /// This is the default option.
         /// </summary>
-        RELAXED = 1,
+        STRICT = 1,
 
         /// <summary>
-        /// All EPUB validation checks are enabled. If the file doesn't conform to the EPUB standard, an exception will be thrown.
+        /// Ignore EPUB validation errors that are most common for the real-world EPUB books.
         /// </summary>
-        STRICT = 2,
+        RELAXED = 2,
 
         /// <summary>
         /// Turn off all EPUB validation checks. EpubReader will try to salvage as much data as possible without throwing any EPUB validation exceptions.

@@ -14,8 +14,14 @@
             switch (preset)
             {
                 case EpubReaderOptionsPreset.RELAXED:
-                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
                     Epub2MetadataIgnoreMissingManifestItem = true;
+                    break;
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    Epub2MetadataIgnoreMissingContent = true;
+                    Epub2MetadataIgnoreMissingManifestItem = true;
+                    Epub2MetadataIgnoreMissingContentFile = true;
+                    Epub3IgnoreMissingContentFile = true;
+                    IgnoreRemoteContentFileError = true;
                     break;
             }
         }

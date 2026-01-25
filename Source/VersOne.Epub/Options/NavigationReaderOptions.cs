@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using VersOne.Epub.Schema;
+﻿using VersOne.Epub.Schema;
 
 namespace VersOne.Epub.Options
 {
@@ -12,9 +11,19 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="NavigationReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="NavigationReaderOptions" /> class with a predefined set of options.</param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public NavigationReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
+            switch (preset)
+            {
+                case EpubReaderOptionsPreset.RELAXED:
+                    SkipNavigationItemsReferencingMissingContent = true;
+                    break;
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    AllowEpub2NavigationItemsWithEmptyTitles = true;
+                    SkipRemoteNavigationItems = true;
+                    SkipNavigationItemsReferencingMissingContent = true;
+                    break;
+            }
         }
 
         /// <summary>

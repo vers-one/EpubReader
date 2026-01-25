@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace VersOne.Epub.Options
 {
@@ -12,9 +11,17 @@ namespace VersOne.Epub.Options
         /// Initializes a new instance of the <see cref="ContentReaderOptions" /> class.
         /// </summary>
         /// <param name="preset">An optional preset to initialize the <see cref="ContentReaderOptions" /> class with a predefined set of options.</param>
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Temporarily ignore unused 'preset' parameter.")]
         public ContentReaderOptions(EpubReaderOptionsPreset? preset = null)
         {
+            switch (preset)
+            {
+                case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    IgnoreRemoteEpub3NavigationFileError = true;
+                    SkipItemsWithDuplicateHrefs = true;
+                    SkipItemsWithDuplicateFilePaths = true;
+                    SkipItemsWithDuplicateUrls = true;
+                    break;
+            }
         }
 
         /// <summary>
