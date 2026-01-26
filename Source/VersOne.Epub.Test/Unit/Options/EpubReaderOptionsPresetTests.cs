@@ -47,6 +47,8 @@ namespace VersOne.Epub.Test.Unit.Options
                 },
                 ContentReaderOptions = new()
                 {
+                    IgnoreMissingFileError = false,
+                    IgnoreFileIsTooLargeError = false,
                     IgnoreRemoteEpub3NavigationFileError = false,
                     SkipItemsWithDuplicateHrefs = false,
                     SkipItemsWithDuplicateFilePaths = false,
@@ -165,6 +167,8 @@ namespace VersOne.Epub.Test.Unit.Options
                 },
                 ContentReaderOptions = new()
                 {
+                    IgnoreMissingFileError = false,
+                    IgnoreFileIsTooLargeError = false,
                     IgnoreRemoteEpub3NavigationFileError = false,
                     SkipItemsWithDuplicateHrefs = false,
                     SkipItemsWithDuplicateFilePaths = false,
@@ -283,6 +287,8 @@ namespace VersOne.Epub.Test.Unit.Options
                 },
                 ContentReaderOptions = new()
                 {
+                    IgnoreMissingFileError = true,
+                    IgnoreFileIsTooLargeError = true,
                     IgnoreRemoteEpub3NavigationFileError = true,
                     SkipItemsWithDuplicateHrefs = true,
                     SkipItemsWithDuplicateFilePaths = true,

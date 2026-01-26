@@ -129,56 +129,134 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             Assert.Equal(BYTE_FILE_CONTENT, byteContent);
         }
 
-        [Fact(DisplayName = "LoadContentAsText should throw EpubContentException if the file is missing in the EPUB archive")]
-        public void LoadContentAsTextWithMissingFileTest()
+        [Fact(DisplayName = "LoadContentAsText should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
+        public void LoadContentAsTextWithMissingFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             Assert.Throws<EpubContentException>(() => epubLocalContentLoader.LoadContentAsText(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentException if the file is missing in the EPUB archive")]
-        public async Task LoadContentAsTextAsyncWithMissingFileTest()
+        [Fact(DisplayName = "LoadContentAsText should treat missing files as empty files when IgnoreMissingFileError = true")]
+        public void LoadContentAsTextWithMissingFileAndIgnoreMissingFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreMissingFileError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            string textContent = epubLocalContentLoader.LoadContentAsText(TextFileRefMetadata);
+            Assert.Equal(String.Empty, textContent);
+        }
+
+        [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
+        public async Task LoadContentAsTextAsyncWithMissingFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             await Assert.ThrowsAsync<EpubContentException>(() => epubLocalContentLoader.LoadContentAsTextAsync(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsBytes should throw EpubContentException if the file is missing in the EPUB archive")]
-        public void LoadContentAsBytesWithMissingFileTest()
+        [Fact(DisplayName = "LoadContentAsTextAsync should treat missing files as empty files when IgnoreMissingFileError = true")]
+        public async Task LoadContentAsTextAsyncWithMissingFileAndIgnoreMissingFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreMissingFileError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            string textContent = await epubLocalContentLoader.LoadContentAsTextAsync(TextFileRefMetadata);
+            Assert.Equal(String.Empty, textContent);
+        }
+
+        [Fact(DisplayName = "LoadContentAsBytes should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
+        public void LoadContentAsBytesWithMissingFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             Assert.Throws<EpubContentException>(() => epubLocalContentLoader.LoadContentAsBytes(ByteFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is missing in the EPUB archive")]
-        public async Task LoadContentAsBytesAsyncWithMissingFileTest()
+        [Fact(DisplayName = "LoadContentAsBytes should treat missing files as empty files when IgnoreMissingFileError = true")]
+        public void LoadContentAsBytesWithMissingFileAndIgnoreMissingFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreMissingFileError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            byte[] byteContent = epubLocalContentLoader.LoadContentAsBytes(ByteFileRefMetadata);
+            Assert.Equal([], byteContent);
+        }
+
+        [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
+        public async Task LoadContentAsBytesAsyncWithMissingFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             await Assert.ThrowsAsync<EpubContentException>(() => epubLocalContentLoader.LoadContentAsBytesAsync(ByteFileRefMetadata));
         }
 
-        [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is missing in the EPUB archive")]
-        public void GetContentStreamWithMissingFileTest()
+        [Fact(DisplayName = "LoadContentAsBytesAsync should treat missing files as empty files when IgnoreMissingFileError = true")]
+        public async Task LoadContentAsBytesAsyncWithMissingFileAndIgnoreMissingFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreMissingFileError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            byte[] byteContent = await epubLocalContentLoader.LoadContentAsBytesAsync(ByteFileRefMetadata);
+            Assert.Equal([], byteContent);
+        }
+
+        [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
+        public void GetContentStreamWithMissingFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             Assert.Throws<EpubContentException>(() => epubLocalContentLoader.GetContentStream(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentException if the file is missing in the EPUB archive")]
-        public async Task GetContentStreamAsyncWithMissingFileTest()
+        [Fact(DisplayName = "GetContentStream should treat missing files as empty files when IgnoreMissingFileError = true")]
+        public void GetContentStreamWithMissingFileAndIgnoreMissingFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreMissingFileError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            using Stream contentStream = epubLocalContentLoader.GetContentStream(TextFileRefMetadata);
+            Assert.Equal(0, contentStream.Length);
+        }
+
+        [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
+        public async Task GetContentStreamAsyncWithMissingFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             await Assert.ThrowsAsync<EpubContentException>(() => epubLocalContentLoader.GetContentStreamAsync(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsText should throw EpubContentException if the file is larger than 2 GB")]
-        public void LoadContentAsTextWithLargeFileTest()
+        [Fact(DisplayName = "GetContentStreamAsync should treat missing files as empty files when IgnoreMissingFileError = true")]
+        public async Task GetContentStreamAsyncWithMissingFileAndIgnoreMissingFileErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreMissingFileError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            using Stream contentStream = await epubLocalContentLoader.GetContentStreamAsync(TextFileRefMetadata);
+            Assert.Equal(0, contentStream.Length);
+        }
+
+        [Fact(DisplayName = "LoadContentAsText should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
+        public void LoadContentAsTextWithLargeFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
@@ -186,8 +264,22 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             Assert.Throws<EpubContentException>(() => epubLocalContentLoader.LoadContentAsText(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentException if the file is larger than 2 GB")]
-        public async Task LoadContentAsTextAsyncWithLargeFileTest()
+        [Fact(DisplayName = "LoadContentAsText should treat files larger than 2 GB as empty files when IgnoreFileIsTooLargeError = true")]
+        public void LoadContentAsTextWithLargeFileAndIgnoreFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreFileIsTooLargeError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            string textContent = epubLocalContentLoader.LoadContentAsText(TextFileRefMetadata);
+            Assert.Equal(String.Empty, textContent);
+        }
+
+        [Fact(DisplayName = "LoadContentAsTextAsync should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
+        public async Task LoadContentAsTextAsyncWithLargeFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
@@ -195,8 +287,22 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             await Assert.ThrowsAsync<EpubContentException>(() => epubLocalContentLoader.LoadContentAsTextAsync(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsBytes should throw EpubContentException if the file is larger than 2 GB")]
-        public void LoadContentAsBytesWithLargeFileTest()
+        [Fact(DisplayName = "LoadContentAsTextAsync should treat files larger than 2 GB as empty files when IgnoreFileIsTooLargeError = true")]
+        public async Task LoadContentAsTextAsyncWithLargeFileAndIgnoreFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreFileIsTooLargeError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            string textContent = await epubLocalContentLoader.LoadContentAsTextAsync(TextFileRefMetadata);
+            Assert.Equal(String.Empty, textContent);
+        }
+
+        [Fact(DisplayName = "LoadContentAsBytes should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
+        public void LoadContentAsBytesWithLargeFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(BYTE_FILE_PATH, new Test4GbZipFileEntry());
@@ -204,8 +310,22 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             Assert.Throws<EpubContentException>(() => epubLocalContentLoader.LoadContentAsBytes(ByteFileRefMetadata));
         }
 
-        [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is larger than 2 GB")]
-        public async Task LoadContentAsBytesAsyncWithLargeFileTest()
+        [Fact(DisplayName = "LoadContentAsBytes should treat files larger than 2 GB as empty files when IgnoreFileIsTooLargeError = true")]
+        public void LoadContentAsBytesWithLargeFileAndIgnoreFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(BYTE_FILE_PATH, new Test4GbZipFileEntry());
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreFileIsTooLargeError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            byte[] byteContent = epubLocalContentLoader.LoadContentAsBytes(ByteFileRefMetadata);
+            Assert.Equal([], byteContent);
+        }
+
+        [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
+        public async Task LoadContentAsBytesAsyncWithLargeFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(BYTE_FILE_PATH, new Test4GbZipFileEntry());
@@ -213,8 +333,22 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             await Assert.ThrowsAsync<EpubContentException>(() => epubLocalContentLoader.LoadContentAsBytesAsync(ByteFileRefMetadata));
         }
 
-        [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is larger than 2 GB")]
-        public void GetContentStreamWithLargeFileTest()
+        [Fact(DisplayName = "LoadContentAsBytesAsync should treat files larger than 2 GB as empty files when IgnoreFileIsTooLargeError = true")]
+        public async Task LoadContentAsBytesAsyncWithLargeFileAndIgnoreFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(BYTE_FILE_PATH, new Test4GbZipFileEntry());
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreFileIsTooLargeError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            byte[] byteContent = await epubLocalContentLoader.LoadContentAsBytesAsync(ByteFileRefMetadata);
+            Assert.Equal([], byteContent);
+        }
+
+        [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
+        public void GetContentStreamWithLargeFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
@@ -222,13 +356,41 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             Assert.Throws<EpubContentException>(() => epubLocalContentLoader.GetContentStream(TextFileRefMetadata));
         }
 
-        [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentException if the file is larger than 2 GB")]
-        public async Task GetContentStreamAsyncWithLargeFileTest()
+        [Fact(DisplayName = "GetContentStream should treat files larger than 2 GB as empty files when IgnoreFileIsTooLargeError = true")]
+        public void GetContentStreamWithLargeFileAndIgnoreFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreFileIsTooLargeError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            using Stream contentStream = epubLocalContentLoader.GetContentStream(TextFileRefMetadata);
+            Assert.Equal(0, contentStream.Length);
+        }
+
+        [Fact(DisplayName = "GetContentStreamAsync should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
+        public async Task GetContentStreamAsyncWithLargeFileAndDefaultOptionsTest()
         {
             TestZipFile testZipFile = new();
             testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile);
             await Assert.ThrowsAsync<EpubContentException>(() => epubLocalContentLoader.GetContentStreamAsync(TextFileRefMetadata));
+        }
+
+        [Fact(DisplayName = "GetContentStreamAsync should treat files larger than 2 GB as empty files when IgnoreFileIsTooLargeError = true")]
+        public async Task GetContentStreamAsyncWithLargeFileAndIgnoreFileIsTooLargeErrorTest()
+        {
+            TestZipFile testZipFile = new();
+            testZipFile.AddEntry(TEXT_FILE_PATH, new Test4GbZipFileEntry());
+            ContentReaderOptions contentReaderOptions = new()
+            {
+                IgnoreFileIsTooLargeError = true
+            };
+            EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
+            using Stream contentStream = await epubLocalContentLoader.GetContentStreamAsync(TextFileRefMetadata);
+            Assert.Equal(0, contentStream.Length);
         }
 
         [Fact(DisplayName = "LoadContentAsText should throw ObjectDisposedException if the EPUB file is disposed")]

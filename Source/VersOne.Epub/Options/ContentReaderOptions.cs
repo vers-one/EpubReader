@@ -16,6 +16,8 @@ namespace VersOne.Epub.Options
             switch (preset)
             {
                 case EpubReaderOptionsPreset.IGNORE_ALL_ERRORS:
+                    IgnoreMissingFileError = true;
+                    IgnoreFileIsTooLargeError = true;
                     IgnoreRemoteEpub3NavigationFileError = true;
                     SkipItemsWithDuplicateHrefs = true;
                     SkipItemsWithDuplicateFilePaths = true;
@@ -25,10 +27,49 @@ namespace VersOne.Epub.Options
         }
 
         /// <summary>
-        /// Occurs when a local content file is listed in the EPUB manifest but the content reader is unable to find it in the EPUB archive.
+        /// <para>
+        /// Occurs when a local content file is listed in the EPUB manifest, but the content reader is unable to find it in the EPUB archive.
         /// This event lets the application to be notified of such errors and to decide how EPUB content reader should handle the missing file.
+        /// </para>
+        /// <para>
+        /// Setting <see cref="IgnoreMissingFileError" /> property to <c>true</c> does not prevent this event from being fired.
+        /// </para>
         /// </summary>
         public event EventHandler<ContentFileMissingEventArgs>? ContentFileMissing;
+
+        /// <summary>
+        /// <para>
+        /// Gets or sets a value indicating whether the content reader should ignore the error when a local content file is listed in the EPUB manifest,
+        /// but the reader is unable to find it in the EPUB archive.
+        /// </para>
+        /// <para>
+        /// If it's set to <c>false</c> and the local content file referenced by a manifest item is missing,
+        /// and the exception was not suppressed by the <see cref="ContentFileMissing" /> event handler,
+        /// then the "EPUB parsing error: file ... was not found in the EPUB file." exception will be thrown.
+        /// This exception can be suppressed by setting this property to <c>true</c>, in which case the content reader will ignore the error
+        /// and will treat the missing content file as an existing empty file.
+        /// </para>
+        /// <para>
+        /// Default value is <c>false</c>.
+        /// </para>
+        /// </summary>
+        public bool IgnoreMissingFileError { get; set; }
+
+        /// <summary>
+        /// <para>
+        /// Gets or sets a value indicating whether the content reader should ignore the error when a local content file is larger than 2 GB.
+        /// </para>
+        /// <para>
+        /// If it's set to <c>false</c> and the local content file referenced by a manifest item is larger than 2 GB,
+        /// then the "EPUB parsing error: file ... is larger than 2 GB." exception will be thrown.
+        /// This exception can be suppressed by setting this property to <c>true</c>, in which case the content reader will ignore the error
+        /// and will treat the large content file as an empty file.
+        /// </para>
+        /// <para>
+        /// Default value is <c>false</c>.
+        /// </para>
+        /// </summary>
+        public bool IgnoreFileIsTooLargeError { get; set; }
 
         /// <summary>
         /// <para>
