@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VersOne.Epub.ConsoleDemo
 {
@@ -9,9 +10,13 @@ namespace VersOne.Epub.ConsoleDemo
             using (EpubBookRef bookRef = EpubReader.OpenBook(filePath))
             {
                 Console.WriteLine("Navigation:");
-                foreach (EpubNavigationItemRef navigationItemRef in bookRef.GetNavigation())
+                List<EpubNavigationItemRef>? navigation = bookRef.GetNavigation();
+                if (navigation != null)
                 {
-                    PrintNavigationItem(navigationItemRef, 0);
+                    foreach (EpubNavigationItemRef navigationItemRef in navigation)
+                    {
+                        PrintNavigationItem(navigationItemRef, 0);
+                    }
                 }
             }
             Console.WriteLine();

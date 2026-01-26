@@ -19,13 +19,13 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Install .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9
+          dotnet-version: 10
       - name: Restore dependencies
         run: dotnet restore .\Source\VersOne.Epub\VersOne.Epub.csproj
       - name: Install DocFX
@@ -35,7 +35,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: './Documentation/docfx_output'
       - name: Deploy to GitHub Pages

@@ -40,10 +40,14 @@ namespace VersOne.Epub.ConsoleDemo
 
         private static void RunFileExample(Action<string> example)
         {
-            Console.Write("Enter the path to the EPUB file: ");
-            string filePath = Console.ReadLine();
+            string? filePath = null;
+            while (filePath == null)
+            {
+                Console.Write("Enter the path to the EPUB file: ");
+                filePath = Console.ReadLine();
+            }
             Console.WriteLine();
-            if (File.Exists(filePath) && Path.GetExtension(filePath).ToLower() == ".epub")
+            if (File.Exists(filePath) && Path.GetExtension(filePath).Equals(".epub", StringComparison.CurrentCultureIgnoreCase))
             {
                 try
                 {
@@ -65,8 +69,12 @@ namespace VersOne.Epub.ConsoleDemo
 
         private static void RunDirectoryExample(Action<string> example)
         {
-            Console.Write("Enter the path to the directory with EPUB files: ");
-            string directoryPath = Console.ReadLine();
+            string? directoryPath = null;
+            while (directoryPath == null)
+            {
+                Console.Write("Enter the path to the directory with EPUB files: ");
+                directoryPath = Console.ReadLine();
+            }
             Console.WriteLine();
             if (Directory.Exists(directoryPath))
             {

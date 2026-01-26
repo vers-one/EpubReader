@@ -89,10 +89,14 @@ namespace VersOne.Epub.ConsoleDemo
                 Console.WriteLine($"Total files: {bookRef.Content.AllFiles.Local.Count}, HTML files: {bookRef.Content.Html.Local.Count}," +
                     $" CSS files: {bookRef.Content.Css.Local.Count}, image files: {bookRef.Content.Images.Local.Count}, font files: {bookRef.Content.Fonts.Local.Count}.");
                 Console.WriteLine($"Reading order: {bookRef.GetReadingOrder().Count} file(s).");
-                Console.WriteLine("Navigation:");
-                foreach (EpubNavigationItemRef navigationItemRef in bookRef.GetNavigation())
+                List<EpubNavigationItemRef>? navigation = bookRef.GetNavigation();
+                if (navigation != null && navigation.Count > 0)
                 {
-                    PrintNavigationItem(navigationItemRef, 0);
+                    Console.WriteLine("Navigation:");
+                    foreach (EpubNavigationItemRef navigationItemRef in navigation)
+                    {
+                        PrintNavigationItem(navigationItemRef, 0);
+                    }
                 }
             }
             catch (Exception exception)

@@ -189,7 +189,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             };
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
             byte[] byteContent = epubLocalContentLoader.LoadContentAsBytes(ByteFileRefMetadata);
-            Assert.Equal([], byteContent);
+            Assert.Equal(Array.Empty<byte>(), byteContent);
         }
 
         [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
@@ -210,7 +210,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             };
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
             byte[] byteContent = await epubLocalContentLoader.LoadContentAsBytesAsync(ByteFileRefMetadata);
-            Assert.Equal([], byteContent);
+            Assert.Equal(Array.Empty<byte>(), byteContent);
         }
 
         [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is missing in the EPUB archive and no ContentReaderOptions are provided")]
@@ -321,7 +321,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             };
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
             byte[] byteContent = epubLocalContentLoader.LoadContentAsBytes(ByteFileRefMetadata);
-            Assert.Equal([], byteContent);
+            Assert.Equal(Array.Empty<byte>(), byteContent);
         }
 
         [Fact(DisplayName = "LoadContentAsBytesAsync should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]
@@ -344,7 +344,7 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
             };
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
             byte[] byteContent = await epubLocalContentLoader.LoadContentAsBytesAsync(ByteFileRefMetadata);
-            Assert.Equal([], byteContent);
+            Assert.Equal(Array.Empty<byte>(), byteContent);
         }
 
         [Fact(DisplayName = "GetContentStream should throw EpubContentException if the file is larger than 2 GB and no ContentReaderOptions are provided")]

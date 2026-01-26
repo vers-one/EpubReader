@@ -13,19 +13,19 @@ jobs:
       Configuration: Debug
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Install .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 9
+          dotnet-version: 10
       - name: Build test project and its dependencies
         run: dotnet build Source\VersOne.Epub.Test -c $env:Configuration
       - name: Run unit tests
         run: dotnet test Source\VersOne.Epub.Test --filter Unit --no-restore --collect:"XPlat Code Coverage" --settings Source\VersOne.Epub.Test\coverlet.runsettings
       - name: Upload code coverage result to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Run integration tests
