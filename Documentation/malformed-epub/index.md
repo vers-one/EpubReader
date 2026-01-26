@@ -1,8 +1,91 @@
 # Handling Malformed EPUB files
 
-EpubReader has a few configuration options to handle the most common cases of malformed EPUB files (i.e. the files that deviate from the EPUB specification). This can be done by creating an instance of the [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) class, setting the appropriate properties (see the sections below for examples), and passing it to one of the methods of the [`EpubReader`](xref:VersOne.Epub.EpubReader) class.
+EpubReader has configuration options to handle malformed EPUB files (i.e. the files that deviate from the EPUB specification). This can be done by creating an instance of the [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) class, setting the appropriate properties (see the sections below for examples), and passing it to one of the methods of the [`EpubReader`](xref:VersOne.Epub.EpubReader) class.
 
-## Missing TOC attribute in EPUB 2 spine
+Alternatively, you can use one of the three configuration presets available via the [`EpubReaderOptionsPreset`](xref:VersOne.Epub.Options.EpubReaderOptionsPreset) enumeration:
+* `EpubReaderOptionsPreset.STRICT` (default) — all EPUB validations are enabled. If a EPUB book fails any of the EPUB validations, an exception will be thrown.
+* `EpubReaderOptionsPreset.RELAXED` — disables EPUB validation errors that are most common for the real-world EPUB books.
+* `EpubReaderOptionsPreset.IGNORE_ALL_ERRORS` — disables all EPUB validation checks. EpubReader will try to salvage as much data as possible without throwing any EPUB validation exceptions.
+
+Keep in mind that those options and presets affect only EPUB validation checks, but don't prevent EpubReader from throwing other exceptions. For example, if you're calling the [`EpubReader.ReadBook(filePath, EpubReaderOptionsPreset.IGNORE_ALL_ERRORS`)](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_ReadBook_System_String_VersOne_Epub_Options_EpubReaderOptionsPreset_) method with the `filePath` value pointing to a non-existent file, EpubReader will still throw a [`FileNotFoundException`](xref:System.IO.FileNotFoundException).
+
+If you are using one of the `OpenBook` or `ReadBook` method overloads of the [`EpubReader`](xref:VersOne.Epub.EpubReader) class without the [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) or the [`EpubReaderOptionsPreset`](xref:VersOne.Epub.Options.EpubReaderOptionsPreset) parameter, EpubReader will use the `EpubReaderOptionsPreset.STRICT` preset to handle the book. In this case, the result (either [`EpubBook`](xref:VersOne.Epub.EpubBook) or [`EpubBookRef`](xref:VersOne.Epub.EpubBookRef), depending on the method) is guaranteed not to be `null`. If you are providing a preset or a custom [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) configuration, EpubReader may return `null`, if none of the data within the book could be salvaged.
+
+## `EpubReaderOptionsPreset` examples
+
+### Using `EpubReaderOptionsPreset.STRICT` preset
+
+```csharp
+try
+{
+    // Load the book into memory and enable all EPUB validations.
+    // Because we are using the STRICT (default) preset, the book is guaranteed not to be null.
+    EpubBook book = EpubReader.ReadBook("test.epub");
+}
+catch (EpubReaderException ex)
+{
+    // The book failed one of the EPUB validations.
+}
+catch (Exception ex)
+{
+    // An exception unrelated to EPUB validations has occurred.
+}
+```
+
+### Using `EpubReaderOptionsPreset.RELAXED` preset
+
+```csharp
+try
+{
+    // Load the book into memory and ignore common EPUB validation errors.
+    EpubBook? book = EpubReader.ReadBook("test.epub", EpubReaderOptionsPreset.RELAXED);
+    if (book == null)
+    {
+        // None of the book's data could be salvaged.
+    }
+}
+catch (EpubReaderException ex)
+{
+    // The book failed one of the EPUB validations not disabled by the preset.
+}
+catch (Exception ex)
+{
+    // An exception unrelated to EPUB validations has occurred.
+}
+```
+
+### Using `EpubReaderOptionsPreset.IGNORE_ALL_ERRORS` preset
+
+```csharp
+try
+{
+    // Load the book into memory and ignore all EPUB validation errors.
+    EpubBook? book = EpubReader.ReadBook("test.epub", EpubReaderOptionsPreset.IGNORE_ALL_ERRORS);
+    if (book == null)
+    {
+        // None of the book's data could be salvaged.
+    }
+}
+catch (Exception ex)
+{
+    // An exception unrelated to EPUB validations has occurred.
+}
+```
+
+## `EpubReaderOptions` examples
+
+If none of the [`EpubReaderOptionsPreset`](xref:VersOne.Epub.Options.EpubReaderOptionsPreset) presets fit your needs, you can customize the behavior of EpubReader by creating your own instance of the [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) class and passing it to one of the methods of the [`EpubReader`](xref:VersOne.Epub.EpubReader) class. You can also use one of the [`EpubReaderOptionsPreset`](xref:VersOne.Epub.Options.EpubReaderOptionsPreset) presets as the basis for a custom [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) instance. For example:
+
+```csharp
+EpubReaderOptions options = new(EpubReaderOptionsPreset.RELAXED);
+options.BookCoverReaderOptions.Epub3IgnoreMissingContentFile = true;
+```
+
+If none of the presets are specified when creating an instance of the [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions) class, the `EpubReaderOptionsPreset.STRICT` preset is used as the basis.
+
+The following sections provide a few examples of creating custom [`EpubReaderOptions`](xref:VersOne.Epub.Options.EpubReaderOptions).
+
+### Missing TOC attribute in EPUB 2 spine
 
 The `spine` element of the EPUB manifest contains the `toc` attribute which is [not required](https://www.w3.org/TR/epub-33/#sec-pkg-spine) for EPUB 3 books but is [required](https://idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4) for EPUB 2 books. There are [some EPUB 2 books](https://github.com/vers-one/EpubReader/issues/41) that have the `toc` attribute missing which causes EpubReader to throw the *"Incorrect EPUB spine: TOC is missing"* exception.
 
@@ -18,7 +101,7 @@ EpubReaderOptions options = new()
 };
 ```
 
-## Invalid EPUB manifest items
+### Invalid EPUB manifest items
 
 The [`item` element](https://www.w3.org/TR/epub-33/#sec-item-elem) within the EPUB manifest has three required attributes: `id`, `href`, and `media-type`. There are [some EPUB books](https://github.com/vers-one/EpubReader/issues/47) that have at least one of those three attributes missing which causes EpubReader to throw the *"Incorrect EPUB manifest: item ... is missing"* exception.
 
@@ -34,7 +117,7 @@ EpubReaderOptions options = new()
 };
 ```
 
-## Missing content files
+### Missing content files
 
 The [`item` element](https://www.w3.org/TR/epub-33/#sec-item-elem) within the EPUB manifest has a required `href` attribute which points to a content file in the EPUB archive. There are [some EPUB books](https://github.com/vers-one/EpubReader/issues/25) that declare content files in the EPUB manifest which do not exist in the actual EPUB archive. This causes EpubReader to throw the *"EPUB parsing error: file ... was not found in the EPUB file"* exception. Such exception is thrown immediately, if application uses [`EpubReader.ReadBook`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_ReadBook_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) / [`EpubReader.ReadBookAsync`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_ReadBookAsync_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) methods because they try to load the whole content of the book into memory. [`EpubReader.OpenBook`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_OpenBook_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) and [`EpubReader.OpenBookAsync`](xref:VersOne.Epub.EpubReader#VersOne_Epub_EpubReader_OpenBookAsync_System_IO_Stream_VersOne_Epub_Options_EpubReaderOptions_) methods don't load the content, so the exception will be thrown only during an attempt to call any of those methods for a missing file:
 * [`EpubLocalContentFileRef`](xref:VersOne.Epub.EpubLocalContentFileRef) class:
@@ -50,9 +133,9 @@ The [`item` element](https://www.w3.org/TR/epub-33/#sec-item-elem) within the EP
   * [`ReadContent`](xref:VersOne.Epub.EpubLocalTextContentFileRef#VersOne_Epub_EpubLocalTextContentFileRef_ReadContent)
   * [`ReadContentAsync`](xref:VersOne.Epub.EpubLocalTextContentFileRef#VersOne_Epub_EpubLocalTextContentFileRef_ReadContentAsync)
 
-[`ContentReaderOptions.ContentFileMissing`](xref:VersOne.Epub.Options.ContentReaderOptions#VersOne_Epub_Options_ContentReaderOptions_ContentFileMissing) event can be used to detect those issues and to instruct EpubReader how to handle missing content files. Application can choose one of the following options:
+[`ContentReaderOptions.ContentFileMissing`](xref:VersOne.Epub.Options.ContentReaderOptions#VersOne_Epub_Options_ContentReaderOptions_ContentFileMissing) event can be used to detect those issues and to instruct EpubReader how to handle missing content files. Alternatively, the [`ContentReaderOptions.IgnoreMissingFileError`](xref:VersOne.Epub.Options.ContentReaderOptions#VersOne_Epub_Options_ContentReaderOptions_IgnoreMissingFileError) property can be used to suppress the error. Application can choose one of the following options:
 
-### 1. Get notified about missing content files
+#### 1. Get notified about missing content files
 
 ```csharp
 EpubReaderOptions options = new();
@@ -64,19 +147,24 @@ options.ContentReaderOptions.ContentFileMissing += (sender, e) =>
 
 This will let application to be notified about the missing content file but will not prevent the exception from being thrown by the EpubReader.
 
-### 2. Suppress exceptions
+#### 2. Suppress exceptions
 
 ```csharp
 EpubReaderOptions options = new();
+
+// Option 2.1 (get notified of missing files):
 options.ContentReaderOptions.ContentFileMissing += (sender, e) =>
 {
     e.SuppressException = true;
 };
+
+// Option 2.2 (if application doesn't need to be notified of missing files):
+options.ContentReaderOptions.IgnoreMissingFileError = true;
 ```
 
 This will suppress all missing content file exceptions from being thrown. The EpubReader will treat missing content files as existing but empty files.
 
-### 3. Provide a replacement content
+#### 3. Provide a replacement content
 
 ```csharp
 EpubReaderOptions options = new();
@@ -91,7 +179,7 @@ options.ContentReaderOptions.ContentFileMissing += (sender, e) =>
 
 This will let application to substitute the content of a missing file with another content. The value of the [`ReplacementContentStream`](xref:VersOne.Epub.Options.ContentFileMissingEventArgs#VersOne_Epub_Options_ContentFileMissingEventArgs_ReplacementContentStream) property can be any [`Stream`](xref:System.IO.Stream). The content of the stream is read only once, after which it will be cached in the EPUB content reader. The stream will be closed after its content is fully read.
 
-## Missing content attribute for EPUB 2 NCX navigation points
+### Missing content attribute for EPUB 2 NCX navigation points
 
 The `navPoint` element within the [EPUB 2 NCX navigation document](https://daisy.org/activities/standards/daisy/daisy-3/z39-86-2005-r2012-specifications-for-the-digital-talking-book/#NCX) must contain a nested `content` element pointing to a content file associated with this navigation item. There are some EPUB 2 books that have navigation points without a nested `content` element which causes EpubReader to throw the *"EPUB parsing error: navigation point X should contain content"* exception.
 
@@ -107,7 +195,7 @@ EpubReaderOptions options = new()
 };
 ```
 
-## Handling XML 1.1 schema files
+### Handling XML 1.1 schema files
 
 .NET [doesn't have](https://stackoverflow.com/questions/17231675/does-net-4-5-support-xml-1-1-yet-for-characters-invalid-in-xml-1-0) a built-in support for XML 1.1 files (only XML 1.0 files are currently supported). There are [some EPUB books](https://github.com/vers-one/EpubReader/issues/34) that have at least one of their schema files (typically the OPF package file) saved in XML 1.1 format, even though they don't use any XML 1.1 features. This causes EpubReader to throw an `XmlException` with the *"Version number '1.1' is invalid"* message.
 
