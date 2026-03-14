@@ -47,7 +47,7 @@ namespace VersOne.Epub.Internal
             return Task.FromResult(GetContentFileEntry(contentFileRefMetadata).Open());
         }
 
-        private IZipFileEntry GetContentFileEntry(EpubContentFileRefMetadata contentFileRefMetadata)
+        public IZipFileEntry GetContentFileEntry(EpubContentFileRefMetadata contentFileRefMetadata)
         {
             if (replacementContentFileEntries.TryGetValue(contentFileRefMetadata.Key, out ReplacementContentFileEntry? existingReplacementContentFileEntry))
             {

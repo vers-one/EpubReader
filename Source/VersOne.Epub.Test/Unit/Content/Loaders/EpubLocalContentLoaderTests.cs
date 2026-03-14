@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Internal;
 using VersOne.Epub.Options;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -462,11 +463,15 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         public void LoadContentWithMissingFileAndReplacementContentStreamSetTest()
         {
             ContentReaderOptions contentReaderOptions = new();
-            contentReaderOptions.ContentFileMissing += (sender, e) => e.ReplacementContentStream = new MemoryStream(Encoding.UTF8.GetBytes(TEXT_FILE_CONTENT));
+            byte[] replacementFileContent = Encoding.UTF8.GetBytes(TEXT_FILE_CONTENT);
+            contentReaderOptions.ContentFileMissing += (sender, e) => e.ReplacementContentStream = new MemoryStream(replacementFileContent);
             TestZipFile testZipFile = new();
             EpubLocalContentLoader epubLocalContentLoader = CreateEpubLocalContentLoader(testZipFile, contentReaderOptions);
             string textContent = epubLocalContentLoader.LoadContentAsText(TextFileRefMetadata);
             Assert.Equal(TEXT_FILE_CONTENT, textContent);
+            IZipFileEntry replacementFileContentEntry = epubLocalContentLoader.GetContentFileEntry(TextFileRefMetadata);
+            Assert.Equal(replacementFileContent.Length, replacementFileContentEntry.Length);
+            Assert.Equal(replacementFileContent.Length, replacementFileContentEntry.CompressedLength);
         }
 
         [Fact(DisplayName = "Using replacement content multiple times while loading the same content file should succeed")]

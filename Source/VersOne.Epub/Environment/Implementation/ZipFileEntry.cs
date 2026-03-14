@@ -15,6 +15,8 @@ namespace VersOne.Epub.Environment.Implementation
 
         public long Length => zipArchiveEntry.Length;
 
+        public long CompressedLength => zipArchiveEntry.CompressedLength;
+
         public Stream Open()
         {
             return zipArchiveEntry.Open();

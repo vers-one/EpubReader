@@ -19,6 +19,8 @@ namespace VersOne.Epub
 
         public long Length => replacementStreamContent.Length;
 
+        public long CompressedLength => replacementStreamContent.Length;
+
         public Stream Open()
         {
             return new MemoryStream(replacementStreamContent);
