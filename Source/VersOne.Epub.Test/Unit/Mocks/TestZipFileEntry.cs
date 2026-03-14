@@ -45,6 +45,8 @@ namespace VersOne.Epub.Test.Unit.Mocks
             }
         }
 
+        public long CompressedLength => Length;
+
         public Stream Open()
         {
             if (memoryStream != null)
