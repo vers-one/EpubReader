@@ -8,6 +8,12 @@ namespace VersOne.Epub.Test.Unit.Mocks
         private readonly byte[]? byteContent;
         private readonly MemoryStream? memoryStream;
 
+        public TestZipFileEntry()
+        {
+            byteContent = [];
+            memoryStream = null;
+        }
+
         public TestZipFileEntry(string textContent)
         {
             byteContent = Encoding.UTF8.GetBytes(textContent);

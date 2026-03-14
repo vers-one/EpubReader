@@ -182,12 +182,14 @@ namespace VersOne.Epub.Test.Unit.TestData
 
         private static EpubLocalTextContentFileRef CreateLocalTextContentFileRef(string fileName, EpubContentType contentType, string contentMimeType)
         {
-            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), $"{CONTENT_DIRECTORY_PATH}/{fileName}", new TestEpubContentLoader());
+            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), $"{CONTENT_DIRECTORY_PATH}/{fileName}", new TestZipFileEntry(),
+                new TestEpubContentLoader());
         }
 
         private static EpubLocalByteContentFileRef CreateLocalByteContentFileRef(string fileName, EpubContentType contentType, string contentMimeType)
         {
-            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), $"{CONTENT_DIRECTORY_PATH}/{fileName}", new TestEpubContentLoader());
+            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), $"{CONTENT_DIRECTORY_PATH}/{fileName}", new TestZipFileEntry(),
+                new TestEpubContentLoader());
         }
 
         private static EpubRemoteTextContentFileRef CreateRemoteTextContentFileRef(string href, EpubContentType contentType, string contentMimeType)

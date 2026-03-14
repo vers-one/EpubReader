@@ -254,6 +254,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                     (
                         metadata: new EpubContentFileRefMetadata(COVER_FILE_NAME, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE),
                         filePath: COVER_FILE_PATH,
+                        contentFileEntry: new TestZipFileEntry(coverFileContent),
                         epubContentLoader: new TestEpubContentLoader(coverFileContent)
                     )
                 )
@@ -263,35 +264,35 @@ namespace VersOne.Epub.Test.Unit.Entities
         private static EpubBookRef CreateEpubBookRefWithReadingOrder(string htmlFileName, string htmlFilePath)
         {
             EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
-            List<EpubLocalTextContentFileRef> htmlLocal = new()
-            {
+            List<EpubLocalTextContentFileRef> htmlLocal =
+            [
                 htmlFileRef
-            };
+            ];
             return CreateEpubBookRef
             (
                 epubFile: new TestZipFile(),
                 epubVersion: EpubVersion.EPUB_3,
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "item-1",
                             href: htmlFileName,
                             mediaType: "application/xhtml+xml"
                         )
-                    }
+                    ]
                 ),
                 spine: new EpubSpine
                 (
-                    items: new List<EpubSpineItemRef>()
-                    {
+                    items:
+                    [
                         new
                         (
                             idRef: "item-1"
                         )
-                    }
+                    ]
                 ),
                 content: new EpubContentRef
                 (
@@ -304,10 +305,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         {
             EpubLocalTextContentFileRef htmlFileRef = CreateTestHtmlFileRef(htmlFileName, htmlFilePath);
             EpubLocalTextContentFileRef navigationFileRef = CreateTestHtmlFileRef("toc.html", $"{CONTENT_DIRECTORY_PATH}/toc.html");
-            List<EpubLocalTextContentFileRef> htmlLocal = new()
-            {
+            List<EpubLocalTextContentFileRef> htmlLocal =
+            [
                 htmlFileRef
-            };
+            ];
             return CreateEpubBookRef
             (
                 epubFile: new TestZipFile(),
@@ -315,15 +316,15 @@ namespace VersOne.Epub.Test.Unit.Entities
                 epub3NavDocument: new Epub3NavDocument
                 (
                     filePath: navigationFileRef.FilePath,
-                    navs: new List<Epub3Nav>()
-                    {
+                    navs:
+                    [
                         new
                         (
                             type: Epub3StructuralSemanticsProperty.TOC,
                             ol: new Epub3NavOl
                             (
-                                lis: new List<Epub3NavLi>()
-                                {
+                                lis:
+                                [
                                     new
                                     (
                                         anchor: new Epub3NavAnchor
@@ -332,10 +333,10 @@ namespace VersOne.Epub.Test.Unit.Entities
                                             href: htmlFileName
                                         )
                                     )
-                                }
+                                ]
                             )
                         )
-                    }
+                    ]
                 ),
                 content: new EpubContentRef
                 (
@@ -379,7 +380,7 @@ namespace VersOne.Epub.Test.Unit.Entities
         private static EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName, string filePath)
         {
             EpubContentFileRefMetadata htmlFileRefMetadata = new(fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml");
-            return new(htmlFileRefMetadata, filePath, new TestEpubContentLoader());
+            return new(htmlFileRefMetadata, filePath, new TestZipFileEntry(), new TestEpubContentLoader());
         }
 
         private static EpubNavigationItemRef CreateTestNavigationLink(string title, string htmlFileUrl, EpubLocalTextContentFileRef htmlFileRef)

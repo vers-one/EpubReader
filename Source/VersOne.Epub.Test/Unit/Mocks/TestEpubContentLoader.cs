@@ -9,7 +9,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public TestEpubContentLoader()
         {
-            byteContent = Array.Empty<byte>();
+            byteContent = [];
             stream = null;
         }
 
@@ -33,7 +33,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public byte[] LoadContentAsBytes(EpubContentFileRefMetadata contentFileRefMetadata)
         {
-            return byteContent ?? Array.Empty<byte>();
+            return byteContent ?? [];
         }
 
         public Task<byte[]> LoadContentAsBytesAsync(EpubContentFileRefMetadata contentFileRefMetadata)

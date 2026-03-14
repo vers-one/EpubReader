@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -52,6 +53,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: CHAPTER1_FILE_PATH,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         ),
                         new
@@ -63,6 +65,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: CHAPTER2_FILE_PATH,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         )
                     ]
@@ -87,6 +90,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: duplicateFilePath,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         ),
                         new
@@ -98,6 +102,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: duplicateFilePath,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         )
                     ]
@@ -137,6 +142,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                 );
             }
         }
+
+        private static IZipFileEntry ContentFileEntry => new TestZipFileEntry();
 
         private static IEpubContentLoader ContentLoader => new TestEpubContentLoader();
 
@@ -262,6 +269,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: CHAPTER1_FILE_PATH,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -291,6 +299,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: CHAPTER1_FILE_PATH,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
@@ -321,6 +330,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: CHAPTER1_FILE_PATH,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -350,6 +360,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: CHAPTER1_FILE_PATH,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
@@ -390,6 +401,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: existingFilePath,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -420,6 +432,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: existingFilePath,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
@@ -450,6 +463,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: CHAPTER1_FILE_PATH,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -480,6 +494,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: existingFilePath,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
