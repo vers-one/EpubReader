@@ -18,7 +18,7 @@ namespace VersOne.Epub.Internal
             this.contentDownloaderOptions = contentDownloaderOptions ?? new ContentDownloaderOptions();
             contentDownloader = this.contentDownloaderOptions.CustomContentDownloader ?? EnvironmentDependencies.ContentDownloader;
             userAgent = this.contentDownloaderOptions.DownloaderUserAgent ??
-                "EpubReader/" + typeof(EpubRemoteContentLoader).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+                "EpubReader/" + typeof(EpubRemoteContentLoader).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version;
         }
 
         public override async Task<byte[]> LoadContentAsBytesAsync(EpubContentFileRefMetadata contentFileRefMetadata)

@@ -17,23 +17,30 @@ namespace VersOne.Epub.Test.Unit.Entities
         private const string HTML_FILE_PATH = $"{CONTENT_DIRECTORY_PATH}/{HTML_FILE_NAME}";
         private const string TEST_ANCHOR_TEXT = "Test anchor";
 
-        private static readonly byte[] COVER_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46 };
+        private static readonly byte[] COVER_FILE_CONTENT = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46];
 
         private static List<string> AuthorList =>
-            new()
-            {
+            [
                 BOOK_AUTHOR
-            };
+            ];
 
         private static EpubSchema Schema => TestEpubSchemas.CreateFullTestEpubSchema();
 
-        private static EpubContentRef Content => TestEpubContentRef.CreateFullTestEpubContentRef();
+        private static EpubContentRef Content
+        {
+            get
+            {
+                TestEpubContentRef testEpubContentRef = new(new TestZipFile());
+                return testEpubContentRef.CreateFullTestEpubContentRef();
+            }
+        }
 
         [Fact(DisplayName = "Constructing a EpubBookRef instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, Content);
+            EpubContentRef testContent = Content;
+            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, testContent);
             Assert.Equal(testZipFile, epubBookRef.EpubFile);
             Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
             Assert.Equal(BOOK_TITLE, epubBookRef.Title);
@@ -41,7 +48,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(AuthorList, epubBookRef.AuthorList);
             Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
             EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
-            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+            EpubContentRefComparer.CompareEpubContentRefs(testContent, epubBookRef.Content);
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if epubFile parameter is null")]
@@ -78,7 +85,8 @@ namespace VersOne.Epub.Test.Unit.Entities
         public void ConstructorWithNullFilePathTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile, null, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, Content);
+            EpubContentRef testContent = Content;
+            EpubBookRef epubBookRef = new(testZipFile, null, BOOK_TITLE, BOOK_AUTHOR, AuthorList, BOOK_DESCRIPTION, Schema, testContent);
             Assert.Equal(testZipFile, epubBookRef.EpubFile);
             Assert.Null(epubBookRef.FilePath);
             Assert.Equal(BOOK_TITLE, epubBookRef.Title);
@@ -86,14 +94,15 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(AuthorList, epubBookRef.AuthorList);
             Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
             EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
-            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+            EpubContentRefComparer.CompareEpubContentRefs(testContent, epubBookRef.Content);
         }
 
         [Fact(DisplayName = "Constructing a EpubBookRef instance with null authorList parameter should succeed")]
         public void ConstructorWithNullAuthorListTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, null, BOOK_DESCRIPTION, Schema, Content);
+            EpubContentRef testContent = Content;
+            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, null, BOOK_DESCRIPTION, Schema, testContent);
             Assert.Equal(testZipFile, epubBookRef.EpubFile);
             Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
             Assert.Equal(BOOK_TITLE, epubBookRef.Title);
@@ -101,14 +110,15 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(new List<string>(), epubBookRef.AuthorList);
             Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
             EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
-            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+            EpubContentRefComparer.CompareEpubContentRefs(testContent, epubBookRef.Content);
         }
 
         [Fact(DisplayName = "Constructing a EpubBookRef instance with null description parameter should succeed")]
         public void ConstructorWithNullDescriptionTest()
         {
             TestZipFile testZipFile = new();
-            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, null, Schema, Content);
+            EpubContentRef testContent = Content;
+            EpubBookRef epubBookRef = new(testZipFile, EPUB_FILE_PATH, BOOK_TITLE, BOOK_AUTHOR, AuthorList, null, Schema, testContent);
             Assert.Equal(testZipFile, epubBookRef.EpubFile);
             Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
             Assert.Equal(BOOK_TITLE, epubBookRef.Title);
@@ -116,7 +126,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(AuthorList, epubBookRef.AuthorList);
             Assert.Null(epubBookRef.Description);
             EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
-            EpubContentRefComparer.CompareEpubContentRefs(Content, epubBookRef.Content);
+            EpubContentRefComparer.CompareEpubContentRefs(testContent, epubBookRef.Content);
         }
 
         [Fact(DisplayName = "Reading the existing cover synchronously should succeed")]

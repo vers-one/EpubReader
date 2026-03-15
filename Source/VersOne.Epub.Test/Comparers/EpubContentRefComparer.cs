@@ -26,6 +26,7 @@
             {
                 Assert.NotNull(actual);
                 Assert.Equal(expected.FilePath, actual.FilePath);
+                Assert.Equal(expected.ContentFileEntry, actual.ContentFileEntry);
             }
         }
 

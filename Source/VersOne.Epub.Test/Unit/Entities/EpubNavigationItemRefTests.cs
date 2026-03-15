@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub.Test.Comparers;
+using VersOne.Epub.Test.Unit.Mocks;
 using VersOne.Epub.Test.Unit.TestData;
 
 namespace VersOne.Epub.Test.Unit.Entities
@@ -16,40 +17,45 @@ namespace VersOne.Epub.Test.Unit.Entities
             );
 
         private static List<EpubNavigationItemRef> NestedItems =>
-            new()
-            {
+            [
                 new EpubNavigationItemRef
                 (
                     type: EpubNavigationItemType.HEADER,
                     title: "Nested item"
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a EpubNavigationItemRef instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
         {
-            EpubNavigationItemRef epubNavigationItemRef = new(TYPE, TITLE, Link, TestEpubContentRef.Chapter1FileRef, NestedItems);
+            TestEpubContentRef testEpubContentRef = new(new TestZipFile());
+            EpubLocalTextContentFileRef testNavigationContentFileRef = testEpubContentRef.Chapter1FileRef;
+            EpubNavigationItemRef epubNavigationItemRef = new(TYPE, TITLE, Link, testNavigationContentFileRef, NestedItems);
             Assert.Equal(TYPE, epubNavigationItemRef.Type);
             Assert.Equal(TITLE, epubNavigationItemRef.Title);
             EpubNavigationItemComparer.CompareNavigationItemLinks(Link, epubNavigationItemRef.Link);
-            EpubContentRefComparer.CompareEpubLocalContentFileRefs(TestEpubContentRef.Chapter1FileRef, epubNavigationItemRef.HtmlContentFileRef);
+            EpubContentRefComparer.CompareEpubLocalContentFileRefs(testNavigationContentFileRef, epubNavigationItemRef.HtmlContentFileRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(NestedItems, epubNavigationItemRef.NestedItems);
         }
 
         [Fact(DisplayName = "Constructor should throw ArgumentNullException if title parameter is null")]
         public void ConstructorWithNullTitleTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubNavigationItemRef(TYPE, null!, Link, TestEpubContentRef.Chapter1FileRef, NestedItems));
+            TestEpubContentRef testEpubContentRef = new(new TestZipFile());
+            EpubLocalTextContentFileRef testNavigationContentFileRef = testEpubContentRef.Chapter1FileRef;
+            Assert.Throws<ArgumentNullException>(() => new EpubNavigationItemRef(TYPE, null!, Link, testNavigationContentFileRef, NestedItems));
         }
 
         [Fact(DisplayName = "Constructing a EpubNavigationItemRef instance with null link parameter should succeed")]
         public void ConstructorWithNullLinkParameterTest()
         {
-            EpubNavigationItemRef epubNavigationItemRef = new(TYPE, TITLE, null, TestEpubContentRef.Chapter1FileRef, NestedItems);
+            TestEpubContentRef testEpubContentRef = new(new TestZipFile());
+            EpubLocalTextContentFileRef testNavigationContentFileRef = testEpubContentRef.Chapter1FileRef;
+            EpubNavigationItemRef epubNavigationItemRef = new(TYPE, TITLE, null, testNavigationContentFileRef, NestedItems);
             Assert.Equal(TYPE, epubNavigationItemRef.Type);
             Assert.Equal(TITLE, epubNavigationItemRef.Title);
             EpubNavigationItemComparer.CompareNavigationItemLinks(null, epubNavigationItemRef.Link);
-            EpubContentRefComparer.CompareEpubLocalContentFileRefs(TestEpubContentRef.Chapter1FileRef, epubNavigationItemRef.HtmlContentFileRef);
+            EpubContentRefComparer.CompareEpubLocalContentFileRefs(testNavigationContentFileRef, epubNavigationItemRef.HtmlContentFileRef);
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(NestedItems, epubNavigationItemRef.NestedItems);
         }
 
@@ -67,12 +73,14 @@ namespace VersOne.Epub.Test.Unit.Entities
         [Fact(DisplayName = "Constructing a EpubNavigationItemRef instance with null nestedItems parameter should succeed")]
         public void ConstructorWithNullNestedItemsParameterTest()
         {
-            EpubNavigationItemRef epubNavigationItemRef = new(TYPE, TITLE, Link, TestEpubContentRef.Chapter1FileRef, null);
+            TestEpubContentRef testEpubContentRef = new(new TestZipFile());
+            EpubLocalTextContentFileRef testNavigationContentFileRef = testEpubContentRef.Chapter1FileRef;
+            EpubNavigationItemRef epubNavigationItemRef = new(TYPE, TITLE, Link, testNavigationContentFileRef, null);
             Assert.Equal(TYPE, epubNavigationItemRef.Type);
             Assert.Equal(TITLE, epubNavigationItemRef.Title);
             EpubNavigationItemComparer.CompareNavigationItemLinks(Link, epubNavigationItemRef.Link);
-            EpubContentRefComparer.CompareEpubLocalContentFileRefs(TestEpubContentRef.Chapter1FileRef, epubNavigationItemRef.HtmlContentFileRef);
-            EpubNavigationItemRefComparer.CompareNavigationItemRefLists(new List<EpubNavigationItemRef>(), epubNavigationItemRef.NestedItems);
+            EpubContentRefComparer.CompareEpubLocalContentFileRefs(testNavigationContentFileRef, epubNavigationItemRef.HtmlContentFileRef);
+            EpubNavigationItemRefComparer.CompareNavigationItemRefLists([], epubNavigationItemRef.NestedItems);
         }
 
         [Fact(DisplayName = "ToString method should produce a string with the type, the title, and the number of nested items")]
