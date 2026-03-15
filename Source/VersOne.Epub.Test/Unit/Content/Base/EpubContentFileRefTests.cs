@@ -1,4 +1,5 @@
-﻿using VersOne.Epub.Test.Unit.Mocks;
+﻿using VersOne.Epub.Environment;
+using VersOne.Epub.Test.Unit.Mocks;
 
 namespace VersOne.Epub.Test.Unit.Content.Base
 {
@@ -17,7 +18,7 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         private const EpubContentType BYTE_FILE_CONTENT_TYPE = EpubContentType.IMAGE_JPEG;
         private const string BYTE_FILE_CONTENT_MIME_TYPE = "image/jpeg";
 
-        private static readonly byte[] BYTE_FILE_CONTENT = new byte[] { 0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46 };
+        private static readonly byte[] BYTE_FILE_CONTENT = [0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46];
 
         private static EpubContentFileRefMetadata LocalTextFileRefMetadata => new(LOCAL_TEXT_FILE_NAME, TEXT_FILE_CONTENT_TYPE, TEXT_FILE_CONTENT_MIME_TYPE);
 
@@ -30,8 +31,11 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should set correct property values")]
         public void LocalTextContentFileRefConstructorTest()
         {
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, new TestEpubContentLoader());
+            IZipFileEntry testContentFileEntry = new TestZipFileEntry();
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testContentFileEntry, new TestEpubContentLoader());
             Assert.Equal(LOCAL_TEXT_FILE_NAME, epubLocalTextContentFileRef.Key);
+            Assert.Equal(testContentFileEntry, epubLocalTextContentFileRef.ContentFileEntry);
             Assert.Equal(TEXT_FILE_CONTENT_TYPE, epubLocalTextContentFileRef.ContentType);
             Assert.Equal(TEXT_FILE_CONTENT_MIME_TYPE, epubLocalTextContentFileRef.ContentMimeType);
             Assert.Equal(EpubContentLocation.LOCAL, epubLocalTextContentFileRef.ContentLocation);
@@ -42,8 +46,11 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should set correct property values")]
         public void LocalByteContentFileRefConstructorTest()
         {
-            EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, new TestEpubContentLoader());
+            IZipFileEntry testContentFileEntry = new TestZipFileEntry();
+            EpubLocalByteContentFileRef epubLocalByteContentFileRef =
+                new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testContentFileEntry, new TestEpubContentLoader());
             Assert.Equal(LOCAL_BYTE_FILE_NAME, epubLocalByteContentFileRef.Key);
+            Assert.Equal(testContentFileEntry, epubLocalByteContentFileRef.ContentFileEntry);
             Assert.Equal(BYTE_FILE_CONTENT_TYPE, epubLocalByteContentFileRef.ContentType);
             Assert.Equal(BYTE_FILE_CONTENT_MIME_TYPE, epubLocalByteContentFileRef.ContentMimeType);
             Assert.Equal(EpubContentLocation.LOCAL, epubLocalByteContentFileRef.ContentLocation);
@@ -78,13 +85,13 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
         public void CreateEpubLocalTextContentFileRefWithNullMetadataTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(null!, LOCAL_TEXT_FILE_PATH, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(null!, LOCAL_TEXT_FILE_PATH, null, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
         public void CreateEpubLocalByteContentFileRefWithNullMetadataTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(null!, LOCAL_BYTE_FILE_PATH, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(null!, LOCAL_BYTE_FILE_PATH, null, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubRemoteTextContentFileRef constructor should throw ArgumentNullException if the supplied metadata parameter is null")]
@@ -102,13 +109,13 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
         public void CreateEpubLocalTextContentFileRefWithNullContentLoaderTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, null!));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, null, null!));
         }
 
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
         public void CreateEpubLocalByteContentFileRefWithNullContentLoaderTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, null!));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, null, null!));
         }
 
         [Fact(DisplayName = "EpubRemoteTextContentFileRef constructor should throw ArgumentNullException if the supplied epubContentLoader parameter is null")]
@@ -126,20 +133,22 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "EpubLocalTextContentFileRef constructor should throw ArgumentNullException if the supplied file path is null")]
         public void CreateEpubLocalTextContentFileRefWithNullFilePathTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, null!, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalTextContentFileRef(LocalTextFileRefMetadata, null!, null, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "EpubLocalByteContentFileRef constructor should throw ArgumentNullException if the supplied file path is null")]
         public void CreateEpubLocalByteContentFileRefWithNullFilePathTest()
         {
-            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, null!, new TestEpubContentLoader()));
+            Assert.Throws<ArgumentNullException>(() => new EpubLocalByteContentFileRef(LocalByteFileRefMetadata, null!, null, new TestEpubContentLoader()));
         }
 
         [Fact(DisplayName = "Reading local text content file synchronously should succeed")]
         public void LocalTextContentFileRefReadContentTest()
         {
+            TestZipFileEntry testZipFileEntry = new(TEXT_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             string content = epubLocalTextContentFileRef.ReadContent();
             Assert.Equal(TEXT_FILE_CONTENT, content);
         }
@@ -147,8 +156,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local text content file asynchronously should succeed")]
         public async Task LocalTextContentFileRefReadContentAsyncTest()
         {
+            TestZipFileEntry testZipFileEntry = new(TEXT_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             string content = await epubLocalTextContentFileRef.ReadContentAsync();
             Assert.Equal(TEXT_FILE_CONTENT, content);
         }
@@ -156,8 +167,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local byte content file synchronously should succeed")]
         public void LocalByteContentFileRefReadContentTest()
         {
+            TestZipFileEntry testZipFileEntry = new(BYTE_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
-            EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testEpubContentLoader);
+            EpubLocalByteContentFileRef epubLocalByteContentFileRef =
+                new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             byte[] content = epubLocalByteContentFileRef.ReadContent();
             Assert.Equal(BYTE_FILE_CONTENT, content);
         }
@@ -165,8 +178,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local byte content file asynchronously should succeed")]
         public async Task LocalByteContentFileRefReadContentAsyncTest()
         {
+            TestZipFileEntry testZipFileEntry = new(BYTE_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
-            EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testEpubContentLoader);
+            EpubLocalByteContentFileRef epubLocalByteContentFileRef =
+                new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             byte[] content = await epubLocalByteContentFileRef.ReadContentAsync();
             Assert.Equal(BYTE_FILE_CONTENT, content);
         }
@@ -174,8 +189,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local content file as text synchronously should succeed")]
         public void LocalContentFileRefReadContentAsTextTest()
         {
+            TestZipFileEntry testZipFileEntry = new(TEXT_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             string content = epubLocalTextContentFileRef.ReadContentAsText();
             Assert.Equal(TEXT_FILE_CONTENT, content);
         }
@@ -183,8 +200,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local content file as text asynchronously should succeed")]
         public async Task LocalContentFileRefReadContentAsTextAsyncTest()
         {
+            TestZipFileEntry testZipFileEntry = new(TEXT_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(TEXT_FILE_CONTENT);
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             string content = await epubLocalTextContentFileRef.ReadContentAsTextAsync();
             Assert.Equal(TEXT_FILE_CONTENT, content);
         }
@@ -192,8 +211,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local content file as bytes synchronously should succeed")]
         public void LocalContentFileRefReadContentAsBytesTest()
         {
+            TestZipFileEntry testZipFileEntry = new(BYTE_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
-            EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testEpubContentLoader);
+            EpubLocalByteContentFileRef epubLocalByteContentFileRef =
+                new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             byte[] content = epubLocalByteContentFileRef.ReadContentAsBytes();
             Assert.Equal(BYTE_FILE_CONTENT, content);
         }
@@ -201,8 +222,10 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Reading local content file as bytes asynchronously should succeed")]
         public async Task LocalContentFileRefReadContentAsBytesAsyncTest()
         {
+            TestZipFileEntry testZipFileEntry = new(BYTE_FILE_CONTENT);
             TestEpubContentLoader testEpubContentLoader = new(BYTE_FILE_CONTENT);
-            EpubLocalByteContentFileRef epubLocalByteContentFileRef = new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testEpubContentLoader);
+            EpubLocalByteContentFileRef epubLocalByteContentFileRef =
+                new(LocalByteFileRefMetadata, LOCAL_BYTE_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             byte[] content = await epubLocalByteContentFileRef.ReadContentAsBytesAsync();
             Assert.Equal(BYTE_FILE_CONTENT, content);
         }
@@ -210,9 +233,11 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Getting local content file stream synchronously should succeed")]
         public void LocalContentFileRefGetContentStreamTest()
         {
+            TestZipFileEntry testZipFileEntry = new(TEXT_FILE_CONTENT);
             using MemoryStream testStream = new();
             TestEpubContentLoader testEpubContentLoader = new(testStream);
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             Stream contentStream = epubLocalTextContentFileRef.GetContentStream();
             Assert.Equal(testStream, contentStream);
         }
@@ -220,9 +245,11 @@ namespace VersOne.Epub.Test.Unit.Content.Base
         [Fact(DisplayName = "Getting local content file stream asynchronously should succeed")]
         public async Task LocalContentFileRefGetContentStreamAsyncTest()
         {
+            TestZipFileEntry testZipFileEntry = new(TEXT_FILE_CONTENT);
             using MemoryStream testStream = new();
             TestEpubContentLoader testEpubContentLoader = new(testStream);
-            EpubLocalTextContentFileRef epubLocalTextContentFileRef = new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testEpubContentLoader);
+            EpubLocalTextContentFileRef epubLocalTextContentFileRef =
+                new(LocalTextFileRefMetadata, LOCAL_TEXT_FILE_PATH, testZipFileEntry, testEpubContentLoader);
             Stream contentStream = await epubLocalTextContentFileRef.GetContentStreamAsync();
             Assert.Equal(testStream, contentStream);
         }

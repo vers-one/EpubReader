@@ -1074,7 +1074,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         private static EpubLocalTextContentFileRef CreateTestHtmlFile(string? directory, string htmlFileName)
         {
             return new(new EpubContentFileRefMetadata(htmlFileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"),
-                directory != null ? $"{directory}/{htmlFileName}" : htmlFileName, new TestEpubContentLoader());
+                directory != null ? $"{directory}/{htmlFileName}" : htmlFileName, new TestZipFileEntry(), new TestEpubContentLoader());
         }
 
         private static EpubPackage CreateEmptyPackage(EpubVersion epubVersion)

@@ -193,10 +193,10 @@ namespace VersOne.Epub.Test.Unit.Content.Loaders
         public void LoadContentWithNonSpecifiedUserAgentTest()
         {
             TestContentDownloader testContentDownloader = new(TEXT_FILE_HREF, TEXT_FILE_CONTENT);
-            AssemblyInformationalVersionAttribute? assemblyInformationalVersionAttribute =
-                typeof(EpubRemoteContentLoaderTests).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-            Assert.NotNull(assemblyInformationalVersionAttribute);
-            string expectedUserAgent = "EpubReader/" + assemblyInformationalVersionAttribute.InformationalVersion;
+            AssemblyFileVersionAttribute? assemblyFileVersionAttribute =
+                typeof(EpubRemoteContentLoaderTests).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
+            Assert.NotNull(assemblyFileVersionAttribute);
+            string expectedUserAgent = "EpubReader/" + assemblyFileVersionAttribute.Version;
             ContentDownloaderOptions contentDownloaderOptions = new()
             {
                 DownloadContent = true,

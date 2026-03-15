@@ -33,7 +33,8 @@ namespace VersOne.Epub.Internal
             List<EpubRemoteByteContentFileRef> audioRemote = new();
             List<EpubLocalContentFileRef> allFilesLocal = new();
             List<EpubRemoteContentFileRef> allFilesRemote = new();
-            EpubLocalContentLoader localContentLoader = new(environmentDependencies, epubFile, epubSchema.ContentDirectoryPath, epubReaderOptions.ContentReaderOptions);
+            EpubLocalContentLoader localContentLoader =
+                new(environmentDependencies, epubFile, epubSchema.ContentDirectoryPath, epubReaderOptions.ContentReaderOptions);
             EpubRemoteContentLoader? remoteContentLoader = null;
             foreach (EpubManifestItem manifestItem in epubSchema.Package.Manifest.Items)
             {
@@ -57,7 +58,9 @@ namespace VersOne.Epub.Internal
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
                             string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, href);
-                            EpubLocalTextContentFileRef localTextContentFile = new(contentFileRefMetadata, contentFilePath, localContentLoader);
+                            IZipFileEntry? contentFileEntry = epubFile.GetEntry(contentFilePath);
+                            EpubLocalTextContentFileRef localTextContentFile =
+                                new(contentFileRefMetadata, contentFilePath, contentFileEntry, localContentLoader);
                             switch (contentType)
                             {
                                 case EpubContentType.XHTML_1_1:
@@ -98,7 +101,9 @@ namespace VersOne.Epub.Internal
                         if (contentLocation == EpubContentLocation.LOCAL)
                         {
                             string contentFilePath = ContentPathUtils.Combine(contentDirectoryPath, href);
-                            EpubLocalByteContentFileRef localByteContentFile = new(contentFileRefMetadata, contentFilePath, localContentLoader);
+                            IZipFileEntry? contentFileEntry = epubFile.GetEntry(contentFilePath);
+                            EpubLocalByteContentFileRef localByteContentFile =
+                                new(contentFileRefMetadata, contentFilePath, contentFileEntry, localContentLoader);
                             switch (contentType)
                             {
                                 case EpubContentType.IMAGE_GIF:

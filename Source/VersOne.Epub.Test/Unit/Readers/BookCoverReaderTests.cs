@@ -555,7 +555,7 @@ namespace VersOne.Epub.Test.Unit.Readers
         private static EpubLocalByteContentFileRef CreateLocalTestImageFileRef()
         {
             EpubContentFileRefMetadata localImageFileRefMetadata = new(LOCAL_COVER_FILE_NAME, COVER_FILE_CONTENT_TYPE, COVER_FILE_CONTENT_MIME_TYPE);
-            return new(localImageFileRefMetadata, LOCAL_COVER_FILE_NAME, new TestEpubContentLoader());
+            return new(localImageFileRefMetadata, LOCAL_COVER_FILE_NAME, new TestZipFileEntry(), new TestEpubContentLoader());
         }
 
         private static EpubRemoteByteContentFileRef CreateRemoteTestImageFileRef()

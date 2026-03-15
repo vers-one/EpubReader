@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using VersOne.Epub.Environment;
 using VersOne.Epub.Options;
 using VersOne.Epub.Test.Comparers;
 using VersOne.Epub.Test.Unit.Mocks;
@@ -13,10 +14,11 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
         {
             get
             {
+                TestEpubContentRef testEpubContentRef = new(new TestZipFile());
                 List<EpubLocalTextContentFileRef> list =
                 [
-                    TestEpubContentRef.Chapter1FileRef,
-                    TestEpubContentRef.Chapter2FileRef
+                    testEpubContentRef.Chapter1FileRef,
+                    testEpubContentRef.Chapter2FileRef
                 ];
                 return list.AsReadOnly();
             }
@@ -52,6 +54,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: CHAPTER1_FILE_PATH,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         ),
                         new
@@ -63,6 +66,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: CHAPTER2_FILE_PATH,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         )
                     ]
@@ -87,6 +91,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: duplicateFilePath,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         ),
                         new
@@ -98,6 +103,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                                 contentMimeType: HTML_CONTENT_MIME_TYPE
                             ),
                             filePath: duplicateFilePath,
+                            contentFileEntry: ContentFileEntry,
                             epubContentLoader: ContentLoader
                         )
                     ]
@@ -138,6 +144,8 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             }
         }
 
+        private static IZipFileEntry ContentFileEntry => new TestZipFileEntry();
+
         private static IEpubContentLoader ContentLoader => new TestEpubContentLoader();
 
         [Fact(DisplayName = "Constructing a EpubContentCollectionRef instance with default parameters should succeed")]
@@ -162,8 +170,9 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
         [Fact(DisplayName = "Constructing a EpubContentCollectionRef instance with null remote parameter should succeed")]
         public void ConstructorWithNullRemoteParameterTest()
         {
-            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef = new(Local, null);
-            EpubContentRefComparer.CompareEpubLocalTextContentFileRefLists(Local, epubContentCollectionRef.Local);
+            ReadOnlyCollection<EpubLocalTextContentFileRef> testLocalCollection = Local;
+            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef = new(testLocalCollection, null);
+            EpubContentRefComparer.CompareEpubLocalTextContentFileRefLists(testLocalCollection, epubContentCollectionRef.Local);
             Assert.NotNull(epubContentCollectionRef.Remote);
             Assert.Empty(epubContentCollectionRef.Remote);
         }
@@ -171,18 +180,23 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
         [Fact(DisplayName = "Constructing a EpubContentCollectionRef instance with null contentReaderOptions parameter should succeed")]
         public void ConstructorWithNullContentReaderOptionsParameterTest()
         {
-            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef = new(Local, Remote, null);
-            EpubContentRefComparer.CompareEpubLocalTextContentFileRefLists(Local, epubContentCollectionRef.Local);
-            EpubContentRefComparer.CompareEpubRemoteTextContentFileRefLists(Remote, epubContentCollectionRef.Remote);
+            ReadOnlyCollection<EpubLocalTextContentFileRef> testLocalCollection = Local;
+            ReadOnlyCollection<EpubRemoteTextContentFileRef> remoteLocalCollection = Remote;
+            EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef =
+                new(testLocalCollection, remoteLocalCollection, null);
+            EpubContentRefComparer.CompareEpubLocalTextContentFileRefLists(testLocalCollection, epubContentCollectionRef.Local);
+            EpubContentRefComparer.CompareEpubRemoteTextContentFileRefLists(remoteLocalCollection, epubContentCollectionRef.Remote);
         }
 
         [Fact(DisplayName = "Constructing a EpubContentCollectionRef instance with all non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
         {
+            ReadOnlyCollection<EpubLocalTextContentFileRef> testLocalCollection = Local;
+            ReadOnlyCollection<EpubRemoteTextContentFileRef> remoteLocalCollection = Remote;
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef =
-                new(Local, Remote, new ContentReaderOptions());
-            EpubContentRefComparer.CompareEpubLocalTextContentFileRefLists(Local, epubContentCollectionRef.Local);
-            EpubContentRefComparer.CompareEpubRemoteTextContentFileRefLists(Remote, epubContentCollectionRef.Remote);
+                new(testLocalCollection, remoteLocalCollection, new ContentReaderOptions());
+            EpubContentRefComparer.CompareEpubLocalTextContentFileRefLists(testLocalCollection, epubContentCollectionRef.Local);
+            EpubContentRefComparer.CompareEpubRemoteTextContentFileRefLists(remoteLocalCollection, epubContentCollectionRef.Remote);
         }
 
         [Fact(DisplayName = "Constructor should throw EpubPackageException if local parameter contains content files with duplicate keys and no ContentReaderOptions are provided")]
@@ -199,10 +213,11 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             {
                 SkipItemsWithDuplicateHrefs = true
             };
+            ReadOnlyCollection<EpubLocalTextContentFileRef> testLocalCollectionWithDuplicateKeys = LocalWithDuplicateKeys;
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef =
-                new(LocalWithDuplicateKeys, Remote, contentReaderOptions);
+                new(testLocalCollectionWithDuplicateKeys, Remote, contentReaderOptions);
             Assert.Single(epubContentCollectionRef.Local);
-            EpubContentRefComparer.CompareEpubLocalContentFileRefs(LocalWithDuplicateKeys[0], epubContentCollectionRef.Local[0]);
+            EpubContentRefComparer.CompareEpubLocalContentFileRefs(testLocalCollectionWithDuplicateKeys[0], epubContentCollectionRef.Local[0]);
         }
 
         [Fact(DisplayName = "Constructor should throw EpubPackageException if local parameter contains content files with duplicate file paths and no ContentReaderOptions are provided")]
@@ -219,10 +234,11 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             {
                 SkipItemsWithDuplicateFilePaths = true
             };
+            ReadOnlyCollection<EpubLocalTextContentFileRef> testLocalCollectionWithDuplicateFilePaths = LocalWithDuplicateFilePaths;
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef =
-                new(LocalWithDuplicateFilePaths, Remote, contentReaderOptions);
+                new(testLocalCollectionWithDuplicateFilePaths, Remote, contentReaderOptions);
             Assert.Single(epubContentCollectionRef.Local);
-            EpubContentRefComparer.CompareEpubLocalContentFileRefs(LocalWithDuplicateFilePaths[0], epubContentCollectionRef.Local[0]);
+            EpubContentRefComparer.CompareEpubLocalContentFileRefs(testLocalCollectionWithDuplicateFilePaths[0], epubContentCollectionRef.Local[0]);
         }
 
         [Fact(DisplayName = "Constructor should throw EpubPackageException if remote parameter contains content files with duplicate URLs and no ContentReaderOptions are provided")]
@@ -239,10 +255,11 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
             {
                 SkipItemsWithDuplicateUrls = true
             };
+            ReadOnlyCollection<EpubRemoteTextContentFileRef> remoteLocalCollectionWithDuplicateKeys = RemoteWithDuplicateKeys;
             EpubContentCollectionRef<EpubLocalTextContentFileRef, EpubRemoteTextContentFileRef> epubContentCollectionRef =
-                new(Local, RemoteWithDuplicateKeys, contentReaderOptions);
+                new(Local, remoteLocalCollectionWithDuplicateKeys, contentReaderOptions);
             Assert.Single(epubContentCollectionRef.Remote);
-            EpubContentRefComparer.CompareEpubRemoteContentFileRefs(RemoteWithDuplicateKeys[0], epubContentCollectionRef.Remote[0]);
+            EpubContentRefComparer.CompareEpubRemoteContentFileRefs(remoteLocalCollectionWithDuplicateKeys[0], epubContentCollectionRef.Remote[0]);
         }
 
         [Fact(DisplayName = "ContainsLocalFileRefWithKey should return true if the local file reference with the given key exists and false otherwise")]
@@ -262,6 +279,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: CHAPTER1_FILE_PATH,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -291,6 +309,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: CHAPTER1_FILE_PATH,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
@@ -321,6 +340,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: CHAPTER1_FILE_PATH,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -350,6 +370,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: CHAPTER1_FILE_PATH,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
@@ -390,6 +411,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: existingFilePath,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -420,6 +442,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: existingFilePath,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new
@@ -450,6 +473,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                             contentMimeType: HTML_CONTENT_MIME_TYPE
                         ),
                         filePath: CHAPTER1_FILE_PATH,
+                        contentFileEntry: ContentFileEntry,
                         epubContentLoader: ContentLoader
                     )
                 ]
@@ -480,6 +504,7 @@ namespace VersOne.Epub.Test.Unit.Content.Collections
                     contentMimeType: HTML_CONTENT_MIME_TYPE
                 ),
                 filePath: existingFilePath,
+                contentFileEntry: ContentFileEntry,
                 epubContentLoader: ContentLoader
             );
             ReadOnlyCollection<EpubLocalTextContentFileRef> local = new

@@ -244,7 +244,8 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private static EpubLocalTextContentFileRef CreateTestHtmlFileRef(string fileName)
         {
-            return new(new EpubContentFileRefMetadata(fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"), fileName, new TestEpubContentLoader());
+            return new(new EpubContentFileRefMetadata(fileName, EpubContentType.XHTML_1_1, "application/xhtml+xml"), fileName, new TestZipFileEntry(),
+                new TestEpubContentLoader());
         }
 
         private static EpubContentRef CreateEpubContentRefForTestRemoteFile(string fileUrl)

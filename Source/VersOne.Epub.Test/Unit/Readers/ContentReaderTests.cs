@@ -661,12 +661,12 @@ namespace VersOne.Epub.Test.Unit.Readers
 
         private static EpubLocalTextContentFileRef CreateLocalTextFileRef(string fileName, EpubContentType contentType, string contentMimeType)
         {
-            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), fileName, new TestEpubContentLoader());
+            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), fileName, null, new TestEpubContentLoader());
         }
 
         private static EpubLocalByteContentFileRef CreateLocalByteFileRef(string fileName, EpubContentType contentType, string contentMimeType)
         {
-            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), fileName, new TestEpubContentLoader());
+            return new(new EpubContentFileRefMetadata(fileName, contentType, contentMimeType), fileName, null, new TestEpubContentLoader());
         }
 
         private static EpubRemoteTextContentFileRef CreateRemoteTextFileRef(string href, EpubContentType contentType, string contentMimeType)
