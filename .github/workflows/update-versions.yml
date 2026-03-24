@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Update project versions
         id: update
-        uses: vers-one/dotnet-project-version-updater@v1.7
+        uses: vers-one/dotnet-project-version-updater@v1.8
         with:
           file: |
             "Source/VersOne.Epub/VersOne.Epub.csproj", "Source/VersOne.Epub/VersOne.Epub.nuspec", "Source/VersOne.Epub.Test/VersOne.Epub.Test.csproj", "Source/VersOne.Epub.ConsoleDemo/VersOne.Epub.ConsoleDemo.csproj", "Source/VersOne.Epub.WpfDemo/Properties/AssemblyInfo.cs"
