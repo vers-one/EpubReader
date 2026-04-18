@@ -9,8 +9,8 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public TestFileSystem()
         {
-            testZipFilesByPath = new Dictionary<string, TestZipFile>();
-            testZipFilesByStream = new Dictionary<Stream, TestZipFile>();
+            testZipFilesByPath = [];
+            testZipFilesByStream = [];
         }
 
         public TestFileSystem(string epubFilePath, TestZipFile testEpubFile)

@@ -7,7 +7,7 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization.TypeSerializers
     {
         protected CustomTypeSerializer()
         {
-            CustomPropertySerializers = new Dictionary<string, CustomPropertySerializer>();
+            CustomPropertySerializers = [];
         }
 
         public abstract Type Type { get; }

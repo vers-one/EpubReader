@@ -10,8 +10,8 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public TestContentDownloader()
         {
-            remoteFiles = new Dictionary<string, byte[]>();
-            streams = new Dictionary<string, Stream>();
+            remoteFiles = [];
+            streams = [];
             LastUserAgent = null;
         }
 

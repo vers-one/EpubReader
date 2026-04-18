@@ -6,7 +6,7 @@
         {
             Type = type;
             PreserveReferences = false;
-            CustomProperties = new Dictionary<string, CustomProperty>();
+            CustomProperties = [];
         }
 
         public Type Type { get; }

@@ -8,7 +8,7 @@ namespace VersOne.Epub.Test.Unit.Mocks
 
         public TestZipFile()
         {
-            entries = new Dictionary<string, IZipFileEntry>();
+            entries = [];
             IsDisposed = false;
         }
 
