@@ -26,7 +26,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Manifest
         public void ParsePropertyListFromEmptyStringTest()
         {
             string stringValue = "   ";
-            List<EpubManifestProperty> expectedPropertyList = new();
+            List<EpubManifestProperty> expectedPropertyList = [];
             List<EpubManifestProperty> actualPropertyList = EpubManifestPropertyParser.ParsePropertyList(stringValue);
             Assert.Equal(expectedPropertyList, actualPropertyList);
         }

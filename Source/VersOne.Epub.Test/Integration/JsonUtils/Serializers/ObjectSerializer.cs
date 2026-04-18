@@ -87,7 +87,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
 
         private static List<PropertySerializer> CreatePropertySerializers(Type type, CustomType? customType, TypeSerializerCollection typeSerializerCollection)
         {
-            List<PropertySerializer> result = new();
+            List<PropertySerializer> result = [];
             foreach (PropertyInfo propertyInfo in type.GetRuntimeProperties())
             {
                 string propertyName = propertyInfo.Name;

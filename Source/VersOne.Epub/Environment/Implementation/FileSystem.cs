@@ -24,7 +24,7 @@ namespace VersOne.Epub.Environment.Implementation
             return new ZipFile(new ZipArchive(stream, ZipArchiveMode.Read));
         }
 
-        private string GetCompatibleFilePath(string path)
+        private static string GetCompatibleFilePath(string path)
         {
 #if NETFRAMEWORK
             if (path.Length >= MAX_PATH && !path.StartsWith(@"\\?\"))

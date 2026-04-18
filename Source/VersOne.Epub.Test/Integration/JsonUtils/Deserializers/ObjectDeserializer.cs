@@ -111,7 +111,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
             if (!type.IsAbstract)
             {
                 ConstructorInfo constructorInfo = GetConstructorWithMostParameters(type);
-                HashSet<string> propertiesSetInConstructor = new();
+                HashSet<string> propertiesSetInConstructor = [];
                 foreach (ParameterInfo parameterInfo in constructorInfo.GetParameters())
                 {
                     Assert.NotNull(parameterInfo.Name);

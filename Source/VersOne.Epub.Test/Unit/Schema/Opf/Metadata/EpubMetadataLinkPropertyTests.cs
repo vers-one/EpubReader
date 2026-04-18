@@ -21,7 +21,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
         public void ParsePropertyListFromEmptyStringTest()
         {
             string stringValue = "   ";
-            List<EpubMetadataLinkProperty> expectedPropertyList = new();
+            List<EpubMetadataLinkProperty> expectedPropertyList = [];
             List<EpubMetadataLinkProperty> actualPropertyList = EpubMetadataLinkPropertyParser.ParsePropertyList(stringValue);
             Assert.Equal(expectedPropertyList, actualPropertyList);
         }

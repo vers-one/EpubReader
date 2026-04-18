@@ -73,7 +73,7 @@ namespace VersOne.Epub.Test.Integration.Runner
 
         public static TheoryData<string> GetTestCaseDirectories()
         {
-            List<string> directories = new();
+            List<string> directories = [];
             GetTestCaseDirectories(rootTestCasesDirectory, directories);
             return new(directories);
         }

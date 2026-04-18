@@ -45,7 +45,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Spine
         public void ParsePropertyListFromEmptyStringTest()
         {
             string stringValue = "   ";
-            List<EpubSpineProperty> expectedPropertyList = new();
+            List<EpubSpineProperty> expectedPropertyList = [];
             List<EpubSpineProperty> actualPropertyList = EpubSpinePropertyParser.ParsePropertyList(stringValue);
             Assert.Equal(expectedPropertyList, actualPropertyList);
         }

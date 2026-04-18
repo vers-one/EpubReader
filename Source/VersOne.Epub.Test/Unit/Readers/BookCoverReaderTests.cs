@@ -567,8 +567,8 @@ namespace VersOne.Epub.Test.Unit.Readers
         private static EpubContentCollectionRef<EpubLocalByteContentFileRef, EpubRemoteByteContentFileRef> CreateImageContentRefs(
             EpubLocalByteContentFileRef? localImageFileRef = null, EpubRemoteByteContentFileRef? remoteImageFileRef = null)
         {
-            List<EpubLocalByteContentFileRef> local = new();
-            List<EpubRemoteByteContentFileRef> remote = new();
+            List<EpubLocalByteContentFileRef> local = [];
+            List<EpubRemoteByteContentFileRef> remote = [];
             if (localImageFileRef != null)
             {
                 local.Add(localImageFileRef);

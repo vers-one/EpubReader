@@ -11,7 +11,7 @@ namespace VersOne.Epub.ConsoleDemo
         {
             int totalFiles = 0;
             Dictionary<string, int> filesByVersion = new();
-            List<string> filesWithErrors = new();
+            List<string> filesWithErrors = [];
             TestEpubDirectory(directoryPath, ref totalFiles, filesByVersion, filesWithErrors);
             if (totalFiles == 0)
             {
