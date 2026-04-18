@@ -68,7 +68,7 @@
         /// a EPUB spine item is missing.
         /// </para>
         /// <para>
-        /// If it's set to <c>false</c> and and a EPUB spine item is referencing a manifest item
+        /// If it's set to <c>false</c> and an EPUB spine item is referencing a manifest item
         /// which is pointing to a non-existent HTML file within the EPUB book,
         /// then the "Incorrect EPUB manifest: HTML content file with href = ... is missing in the book." exception will be thrown.
         /// This exception can be suppressed by setting this property to <c>true</c>, in which case the reader

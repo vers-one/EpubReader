@@ -472,8 +472,8 @@ namespace VersOne.Epub.Test.Unit.Readers
             (
                 manifest: new EpubManifest
                 (
-                    items: new List<EpubManifestItem>()
-                    {
+                    items:
+                    [
                         new
                         (
                             id: "item-1",
@@ -486,7 +486,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                             href: "https://example.com/books/123/test.css",
                             mediaType: "text/css"
                         )
-                    }
+                    ]
                 )
             );
             EpubRemoteTextContentFileRef expectedFileRef1 = CreateRemoteTextFileRef("https://example.com/books/123/test.html", EpubContentType.XHTML_1_1, "application/xhtml+xml");

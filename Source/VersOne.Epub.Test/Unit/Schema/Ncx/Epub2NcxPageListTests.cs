@@ -15,8 +15,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                     type: Epub2NcxPageTargetType.FRONT,
                     @class: "pagetarget-class",
                     playOrder: "1",
-                    navigationLabels: new List<Epub2NcxNavigationLabel>()
-                    {
+                    navigationLabels:
+                    [
                         new Epub2NcxNavigationLabel
                         (
                             text: "1"
@@ -25,7 +25,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                         (
                             text: "I"
                         )
-                    },
+                    ],
                     content: new Epub2NcxContent
                     (
                         id: "content",
@@ -45,7 +45,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
         public void ConstructorWithNullItemsTest()
         {
             Epub2NcxPageList epub2NcxPageList = new(null);
-            Epub2NcxComparer.CompareEpub2NcxPageTargetLists(new List<Epub2NcxPageTarget>(), epub2NcxPageList.Items);
+            Epub2NcxComparer.CompareEpub2NcxPageTargetLists([], epub2NcxPageList.Items);
         }
     }
 }

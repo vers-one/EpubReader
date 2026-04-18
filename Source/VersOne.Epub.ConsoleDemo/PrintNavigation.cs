@@ -22,13 +22,13 @@ namespace VersOne.Epub.ConsoleDemo
             Console.WriteLine();
         }
 
-        private static void PrintNavigationItem(EpubNavigationItemRef navigationItemRef, int identLevel)
+        private static void PrintNavigationItem(EpubNavigationItemRef navigationItemRef, int indentLevel)
         {
-            Console.Write(new string(' ', identLevel * 2));
+            Console.Write(new string(' ', indentLevel * 2));
             Console.WriteLine(navigationItemRef.Title);
             foreach (EpubNavigationItemRef nestedNavigationItemRef in navigationItemRef.NestedItems)
             {
-                PrintNavigationItem(nestedNavigationItemRef, identLevel + 1);
+                PrintNavigationItem(nestedNavigationItemRef, indentLevel + 1);
             }
         }
     }

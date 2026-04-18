@@ -30,8 +30,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                     value: "Navigation Target",
                     @class: "navtarget-class",
                     playOrder: "1",
-                    navigationLabels: new List<Epub2NcxNavigationLabel>()
-                    {
+                    navigationLabels:
+                    [
                         new Epub2NcxNavigationLabel
                         (
                             text: "Navigation Label 1"
@@ -40,7 +40,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                         (
                             text: "Navigation Label 2"
                         )
-                    },
+                    ],
                     content: new Epub2NcxContent
                     (
                         source: "chapter.html#anchor"
@@ -84,7 +84,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Epub2NcxNavigationList epub2NcxNavigationList = new(ID, CLASS, null, NavigationTargets);
             Assert.Equal(ID, epub2NcxNavigationList.Id);
             Assert.Equal(CLASS, epub2NcxNavigationList.Class);
-            Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists(new List<Epub2NcxNavigationLabel>(), epub2NcxNavigationList.NavigationLabels);
+            Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists([], epub2NcxNavigationList.NavigationLabels);
             Epub2NcxComparer.CompareEpub2NcxNavigationTargetLists(NavigationTargets, epub2NcxNavigationList.NavigationTargets);
         }
 
@@ -95,7 +95,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Assert.Equal(ID, epub2NcxNavigationList.Id);
             Assert.Equal(CLASS, epub2NcxNavigationList.Class);
             Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists(NavigationLabels, epub2NcxNavigationList.NavigationLabels);
-            Epub2NcxComparer.CompareEpub2NcxNavigationTargetLists(new List<Epub2NcxNavigationTarget>(), epub2NcxNavigationList.NavigationTargets);
+            Epub2NcxComparer.CompareEpub2NcxNavigationTargetLists([], epub2NcxNavigationList.NavigationTargets);
         }
     }
 }

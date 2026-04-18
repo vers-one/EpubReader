@@ -17,8 +17,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Narration
                 id: null,
                 epubTypes: null,
                 epubTextRef: null,
-                seqs: new List<SmilSeq>(),
-                pars: new List<SmilPar>()
+                seqs: [],
+                pars: []
             );
 
         [Fact(DisplayName = "Constructing a Smil instance with non-null parameters should succeed")]

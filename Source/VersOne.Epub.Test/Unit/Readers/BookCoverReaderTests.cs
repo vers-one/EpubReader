@@ -311,10 +311,10 @@ namespace VersOne.Epub.Test.Unit.Readers
                             id: "test-item-with-property",
                             href: "toc.html",
                             mediaType: "application/xhtml+xml",
-                            properties: new List<EpubManifestProperty>()
-                            {
+                            properties:
+                            [
                                 EpubManifestProperty.NAV
-                            }
+                            ]
                         )
                     ]
                 )

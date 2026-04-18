@@ -138,7 +138,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(AuthorList, epubBook.AuthorList);
             Assert.Equal(BOOK_DESCRIPTION, epubBook.Description);
             Assert.Equal(TestEpubFiles.COVER_FILE_CONTENT, epubBook.CoverImage);
-            EpubContentComparer.CompareEpubLocalTextContentFileLists(new List<EpubLocalTextContentFile>(), epubBook.ReadingOrder);
+            EpubContentComparer.CompareEpubLocalTextContentFileLists([], epubBook.ReadingOrder);
             EpubNavigationItemComparer.CompareNavigationItemLists(Navigation, epubBook.Navigation);
             EpubSchemaComparer.CompareEpubSchemas(Schema, epubBook.Schema);
             EpubContentComparer.CompareEpubContents(Content, epubBook.Content);

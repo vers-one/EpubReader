@@ -39,42 +39,42 @@ namespace VersOne.Epub.Test.Unit.TestData
                 epubVersion: EpubVersion.EPUB_3,
                 metadata: new EpubMetadata
                 (
-                    titles: new List<EpubMetadataTitle>()
-                    {
+                    titles:
+                    [
                         new EpubMetadataTitle
                         (
                             title: BOOK_TITLE
                         )
-                    },
-                    creators: new List<EpubMetadataCreator>()
-                    {
+                    ],
+                    creators:
+                    [
                         new EpubMetadataCreator
                         (
                             creator: BOOK_AUTHOR
                         )
-                    },
-                    descriptions: new List<EpubMetadataDescription>()
-                    {
+                    ],
+                    descriptions:
+                    [
                         new EpubMetadataDescription
                         (
                             description: BOOK_DESCRIPTION
                         )
-                    },
-                    identifiers: new List<EpubMetadataIdentifier>()
-                    {
+                    ],
+                    identifiers:
+                    [
                         new EpubMetadataIdentifier
                         (
                             identifier: BOOK_UID,
                             id: BOOK_IDENTIFIER_ID
                         )
-                    }
+                    ]
                 ),
                 manifest: TestEpubManifests.CreateFullTestEpubManifest(),
                 spine: new EpubSpine
                 (
                     toc: "ncx",
-                    items: new List<EpubSpineItemRef>()
-                    {
+                    items:
+                    [
                         new EpubSpineItemRef
                         (
                             id: "itemref-1",
@@ -87,7 +87,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                             idRef: "item-html-2",
                             isLinear: true
                         )
-                    }
+                    ]
                 ),
                 guide: null
             );

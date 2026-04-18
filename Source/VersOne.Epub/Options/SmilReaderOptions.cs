@@ -89,7 +89,7 @@ namespace VersOne.Epub.Options
         /// If it's set to <c>false</c> and the 'smil' XML element is not present,
         /// then the "SMIL parsing error: smil XML element is missing in the file." exception will be thrown.
         /// This exception can be suppressed by setting this property to <c>true</c>. However, since 'smil' is the top-level XML element
-        /// in the SMIL document, the reader will will skip this SMIL file in this case.
+        /// in the SMIL document, the reader will skip this SMIL file in this case.
         /// </para>
         /// <para>
         /// Default value is <c>false</c>.
@@ -140,7 +140,7 @@ namespace VersOne.Epub.Options
         /// If it's set to <c>false</c> and the 'body' XML element is not present,
         /// then the "SMIL parsing error: body XML element is missing in the file." exception will be thrown.
         /// This exception can be suppressed by setting this property to <c>true</c>. However, since 'body' is an essential XML element
-        /// in the SMIL document, the reader will will skip this SMIL file in this case.
+        /// in the SMIL document, the reader will skip this SMIL file in this case.
         /// </para>
         /// <para>
         /// Default value is <c>false</c>.

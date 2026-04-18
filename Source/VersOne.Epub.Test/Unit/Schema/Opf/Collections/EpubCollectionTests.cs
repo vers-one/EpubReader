@@ -13,8 +13,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
         private static EpubMetadata Metadata =>
             new
             (
-                titles: new List<EpubMetadataTitle>()
-                {
+                titles:
+                [
                     new EpubMetadataTitle
                     (
                         title: "Test title for outer collection",
@@ -22,7 +22,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                         textDirection: EpubTextDirection.LEFT_TO_RIGHT,
                         language: "en"
                     )
-                }
+                ]
             );
 
         private static List<EpubCollection> NestedCollections =>
@@ -33,8 +33,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                     role: "http://example.org/roles/unit",
                     metadata: new EpubMetadata
                     (
-                        titles: new List<EpubMetadataTitle>()
-                        {
+                        titles:
+                        [
                             new EpubMetadataTitle
                             (
                                 title: "Test title for inner collection",
@@ -42,10 +42,10 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                                 textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                                 language: "is"
                             )
-                        }
+                        ]
                     ),
-                    nestedCollections: new List<EpubCollection>(),
-                    links: new List<EpubMetadataLink>(),
+                    nestedCollections: [],
+                    links: [],
                     id: "collection-inner",
                     textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                     language: "is"
@@ -60,15 +60,15 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                     href: "https://example.com/onix/123",
                     id: "collection-outer-link",
                     mediaType: "application/xml",
-                    properties: new List<EpubMetadataLinkProperty>()
-                    {
+                    properties:
+                    [
                         EpubMetadataLinkProperty.ONIX
-                    },
-                    relationships: new List<EpubMetadataLinkRelationship>()
-                    {
+                    ],
+                    relationships:
+                    [
                         EpubMetadataLinkRelationship.RECORD,
                         EpubMetadataLinkRelationship.ONIX_RECORD
-                    },
+                    ],
                     hrefLanguage: null
                 )
             };
@@ -111,7 +111,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
             EpubCollection epubCollection = new(ROLE, Metadata, null, Links, ID, TEXT_DIRECTION, LANGUAGE);
             Assert.Equal(ROLE, epubCollection.Role);
             EpubMetadataComparer.CompareEpubMetadatas(Metadata, epubCollection.Metadata);
-            EpubPackageComparer.CompareEpubCollectionLists(new List<EpubCollection>(), epubCollection.NestedCollections);
+            EpubPackageComparer.CompareEpubCollectionLists([], epubCollection.NestedCollections);
             EpubMetadataComparer.CompareEpubMetadataLinkLists(Links, epubCollection.Links);
             Assert.Equal(ID, epubCollection.Id);
             Assert.Equal(TEXT_DIRECTION, epubCollection.TextDirection);
@@ -125,7 +125,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
             Assert.Equal(ROLE, epubCollection.Role);
             EpubMetadataComparer.CompareEpubMetadatas(Metadata, epubCollection.Metadata);
             EpubPackageComparer.CompareEpubCollectionLists(NestedCollections, epubCollection.NestedCollections);
-            EpubMetadataComparer.CompareEpubMetadataLinkLists(new List<EpubMetadataLink>(), epubCollection.Links);
+            EpubMetadataComparer.CompareEpubMetadataLinkLists([], epubCollection.Links);
             Assert.Equal(ID, epubCollection.Id);
             Assert.Equal(TEXT_DIRECTION, epubCollection.TextDirection);
             Assert.Equal(LANGUAGE, epubCollection.Language);

@@ -16,35 +16,35 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Package
         private static EpubMetadata Metadata =>
             new
             (
-                titles: new List<EpubMetadataTitle>()
-                {
+                titles:
+                [
                     new EpubMetadataTitle
                     (
                         title: BOOK_TITLE
                     )
-                },
-                creators: new List<EpubMetadataCreator>()
-                {
+                ],
+                creators:
+                [
                     new EpubMetadataCreator
                     (
                         creator: BOOK_AUTHOR
                     )
-                },
-                descriptions: new List<EpubMetadataDescription>()
-                {
+                ],
+                descriptions:
+                [
                     new EpubMetadataDescription
                     (
                         description: BOOK_DESCRIPTION
                     )
-                },
-                identifiers: new List<EpubMetadataIdentifier>()
-                {
+                ],
+                identifiers:
+                [
                     new EpubMetadataIdentifier
                     (
                         identifier: BOOK_UID,
                         id: BOOK_IDENTIFIER_ID
                     )
-                }
+                ]
             );
 
         private static EpubManifest Manifest => TestEpubManifests.CreateFullTestEpubManifest();
@@ -53,8 +53,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Package
             new
             (
                 toc: "ncx",
-                items: new List<EpubSpineItemRef>()
-                {
+                items:
+                [
                     new EpubSpineItemRef
                     (
                         id: "itemref-1",
@@ -67,21 +67,21 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Package
                         idRef: "item-2",
                         isLinear: true
                     )
-                }
+                ]
             );
 
         private static EpubGuide Guide =>
             new
             (
-                items: new List<EpubGuideReference>()
-                {
+                items:
+                [
                     new EpubGuideReference
                     (
                         type: "toc",
                         title: "Contents",
                         href: "toc.html"
                     )
-                }
+                ]
             );
 
         private static List<EpubCollection> Collections =>

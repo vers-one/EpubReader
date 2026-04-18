@@ -600,7 +600,7 @@ namespace VersOne.Epub.Test.Unit.Readers
                                         )
                                     ]
                                 ),
-                                nestedCollections: new List<EpubCollection>(),
+                                nestedCollections: [],
                                 links: [],
                                 id: "collection-2",
                                 textDirection: EpubTextDirection.RIGHT_TO_LEFT,

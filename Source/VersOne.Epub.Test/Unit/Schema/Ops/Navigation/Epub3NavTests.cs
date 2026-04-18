@@ -13,8 +13,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
             new
             (
                 isHidden: true,
-                lis: new List<Epub3NavLi>()
-                {
+                lis:
+                [
                     new Epub3NavLi
                     (
                         anchor: new Epub3NavAnchor
@@ -23,7 +23,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
                             text: "1"
                         )
                     )
-                }
+                ]
             );
 
         [Fact(DisplayName = "Constructing a Epub3Nav instance with non-null parameters should succeed")]

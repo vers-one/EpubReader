@@ -103,7 +103,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
             Assert.Equal(MEDIA_TYPE, epubMetadataLink.MediaType);
             Assert.Equal(Properties, epubMetadataLink.Properties);
             Assert.Equal(REFINES, epubMetadataLink.Refines);
-            Assert.Equal(new List<EpubMetadataLinkRelationship>(), epubMetadataLink.Relationships);
+            Assert.Equal([], epubMetadataLink.Relationships);
             Assert.Equal(HREF_LANGUAGE, epubMetadataLink.HrefLanguage);
         }
 

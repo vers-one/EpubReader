@@ -64,13 +64,13 @@ void PrintTableOfContents()
     }
 }
 
-void PrintNavigationItem(EpubNavigationItem navigationItem, int identLevel)
+void PrintNavigationItem(EpubNavigationItem navigationItem, int indentLevel)
 {
-    Console.Write(new string(' ', identLevel * 2));
+    Console.Write(new string(' ', indentLevel * 2));
     Console.WriteLine(navigationItem.Title);
     foreach (EpubNavigationItem nestedNavigationItem in navigationItem.NestedItems)
     {
-        PrintNavigationItem(nestedNavigationItem, identLevel + 1);
+        PrintNavigationItem(nestedNavigationItem, indentLevel + 1);
     }
 }
 

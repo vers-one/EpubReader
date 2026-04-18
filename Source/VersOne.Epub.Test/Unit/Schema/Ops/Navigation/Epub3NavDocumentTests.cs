@@ -18,8 +18,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
                     ol: new Epub3NavOl
                     (
                         isHidden: false,
-                        lis: new List<Epub3NavLi>()
-                        {
+                        lis:
+                        [
                             new Epub3NavLi
                             (
                                 anchor: new Epub3NavAnchor
@@ -28,7 +28,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
                                     text: "1"
                                 )
                             )
-                        }
+                        ]
                     )
                 )
             };
@@ -52,7 +52,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
         {
             Epub3NavDocument epub3NavDocument = new(FILE_PATH, null);
             Assert.Equal(FILE_PATH, epub3NavDocument.FilePath);
-            Epub3NavDocumentComparer.CompareEpub3NavLists(new List<Epub3Nav>(), epub3NavDocument.Navs);
+            Epub3NavDocumentComparer.CompareEpub3NavLists([], epub3NavDocument.Navs);
         }
     }
 }

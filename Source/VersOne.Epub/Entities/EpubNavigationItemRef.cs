@@ -47,7 +47,7 @@ namespace VersOne.Epub
         /// <summary>
         /// Gets the value determining whether this navigation item acts as a header or as a navigation link.
         /// </summary>
-        public EpubNavigationItemType Type { get;  }
+        public EpubNavigationItemType Type { get; }
 
         /// <summary>
         /// Gets the title of the navigation element (which is either the text of the header or the title of the navigation link).

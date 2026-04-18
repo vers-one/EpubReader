@@ -39,10 +39,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                 package: TestEpubPackages.CreateFullTestEpubPackage(),
                 epub2Ncx: TestEpub2Ncxes.CreateFullTestEpub2Ncx(),
                 epub3NavDocument: TestEpub3NavDocuments.CreateFullTestEpub3NavDocument(),
-                mediaOverlays: new List<Smil>()
-                {
+                mediaOverlays:
+                [
                     TestSmils.CreateFullTestSmil()
-                },
+                ],
                 contentDirectoryPath: CONTENT_DIRECTORY_PATH
             );
         }

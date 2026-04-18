@@ -27,7 +27,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Guide
         public void ConstructorWithNullItemsTest()
         {
             EpubGuide epubGuide = new(null);
-            EpubPackageComparer.CompareEpubGuideReferenceLists(new List<EpubGuideReference>(), epubGuide.Items);
+            EpubPackageComparer.CompareEpubGuideReferenceLists([], epubGuide.Items);
         }
     }
 }

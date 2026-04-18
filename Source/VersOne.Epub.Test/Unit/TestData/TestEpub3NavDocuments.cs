@@ -10,15 +10,15 @@ namespace VersOne.Epub.Test.Unit.TestData
             return new Epub3NavDocument
             (
                 filePath: NAV_FILE_PATH,
-                navs: new List<Epub3Nav>()
-                {
+                navs:
+                [
                     new Epub3Nav
                     (
                         type: Epub3StructuralSemanticsProperty.TOC,
                         ol: new Epub3NavOl
                         (
-                            lis: new List<Epub3NavLi>()
-                            {
+                            lis:
+                            [
                                 new Epub3NavLi
                                 (
                                     anchor: new Epub3NavAnchor
@@ -35,10 +35,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                                         text: "Chapter 2"
                                     )
                                 )
-                            }
+                            ]
                         )
                     )
-                }
+                ]
             );
         }
     }

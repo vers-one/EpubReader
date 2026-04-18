@@ -37,13 +37,13 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                     id: "child-navpoint",
                     @class: "child-navpoint-class",
                     playOrder: "2",
-                    navigationLabels: new List<Epub2NcxNavigationLabel>()
-                    {
+                    navigationLabels:
+                    [
                         new Epub2NcxNavigationLabel
                         (
                             text: "Child Navigation Label"
                         )
-                    },
+                    ],
                     content: new Epub2NcxContent
                     (
                         id: "child-content",
@@ -108,7 +108,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Assert.Equal(ID, epub2NcxNavigationPoint.Id);
             Assert.Equal(CLASS, epub2NcxNavigationPoint.Class);
             Assert.Equal(PLAY_ORDER, epub2NcxNavigationPoint.PlayOrder);
-            Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists(new List<Epub2NcxNavigationLabel>(), epub2NcxNavigationPoint.NavigationLabels);
+            Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists([], epub2NcxNavigationPoint.NavigationLabels);
             Epub2NcxComparer.CompareEpub2NcxContents(Content, epub2NcxNavigationPoint.Content);
             Epub2NcxComparer.CompareEpub2NcxNavigationPointLists(ChildNavigationPoints, epub2NcxNavigationPoint.ChildNavigationPoints);
         }
@@ -122,7 +122,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Assert.Equal(PLAY_ORDER, epub2NcxNavigationPoint.PlayOrder);
             Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists(NavigationLabels, epub2NcxNavigationPoint.NavigationLabels);
             Epub2NcxComparer.CompareEpub2NcxContents(Content, epub2NcxNavigationPoint.Content);
-            Epub2NcxComparer.CompareEpub2NcxNavigationPointLists(new List<Epub2NcxNavigationPoint>(), epub2NcxNavigationPoint.ChildNavigationPoints);
+            Epub2NcxComparer.CompareEpub2NcxNavigationPointLists([], epub2NcxNavigationPoint.ChildNavigationPoints);
         }
 
         [Fact(DisplayName = "ToString method should produce a string with the ID and the content source")]

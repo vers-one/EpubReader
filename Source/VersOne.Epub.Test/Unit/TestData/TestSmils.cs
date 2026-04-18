@@ -17,48 +17,48 @@ namespace VersOne.Epub.Test.Unit.TestData
                 (
                     metadata: new SmilMetadata
                     (
-                        items: new List<XElement>()
-                        {
+                        items:
+                        [
                             new XElement("item1", "value1"),
                             new XElement("item2", "value2")
-                        }
+                        ]
                     )
                 ),
                 body: new SmilBody
                 (
                     id: "body",
-                    epubTypes: new List<Epub3StructuralSemanticsProperty>()
-                    {
+                    epubTypes:
+                    [
                         Epub3StructuralSemanticsProperty.BODYMATTER
-                    },
+                    ],
                     epubTextRef: CHAPTER1_FILE_NAME,
-                    seqs: new List<SmilSeq>()
-                    {
+                    seqs:
+                    [
                         new SmilSeq
                         (
                             id: "seq1",
-                            epubTypes: new List<Epub3StructuralSemanticsProperty>()
-                            {
+                            epubTypes:
+                            [
                                 Epub3StructuralSemanticsProperty.CHAPTER
-                            },
+                            ],
                             epubTextRef: CHAPTER1_FILE_NAME + "#section1",
-                            seqs: new List<SmilSeq>()
-                            {
+                            seqs:
+                            [
                                 new SmilSeq
                                 (
                                     id: "seq2",
                                     epubTypes: null,
                                     epubTextRef: CHAPTER1_FILE_NAME + "#figure1",
-                                    seqs: new List<SmilSeq>(),
-                                    pars: new List<SmilPar>()
-                                    {
+                                    seqs: [],
+                                    pars:
+                                    [
                                         new SmilPar
                                         (
                                             id: "par3",
-                                            epubTypes: new List<Epub3StructuralSemanticsProperty>()
-                                            {
+                                            epubTypes:
+                                            [
                                                 Epub3StructuralSemanticsProperty.FIGURE
-                                            },
+                                            ],
                                             text: new SmilText
                                             (
                                                 id: "text3",
@@ -75,10 +75,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                                         new SmilPar
                                         (
                                             id: "par4",
-                                            epubTypes: new List<Epub3StructuralSemanticsProperty>()
-                                            {
+                                            epubTypes:
+                                            [
                                                 Epub3StructuralSemanticsProperty.TITLE
-                                            },
+                                            ],
                                             text: new SmilText
                                             (
                                                 id: "text4",
@@ -92,11 +92,11 @@ namespace VersOne.Epub.Test.Unit.TestData
                                                 clipEnd: "0:24:50.010"
                                             )
                                         )
-                                    }
+                                    ]
                                 )
-                            },
-                            pars: new List<SmilPar>()
-                            {
+                            ],
+                            pars:
+                            [
                                 new SmilPar
                                 (
                                     id: "par1",
@@ -131,12 +131,10 @@ namespace VersOne.Epub.Test.Unit.TestData
                                         clipEnd: "0:24:15.000"
                                     )
                                 )
-                            }
+                            ]
                         )
-                    },
-                    pars: new List<SmilPar>()
-                    {
-                    }
+                    ],
+                    pars: []
                 )
             );
         }

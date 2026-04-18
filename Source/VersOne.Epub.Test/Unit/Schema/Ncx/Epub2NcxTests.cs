@@ -11,14 +11,14 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
         private static Epub2NcxHead Head =>
             new
             (
-                items: new List<Epub2NcxHeadMeta>
-                {
+                items:
+                [
                     new Epub2NcxHeadMeta
                     (
                         name: "dtb:uid",
                         content: "9781234567890"
                     )
-                }
+                ]
             );
 
         private static List<string> DocAuthors =>
@@ -30,48 +30,48 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
         private static Epub2NcxNavigationMap NavMap =>
             new
             (
-                items: new List<Epub2NcxNavigationPoint>()
-                {
+                items:
+                [
                     new Epub2NcxNavigationPoint
                     (
                         id: "navpoint",
-                        navigationLabels: new List<Epub2NcxNavigationLabel>()
-                        {
+                        navigationLabels:
+                        [
                             new Epub2NcxNavigationLabel
                             (
                                 text: "Chapter"
                             )
-                        },
+                        ],
                         content: new Epub2NcxContent
                         (
                             source: "chapter.html"
                         )
                     )
-                }
+                ]
             );
 
         private static Epub2NcxPageList PageList =>
             new
             (
-                items: new List<Epub2NcxPageTarget>()
-                {
+                items:
+                [
                     new Epub2NcxPageTarget
                     (
                         type: Epub2NcxPageTargetType.NORMAL,
-                        navigationLabels: new List<Epub2NcxNavigationLabel>()
-                        {
+                        navigationLabels:
+                        [
                             new Epub2NcxNavigationLabel
                             (
                                 text: "1"
                             )
-                        },
+                        ],
                         content: new Epub2NcxContent
                         (
                             id: "content",
                             source: "chapter.html"
                         )
                     )
-                }
+                ]
             );
 
         private static List<Epub2NcxNavigationList> NavLists =>
@@ -81,34 +81,34 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                 (
                     id: "navlist",
                     @class: "navlist-illustrations",
-                    navigationLabels: new List<Epub2NcxNavigationLabel>()
-                    {
+                    navigationLabels:
+                    [
                         new Epub2NcxNavigationLabel
                         (
                             text: "List of Illustrations"
                         )
-                    },
-                    navigationTargets: new List<Epub2NcxNavigationTarget>()
-                    {
+                    ],
+                    navigationTargets:
+                    [
                         new Epub2NcxNavigationTarget
                         (
                             id: "navtarget",
                             value: "Illustration",
                             @class: "illustration",
                             playOrder: "1",
-                            navigationLabels: new List<Epub2NcxNavigationLabel>()
-                            {
+                            navigationLabels:
+                            [
                                 new Epub2NcxNavigationLabel
                                 (
                                     text: "Illustration"
                                 )
-                            },
+                            ],
                             content: new Epub2NcxContent
                             (
                                 source: "chapter.html#illustration"
                             )
                         )
-                    }
+                    ]
                 )
             };
 
@@ -163,7 +163,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Assert.Equal(FILE_PATH, epub2Ncx.FilePath);
             Epub2NcxComparer.CompareEpub2NcxHeads(Head, epub2Ncx.Head);
             Assert.Equal(DOC_TITLE, epub2Ncx.DocTitle);
-            Assert.Equal(new List<string>(), epub2Ncx.DocAuthors);
+            Assert.Equal([], epub2Ncx.DocAuthors);
             Epub2NcxComparer.CompareEpub2NcxNavigationMaps(NavMap, epub2Ncx.NavMap);
             Epub2NcxComparer.CompareEpub2NcxPageLists(PageList, epub2Ncx.PageList);
             Epub2NcxComparer.CompareEpub2NcxNavigationListLists(NavLists, epub2Ncx.NavLists);
@@ -192,7 +192,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Assert.Equal(DocAuthors, epub2Ncx.DocAuthors);
             Epub2NcxComparer.CompareEpub2NcxNavigationMaps(NavMap, epub2Ncx.NavMap);
             Epub2NcxComparer.CompareEpub2NcxPageLists(PageList, epub2Ncx.PageList);
-            Epub2NcxComparer.CompareEpub2NcxNavigationListLists(new List<Epub2NcxNavigationList>(), epub2Ncx.NavLists);
+            Epub2NcxComparer.CompareEpub2NcxNavigationListLists([], epub2Ncx.NavLists);
         }
     }
 }

@@ -9,19 +9,19 @@ namespace VersOne.Epub.Test.Unit.TestData
         {
             return new
             (
-                items: new List<EpubManifestItem>()
-                {
+                items:
+                [
                     new EpubManifestItem
                     (
                         id: "item-toc",
                         href: NAV_FILE_NAME,
                         mediaType: HTML_CONTENT_MIME_TYPE,
-                        properties: new List<EpubManifestProperty>()
-                        {
+                        properties:
+                        [
                             EpubManifestProperty.NAV
-                        }
+                        ]
                     )
-                }
+                ]
             );
         }
 
@@ -29,8 +29,8 @@ namespace VersOne.Epub.Test.Unit.TestData
         {
             return new
             (
-                items: new List<EpubManifestItem>()
-                {
+                items:
+                [
                     new EpubManifestItem
                     (
                         id: "item-html-1",
@@ -144,20 +144,20 @@ namespace VersOne.Epub.Test.Unit.TestData
                         id: "item-toc",
                         href: NAV_FILE_NAME,
                         mediaType: HTML_CONTENT_MIME_TYPE,
-                        properties: new List<EpubManifestProperty>
-                        {
+                        properties:
+                        [
                             EpubManifestProperty.NAV
-                        }
+                        ]
                     ),
                     new EpubManifestItem
                     (
                         id: "item-cover",
                         href: COVER_FILE_NAME,
                         mediaType: IMAGE_CONTENT_MIME_TYPE,
-                        properties: new List<EpubManifestProperty>
-                        {
+                        properties:
+                        [
                             EpubManifestProperty.COVER_IMAGE
-                        }
+                        ]
                     ),
                     new EpubManifestItem
                     (
@@ -165,7 +165,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                         href: NCX_FILE_NAME,
                         mediaType: NCX_CONTENT_MIME_TYPE
                     )
-                }
+                ]
             );
         }
     }

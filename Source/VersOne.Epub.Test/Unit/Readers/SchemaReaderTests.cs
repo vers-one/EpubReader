@@ -226,14 +226,14 @@ namespace VersOne.Epub.Test.Unit.Readers
                     filePath: NCX_FILE_PATH,
                     head: new Epub2NcxHead
                     (
-                        items: new List<Epub2NcxHeadMeta>()
-                        {
+                        items:
+                        [
                             new
                             (
                                 name: "dtb:uid",
                                 content: "9781234567890"
                             )
-                        }
+                        ]
                     ),
                     docTitle: "Test title",
                     docAuthors:

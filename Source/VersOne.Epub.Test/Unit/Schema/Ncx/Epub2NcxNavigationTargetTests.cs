@@ -93,7 +93,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             Assert.Equal(CLASS, epub2NcxNavigationTarget.Class);
             Assert.Equal(VALUE, epub2NcxNavigationTarget.Value);
             Assert.Equal(PLAY_ORDER, epub2NcxNavigationTarget.PlayOrder);
-            Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists(new List<Epub2NcxNavigationLabel>(), epub2NcxNavigationTarget.NavigationLabels);
+            Epub2NcxComparer.CompareEpub2NcxNavigationLabelLists([], epub2NcxNavigationTarget.NavigationLabels);
             Epub2NcxComparer.CompareEpub2NcxContents(Content, epub2NcxNavigationTarget.Content);
         }
 
