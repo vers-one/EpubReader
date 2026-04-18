@@ -8,8 +8,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Manifest
         public void ParsePropertyListTest()
         {
             string stringValue = "cover-image mathml nav remote-resources scripted svg test-unknown-property";
-            List<EpubManifestProperty> expectedPropertyList = new()
-            {
+            List<EpubManifestProperty> expectedPropertyList =
+            [
                 EpubManifestProperty.COVER_IMAGE,
                 EpubManifestProperty.MATHML,
                 EpubManifestProperty.NAV,
@@ -17,7 +17,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Manifest
                 EpubManifestProperty.SCRIPTED,
                 EpubManifestProperty.SVG,
                 EpubManifestProperty.UNKNOWN
-            };
+            ];
             List<EpubManifestProperty> actualPropertyList = EpubManifestPropertyParser.ParsePropertyList(stringValue);
             Assert.Equal(expectedPropertyList, actualPropertyList);
         }

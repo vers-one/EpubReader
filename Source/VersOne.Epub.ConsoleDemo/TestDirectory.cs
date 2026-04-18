@@ -10,7 +10,7 @@ namespace VersOne.Epub.ConsoleDemo
         public static void Run(string directoryPath)
         {
             int totalFiles = 0;
-            Dictionary<string, int> filesByVersion = new();
+            Dictionary<string, int> filesByVersion = [];
             List<string> filesWithErrors = [];
             TestEpubDirectory(directoryPath, ref totalFiles, filesByVersion, filesWithErrors);
             if (totalFiles == 0)
@@ -39,7 +39,7 @@ namespace VersOne.Epub.ConsoleDemo
                     }
                     Console.WriteLine(".");
                 }
-                if (filesWithErrors.Any())
+                if (filesWithErrors.Count != 0)
                 {
                     Console.WriteLine("Files with errors:");
                     foreach (string filePath in filesWithErrors)

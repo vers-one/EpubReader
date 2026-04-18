@@ -51,62 +51,62 @@ namespace VersOne.Epub.Test.Integration.Runner
 
         private List<TestCase> GenerateTypicalEpub2BookTestCases(string testEpubFilePath)
         {
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "Typical EPUB 2 book",
                     expectedResult: EpubReader.ReadBook(testEpubFilePath)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateTypicalEpub3BookTestCases(string testEpubFilePath)
         {
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "Typical EPUB 3 book",
                     expectedResult: EpubReader.ReadBook(testEpubFilePath)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateIssue53TestCases(string testEpubFilePath)
         {
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "Issue #53: EPUB schema metadata/date/event and metadata/identifier/scheme attributes are not being parsed",
                     expectedResult: EpubReader.ReadBook(testEpubFilePath)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateIssue55TestCases(string testEpubFilePath)
         {
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "Issue #55: EPUB 2 NCX navigation list parsing issues",
                     expectedResult: EpubReader.ReadBook(testEpubFilePath)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateIssue57TestCases(string testEpubFilePath)
         {
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "Issue #57: Cover extracting issue for EPUB 2 books without a cover and a guide",
                     expectedResult: EpubReader.ReadBook(testEpubFilePath)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateRemoteContentTestCases(string testEpubFilePath)
@@ -119,8 +119,8 @@ namespace VersOne.Epub.Test.Integration.Runner
                     DownloaderUserAgent = "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)"
                 }
             };
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "EPUB 3 book with remote content files - without options",
@@ -132,7 +132,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     options: optionsWithDownloadingRemoteContentEnabled,
                     expectedResult: EpubReader.ReadBook(testEpubFilePath, optionsWithDownloadingRemoteContentEnabled)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateInvalidManifestItemsEpub2TestCases(string testEpubFilePath)
@@ -144,8 +144,8 @@ namespace VersOne.Epub.Test.Integration.Runner
                     SkipInvalidManifestItems = true
                 }
             };
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "EPUB 2 book with invalid manifest items - without options",
@@ -161,7 +161,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     options: optionsWithSkippingInvalidManifestItemsEnabled,
                     expectedResult: EpubReader.ReadBook(testEpubFilePath, optionsWithSkippingInvalidManifestItemsEnabled)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateInvalidManifestItemsEpub3TestCases(string testEpubFilePath)
@@ -173,8 +173,8 @@ namespace VersOne.Epub.Test.Integration.Runner
                     SkipInvalidManifestItems = true
                 }
             };
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "EPUB 3 book with invalid manifest items - without options",
@@ -190,7 +190,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     options: optionsWithSkippingInvalidManifestItemsEnabled,
                     expectedResult: EpubReader.ReadBook(testEpubFilePath, optionsWithSkippingInvalidManifestItemsEnabled)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateMissingContentForNavigationPointTestCases(string testEpubFilePath)
@@ -202,8 +202,8 @@ namespace VersOne.Epub.Test.Integration.Runner
                     IgnoreMissingContentForNavigationPoints = true
                 }
             };
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "EPUB 2 book with missing 'content' attribute for EPUB 2 NCX navigation point - without options",
@@ -219,7 +219,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     options: optionsWithIgnoringMissingContentForNavigationPointsEnabled,
                     expectedResult: EpubReader.ReadBook(testEpubFilePath, optionsWithIgnoringMissingContentForNavigationPointsEnabled)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateMissingTocTestCases(string testEpubFilePath)
@@ -231,8 +231,8 @@ namespace VersOne.Epub.Test.Integration.Runner
                     IgnoreMissingToc = true
                 }
             };
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "EPUB 2 book with missing TOC attribute - without options",
@@ -248,7 +248,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     options: optionsWithIgnoringMissingTocEnabled,
                     expectedResult: EpubReader.ReadBook(testEpubFilePath, optionsWithIgnoringMissingTocEnabled)
                 )
-            };
+            ];
         }
 
         private List<TestCase> GenerateXml11TestCases(string testEpubFilePath)
@@ -260,8 +260,8 @@ namespace VersOne.Epub.Test.Integration.Runner
                     SkipXmlHeaders = true
                 }
             };
-            return new()
-            {
+            return
+            [
                 new TestCase
                 (
                     name: "EPUB 2 book with XML 1.1 files - without options",
@@ -276,7 +276,7 @@ namespace VersOne.Epub.Test.Integration.Runner
                     options: optionsWithSkippingXmlHeadersEnabled,
                     expectedResult: EpubReader.ReadBook(testEpubFilePath, optionsWithSkippingXmlHeadersEnabled)
                 )
-            };
+            ];
         }
 
         private void WriteTestCases(string testCaseFilePath, string testEpubFilePath, List<TestCase> testCases)

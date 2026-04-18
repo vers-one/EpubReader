@@ -8,11 +8,11 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Narration
         private const string ID = "id";
         private const string EPUB_TEXT_REF = "chapter.html";
 
-        private static List<Epub3StructuralSemanticsProperty> EpubTypes => new();
+        private static List<Epub3StructuralSemanticsProperty> EpubTypes => [];
 
-        private static List<SmilSeq> Seqs => new();
+        private static List<SmilSeq> Seqs => [];
 
-        private static List<SmilPar> Pars => new();
+        private static List<SmilPar> Pars => [];
 
         [Fact(DisplayName = "Constructing a SmilSeq instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

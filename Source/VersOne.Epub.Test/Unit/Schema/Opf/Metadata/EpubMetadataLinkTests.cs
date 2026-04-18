@@ -10,18 +10,9 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
         private const string REFINES = "#title";
         private const string HREF_LANGUAGE = "en";
 
-        private static List<EpubMetadataLinkProperty> Properties =>
-            new()
-            {
-                EpubMetadataLinkProperty.ONIX
-            };
+        private static List<EpubMetadataLinkProperty> Properties => [ EpubMetadataLinkProperty.ONIX ];
 
-        private static List<EpubMetadataLinkRelationship> Relationships =>
-            new()
-            {
-                EpubMetadataLinkRelationship.RECORD,
-                EpubMetadataLinkRelationship.ONIX_RECORD
-            };
+        private static List<EpubMetadataLinkRelationship> Relationships => [ EpubMetadataLinkRelationship.RECORD, EpubMetadataLinkRelationship.ONIX_RECORD ];
 
         [Fact(DisplayName = "Constructing a EpubMetadataLink instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

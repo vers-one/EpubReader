@@ -6,14 +6,14 @@ namespace VersOne.Epub.Test.Unit.TestData
     {
         public static EpubContent CreateMinimalTestEpubContentWithNavigation()
         {
-            List<EpubLocalTextContentFile> htmlLocal = new()
-            {
+            List<EpubLocalTextContentFile> htmlLocal =
+            [
                 MinimalNavFile
-            };
-            List<EpubLocalContentFile> allFilesLocal = new()
-            {
+            ];
+            List<EpubLocalContentFile> allFilesLocal =
+            [
                 MinimalNavFile
-            };
+            ];
             return new EpubContent
             (
                 cover: null,
@@ -29,55 +29,55 @@ namespace VersOne.Epub.Test.Unit.TestData
 
         public static EpubContent CreateFullTestEpubContent(bool populateRemoteFilesContents)
         {
-            List<EpubLocalTextContentFile> htmlLocal = new()
-            {
+            List<EpubLocalTextContentFile> htmlLocal =
+            [
                 Chapter1File,
                 Chapter2File,
                 FullNavFile
-            };
-            List<EpubRemoteTextContentFile> htmlRemote = new()
-            {
+            ];
+            List<EpubRemoteTextContentFile> htmlRemote =
+            [
                 populateRemoteFilesContents ? RemoteHtmlContentFile : RemoteHtmlContentFileWithNoContent
-            };
-            List<EpubLocalTextContentFile> cssLocal = new()
-            {
+            ];
+            List<EpubLocalTextContentFile> cssLocal =
+            [
                 Styles1File,
                 Styles2File
-            };
-            List<EpubRemoteTextContentFile> cssRemote = new()
-            {
+            ];
+            List<EpubRemoteTextContentFile> cssRemote =
+            [
                 populateRemoteFilesContents ? RemoteCssContentFile : RemoteCssContentFileWithNoContent
-            };
-            List<EpubLocalByteContentFile> imagesLocal = new()
-            {
+            ];
+            List<EpubLocalByteContentFile> imagesLocal =
+            [
                 Image1File,
                 Image2File,
                 CoverFile
-            };
-            List<EpubRemoteByteContentFile> imagesRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFile> imagesRemote =
+            [
                 populateRemoteFilesContents ? RemoteImageContentFile : RemoteImageContentFileWithNoContent
-            };
-            List<EpubLocalByteContentFile> fontsLocal = new()
-            {
+            ];
+            List<EpubLocalByteContentFile> fontsLocal =
+            [
                 Font1File,
                 Font2File
-            };
-            List<EpubRemoteByteContentFile> fontsRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFile> fontsRemote =
+            [
                 populateRemoteFilesContents ? RemoteFontContentFile : RemoteFontContentFileWithNoContent
-            };
-            List<EpubLocalByteContentFile> audioLocal = new()
-            {
+            ];
+            List<EpubLocalByteContentFile> audioLocal =
+            [
                 Audio1File,
                 Audio2File
-            };
-            List<EpubRemoteByteContentFile> audioRemote = new()
-            {
+            ];
+            List<EpubRemoteByteContentFile> audioRemote =
+            [
                 populateRemoteFilesContents ? RemoteAudioContentFile : RemoteAudioContentFileWithNoContent
-            };
-            List<EpubLocalContentFile> allFilesLocal = new()
-            {
+            ];
+            List<EpubLocalContentFile> allFilesLocal =
+            [
                 Chapter1File,
                 Chapter2File,
                 FullNavFile,
@@ -92,9 +92,9 @@ namespace VersOne.Epub.Test.Unit.TestData
                 Audio2File,
                 VideoFile,
                 NcxFile
-            };
-            List<EpubRemoteContentFile> allFilesRemote = new()
-            {
+            ];
+            List<EpubRemoteContentFile> allFilesRemote =
+            [
                 populateRemoteFilesContents ? RemoteHtmlContentFile : RemoteHtmlContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteCssContentFile : RemoteCssContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteImageContentFile : RemoteImageContentFileWithNoContent,
@@ -102,7 +102,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                 populateRemoteFilesContents? RemoteAudioContentFile : RemoteAudioContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteXmlContentFile : RemoteXmlContentFileWithNoContent,
                 populateRemoteFilesContents? RemoteVideoContentFile : RemoteVideoContentFileWithNoContent
-            };
+            ];
             return new
             (
                 cover: CoverFile,

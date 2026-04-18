@@ -8,8 +8,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
         private const string FILE_PATH = "Content/toc.html";
 
         private static List<Epub3Nav> Navs =>
-            new()
-            {
+            [
                 new Epub3Nav
                 (
                     type: Epub3StructuralSemanticsProperty.BODYMATTER,
@@ -31,7 +30,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Navigation
                         ]
                     )
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a Epub3NavDocument instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

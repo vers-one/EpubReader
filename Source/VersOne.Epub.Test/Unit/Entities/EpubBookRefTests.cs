@@ -107,7 +107,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(EPUB_FILE_PATH, epubBookRef.FilePath);
             Assert.Equal(BOOK_TITLE, epubBookRef.Title);
             Assert.Equal(BOOK_AUTHOR, epubBookRef.Author);
-            Assert.Equal(new List<string>(), epubBookRef.AuthorList);
+            Assert.Equal([], epubBookRef.AuthorList);
             Assert.Equal(BOOK_DESCRIPTION, epubBookRef.Description);
             EpubSchemaComparer.CompareEpubSchemas(Schema, epubBookRef.Schema);
             EpubContentRefComparer.CompareEpubContentRefs(testContent, epubBookRef.Content);
@@ -167,10 +167,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         public void GetReadingOrderTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithReadingOrder(HTML_FILE_NAME, HTML_FILE_PATH);
-            List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
-            {
+            List<EpubLocalTextContentFileRef> expectedReadingOrder =
+            [
                 epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME)
-            };
+            ];
             List<EpubLocalTextContentFileRef> actualReadingOrder = epubBookRef.GetReadingOrder();
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
@@ -179,10 +179,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         public async Task GetReadingOrderAsyncTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithReadingOrder(HTML_FILE_NAME, HTML_FILE_PATH);
-            List<EpubLocalTextContentFileRef> expectedReadingOrder = new()
-            {
+            List<EpubLocalTextContentFileRef> expectedReadingOrder =
+            [
                 epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME)
-            };
+            ];
             List<EpubLocalTextContentFileRef> actualReadingOrder = await epubBookRef.GetReadingOrderAsync();
             Assert.Equal(expectedReadingOrder, actualReadingOrder);
         }
@@ -191,10 +191,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         public void GetNavigationTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithNavigation(HTML_FILE_NAME, HTML_FILE_PATH, TEST_ANCHOR_TEXT);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME))
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = epubBookRef.GetNavigation();
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }
@@ -203,10 +203,10 @@ namespace VersOne.Epub.Test.Unit.Entities
         public async Task GetNavigationAsyncTest()
         {
             EpubBookRef epubBookRef = CreateEpubBookRefWithNavigation(HTML_FILE_NAME, HTML_FILE_PATH, TEST_ANCHOR_TEXT);
-            List<EpubNavigationItemRef> expectedNavigationItems = new()
-            {
+            List<EpubNavigationItemRef> expectedNavigationItems =
+            [
                 CreateTestNavigationLink(TEST_ANCHOR_TEXT, HTML_FILE_NAME, epubBookRef.Content.Html.GetLocalFileRefByKey(HTML_FILE_NAME))
-            };
+            ];
             List<EpubNavigationItemRef>? actualNavigationItems = await epubBookRef.GetNavigationAsync();
             EpubNavigationItemRefComparer.CompareNavigationItemRefLists(expectedNavigationItems, actualNavigationItems);
         }

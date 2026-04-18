@@ -4,33 +4,21 @@ using VersOne.Epub.Test.Integration.CustomSerialization.Context;
 
 namespace VersOne.Epub.Test.Integration.CustomSerialization.TypeSerializers
 {
-    internal abstract class CustomPropertySerializer
+    internal abstract class CustomPropertySerializer(string typePropertyName, string jsonPropertyName)
     {
-        public CustomPropertySerializer(string typePropertyName, string jsonPropertyName)
-        {
-            TypePropertyName = typePropertyName ?? throw new ArgumentNullException(nameof(typePropertyName));
-            JsonPropertyName = jsonPropertyName ?? throw new ArgumentNullException(nameof(jsonPropertyName));
-        }
-
-        public string TypePropertyName { get; }
-        public string JsonPropertyName { get; }
+        public string TypePropertyName { get; } = typePropertyName ?? throw new ArgumentNullException(nameof(typePropertyName));
+        public string JsonPropertyName { get; } = jsonPropertyName ?? throw new ArgumentNullException(nameof(jsonPropertyName));
 
         public abstract JsonNode? SerializePropertyValue(object serializingObject, TestEpubFile testEpubFile);
         public abstract object? DeserializePropertyValue(JsonElement serializedValue, TestEpubFile testEpubFile);
     }
 
-    internal class CustomPropertySerializer<T> : CustomPropertySerializer where T : class
+    internal class CustomPropertySerializer<T>(string typePropertyName, string jsonPropertyName,
+        Func<T, TestEpubFile, JsonNode?> propertySerializer, Func<string?, TestEpubFile, object?> propertyDeserializer) :
+        CustomPropertySerializer(typePropertyName, jsonPropertyName) where T : class
     {
-        private readonly Func<T, TestEpubFile, JsonNode?> propertySerializer;
-        private readonly Func<string?, TestEpubFile, object?> propertyDeserializer;
-
-        public CustomPropertySerializer(string typePropertyName, string jsonPropertyName,
-            Func<T, TestEpubFile, JsonNode?> propertySerializer, Func<string?, TestEpubFile, object?> propertyDeserializer)
-            : base(typePropertyName, jsonPropertyName)
-        {
-            this.propertySerializer = propertySerializer;
-            this.propertyDeserializer = propertyDeserializer;
-        }
+        private readonly Func<T, TestEpubFile, JsonNode?> propertySerializer = propertySerializer;
+        private readonly Func<string?, TestEpubFile, object?> propertyDeserializer = propertyDeserializer;
 
         public override JsonNode? SerializePropertyValue(object serializingObject, TestEpubFile testEpubFile)
         {

@@ -7,7 +7,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ops.Narration
     {
         private const string ID = "id";
 
-        private static List<Epub3StructuralSemanticsProperty> EpubTypes => new();
+        private static List<Epub3StructuralSemanticsProperty> EpubTypes => [];
 
         private static SmilText Text =>
             new

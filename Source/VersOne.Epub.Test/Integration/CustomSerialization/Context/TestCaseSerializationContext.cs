@@ -5,15 +5,11 @@ using VersOne.Epub.Test.Integration.JsonUtils;
 
 namespace VersOne.Epub.Test.Integration.CustomSerialization.Context
 {
-    internal class TestCaseSerializationContext : JsonSerializationContext
+    internal class TestCaseSerializationContext(TestEpubFile testEpubFile) : JsonSerializationContext
     {
-        private readonly Dictionary<Type, Lazy<CustomTypeSerializationContext>> customTypes;
-
-        public TestCaseSerializationContext(TestEpubFile testEpubFile)
-        {
-            customTypes = CustomTypeSerializers.TypeSerializers.ToDictionary(typeSerializer => typeSerializer.Key,
+        private readonly Dictionary<Type, Lazy<CustomTypeSerializationContext>> customTypes =
+            CustomTypeSerializers.TypeSerializers.ToDictionary(typeSerializer => typeSerializer.Key,
                 typeSerializer => new Lazy<CustomTypeSerializationContext>(() => new(typeSerializer.Value, testEpubFile)));
-        }
 
         public override JsonNode? SerializePropertyValue(Type type, string propertyName, object serializingObject)
         {

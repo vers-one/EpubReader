@@ -8,8 +8,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
         public void ParsePropertyListTest()
         {
             string stringValue = "alternate marc21xml-record mods-record onix-record record voicing xml-signature xmp-record test-unknown-property";
-            List<EpubMetadataLinkRelationship> expectedRelationshipList = new()
-            {
+            List<EpubMetadataLinkRelationship> expectedRelationshipList =
+            [
                 EpubMetadataLinkRelationship.ALTERNATE,
                 EpubMetadataLinkRelationship.MARC21XML_RECORD,
                 EpubMetadataLinkRelationship.MODS_RECORD,
@@ -19,7 +19,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
                 EpubMetadataLinkRelationship.XML_SIGNATURE,
                 EpubMetadataLinkRelationship.XMP_RECORD,
                 EpubMetadataLinkRelationship.UNKNOWN
-            };
+            ];
             List<EpubMetadataLinkRelationship> actualRelationshipList = EpubMetadataLinkRelationshipParser.ParseRelationshipList(stringValue);
             Assert.Equal(expectedRelationshipList, actualRelationshipList);
         }

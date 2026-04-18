@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using VersOne.Epub.Schema;
+﻿using VersOne.Epub.Schema;
 using VersOne.Epub.Test.Comparers;
 
 namespace VersOne.Epub.Test.Unit.Schema.Ops.Narration

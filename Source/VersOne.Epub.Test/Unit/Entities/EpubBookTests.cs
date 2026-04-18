@@ -6,11 +6,7 @@ namespace VersOne.Epub.Test.Unit.Entities
 {
     public class EpubBookTests
     {
-        private static List<string> AuthorList =>
-            new()
-            {
-                BOOK_AUTHOR
-            };
+        private static List<string> AuthorList => [ BOOK_AUTHOR ];
 
         private static List<EpubLocalTextContentFile> ReadingOrder => TestEpubReadingOrder.CreateFullTestEpubReadingOrder();
 
@@ -87,7 +83,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(EPUB_FILE_PATH, epubBook.FilePath);
             Assert.Equal(BOOK_TITLE, epubBook.Title);
             Assert.Equal(BOOK_AUTHOR, epubBook.Author);
-            Assert.Equal(new List<string>(), epubBook.AuthorList);
+            Assert.Equal([], epubBook.AuthorList);
             Assert.Equal(BOOK_DESCRIPTION, epubBook.Description);
             Assert.Equal(TestEpubFiles.COVER_FILE_CONTENT, epubBook.CoverImage);
             EpubContentComparer.CompareEpubLocalTextContentFileLists(ReadingOrder, epubBook.ReadingOrder);

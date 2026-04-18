@@ -6,16 +6,10 @@ using VersOne.Epub.Test.Integration.JsonUtils.Serializers;
 
 namespace VersOne.Epub.Test.Integration.JsonUtils
 {
-    internal class JsonSerializer
+    internal class JsonSerializer(JsonSerializerConfiguration? configuration)
     {
-        private readonly Lazy<TypeSerializerCollection> typeSerializers;
-        private readonly Lazy<TypeDeserializerCollection> typeDeserializers;
-
-        public JsonSerializer(JsonSerializerConfiguration? configuration)
-        {
-            typeSerializers = new Lazy<TypeSerializerCollection>(() => new TypeSerializerCollection(configuration));
-            typeDeserializers = new Lazy<TypeDeserializerCollection>(() => new TypeDeserializerCollection(configuration));
-        }
+        private readonly Lazy<TypeSerializerCollection> typeSerializers = new(() => new TypeSerializerCollection(configuration));
+        private readonly Lazy<TypeDeserializerCollection> typeDeserializers = new(() => new TypeDeserializerCollection(configuration));
 
         public JsonNode? Serialize<T>(T? value, JsonSerializationContext? jsonSerializationContext = null)
         {

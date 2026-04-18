@@ -2,14 +2,9 @@
 
 namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
 {
-    internal class EnumDeserializer : TypeDeserializer
+    internal class EnumDeserializer(Type enumType) : TypeDeserializer
     {
-        private readonly Type enumType;
-
-        public EnumDeserializer(Type enumType)
-        {
-            this.enumType = enumType;
-        }
+        private readonly Type enumType = enumType;
 
         public override object? Deserialize(JsonElement jsonElement, JsonSerializationContext _)
         {

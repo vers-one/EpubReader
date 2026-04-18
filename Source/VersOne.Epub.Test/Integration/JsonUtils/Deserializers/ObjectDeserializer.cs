@@ -143,9 +143,8 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
                 if (customProperty.UsesCustomSerialization)
                 {
                     return new PropertyDeserializer(propertyName, customProperty.JsonPropertyName,
-                        (JsonElement _, JsonSerializationContext _) =>
-                            throw new InvalidOperationException($"Custom deserializer should be obtained for property {propertyName} in the type {type.Name}."),
-                        obtainCustomDeserializer: true);
+                        (_, _) => throw new InvalidOperationException(
+                            $"Custom deserializer should be obtained for property {propertyName} in the type {type.Name}."), obtainCustomDeserializer: true);
                 }
                 else if (customProperty.IsIgnored)
                 {

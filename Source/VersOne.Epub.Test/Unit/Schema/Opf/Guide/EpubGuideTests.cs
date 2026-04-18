@@ -6,15 +6,14 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Guide
     public class EpubGuideTests
     {
         private static List<EpubGuideReference> Items =>
-            new()
-            {
+            [
                 new EpubGuideReference
                 (
                     type: "toc",
                     title: "Contents",
                     href: "toc.html"
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a EpubGuide instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

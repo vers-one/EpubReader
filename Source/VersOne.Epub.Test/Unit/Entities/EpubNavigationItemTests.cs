@@ -16,8 +16,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             );
 
         private static List<EpubNavigationItem> NestedItems =>
-            new()
-            {
+            [
                 new EpubNavigationItem
                 (
                     type: EpubNavigationItemType.HEADER,
@@ -26,7 +25,7 @@ namespace VersOne.Epub.Test.Unit.Entities
                     htmlContentFile: null,
                     nestedItems: null
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a EpubNavigationItem instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
@@ -75,7 +74,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             Assert.Equal(TITLE, epubNavigationItem.Title);
             EpubNavigationItemComparer.CompareNavigationItemLinks(Link, epubNavigationItem.Link);
             EpubContentComparer.CompareEpubLocalTextContentFiles(TestEpubContent.Chapter1File, epubNavigationItem.HtmlContentFile);
-            EpubNavigationItemComparer.CompareNavigationItemLists(new List<EpubNavigationItem>(), epubNavigationItem.NestedItems);
+            EpubNavigationItemComparer.CompareNavigationItemLists([], epubNavigationItem.NestedItems);
         }
 
         [Fact(DisplayName = "ToString method should produce a string with the type, the title, and the number of nested items")]

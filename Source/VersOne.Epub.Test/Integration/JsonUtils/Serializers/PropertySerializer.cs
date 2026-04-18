@@ -2,24 +2,15 @@
 
 namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
 {
-    internal class PropertySerializer
+    internal class PropertySerializer(string typePropertyName, string jsonPropertyName, Func<object, JsonSerializationContext, JsonNode?> serializer,
+        bool skipPropertyIfValueIsNull, bool obtainCustomSerializer)
     {
-        private readonly Func<object, JsonSerializationContext, JsonNode?> serializer;
+        private readonly Func<object, JsonSerializationContext, JsonNode?> serializer = serializer;
 
-        public PropertySerializer(string typePropertyName, string jsonPropertyName, Func<object, JsonSerializationContext, JsonNode?> serializer,
-            bool skipPropertyIfValueIsNull, bool obtainCustomSerializer)
-        {
-            TypePropertyName = typePropertyName;
-            JsonPropertyName = jsonPropertyName;
-            this.serializer = serializer;
-            SkipPropertyIfValueIsNull = skipPropertyIfValueIsNull;
-            ObtainCustomSerializer = obtainCustomSerializer;
-        }
-
-        public string TypePropertyName { get; }
-        public string JsonPropertyName { get; }
-        public bool SkipPropertyIfValueIsNull { get; }
-        public bool ObtainCustomSerializer { get; }
+        public string TypePropertyName { get; } = typePropertyName;
+        public string JsonPropertyName { get; } = jsonPropertyName;
+        public bool SkipPropertyIfValueIsNull { get; } = skipPropertyIfValueIsNull;
+        public bool ObtainCustomSerializer { get; } = obtainCustomSerializer;
 
         public JsonNode? Serialize(object propertyValue, JsonSerializationContext jsonSerializationContext)
         {

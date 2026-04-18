@@ -10,8 +10,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
         private const string PLAY_ORDER = "1";
 
         private static List<Epub2NcxNavigationLabel> NavigationLabels =>
-            new()
-            {
+            [
                 new Epub2NcxNavigationLabel
                 (
                     text: "Navigation Label 1"
@@ -20,7 +19,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                 (
                     text: "Navigation Label 2"
                 )
-            };
+            ];
 
         private static Epub2NcxContent Content =>
             new
@@ -30,8 +29,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             );
 
         private static List<Epub2NcxNavigationPoint> ChildNavigationPoints =>
-            new()
-            {
+            [
                 new Epub2NcxNavigationPoint
                 (
                     id: "child-navpoint",
@@ -51,7 +49,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                     ),
                     childNavigationPoints: null
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a Epub2NcxNavigationPoint instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

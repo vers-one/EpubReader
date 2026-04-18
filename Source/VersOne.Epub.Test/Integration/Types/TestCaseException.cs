@@ -1,14 +1,8 @@
 ﻿namespace VersOne.Epub.Test.Integration.Types
 {
-    public class TestCaseException
+    public class TestCaseException(string type, string? message = null)
     {
-        public TestCaseException(string type, string? message = null)
-        {
-            Type = type ?? throw new ArgumentNullException(nameof(type));
-            Message = message;
-        }
-
-        public string Type { get; set; }
-        public string? Message { get; set; }
+        public string Type { get; set; } = type ?? throw new ArgumentNullException(nameof(type));
+        public string? Message { get; set; } = message;
     }
 }

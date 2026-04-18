@@ -20,7 +20,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
             {
                 return null;
             }
-            JsonObject dictionaryObject = new();
+            JsonObject dictionaryObject = [];
             foreach (DictionaryEntry dictionaryItem in dictionary)
             {
                 if (dictionaryItem.Key is not string key)

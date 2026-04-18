@@ -8,11 +8,11 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Metadata
         public void ParsePropertyListTest()
         {
             string stringValue = "onix test-unknown-property";
-            List<EpubMetadataLinkProperty> expectedPropertyList = new()
-            {
+            List<EpubMetadataLinkProperty> expectedPropertyList =
+            [
                 EpubMetadataLinkProperty.ONIX,
                 EpubMetadataLinkProperty.UNKNOWN
-            };
+            ];
             List<EpubMetadataLinkProperty> actualPropertyList = EpubMetadataLinkPropertyParser.ParsePropertyList(stringValue);
             Assert.Equal(expectedPropertyList, actualPropertyList);
         }

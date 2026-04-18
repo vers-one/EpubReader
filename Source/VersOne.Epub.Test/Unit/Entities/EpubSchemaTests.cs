@@ -13,7 +13,7 @@ namespace VersOne.Epub.Test.Unit.Entities
 
         private static Epub3NavDocument Epub3NavDocument => TestEpub3NavDocuments.CreateFullTestEpub3NavDocument();
 
-        private static List<Smil> MediaOverlays => new() { TestSmils.CreateFullTestSmil() };
+        private static List<Smil> MediaOverlays => [ TestSmils.CreateFullTestSmil() ];
 
         [Fact(DisplayName = "Constructing a EpubSchema instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
@@ -67,7 +67,7 @@ namespace VersOne.Epub.Test.Unit.Entities
             EpubPackageComparer.CompareEpubPackages(Package, epubSchema.Package);
             Epub2NcxComparer.CompareEpub2Ncxes(Epub2Ncx, epubSchema.Epub2Ncx);
             Epub3NavDocumentComparer.CompareEpub3NavDocuments(Epub3NavDocument, epubSchema.Epub3NavDocument);
-            SmilComparers.CompareSmilLists(new List<Smil>(), epubSchema.MediaOverlays);
+            SmilComparers.CompareSmilLists([], epubSchema.MediaOverlays);
             Assert.Equal(CONTENT_DIRECTORY_PATH, epubSchema.ContentDirectoryPath);
         }
     }

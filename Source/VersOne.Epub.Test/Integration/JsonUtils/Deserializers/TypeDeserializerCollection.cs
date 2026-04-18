@@ -4,18 +4,11 @@ using VersOne.Epub.Test.Integration.JsonUtils.Configuration;
 
 namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
 {
-    internal class TypeDeserializerCollection
+    internal class TypeDeserializerCollection(JsonSerializerConfiguration? jsonSerializerConfiguration)
     {
-        private readonly JsonSerializerConfiguration? jsonSerializerConfiguration;
-        private readonly ConcurrentDictionary<Type, TypeDeserializer> deserializers;
-        private readonly Lazy<TypeDeserializer> literalTypeDeserializer;
-
-        public TypeDeserializerCollection(JsonSerializerConfiguration? jsonSerializerConfiguration)
-        {
-            this.jsonSerializerConfiguration = jsonSerializerConfiguration;
-            deserializers = new ConcurrentDictionary<Type, TypeDeserializer>();
-            literalTypeDeserializer = new Lazy<TypeDeserializer>(() => new LiteralTypeDeserializer());
-        }
+        private readonly JsonSerializerConfiguration? jsonSerializerConfiguration = jsonSerializerConfiguration;
+        private readonly ConcurrentDictionary<Type, TypeDeserializer> deserializers = new();
+        private readonly Lazy<TypeDeserializer> literalTypeDeserializer = new(() => new LiteralTypeDeserializer());
 
         public TypeDeserializer GetDeserializer(Type type)
         {

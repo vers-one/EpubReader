@@ -9,8 +9,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
         private const string CLASS = "navlist-class";
 
         private static List<Epub2NcxNavigationLabel> NavigationLabels =>
-            new()
-            {
+            [
                 new Epub2NcxNavigationLabel
                 (
                     text: "Navigation Label 1"
@@ -19,11 +18,10 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                 (
                     text: "Navigation Label 2"
                 )
-            };
+            ];
 
         private static List<Epub2NcxNavigationTarget> NavigationTargets =>
-            new()
-            {
+            [
                 new Epub2NcxNavigationTarget
                 (
                     id: "navtarget",
@@ -46,7 +44,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                         source: "chapter.html#anchor"
                     )
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a Epub2NcxNavigationList instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

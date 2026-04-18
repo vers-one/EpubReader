@@ -2,21 +2,16 @@
 
 namespace VersOne.Epub.Test.Integration.CustomSerialization.Context
 {
-    internal class TestEpubFile : IDisposable
+    internal class TestEpubFile(string testEpubFilePath) : IDisposable
     {
         private const string FILE_PATH_IN_EPUB_PREFIX = "epub://";
         private const string HTTP_USER_AGENT = "EpubReader Integration Test Runner (https://github.com/vers-one/EpubReader)";
 
         private static readonly HttpClient httpClient = new();
-        private readonly ZipArchive testEpubArchive;
+        private readonly ZipArchive testEpubArchive = ZipFile.OpenRead(testEpubFilePath);
 
-        public TestEpubFile(string testEpubFilePath)
-        {
-            testEpubArchive = ZipFile.OpenRead(testEpubFilePath);
-            TestCaseDirectoryPath = Path.GetDirectoryName(testEpubFilePath) ?? throw new ArgumentException($"Cannot get directory name for {testEpubFilePath}.");
-        }
-
-        public string TestCaseDirectoryPath { get; }
+        public string TestCaseDirectoryPath { get; } = Path.GetDirectoryName(testEpubFilePath) ??
+            throw new ArgumentException($"Cannot get directory name for {testEpubFilePath}.");
 
         public void Dispose()
         {

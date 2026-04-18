@@ -471,63 +471,63 @@ namespace VersOne.Epub.Test.Integration.CustomSerialization
             (
                 optionalProperties: new()
                 {
-                    { nameof(EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>.Local), PropertyDefaultValue.EMPTY_ARRAY },
-                    { nameof(EpubContentCollection<EpubLocalContentFile, EpubRemoteContentFile>.Remote), PropertyDefaultValue.EMPTY_ARRAY }
+                    { nameof(EpubContentCollection<,>.Local), PropertyDefaultValue.EMPTY_ARRAY },
+                    { nameof(EpubContentCollection<,>.Remote), PropertyDefaultValue.EMPTY_ARRAY }
                 }
             );
             yield return CreateType<EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>>
             (
                 optionalProperties: new()
                 {
-                    { nameof(EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>.Local), PropertyDefaultValue.EMPTY_ARRAY },
-                    { nameof(EpubContentCollection<EpubLocalTextContentFile, EpubRemoteTextContentFile>.Remote), PropertyDefaultValue.EMPTY_ARRAY }
+                    { nameof(EpubContentCollection<,>.Local), PropertyDefaultValue.EMPTY_ARRAY },
+                    { nameof(EpubContentCollection<,>.Remote), PropertyDefaultValue.EMPTY_ARRAY }
                 }
             );
             yield return CreateType<EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>>
             (
                 optionalProperties: new()
                 {
-                    { nameof(EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>.Local), PropertyDefaultValue.EMPTY_ARRAY },
-                    { nameof(EpubContentCollection<EpubLocalByteContentFile, EpubRemoteByteContentFile>.Remote), PropertyDefaultValue.EMPTY_ARRAY }
+                    { nameof(EpubContentCollection<,>.Local), PropertyDefaultValue.EMPTY_ARRAY },
+                    { nameof(EpubContentCollection<,>.Remote), PropertyDefaultValue.EMPTY_ARRAY }
                 }
             );
             yield return CreateType<EpubLocalByteContentFile>
             (
                 preserveReferences: true,
-                ignoredProperties: new()
-                {
+                ignoredProperties:
+                [
                     nameof(EpubLocalByteContentFile.ContentFileType),
                     nameof(EpubLocalByteContentFile.ContentLocation)
-                }
+                ]
             );
             yield return CreateType<EpubLocalTextContentFile>
             (
                 preserveReferences: true,
-                ignoredProperties: new()
-                {
+                ignoredProperties:
+                [
                     nameof(EpubLocalTextContentFile.ContentFileType),
                     nameof(EpubLocalTextContentFile.ContentLocation)
-                }
+                ]
             );
             yield return CreateType<EpubRemoteByteContentFile>
             (
                 preserveReferences: true,
-                ignoredProperties: new()
-                {
+                ignoredProperties:
+                [
                     nameof(EpubRemoteByteContentFile.ContentFileType),
                     nameof(EpubRemoteByteContentFile.ContentLocation),
                     nameof(EpubRemoteByteContentFile.Url)
-                }
+                ]
             );
             yield return CreateType<EpubRemoteTextContentFile>
             (
                 preserveReferences: true,
-                ignoredProperties: new()
-                {
+                ignoredProperties:
+                [
                     nameof(EpubRemoteTextContentFile.ContentFileType),
                     nameof(EpubRemoteTextContentFile.ContentLocation),
                     nameof(EpubRemoteTextContentFile.Url)
-                }
+                ]
             );
             yield return CreateType<EpubReaderOptions>
             (

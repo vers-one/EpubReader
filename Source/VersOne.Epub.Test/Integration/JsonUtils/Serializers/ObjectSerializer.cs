@@ -28,7 +28,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
             }
             else
             {
-                JsonObject result = new();
+                JsonObject result = [];
                 Type actualType = value.GetType();
                 if (actualType != objectType)
                 {
@@ -97,9 +97,9 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
                     if (customProperty.UsesCustomSerialization)
                     {
                         result.Add(new PropertySerializer(propertyName, customProperty.JsonPropertyName,
-                            (object _, JsonSerializationContext _) =>
-                                throw new InvalidOperationException($"Custom serializer should be obtained for property {propertyName} in the type {type.Name}."),
-                            skipPropertyIfValueIsNull: false, obtainCustomSerializer: true));
+                            (_, _) => throw new InvalidOperationException(
+                                $"Custom serializer should be obtained for property {propertyName} in the type {type.Name}."),
+                                skipPropertyIfValueIsNull: false, obtainCustomSerializer: true));
                         continue;
                     }
                     else if (customProperty.IsIgnored)

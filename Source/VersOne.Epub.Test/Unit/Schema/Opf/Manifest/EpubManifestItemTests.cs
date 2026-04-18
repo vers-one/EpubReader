@@ -13,11 +13,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Manifest
         private const string FALLBACK = "fallback";
         private const string FALLBACK_STYLE = "fallback-style";
 
-        private static List<EpubManifestProperty> Properties =>
-            new()
-            {
-                EpubManifestProperty.SCRIPTED
-            };
+        private static List<EpubManifestProperty> Properties => [ EpubManifestProperty.SCRIPTED ];
 
         [Fact(DisplayName = "Constructing a EpubManifestItem instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

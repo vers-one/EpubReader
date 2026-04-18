@@ -1,17 +1,10 @@
 ﻿namespace VersOne.Epub.Test.Integration.JsonUtils.Configuration
 {
-    internal class CustomType
+    internal class CustomType(Type type)
     {
-        public CustomType(Type type)
-        {
-            Type = type;
-            PreserveReferences = false;
-            CustomProperties = [];
-        }
-
-        public Type Type { get; }
-        public bool PreserveReferences { get; set; }
-        public Dictionary<string, CustomProperty> CustomProperties { get; }
+        public Type Type { get; } = type;
+        public bool PreserveReferences { get; set; } = false;
+        public Dictionary<string, CustomProperty> CustomProperties { get; } = [];
 
         public CustomProperty? GetCustomProperty(string propertyName)
         {

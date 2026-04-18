@@ -21,11 +21,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                 ]
             );
 
-        private static List<string> DocAuthors =>
-            new()
-            {
-                "John Doe"
-            };
+        private static List<string> DocAuthors => [ "John Doe" ];
 
         private static Epub2NcxNavigationMap NavMap =>
             new
@@ -75,8 +71,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
             );
 
         private static List<Epub2NcxNavigationList> NavLists =>
-            new()
-            {
+            [
                 new Epub2NcxNavigationList
                 (
                     id: "navlist",
@@ -110,7 +105,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                         )
                     ]
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a Epub2Ncx instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

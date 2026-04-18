@@ -4,11 +4,11 @@
     {
         public static List<EpubLocalTextContentFile> CreateFullTestEpubReadingOrder()
         {
-            return new()
-            {
+            return
+            [
                 TestEpubContent.Chapter1File,
                 TestEpubContent.Chapter2File
-            };
+            ];
         }
     }
 }

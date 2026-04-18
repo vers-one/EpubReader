@@ -11,8 +11,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
         private const string PLAY_ORDER = "1";
 
         private static List<Epub2NcxNavigationLabel> NavigationLabels =>
-            new()
-            {
+            [
                 new Epub2NcxNavigationLabel
                 (
                     text: "Navigation Label 1"
@@ -21,7 +20,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                 (
                     text: "Navigation Label 2"
                 )
-            };
+            ];
 
         private static Epub2NcxContent Content =>
             new

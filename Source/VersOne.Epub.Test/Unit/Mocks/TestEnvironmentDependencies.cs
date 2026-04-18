@@ -2,16 +2,10 @@
 
 namespace VersOne.Epub.Test.Unit.Mocks
 {
-    internal class TestEnvironmentDependencies : IEnvironmentDependencies
+    internal class TestEnvironmentDependencies(IFileSystem? fileSystem = null, IContentDownloader? contentDownloader = null) : IEnvironmentDependencies
     {
-        public TestEnvironmentDependencies(IFileSystem? fileSystem = null, IContentDownloader? contentDownloader = null)
-        {
-            FileSystem = fileSystem ?? new TestFileSystem();
-            ContentDownloader = contentDownloader ?? new TestContentDownloader();
-        }
+        public IFileSystem FileSystem { get; set; } = fileSystem ?? new TestFileSystem();
 
-        public IFileSystem FileSystem { get; set; }
-
-        public IContentDownloader ContentDownloader { get; set; }
+        public IContentDownloader ContentDownloader { get; set; } = contentDownloader ?? new TestContentDownloader();
     }
 }

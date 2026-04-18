@@ -6,8 +6,8 @@ namespace VersOne.Epub.Test.Unit.TestData
     {
         public static List<EpubNavigationItem> CreateFullTestEpubNavigation()
         {
-            return new()
-            {
+            return
+            [
                 new EpubNavigationItem
                 (
                     type: EpubNavigationItemType.LINK,
@@ -24,7 +24,7 @@ namespace VersOne.Epub.Test.Unit.TestData
                     htmlContentFile: TestEpubContent.Chapter2File,
                     nestedItems: []
                 )
-            };
+            ];
         }
     }
 }

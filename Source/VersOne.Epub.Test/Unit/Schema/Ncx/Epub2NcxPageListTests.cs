@@ -6,8 +6,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
     public class Epub2NcxPageListTests
     {
         private static List<Epub2NcxPageTarget> Items =>
-            new()
-            {
+            [
                 new Epub2NcxPageTarget
                 (
                     id: "pagetarget",
@@ -32,7 +31,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Ncx
                         source: "chapter.html"
                     )
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a Epub2NcxPageList instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

@@ -4,20 +4,12 @@ using VersOne.Epub.Test.Integration.JsonUtils.Configuration;
 
 namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
 {
-    internal class TypeSerializerCollection
+    internal class TypeSerializerCollection(JsonSerializerConfiguration? jsonSerializerConfiguration)
     {
-        private readonly JsonSerializerConfiguration? jsonSerializerConfiguration;
-        private readonly ConcurrentDictionary<Type, TypeSerializer> serializers;
-        private readonly Lazy<TypeSerializer> literalTypeSerializer;
-        private readonly Lazy<TypeSerializer> enumSerializer;
-
-        public TypeSerializerCollection(JsonSerializerConfiguration? jsonSerializerConfiguration)
-        {
-            this.jsonSerializerConfiguration = jsonSerializerConfiguration;
-            serializers = new ConcurrentDictionary<Type, TypeSerializer>();
-            literalTypeSerializer = new Lazy<TypeSerializer>(() => new LiteralTypeSerializer());
-            enumSerializer = new Lazy<TypeSerializer>(() => new EnumSerializer());
-        }
+        private readonly JsonSerializerConfiguration? jsonSerializerConfiguration = jsonSerializerConfiguration;
+        private readonly ConcurrentDictionary<Type, TypeSerializer> serializers = [];
+        private readonly Lazy<TypeSerializer> literalTypeSerializer = new(() => new LiteralTypeSerializer());
+        private readonly Lazy<TypeSerializer> enumSerializer = new(() => new EnumSerializer());
 
         public TypeSerializer GetSerializer(Type type)
         {

@@ -14,8 +14,8 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Spine
                 "rendition:flow-paginated rendition:flow-scrolled-continuous rendition:flow-scrolled-doc rendition:flow-auto " +
                 "rendition:align-x-center " +
                 "test-unknown-property";
-            List<EpubSpineProperty> expectedPropertyList = new()
-            {
+            List<EpubSpineProperty> expectedPropertyList =
+            [
                 EpubSpineProperty.LAYOUT_PRE_PAGINATED,
                 EpubSpineProperty.LAYOUT_REFLOWABLE,
                 EpubSpineProperty.ORIENTATION_AUTO,
@@ -36,7 +36,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Spine
                 EpubSpineProperty.FLOW_AUTO,
                 EpubSpineProperty.ALIGN_X_CENTER,
                 EpubSpineProperty.UNKNOWN
-            };
+            ];
             List<EpubSpineProperty> actualPropertyList = EpubSpinePropertyParser.ParsePropertyList(stringValue);
             Assert.Equal(expectedPropertyList, actualPropertyList);
         }

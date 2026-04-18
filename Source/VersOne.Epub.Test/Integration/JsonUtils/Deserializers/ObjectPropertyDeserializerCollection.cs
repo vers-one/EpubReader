@@ -4,8 +4,8 @@
     {
         public ObjectPropertyDeserializerCollection()
         {
-            ConstructorParameterDeserializers = new List<PropertyDeserializer>();
-            StandalonePropertyDeserializers = new List<PropertyDeserializer>();
+            ConstructorParameterDeserializers = [];
+            StandalonePropertyDeserializers = [];
         }
 
         public List<PropertyDeserializer> ConstructorParameterDeserializers { get; }

@@ -26,8 +26,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
             );
 
         private static List<EpubCollection> NestedCollections =>
-            new()
-            {
+            [
                 new EpubCollection
                 (
                     role: "http://example.org/roles/unit",
@@ -50,11 +49,10 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                     textDirection: EpubTextDirection.RIGHT_TO_LEFT,
                     language: "is"
                 )
-            };
+            ];
 
         private static List<EpubMetadataLink> Links =>
-            new()
-            {
+            [
                 new EpubMetadataLink
                 (
                     href: "https://example.com/onix/123",
@@ -71,7 +69,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Collections
                     ],
                     hrefLanguage: null
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a EpubCollection instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

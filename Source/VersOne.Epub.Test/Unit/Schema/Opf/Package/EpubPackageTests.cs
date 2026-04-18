@@ -85,13 +85,12 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Package
             );
 
         private static List<EpubCollection> Collections =>
-            new()
-            {
+            [
                 new EpubCollection
                 (
                     role: COLLECTION_ROLE
                 )
-            };
+            ];
 
         [Fact(DisplayName = "Constructing a EpubPackage instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()

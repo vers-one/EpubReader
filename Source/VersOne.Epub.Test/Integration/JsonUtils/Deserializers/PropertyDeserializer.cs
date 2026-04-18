@@ -2,21 +2,14 @@
 
 namespace VersOne.Epub.Test.Integration.JsonUtils.Deserializers
 {
-    internal class PropertyDeserializer
+    internal class PropertyDeserializer(string typePropertyName, string jsonPropertyName, Func<JsonElement, JsonSerializationContext, object?> deserializer,
+        bool obtainCustomDeserializer)
     {
-        private readonly Func<JsonElement, JsonSerializationContext, object?> deserializer;
+        private readonly Func<JsonElement, JsonSerializationContext, object?> deserializer = deserializer;
 
-        public PropertyDeserializer(string typePropertyName, string jsonPropertyName, Func<JsonElement, JsonSerializationContext, object?> deserializer, bool obtainCustomDeserializer)
-        {
-            TypePropertyName = typePropertyName;
-            JsonPropertyName = jsonPropertyName;
-            this.deserializer = deserializer;
-            ObtainCustomDeserializer = obtainCustomDeserializer;
-        }
-
-        public string TypePropertyName { get; }
-        public string JsonPropertyName { get; }
-        public bool ObtainCustomDeserializer { get; }
+        public string TypePropertyName { get; } = typePropertyName;
+        public string JsonPropertyName { get; } = jsonPropertyName;
+        public bool ObtainCustomDeserializer { get; } = obtainCustomDeserializer;
 
         public object? Deserialize(JsonElement serializedPropertyValue, JsonSerializationContext jsonSerializationContext)
         {

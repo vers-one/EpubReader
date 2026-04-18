@@ -9,7 +9,8 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
 
         public ListSerializer(Type listType, TypeSerializerCollection typeSerializerCollection)
         {
-            Type declaredListItemType = listType.IsGenericType ? listType.GetGenericArguments().First() : throw new ArgumentException($"{listType.Name} is not a generic List<T> type.");
+            Type declaredListItemType = listType.IsGenericType ? listType.GetGenericArguments().First() :
+                throw new ArgumentException($"{listType.Name} is not a generic List<T> type.");
             declaredListItemTypeSerializer = new Lazy<TypeSerializer>(() => typeSerializerCollection.GetSerializer(declaredListItemType));
         }
 
@@ -19,7 +20,7 @@ namespace VersOne.Epub.Test.Integration.JsonUtils.Serializers
             {
                 return null;
             }
-            JsonArray array = new();
+            JsonArray array = [];
             foreach (object? listItem in list)
             {
                 if (listItem == null)

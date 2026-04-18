@@ -8,11 +8,7 @@ namespace VersOne.Epub.Test.Unit.Schema.Opf.Spine
         private const string ID_REF = "idref";
         private const bool IS_LINEAR = true;
 
-        private static List<EpubSpineProperty> Properties =>
-            new()
-            {
-                EpubSpineProperty.PAGE_SPREAD_LEFT
-            };
+        private static List<EpubSpineProperty> Properties => [ EpubSpineProperty.PAGE_SPREAD_LEFT ];
 
         [Fact(DisplayName = "Constructing a EpubSpineItemRef instance with non-null parameters should succeed")]
         public void ConstructorWithNonNullParametersTest()
